@@ -8,7 +8,7 @@
  * @format
  */
 
-//
+//CHECKS SETUP
 
 import React from 'react';
 import {
