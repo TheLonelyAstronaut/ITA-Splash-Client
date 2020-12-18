@@ -8,8 +8,6 @@
  * @format
  */
 
-//CI/CD TEST
-
 import React from 'react';
 import {
   SafeAreaView,
