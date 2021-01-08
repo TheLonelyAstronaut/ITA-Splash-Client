@@ -73,7 +73,7 @@
     "eslint-plugin-react": "7.21.5",
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-plugin-react-native": "3.10.0",
-    "husky": "4.3.0",
+    "husky": "^4.3.7",
     "isomorphic-fetch": "3.0.0",
     "jest": "26.6.3",
     "jest-circus": "26.6.3",
@@ -93,7 +93,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "yarn run lint && yarn run typecheck && yarn prettier:check"
+      "pre-push": "yarn lint && yarn typecheck && yarn prettier:check"
     }
   },
   "lint-staged": {
