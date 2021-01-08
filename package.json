@@ -93,7 +93,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "npx lint-staged",
-      "pre-push": "yarn lint && yarn typecheck && yarn prettier:check"
+      "pre-push": "npm run lint && npm run typecheck && npm run prettier:check"
     }
   },
   "lint-staged": {
