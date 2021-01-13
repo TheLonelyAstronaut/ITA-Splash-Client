@@ -1,12 +1,12 @@
+import AnimatedTabBar, { TabsConfig, BubbleTabBarItemConfig } from '@gorhom/animated-tabbar';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-import { Ionicons } from 'react-native-vector-icons';
+//import { Ionicons } from 'react-native-vector-icons';
 
 import { HomeStackComponent } from './home/home-stack.component';
+import { HomeScreenComponent } from './home/screens/home-screen.component';
 import { LibraryStackComponent } from './library/library-stack.component';
 import { SearchStackComponent } from './search/search-stack.component';
-import AnimatedTabBar, { TabsConfig, BubbleTabBarItemConfig } from '@gorhom/animated-tabbar';
-import { HomeScreenComponent } from './home/screens/home-screen.component';
 
 // const tabs : TabsConfig<BubbleTabBarItemConfig> = {
 //     Home: {
