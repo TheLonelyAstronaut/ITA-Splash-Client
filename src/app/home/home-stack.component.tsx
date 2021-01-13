@@ -1,14 +1,17 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import { AppTabs } from '../tabs.component';
+import { HomeParamList } from './home-stack-param-list';
+import { MusicDataStack } from './music-data/music-data-stack.component';
+import { HomeScreenComponent } from './screens/home-screen.component';
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<HomeParamList>();
 
-export const HomeStackComponent: React.FC = () => {
+export const HomeStack: React.FC = () => {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Tab" component={AppTabs} />
+        <Stack.Navigator>
+            <Stack.Screen name="Main" component={HomeScreenComponent} />
+            <Stack.Screen name="MusicData" component={MusicDataStack} />
         </Stack.Navigator>
     );
 };

@@ -3,10 +3,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 //import { Ionicons } from 'react-native-vector-icons';
 
-import { HomeStackComponent } from './home/home-stack.component';
-import { HomeScreenComponent } from './home/screens/home-screen.component';
-import { LibraryStackComponent } from './library/library-stack.component';
-import { SearchStackComponent } from './search/search-stack.component';
+import { HomeStack } from '../home/home-stack.component';
+import { LibraryStackComponent } from '../library/library-stack.component';
+import { SearchStackComponent } from '../search/search-stack.component';
+
+import { TabsParamList } from './tabs-param-list';
 
 // const tabs : TabsConfig<BubbleTabBarItemConfig> = {
 //     Home: {
@@ -39,7 +40,7 @@ import { SearchStackComponent } from './search/search-stack.component';
 //     },
 // }
 
-const Tabs = createBottomTabNavigator();
+const Tabs = createBottomTabNavigator<TabsParamList>();
 
 export const AppTabs: React.FC = () => {
     return (
@@ -48,7 +49,7 @@ export const AppTabs: React.FC = () => {
         //     <AnimatedTabBar tabs={tabs} {...props}/>
         // )}
         >
-            <Tabs.Screen name="Home" component={HomeScreenComponent} />
+            <Tabs.Screen name="Home" component={HomeStack} />
             <Tabs.Screen name="Search" component={SearchStackComponent} />
             <Tabs.Screen name="Library" component={LibraryStackComponent} />
         </Tabs.Navigator>
