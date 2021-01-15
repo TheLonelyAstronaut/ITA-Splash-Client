@@ -2,9 +2,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
 import { AuthParamList } from './auth-param-list.component';
-import { LoginScreen } from './login-screen.component';
-import { RegisterScreen } from './register-screen.component';
-import { VerificationScreen } from './sms-verification-screen.component';
+import LoginScreen from './screens/login-screen.component';
+import { RegisterScreen } from './screens/register-screen.component';
+import { VerificationScreen } from './screens/sms-verification-screen.component';
 
 const Stack = createStackNavigator<AuthParamList>();
 
