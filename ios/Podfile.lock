@@ -304,8 +304,12 @@ PODS:
     - React
   - RNGestureHandler (1.9.0):
     - React-Core
+  - RNReanimated (1.13.2):
+    - React-Core
   - RNScreens (2.16.1):
     - React-Core
+  - RNSVG (12.1.0):
+    - React
   - RNVectorIcons (7.1.0):
     - React
   - Yoga (1.14.0)

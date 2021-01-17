@@ -1,44 +1,31 @@
-import { AsyncStorage } from 'react-native';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 
-import {
-    Container,
-    Title,
-    InputArea,
-    Input,
-    EmailText,
-    PasswordText,
-    LoginButton,
-    LoginText,
-    Logo,
-    RegisterText,
-} from '../../styles/login';
-import { AuthNavProps } from '../auth-param-list.component';
+//import { Container, Title, InputArea, Input, EmailText, PasswordText, LoginButton, LoginText, Logo, RegisterText } from '../../styles/login';
+import { AuthNavigationProps } from '../routing.params';
 
-function Login() {
-    return AsyncStorage.setItem('user', 'user');
-}
+export type LoginScreenProps = AuthNavigationProps<'Login'>;
 
-function LoginScreen({ navigation }: AuthNavProps<'Login'>) {
+export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps) => {
     return (
-        <Container>
-            <Logo source={require('../../assets/logo.jpg')} />
-            <Title>Splash</Title>
-            <InputArea>
-                <EmailText>Email</EmailText>
-                <Input />
-                <PasswordText>Password</PasswordText>
-                <Input secureTextEntry={true} />
-                <LoginButton activeOpacity={0.5}>
-                    <LoginText>Sign in</LoginText>
-                </LoginButton>
-                <TouchableOpacity activeOpacity={0.5} onPress={() => navigation.navigate('Register')}>
-                    <RegisterText>Sign up</RegisterText>
-                </TouchableOpacity>
-            </InputArea>
-        </Container>
+        <View></View>
+        // <Container>
+        //     <Logo source={require('../../assets/logo.jpg')}/>
+        //     <Title>Splash</Title>
+        //     <InputArea>
+        //         <EmailText>Email</EmailText>
+        //         <Input />
+        //         <PasswordText>Password</PasswordText>
+        //         <Input secureTextEntry={true}/>
+        //         <LoginButton activeOpacity={0.5}>
+        //             <LoginText>Sign in</LoginText>
+        //         </LoginButton>
+        //         <TouchableOpacity activeOpacity={0.5} onPress={()=>navigation.navigate("Register")}>
+        //             <RegisterText>Sign up</RegisterText>
+        //         </TouchableOpacity>
+        //     </InputArea>
+        // </Container>
     );
-}
+};
 
 export default LoginScreen;
