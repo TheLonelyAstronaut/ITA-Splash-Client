@@ -1,3 +1,3 @@
-import { RoutesComponent } from './app/main-navigator/routes.component';
+import { RootRouterComponent } from './app/routing/root-router.component';
 
-export default RoutesComponent;
+export default RootRouterComponent;

@@ -1,11 +1,12 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { NavigationFunctionComponent } from 'react-native-navigation';
 
 //import { Container, Title, InputArea, Input, EmailText, PasswordText, LoginButton, LoginText, Logo, RegisterText } from '../../styles/login';
-import { AuthNavProps } from '../auth-param-list.component';
+import { AuthNavigationProps } from '../routing.params';
 
-function LoginScreen({ navigation }: AuthNavProps<'Login'>) {
+export type LoginScreenProps = AuthNavigationProps<'Login'>;
+
+export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps) => {
     return (
         <View></View>
         // <Container>
@@ -25,6 +26,6 @@ function LoginScreen({ navigation }: AuthNavProps<'Login'>) {
         //     </InputArea>
         // </Container>
     );
-}
+};
 
 export default LoginScreen;

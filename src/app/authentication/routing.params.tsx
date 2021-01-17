@@ -7,7 +7,7 @@ export type AuthParamList = {
     Verification: undefined;
 };
 
-export type AuthNavProps<T extends keyof AuthParamList> = {
+export type AuthNavigationProps<T extends keyof AuthParamList> = {
     navigation: StackNavigationProp<AuthParamList, T>;
     route: RouteProp<AuthParamList, T>;
 };
