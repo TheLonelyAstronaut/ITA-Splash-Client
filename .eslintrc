@@ -33,6 +33,7 @@
     "import/no-cycle": "off",
     "import/no-unused-modules": "off",
     "import/no-deprecated": "off",
+    "quotes": [2, "single", { "avoidEscape": true }],
     "no-restricted-imports":[
       "warn",
       {
