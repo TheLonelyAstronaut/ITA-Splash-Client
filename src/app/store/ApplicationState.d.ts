@@ -1,5 +1,5 @@
 import { authenticationReducer } from '../authentication/reducers';
-import { themeReducer } from '../styles/reducers';
+import { themeReducer } from '../ui/reducers';
 
 export interface ApplicationState {
     //environment: ReturnType<typeof environmentReducer>;

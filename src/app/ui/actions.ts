@@ -5,4 +5,4 @@ export interface ThemePayload {
     theme: DefaultTheme;
 }
 
-export const CHANGE_THEME = createAction('Change Theme', (payload: ThemePayload) => payload);
+export const CHANGE_THEME = createAction('[Change Theme]', (payload: ThemePayload) => payload);
