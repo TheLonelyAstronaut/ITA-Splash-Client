@@ -37,7 +37,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = () => {
     }, [dispatch]);
 
     const handleTheme = useCallback(() => {
-        dispatch(CHANGE_THEME({ theme: lightTheme })).payload.theme;
+        dispatch(CHANGE_THEME({ theme: lightTheme }));
     }, [dispatch]);
 
     return (
