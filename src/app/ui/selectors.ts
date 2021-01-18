@@ -3,14 +3,14 @@ import { DefaultTheme } from 'styled-components/native';
 
 import { ApplicationState } from '../store/ApplicationState';
 
-import { ThemeState } from './theme.state';
+import { ThemesEnum, ThemeState } from './theme.state';
 
 export const getRootThemeState: Selector<ApplicationState, ThemeState> = createSelector(
     (state) => state.theming,
     (state) => state
 );
 
-export const getTheme: Selector<ApplicationState, DefaultTheme> = createSelector(
+export const getTheme: Selector<ApplicationState, ThemesEnum> = createSelector(
     getRootThemeState,
     (state) => state.theme
 );

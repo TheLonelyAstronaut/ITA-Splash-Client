@@ -3,11 +3,10 @@ import { persistReducer } from 'redux-persist';
 import { createReducer } from 'typesafe-redux-helpers';
 
 import { CHANGE_THEME } from './actions';
-import { ThemeState } from './theme.state';
-import { darkTheme } from './themes';
+import { ThemesEnum, ThemeState } from './theme.state';
 
 const initialState: ThemeState = {
-    theme: darkTheme,
+    theme: ThemesEnum.DARK,
 };
 
 const unpersistedReducer = createReducer<ThemeState>(initialState).handleAction(CHANGE_THEME, (state, action) => ({

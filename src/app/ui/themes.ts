@@ -1,4 +1,5 @@
 import { DefaultTheme } from 'styled-components/native';
+import { ThemesEnum } from './theme.state';
 
 const darkTheme: DefaultTheme = {
     colors: {
@@ -50,4 +51,9 @@ const lightTheme: DefaultTheme = {
     },
 };
 
-export { darkTheme, lightTheme };
+const themesCollection: Partial<Record<ThemesEnum, DefaultTheme>> = {
+    [ThemesEnum.LIGHT]: lightTheme,
+    [ThemesEnum.DARK]: darkTheme,
+};
+
+export { darkTheme, lightTheme, themesCollection, ThemesEnum };

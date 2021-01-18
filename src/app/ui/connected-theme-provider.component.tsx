@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
+import { themesCollection } from './themes';
 
 import { getTheme } from './selectors';
 
@@ -10,6 +11,5 @@ type Props = {
 
 export const ConnectedThemeProvider: React.FC<Props> = (props: Props) => {
     const theme = useSelector(getTheme);
-    console.log(theme);
-    return <ThemeProvider theme={theme}>{props.children}</ThemeProvider>;
+    return <ThemeProvider theme={themesCollection[theme]!}>{props.children}</ThemeProvider>;
 };

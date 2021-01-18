@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 import { CHANGE_THEME } from '../../ui/actions';
 import { Container } from '../../ui/container.component';
 import { getTheme } from '../../ui/selectors';
-import { lightTheme } from '../../ui/themes';
+import { themesCollection, ThemesEnum } from '../../ui/themes';
 import { LOGIN } from '../actions';
 import { AuthNavigationProps } from '../routing.params';
 
@@ -35,6 +35,7 @@ export const InputArea = styled.View`
     margin-top: 15%;
     border-radius: ${(props) => props.theme.borderRadius.medium}px;
 `;
+
 export const Input = styled.TextInput`
     height: 45px;
     width: 300px;
@@ -47,13 +48,15 @@ export const Input = styled.TextInput`
     border-color: ${(props) => props.theme.colors.main};
     color: ${(props) => props.theme.colors.main};
 `;
+
 export const EmailText = styled.Text`
     font-weight: ${(props) => props.theme.fontWeight.bold};
     font-size: ${(props) => props.theme.fontSize.medium}px;
     margin-left: ${(props) => props.theme.spacer * 3}px;
-    margin-top: ${(props) => props.theme.spacer * 2}%;
+    margin-top: ${(props) => props.theme.spacer * 2}px;
     color: ${(props) => props.theme.colors.main};
 `;
+
 export const PasswordText = styled.Text`
     font-weight: ${(props) => props.theme.fontWeight.bold};
     font-size: ${(props) => props.theme.fontSize.medium}px;
@@ -61,6 +64,7 @@ export const PasswordText = styled.Text`
     margin-top: ${(props) => props.theme.spacer}%;
     color: ${(props) => props.theme.colors.main};
 `;
+
 export const LoginButton = styled.TouchableOpacity`
     width: 300px;
     height: 45px;
@@ -69,6 +73,7 @@ export const LoginButton = styled.TouchableOpacity`
     align-self: center;
     margin-top: ${(props) => props.theme.spacer}%;
 `;
+
 export const LoginText = styled.Text`
     color: white;
     font-weight: ${(props) => props.theme.fontWeight.bold};
@@ -76,6 +81,7 @@ export const LoginText = styled.Text`
     text-align: center;
     margin-top: ${(props) => props.theme.spacer}px;
 `;
+
 export const SignUpText = styled.Text`
     text-align: center;
     color: ${(props) => props.theme.colors.additive};
@@ -83,10 +89,11 @@ export const SignUpText = styled.Text`
     font-weight: ${(props) => props.theme.fontWeight.bold};
     margin-top: ${(props) => props.theme.spacer}px;
 `;
+
 export const LoginScreen: React.FC<LoginScreenProps> = () => {
     const dispatch = useDispatch();
-
-    const logo = useSelector(getTheme);
+    const themeKey = useSelector(getTheme);
+    const theme = useMemo(() => themesCollection[themeKey]!, [themeKey]);
 
     const handleLogin = useCallback(() => {
         dispatch(
@@ -98,12 +105,12 @@ export const LoginScreen: React.FC<LoginScreenProps> = () => {
     }, [dispatch]);
 
     const handleTheme = useCallback(() => {
-        dispatch(CHANGE_THEME({ theme: lightTheme }));
+        dispatch(CHANGE_THEME({ theme: ThemesEnum.LIGHT }));
     }, [dispatch]);
 
     return (
         <Container>
-            {logo.colors.main === 'black' ? (
+            {theme.colors.main === 'black' ? (
                 <Logo source={require('../../assets/dark-logo.jpg')} />
             ) : (
                 <Logo source={require('../../assets/light-logo.jpg')} />
