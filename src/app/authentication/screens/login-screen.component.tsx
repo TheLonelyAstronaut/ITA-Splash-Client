@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components/native';
+import styled, { DefaultTheme } from 'styled-components/native';
 
 import { CHANGE_THEME } from '../../ui/actions';
 import { Container } from '../../ui/container.component';
@@ -93,7 +93,7 @@ export const SignUpText = styled.Text`
 export const LoginScreen: React.FC<LoginScreenProps> = () => {
     const dispatch = useDispatch();
     const themeKey = useSelector(getTheme);
-    const theme = useMemo(() => themesCollection[themeKey]!, [themeKey]);
+    const theme = useMemo(() => themesCollection[themeKey] as DefaultTheme, [themeKey]);
 
     const handleLogin = useCallback(() => {
         dispatch(

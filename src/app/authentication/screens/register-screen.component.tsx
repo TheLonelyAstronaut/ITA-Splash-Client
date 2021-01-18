@@ -1,39 +1,43 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import { Title, Input, PasswordText, LoginText, Logo } from './login-screen.component';
-import { Container } from '../../ui/container.component';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import styled, { DefaultTheme } from 'styled-components/native';
+
+import { Container } from '../../ui/container.component';
 import { getTheme } from '../../ui/selectors';
+import { themesCollection } from '../../ui/themes';
+
+import { Title, Input, PasswordText, LoginText, Logo } from './login-screen.component';
 
 export const RegisterInputArea = styled.View`
     background-color: ${(props) => props.theme.colors.secondary};
-    width: ${(props) => props.theme.inputArea.width}px;
-    height: ${(props) => props.theme.inputArea.heightRegister}px;
+    width: 350px;
+    height: 450px;
     align-self: center;
-    margin-top: ${(props) => props.theme.inputArea.marginTop}%;
-    border-radius: ${(props) => props.theme.inputArea.borderRadius}px;
+    margin-top: 5%;
+    border-radius: ${(props) => props.theme.borderRadius.medium}px;
 `;
 export const RegisterInputText = styled.Text`
-    font-weight: ${(props) => props.theme.registerInputText.fontWeight};
-    font-size: ${(props) => props.theme.registerInputText.fontSize}px;
-    margin-left: ${(props) => props.theme.registerInputText.marginLeft}px;
-    margin-top: ${(props) => props.theme.registerInputText.marginTop}%;
+    font-weight: ${(props) => props.theme.fontWeight.bold};
+    font-size: ${(props) => props.theme.fontSize.medium}px;
+    margin-left: ${(props) => props.theme.spacer * 2}px;
+    margin-top: ${(props) => props.theme.spacer}px;
 `;
 export const RegisterButton = styled.TouchableOpacity`
-    width: ${(props) => props.theme.loginButton.width}px;
-    height: ${(props) => props.theme.loginButton.height}px;
-    border-radius: ${(props) => props.theme.loginButton.borderRadius}px;
+    width: 300px;
+    height: 45px;
+    border-radius: ${(props) => props.theme.borderRadius.large}px;
     background-color: ${(props) => props.theme.colors.additive};
     align-self: center;
-    margin-top: ${(props) => props.theme.loginButton.marginTopRegister}px;
+    margin-top: ${(props) => props.theme.spacer}px;
 `;
 
 export const RegisterScreen: React.FC = () => {
-    const logo = useSelector(getTheme);
+    const themeKey = useSelector(getTheme);
+    const theme = useMemo(() => themesCollection[themeKey] as DefaultTheme, [themeKey]);
 
     return (
         <Container>
-            {logo.colors.main === 'black' ? (
+            {theme.colors.main === 'black' ? (
                 <Logo source={require('../../assets/dark-logo.jpg')} />
             ) : (
                 <Logo source={require('../../assets/light-logo.jpg')} />

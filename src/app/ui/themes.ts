@@ -1,4 +1,5 @@
 import { DefaultTheme } from 'styled-components/native';
+
 import { ThemesEnum } from './theme.state';
 
 const darkTheme: DefaultTheme = {

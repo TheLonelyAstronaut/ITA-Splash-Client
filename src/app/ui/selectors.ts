@@ -1,5 +1,4 @@
 import { createSelector, Selector } from 'reselect';
-import { DefaultTheme } from 'styled-components/native';
 
 import { ApplicationState } from '../store/ApplicationState';
 

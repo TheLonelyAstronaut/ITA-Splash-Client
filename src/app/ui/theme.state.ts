@@ -1,5 +1,3 @@
-import { DefaultTheme } from 'styled-components/native';
-
 export enum ThemesEnum {
     LIGHT,
     DARK,

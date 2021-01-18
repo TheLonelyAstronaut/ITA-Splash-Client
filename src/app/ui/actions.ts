@@ -1,5 +1,5 @@
-import { DefaultTheme } from 'styled-components/native';
 import { createAction } from 'typesafe-redux-helpers';
+
 import { ThemesEnum } from './theme.state';
 
 export interface ThemePayload {
