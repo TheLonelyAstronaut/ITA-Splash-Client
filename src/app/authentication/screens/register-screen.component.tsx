@@ -1,37 +1,61 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-// import {
-//     Container,
-//     Title,
-//     RegisterInputArea,
-//     Input,
-//     PasswordText,
-//     RegisterButton,
-//     LoginText,
-//     Logo,
-//     RegisterText,
-//     RegisterInputText
-// } from '../../styles/login';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import styled, { DefaultTheme } from 'styled-components/native';
+
+import { Container } from '../../ui/container.component';
+import { getTheme } from '../../ui/selectors';
+import { themesCollection } from '../../ui/themes';
+
+import { Title, Input, PasswordText, LoginText, Logo } from './login-screen.component';
+
+export const RegisterInputArea = styled.View`
+    background-color: ${(props) => props.theme.colors.secondary};
+    width: 350px;
+    height: 450px;
+    align-self: center;
+    margin-top: 5%;
+    border-radius: ${(props) => props.theme.borderRadius.medium}px;
+`;
+export const RegisterInputText = styled.Text`
+    font-weight: ${(props) => props.theme.fontWeight.bold};
+    font-size: ${(props) => props.theme.fontSize.medium}px;
+    margin-left: ${(props) => props.theme.spacer * 2}px;
+    margin-top: ${(props) => props.theme.spacer}px;
+`;
+export const RegisterButton = styled.TouchableOpacity`
+    width: 300px;
+    height: 45px;
+    border-radius: ${(props) => props.theme.borderRadius.large}px;
+    background-color: ${(props) => props.theme.colors.additive};
+    align-self: center;
+    margin-top: ${(props) => props.theme.spacer}px;
+`;
 
 export const RegisterScreen: React.FC = () => {
+    const themeKey = useSelector(getTheme);
+    const theme = useMemo(() => themesCollection[themeKey] as DefaultTheme, [themeKey]);
+
     return (
-        <View></View>
-        // <Container>
-        //     <Logo source={require('../../assets/logo.jpg')}/>
-        //     <Title>Splash</Title>
-        //     <RegisterInputArea>
-        //         <RegisterInputText>Email</RegisterInputText>
-        //         <Input />
-        //         <PasswordText>Name</PasswordText>
-        //         <Input />
-        //         <PasswordText>Password</PasswordText>
-        //         <Input secureTextEntry={true}/>
-        //         <PasswordText>Password</PasswordText>
-        //         <Input secureTextEntry={true}/>
-        //         <RegisterButton activeOpacity={0.5}>
-        //             <LoginText>Sign in</LoginText>
-        //         </RegisterButton>
-        //     </RegisterInputArea>
-        // </Container>
+        <Container>
+            {theme.colors.main === 'black' ? (
+                <Logo source={require('../../assets/dark-logo.jpg')} />
+            ) : (
+                <Logo source={require('../../assets/light-logo.jpg')} />
+            )}
+            <Title>Splash</Title>
+            <RegisterInputArea>
+                <RegisterInputText>Email</RegisterInputText>
+                <Input />
+                <PasswordText>Name</PasswordText>
+                <Input />
+                <PasswordText>Password</PasswordText>
+                <Input secureTextEntry={true} />
+                <PasswordText>Password</PasswordText>
+                <Input secureTextEntry={true} />
+                <RegisterButton activeOpacity={0.5}>
+                    <LoginText>Sign in</LoginText>
+                </RegisterButton>
+            </RegisterInputArea>
+        </Container>
     );
 };

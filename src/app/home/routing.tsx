@@ -1,8 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import { HomeParamList } from './routing.params';
 import { PlaylistScreenComponent, MusicianScreenComponent, AlbumsScreenComponent } from '../music-data';
+
+import { HomeParamList } from './routing.params';
 import { HomeScreenComponent } from './screens/home-screen.component';
 
 const Stack = createStackNavigator<HomeParamList>();

@@ -8,6 +8,8 @@ target 'Splash' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'SplashTests' do
     inherit! :complete
     # Pods for testing
