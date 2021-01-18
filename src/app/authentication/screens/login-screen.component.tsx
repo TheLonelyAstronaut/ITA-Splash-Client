@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 
+import { CHANGE_THEME } from '../../styles/actions';
 import {
     Container,
     Title,
@@ -13,14 +15,17 @@ import {
     Logo,
     RegisterText,
 } from '../../styles/login';
-import { AuthNavigationProps } from '../routing.params';
-import { useDispatch } from 'react-redux';
+import { getTheme } from '../../styles/selectors';
+import { lightTheme } from '../../styles/themes';
 import { LOGIN } from '../actions';
+import { AuthNavigationProps } from '../routing.params';
 
 export type LoginScreenProps = AuthNavigationProps<'Login'>;
 
-export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps) => {
+export const LoginScreen: React.FC<LoginScreenProps> = () => {
     const dispatch = useDispatch();
+
+    const logo = useSelector(getTheme);
 
     const handleLogin = useCallback(() => {
         dispatch(
@@ -31,9 +36,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
         );
     }, [dispatch]);
 
+    const handleTheme = useCallback(() => {
+        dispatch(CHANGE_THEME({ theme: lightTheme })).payload.theme;
+    }, [dispatch]);
+
     return (
         <Container>
-            <Logo source={require('../../assets/logo.jpg')} />
+            {logo.colors.main === 'black' ? (
+                <Logo source={require('../../assets/dark-logo.jpg')} />
+            ) : (
+                <Logo source={require('../../assets/light-logo.jpg')} />
+            )}
             <Title>Splash</Title>
             <InputArea>
                 <EmailText>Email</EmailText>
@@ -43,7 +56,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                 <LoginButton activeOpacity={0.5} onPress={handleLogin}>
                     <LoginText>Sign in</LoginText>
                 </LoginButton>
-                <TouchableOpacity activeOpacity={0.5}>
+                <TouchableOpacity activeOpacity={0.5} onPress={handleTheme}>
                     <RegisterText>Sign up</RegisterText>
                 </TouchableOpacity>
             </InputArea>

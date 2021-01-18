@@ -1,11 +1,11 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-    background-color: black;
+    background-color: ${(props) => props.theme.colors.main};
     flex: 1;
 `;
 export const Title = styled.Text`
-    color: white;
+    color: ${(props) => props.theme.colors.secondary};
     font-size: 48px;
     margin-top: 5%;
     font-weight: 800;
@@ -18,7 +18,7 @@ export const Logo = styled.Image`
     margin-top: 25%;
 `;
 export const InputArea = styled.View`
-    background-color: white;
+    background-color: ${(props) => props.theme.colors.secondary};
     width: 350px;
     height: 350px;
     align-self: center;
@@ -33,18 +33,23 @@ export const Input = styled.TextInput`
     margin-top: 8px;
     border-radius: 10px;
     padding-left: 8px;
+    background-color: ${(props) => props.theme.colors.secondary};
+    border-color: ${(props) => props.theme.colors.main};
+    color: ${(props) => props.theme.colors.main};
 `;
 export const EmailText = styled.Text`
     font-weight: 700;
     font-size: 18px;
     margin-left: 25px;
     margin-top: 15%;
+    color: ${(props) => props.theme.colors.main};
 `;
 export const PasswordText = styled.Text`
     font-weight: 700;
     font-size: 18px;
     margin-left: 25px;
     margin-top: 5%;
+    color: ${(props) => props.theme.colors.main};
 `;
 export const LoginButton = styled.TouchableOpacity`
     width: 300px;

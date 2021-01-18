@@ -1,8 +1,9 @@
 import { SagaIterator } from 'redux-saga';
-import { call, put, takeLatest, select, all, take, delay } from 'redux-saga/effects';
-import { isSuccessfulAction } from 'typesafe-redux-helpers';
-import { LOGIN } from './actions';
+import { call, put, takeLatest } from 'redux-saga/effects';
+
 import { Logger } from '../utils/logger';
+
+import { LOGIN } from './actions';
 
 export function* loginSaga(action: ReturnType<typeof LOGIN.TRIGGER>): SagaIterator {
     yield put(LOGIN.STARTED(action.payload));
@@ -24,3 +25,7 @@ export function* loginSaga(action: ReturnType<typeof LOGIN.TRIGGER>): SagaIterat
 export function* listenForLoginSaga(): SagaIterator {
     yield takeLatest(LOGIN.TRIGGER, loginSaga);
 }
+
+// export function* listenForThemeSaga(): SagaIterator {
+//     yield put(CHANGE_THEME)
+// }

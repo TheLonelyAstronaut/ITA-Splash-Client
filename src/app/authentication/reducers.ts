@@ -3,7 +3,7 @@ import { createMigrate, persistReducer } from 'redux-persist';
 import { MigrationManifest, PersistedState } from 'redux-persist/es/types';
 import { createReducer } from 'typesafe-redux-helpers';
 
-import { LOGIN, LOGOUT } from './actions';
+import { LOGIN } from './actions';
 import { AuthenticationState } from './authentication.state';
 
 const initialState: AuthenticationState = {

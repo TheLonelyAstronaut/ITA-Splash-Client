@@ -1,5 +1,6 @@
 import { SagaIterator } from 'redux-saga';
-import { call, spawn } from 'redux-saga/effects';
+import { spawn } from 'redux-saga/effects';
+
 import { listenForLoginSaga } from '../authentication/sagas';
 
 // import { listenForAccountDetailsTriggers } from '../account/account-details/sagas';

@@ -3,8 +3,8 @@ import React from 'react';
 
 import { PlaylistScreenComponent, MusicianScreenComponent, AlbumsScreenComponent } from '../music-data';
 
-import { SearchScreenComponent } from './screens/search-screen.component';
 import { SearchStackParamList } from './routing.params';
+import { SearchScreenComponent } from './screens/search-screen.component';
 
 const Stack = createStackNavigator<SearchStackParamList>();
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 // import {
 //     Container,
 //     Title,
@@ -17,7 +17,7 @@ export const RegisterScreen: React.FC = () => {
     return (
         <View></View>
         // <Container>
-        //     <Logo source={require('../../assets/logo.jpg')}/>
+        //     <Logo source={require('../../assets/dark-logo.jpg')}/>
         //     <Title>Splash</Title>
         //     <RegisterInputArea>
         //         <RegisterInputText>Email</RegisterInputText>

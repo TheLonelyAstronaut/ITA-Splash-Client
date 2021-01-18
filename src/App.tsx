@@ -1,12 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
+
+import { ConnectedThemeProvider } from './app/routing/connected-theme-provider.component';
 import { RootRouterComponent } from './app/routing/root-router.component';
 import { useStore } from './app/store/useStore';
 
 export const App: React.FC = () => {
     const store = useStore();
-
     if (!store) {
         return null;
     }
@@ -14,7 +15,9 @@ export const App: React.FC = () => {
     return (
         <PersistGate persistor={store.persistor}>
             <Provider store={store.store}>
-                <RootRouterComponent />
+                <ConnectedThemeProvider>
+                    <RootRouterComponent />
+                </ConnectedThemeProvider>
             </Provider>
         </PersistGate>
     );
