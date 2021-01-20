@@ -1,5 +1,4 @@
 import { DefaultLocale } from './default-locale';
-
 import { LocalesEnum } from './locales.state';
 
 const en: DefaultLocale = {

@@ -3,14 +3,14 @@ import { TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { DefaultTheme } from 'styled-components/native';
 
+// import { CHANGE_LOCALE } from '../../locales/actions';
+// import { LocalesEnum } from '../../locales/locales.state';
 import { CHANGE_THEME } from '../../ui/actions';
 import { Container } from '../../ui/container.component';
 import { getTheme } from '../../ui/selectors';
 import { themesCollection, ThemesEnum } from '../../ui/themes';
 import { LOGIN } from '../actions';
 import { AuthNavigationProps } from '../routing.params';
-import { CHANGE_LOCALE } from '../../locales/actions';
-import { LocalesEnum } from '../../locales/locales.state';
 
 export type LoginScreenProps = AuthNavigationProps<'Login'>;
 
@@ -106,9 +106,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = () => {
         );
     }, [dispatch]);
 
-    const handleLocale = useCallback(() => {
-        dispatch(CHANGE_LOCALE({ locale: LocalesEnum.ru }));
-    }, []);
+    // const handleLocale = useCallback(() => {
+    //     dispatch(CHANGE_LOCALE({ locale: LocalesEnum.ru }));
+    // }, [dispatch]);
 
     const handleTheme = useCallback(() => {
         dispatch(CHANGE_THEME({ theme: ThemesEnum.LIGHT }));

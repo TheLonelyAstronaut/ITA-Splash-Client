@@ -1,4 +1,5 @@
 import { createAction } from 'typesafe-redux-helpers';
+
 import { LocalesEnum } from './locales.state';
 
 export interface LocalePayload {
