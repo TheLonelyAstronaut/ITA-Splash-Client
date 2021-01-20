@@ -9,6 +9,8 @@ import { getTheme } from '../../ui/selectors';
 import { themesCollection, ThemesEnum } from '../../ui/themes';
 import { LOGIN } from '../actions';
 import { AuthNavigationProps } from '../routing.params';
+import { CHANGE_LOCALE } from '../../locales/actions';
+import { LocalesEnum } from '../../locales/locales.state';
 
 export type LoginScreenProps = AuthNavigationProps<'Login'>;
 
@@ -103,6 +105,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = () => {
             })
         );
     }, [dispatch]);
+
+    const handleLocale = useCallback(() => {
+        dispatch(CHANGE_LOCALE({ locale: LocalesEnum.ru }));
+    }, []);
 
     const handleTheme = useCallback(() => {
         dispatch(CHANGE_THEME({ theme: ThemesEnum.LIGHT }));

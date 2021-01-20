@@ -10,6 +10,8 @@ target 'Splash' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
+  pod 'RNLocalize', :path => '../node_modules/react-native-localize'
+
   target 'SplashTests' do
     inherit! :complete
     # Pods for testing

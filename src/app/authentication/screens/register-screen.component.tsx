@@ -5,6 +5,7 @@ import styled, { DefaultTheme } from 'styled-components/native';
 import { Container } from '../../ui/container.component';
 import { getTheme } from '../../ui/selectors';
 import { themesCollection } from '../../ui/themes';
+import I18n from '../../utils/i18n';
 
 import { Title, Input, PasswordText, LoginText, Logo } from './login-screen.component';
 
@@ -44,9 +45,9 @@ export const RegisterScreen: React.FC = () => {
             )}
             <Title>Splash</Title>
             <RegisterInputArea>
-                <RegisterInputText>Email</RegisterInputText>
+                <RegisterInputText>{I18n.t('login')}</RegisterInputText>
                 <Input />
-                <PasswordText>Name</PasswordText>
+                <PasswordText>{I18n.t('hello')}</PasswordText>
                 <Input />
                 <PasswordText>Password</PasswordText>
                 <Input secureTextEntry={true} />
