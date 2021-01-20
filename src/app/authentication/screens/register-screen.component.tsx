@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import styled, { DefaultTheme } from 'styled-components/native';
 
+import { en } from '../../../locales/locales';
 import { Container } from '../../ui/container.component';
 import { getTheme } from '../../ui/selectors';
 import { themesCollection } from '../../ui/themes';
@@ -45,9 +46,9 @@ export const RegisterScreen: React.FC = () => {
             )}
             <Title>Splash</Title>
             <RegisterInputArea>
-                <RegisterInputText>{I18n.t('login')}</RegisterInputText>
+                <RegisterInputText>{I18n.t(en.login)}</RegisterInputText>
                 <Input />
-                <PasswordText>{I18n.t('hello')}</PasswordText>
+                <PasswordText>{I18n.t(en.hello)}</PasswordText>
                 <Input />
                 <PasswordText>Password</PasswordText>
                 <Input secureTextEntry={true} />
