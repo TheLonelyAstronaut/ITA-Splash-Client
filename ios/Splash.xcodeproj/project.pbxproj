@@ -308,10 +308,10 @@
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Splash" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = en;
+			developmentRegion = locales;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
+				locales,
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
