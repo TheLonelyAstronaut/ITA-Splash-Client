@@ -9,7 +9,7 @@ export const getRootLocaleState: Selector<ApplicationState, LocalesState> = crea
     (state) => state
 );
 
-export const getLocale: Selector<ApplicationState, LocalesEnum> = createSelector(
+export const getLocale: Selector<ApplicationState, LocalesEnum | undefined> = createSelector(
     getRootLocaleState,
     (state) => state.locale
 );

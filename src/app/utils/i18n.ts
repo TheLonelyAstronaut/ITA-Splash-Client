@@ -1,18 +1,18 @@
-import I18n from 'i18n-js';
 import * as RNLocalize from 'react-native-localize';
+import { LocalesEnum } from '../locales/locales.state';
 
-import { en, ru } from '../locales/locales';
-
-const locales = RNLocalize.getLocales();
-
-if (Array.isArray(locales)) {
-    I18n.locale = locales[0].languageTag;
-}
-
-I18n.fallbacks = true;
-I18n.translations = {
-    en,
-    ru,
+const localeTags = {
+    en: LocalesEnum.EN,
+    ru: LocalesEnum.RU,
 };
 
-export default I18n;
+export const getCurrentLocaleEnum = () => {
+    const locales = RNLocalize.getLocales();
+    if (Array.isArray(locales)) {
+        if (localeTags[locales[0].languageTag]) {
+            return localeTags[locales[0].languageTag];
+        } else {
+            return LocalesEnum.EN;
+        }
+    }
+};

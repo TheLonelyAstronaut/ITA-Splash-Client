@@ -1,8 +1,8 @@
 export enum LocalesEnum {
-    en,
-    ru,
+    EN,
+    RU,
 }
 
 export interface LocalesState {
-    locale: LocalesEnum;
+    locale: LocalesEnum | undefined;
 }

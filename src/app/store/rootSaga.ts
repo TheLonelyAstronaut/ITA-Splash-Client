@@ -1,12 +1,14 @@
 import { SagaIterator } from 'redux-saga';
-import { spawn } from 'redux-saga/effects';
+import { spawn, call } from 'redux-saga/effects';
 
 import { listenForLoginSaga } from '../authentication/sagas';
+import { initializationSaga } from './initializationSaga';
 
 // import { listenForAccountDetailsTriggers } from '../account/account-details/sagas';
 
 export function* rootSaga(): SagaIterator {
     yield spawn(listenForLoginSaga);
+    yield call(initializationSaga);
     // anything analytics related
     // yield spawn(listenForActions);
     // start off any listeners for actions + any module specific initialisation

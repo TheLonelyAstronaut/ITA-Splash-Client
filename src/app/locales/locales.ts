@@ -11,9 +11,9 @@ const ru: DefaultLocale = {
     login: 'логин',
 };
 
-const themesCollection: Partial<Record<LocalesEnum, DefaultLocale>> = {
-    [LocalesEnum.en]: en,
-    [LocalesEnum.ru]: ru,
+const localesCollection: Partial<Record<LocalesEnum, DefaultLocale>> = {
+    [LocalesEnum.EN]: en,
+    [LocalesEnum.RU]: ru,
 };
 
-export { en, ru, themesCollection };
+export { en, ru, localesCollection };

@@ -6,7 +6,7 @@ import { CHANGE_LOCALE } from './actions';
 import { LocalesEnum, LocalesState } from './locales.state';
 
 const initialState: LocalesState = {
-    locale: LocalesEnum.en,
+    locale: undefined,
 };
 
 const unpersistedReducer = createReducer<LocalesState>(initialState).handleAction(CHANGE_LOCALE, (state, action) => ({
