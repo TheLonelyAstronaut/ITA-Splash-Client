@@ -2,16 +2,12 @@ import { SagaIterator } from 'redux-saga';
 import { spawn } from 'redux-saga/effects';
 
 import { listenForLoginSaga } from '../authentication/sagas';
-
-// import { listenForAccountDetailsTriggers } from '../account/account-details/sagas';
+import { listenNextSaga, listenPauseSaga, listenPlaySaga, listenPrevSaga } from '../player/sagas';
 
 export function* rootSaga(): SagaIterator {
     yield spawn(listenForLoginSaga);
-    // anything analytics related
-    // yield spawn(listenForActions);
-    // start off any listeners for actions + any module specific initialisation
-    // can happen in the background
-    // block root saga to run our initialisation logic, once this is done
-    // the root saga 'finishes' and the splash screen will disappear
-    // yield call(initialisationSaga);
+    yield spawn(listenPlaySaga);
+    yield spawn(listenPauseSaga);
+    yield spawn(listenNextSaga);
+    yield spawn(listenPrevSaga);
 }
