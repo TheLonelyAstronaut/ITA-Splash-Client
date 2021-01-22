@@ -7,7 +7,7 @@ import { Container } from '../../ui/container.component';
 import { getTheme } from '../../ui/selectors';
 import { themesCollection } from '../../ui/themes';
 import I18n from '../../utils/i18n';
-import RNTrackPlayer from 'react-native-track-player';
+import RNTrackPlayer, { useTrackPlayerEvents, Event } from 'react-native-track-player';
 
 import { Title, Input, PasswordText, LoginText, Logo } from './login-screen.component';
 
@@ -34,9 +34,20 @@ export const RegisterButton = styled.TouchableOpacity`
     margin-top: ${(props) => props.theme.spacer}px;
 `;
 
+const events = [Event.PlaybackState, Event.PlaybackError];
+
 export const RegisterScreen: React.FC = () => {
     const themeKey = useSelector(getTheme);
     const theme = useMemo(() => themesCollection[themeKey] as DefaultTheme, [themeKey]);
+
+    useTrackPlayerEvents(events, (event) => {
+        if (event.type === Event.PlaybackError) {
+            console.warn('An error occurred while playing the current track.');
+        }
+        if (event.type === Event.PlaybackState) {
+            alert('HERE');
+        }
+    });
 
     const start = async () => {
         // Set up the player
@@ -72,7 +83,7 @@ export const RegisterScreen: React.FC = () => {
                 <Input secureTextEntry={true} />
                 <PasswordText>Password</PasswordText>
                 <Input secureTextEntry={true} />
-                <RegisterButton activeOpacity={0.5}>
+                <RegisterButton activeOpacity={0.5} onPress={start}>
                     <LoginText>Sign in</LoginText>
                 </RegisterButton>
             </RegisterInputArea>
