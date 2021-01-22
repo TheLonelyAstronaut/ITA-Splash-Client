@@ -7,6 +7,7 @@ import { Container } from '../../ui/container.component';
 import { getTheme } from '../../ui/selectors';
 import { themesCollection } from '../../ui/themes';
 import I18n from '../../utils/i18n';
+import RNTrackPlayer from 'react-native-track-player';
 
 import { Title, Input, PasswordText, LoginText, Logo } from './login-screen.component';
 
@@ -36,6 +37,23 @@ export const RegisterButton = styled.TouchableOpacity`
 export const RegisterScreen: React.FC = () => {
     const themeKey = useSelector(getTheme);
     const theme = useMemo(() => themesCollection[themeKey] as DefaultTheme, [themeKey]);
+
+    const start = async () => {
+        // Set up the player
+        await RNTrackPlayer.setupPlayer();
+
+        // Add a track to the queue
+        await RNTrackPlayer.add({
+            id: 'trackId',
+            url: require('../../assets/track.mp3'),
+            title: 'Track Title',
+            artist: 'Track Artist',
+            artwork: require('../../assets/light-logo.jpg'),
+        });
+
+        // Start playing it
+        await RNTrackPlayer.play();
+    };
 
     return (
         <Container>
