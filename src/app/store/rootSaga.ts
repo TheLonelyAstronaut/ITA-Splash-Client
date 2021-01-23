@@ -9,5 +9,4 @@ export function* rootSaga(): SagaIterator {
     yield spawn(listenPlaySaga);
     yield spawn(listenNextSaga);
     yield spawn(listenPrevSaga);
-    yield spawn(listenPlaySaga);
 }
