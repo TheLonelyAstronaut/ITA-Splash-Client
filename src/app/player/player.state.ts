@@ -1,7 +1,8 @@
 export type Track = {
     id: string;
-    url: undefined;
+    url: string;
     title: string;
     artist: string;
-    artwork: undefined;
+    artwork: string;
+    isPlaying: any;
 };
