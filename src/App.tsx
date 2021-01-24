@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { RootRouterComponent } from './app/routing/root-router.component';
-import { useStore } from './app/store/useStore';
+import { useStore } from './app/store/use-store';
 import { ConnectedThemeProvider } from './app/ui/connected-theme-provider.component';
 
 export const App: React.FC = () => {

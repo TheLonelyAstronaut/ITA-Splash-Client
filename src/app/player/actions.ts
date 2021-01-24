@@ -1,10 +1,21 @@
 import { createAction } from 'typesafe-redux-helpers';
 
-import { Track } from './player.state';
+import { Track, ControlActions } from './player.state';
 
-export const MUSIC_CONTROL = {
-    PLAY: createAction('[Play]', (payload: Track) => payload),
-    PAUSE: createAction('[Pause]'),
-    NEXT: createAction('[Next]'),
-    PREV: createAction('[Prev]'),
+export interface Control {
+    action: ControlActions;
+}
+
+export const MUSIC_ACTIONS = {
+    PLAY: {
+        TRIGGER: createAction('[Music Actions Play Triggered]', (payload: Track) => payload),
+        STARTED: createAction('[Music Actions Play Started]', (payload: Track) => payload),
+        COMPLETED: createAction('[Music Actions Play Completed]', (payload: Track) => payload),
+    },
+    ADD_TO_THE_QUEUE: createAction('[Add To The Queue]', (payload: Track[]) => payload),
+    CONTROL: {
+        TRIGGER: createAction('[Music Actions Control Triggered]', (payload: Control) => payload),
+        STARTED: createAction('[Music Actions Control Started]', (payload: Control) => payload),
+        COMPLETED: createAction('[Music Actions Control Completed]', (payload: Track) => payload), //Sending current track to reducer, we can take this info from TrackPlayer
+    },
 };

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Text } from 'react-native';
-import RNTrackPlayer, { Event, usePlaybackState, useTrackPlayerEvents } from 'react-native-track-player';
+import { Event, useTrackPlayerEvents } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 
 import { RegisterButton } from '../authentication/screens/register-screen.component';
 import { Container } from '../ui/player';
 
-import { MUSIC_CONTROL } from './actions';
+import { MUSIC_ACTIONS } from './actions';
+import { ControlActions } from './player.state';
 
 const events = [Event.PlaybackState, Event.PlaybackError];
 
@@ -27,7 +28,7 @@ export const Player: React.FC = () => {
                 style={{ marginTop: 100 }}
                 onPress={() =>
                     dispatch(
-                        MUSIC_CONTROL.PLAY({
+                        MUSIC_ACTIONS.PLAY.TRIGGER({
                             id: 'trackId',
                             url: require('../assets/track.mp3'),
                             title: 'Sunflower',
@@ -39,13 +40,16 @@ export const Player: React.FC = () => {
             >
                 <Text style={{ textAlign: 'center' }}>Play</Text>
             </RegisterButton>
-            <RegisterButton style={{ marginTop: 100 }} onPress={() => dispatch(MUSIC_CONTROL.PAUSE())}>
-                <Text style={{ textAlign: 'center' }}>Pause</Text>
-            </RegisterButton>
-            <RegisterButton style={{ marginTop: 100 }} onPress={() => dispatch(MUSIC_CONTROL.NEXT())}>
+            <RegisterButton
+                style={{ marginTop: 100 }}
+                onPress={() => dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_NEXT }))}
+            >
                 <Text style={{ textAlign: 'center' }}>Next</Text>
             </RegisterButton>
-            <RegisterButton style={{ marginTop: 100 }} onPress={() => dispatch(MUSIC_CONTROL.PREV())}>
+            <RegisterButton
+                style={{ marginTop: 100 }}
+                onPress={() => dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS }))}
+            >
                 <Text style={{ textAlign: 'center' }}>Prev</Text>
             </RegisterButton>
         </Container>

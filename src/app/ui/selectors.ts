@@ -1,6 +1,6 @@
 import { createSelector, Selector } from 'reselect';
 
-import { ApplicationState } from '../store/ApplicationState';
+import { ApplicationState } from '../store/application-state';
 
 import { ThemesEnum, ThemeState } from './theme.state';
 
