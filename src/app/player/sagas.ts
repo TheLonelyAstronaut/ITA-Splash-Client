@@ -11,7 +11,13 @@ export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_T
 
 export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>): SagaIterator {
     yield call(RNTrackPlayer.reset);
-    yield call(RNTrackPlayer.add, action.payload);
+    yield call(RNTrackPlayer.add, {
+        id: action.payload.id,
+        title: action.payload.title,
+        artist: action.payload.artist,
+        url: action.payload.url,
+        artwork: action.payload.artwork,
+    });
     yield call(RNTrackPlayer.play);
 }
 

@@ -3,8 +3,8 @@ import { persistReducer } from 'redux-persist';
 import { createReducer } from 'typesafe-redux-helpers';
 
 import { MUSIC_ACTIONS } from './actions';
-import { TrackState } from './track.state';
 import { Track } from './player.state';
+import { TrackState } from './track.state';
 
 const initialState: TrackState = {
     track: {} as Track,
