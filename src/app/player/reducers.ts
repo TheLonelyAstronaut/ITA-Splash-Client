@@ -4,25 +4,28 @@ import { createReducer } from 'typesafe-redux-helpers';
 
 import { MUSIC_ACTIONS } from './actions';
 import { Track } from './player.state';
-import { TrackState } from './track.state';
+import { TrackState } from './player.state';
 
 const initialState: TrackState = {
-    track: {} as Track,
+    currentTrack: {} as Track,
+    queue: [],
 };
 
-const unpersistedReducer = createReducer<TrackState>(initialState).handleAction(
-    MUSIC_ACTIONS.PLAY.TRIGGER,
-    (state, action) => ({
-        track: action.payload,
-    })
-);
+const unpersistedReducer = createReducer<TrackState>(initialState)
+    .handleAction(MUSIC_ACTIONS.PLAY.COMPLETED, (state, action) => ({
+        currentTrack: action.payload.track,
+        queue: action.payload.queue,
+    }))
+    .handleAction(MUSIC_ACTIONS.SET_CURRENT_TRACK, (state, action) => ({
+        ...state,
+        currentTrack: action.payload,
+    }));
 
 export const trackReducer = persistReducer(
     {
         key: 'track',
         version: 1,
         storage: AsyncStorage,
-        whitelist: ['track'],
         debug: true,
     },
     unpersistedReducer

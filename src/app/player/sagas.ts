@@ -1,6 +1,6 @@
 import RNTrackPlayer, { State } from 'react-native-track-player';
 import { SagaIterator } from 'redux-saga';
-import { call, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
 import { MUSIC_ACTIONS } from './actions';
 import { ControlActions } from './player.state';
@@ -11,17 +11,15 @@ export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_T
 
 export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>): SagaIterator {
     yield call(RNTrackPlayer.reset);
-    yield call(RNTrackPlayer.add, {
-        id: action.payload.id,
-        title: action.payload.title,
-        artist: action.payload.artist,
-        url: action.payload.url,
-        artwork: action.payload.artwork,
-    });
+    yield call(RNTrackPlayer.add, [...action.payload.queue]);
+    yield call(RNTrackPlayer.skip, action.payload.track.id);
     yield call(RNTrackPlayer.play);
+    yield put(MUSIC_ACTIONS.PLAY.COMPLETED(action.payload));
 }
 
 export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRIGGER>): SagaIterator {
+    const queue = yield call(RNTrackPlayer.getQueue);
+    const currentTrack = yield call(RNTrackPlayer.getCurrentTrack);
     switch (action.payload.action) {
         case ControlActions.PAUSE_RESUME: {
             const state = yield call(RNTrackPlayer.getState);
@@ -33,11 +31,15 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
             break;
         }
         case ControlActions.SKIP_TO_NEXT: {
-            yield call(RNTrackPlayer.skipToNext);
+            if (currentTrack !== queue[queue.length - 1].id) {
+                yield call(RNTrackPlayer.skipToNext);
+            }
             break;
         }
         case ControlActions.SKIP_TO_PREVIOUS: {
-            yield call(RNTrackPlayer.skipToPrevious);
+            if (currentTrack !== queue[0].id) {
+                yield call(RNTrackPlayer.skipToPrevious);
+            }
             break;
         }
     }

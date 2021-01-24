@@ -1,5 +1,5 @@
-import React from 'react';
-import { Text, FlatList, View } from 'react-native';
+import React, { useCallback } from 'react';
+import { Text, FlatList, View, TouchableOpacity } from 'react-native';
 import { Event, useTrackPlayerEvents } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 
@@ -23,44 +23,37 @@ export const Player: React.FC = () => {
             //alert('HERE');
         }
     });
+    const handleTrackPress = useCallback(
+        (track: Track) => {
+            dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: track, queue: tracks }));
+        },
+        [dispatch]
+    );
 
     return (
-        // <Container>
-        //     <RegisterButton
-        //         style={{ marginTop: 100 }}
-        //         onPress={() =>
-        //             dispatch(
-        //                 MUSIC_ACTIONS.PLAY.TRIGGER({
-        //                     id: '1',
-        //                     url: require('../assets/postmalone.mp3'),
-        //                     title: 'Sunflower',
-        //                     artist: 'Post Malone',
-        //                     artwork: require('../assets/light-logo.jpg'),
-        //                 })
-        //             )
-        //         }
-        //     >
-        //         <Text style={{ textAlign: 'center' }}>Play</Text>
-        //     </RegisterButton>
-        //     <RegisterButton
-        //         style={{ marginTop: 100 }}
-        //         onPress={() => dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_NEXT }))}
-        //     >
-        //         <Text style={{ textAlign: 'center' }}>Next</Text>
-        //     </RegisterButton>
-        //     <RegisterButton
-        //         style={{ marginTop: 100 }}
-        //         onPress={() => dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS }))}
-        //     >
-        //         <Text style={{ textAlign: 'center' }}>Prev</Text>
-        //     </RegisterButton>
-        // </Container>
         <View>
             <FlatList
                 data={tracks}
-                renderItem={({ item }) => <TrackComponent track={item} />}
+                renderItem={({ item }) => <TrackComponent track={item} onPress={handleTrackPress} />}
                 keyExtractor={(item) => item.id}
             />
+            <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity
+                    onPress={() => dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS }))}
+                >
+                    <Text style={{ marginRight: 20 }}>Previous</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.PAUSE_RESUME }))}
+                >
+                    <Text style={{ marginRight: 20 }}>Play/pause</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_NEXT }))}
+                >
+                    <Text style={{ marginRight: 20 }}>Next</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };

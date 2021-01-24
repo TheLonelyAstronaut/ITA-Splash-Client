@@ -11,3 +11,8 @@ export enum ControlActions {
     SKIP_TO_NEXT,
     SKIP_TO_PREVIOUS,
 }
+
+export interface TrackState {
+    currentTrack: Track;
+    queue: Track[];
+}
