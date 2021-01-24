@@ -6,7 +6,6 @@ import { MUSIC_ACTIONS } from './actions';
 import { ControlActions } from './player.state';
 
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE>): SagaIterator {
-    yield call(RNTrackPlayer.reset);
     yield call(RNTrackPlayer.add, action.payload);
 }
 
@@ -44,4 +43,8 @@ export function* listenControlSaga(): SagaIterator {
 
 export function* listenPlaySaga(): SagaIterator {
     yield takeLatest(MUSIC_ACTIONS.PLAY.TRIGGER, playSaga);
+}
+
+export function* listenAddToQueueSaga(): SagaIterator {
+    yield takeLatest(MUSIC_ACTIONS.ADD_TO_THE_QUEUE, addToQueueSaga);
 }

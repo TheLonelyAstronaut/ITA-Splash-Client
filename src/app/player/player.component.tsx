@@ -24,20 +24,7 @@ export const Player: React.FC = () => {
 
     return (
         <Container>
-            <RegisterButton
-                style={{ marginTop: 100 }}
-                onPress={() =>
-                    dispatch(
-                        MUSIC_ACTIONS.PLAY.TRIGGER({
-                            id: 'trackId',
-                            url: require('../assets/track.mp3'),
-                            title: 'Sunflower',
-                            artist: 'Post Malone',
-                            artwork: require('../assets/light-logo.jpg'),
-                        })
-                    )
-                }
-            >
+            <RegisterButton style={{ marginTop: 100 }} onPress={() => dispatch(MUSIC_ACTIONS.PLAY.TRIGGER())}>
                 <Text style={{ textAlign: 'center' }}>Play</Text>
             </RegisterButton>
             <RegisterButton
