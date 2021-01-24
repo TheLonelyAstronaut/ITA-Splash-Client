@@ -6,8 +6,8 @@ import { MUSIC_CONTROL } from './actions';
 
 export function* playSaga(action: ReturnType<typeof MUSIC_CONTROL.PLAY>): SagaIterator {
     yield call(RNTrackPlayer.setupPlayer);
-
-    if (action.payload.isPlaying === 'idle') {
+    const state = yield call(RNTrackPlayer.getState);
+    if (state === 'idle') {
         yield call(RNTrackPlayer.add, {
             id: '1',
             url: require('../assets/track.mp3'),
@@ -16,9 +16,9 @@ export function* playSaga(action: ReturnType<typeof MUSIC_CONTROL.PLAY>): SagaIt
             artwork: require('../assets/light-logo.jpg'),
         });
         yield call(RNTrackPlayer.play);
-    } else if (action.payload.isPlaying === 'playing') {
+    } else if (state === 'playing') {
         yield call(RNTrackPlayer.pause);
-    } else if (action.payload.isPlaying === 'paused') {
+    } else if (state === 'paused') {
         yield call(RNTrackPlayer.play);
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
-import { Event, usePlaybackState, useTrackPlayerEvents } from 'react-native-track-player';
+import RNTrackPlayer, { Event, usePlaybackState, useTrackPlayerEvents } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 
 import { RegisterButton } from '../authentication/screens/register-screen.component';
@@ -20,8 +20,6 @@ export const Player: React.FC = () => {
             //alert('HERE');
         }
     });
-    const isPlaying = usePlaybackState();
-    console.log(isPlaying);
 
     return (
         <Container>
@@ -35,7 +33,6 @@ export const Player: React.FC = () => {
                             title: 'Sunflower',
                             artist: 'Post Malone',
                             artwork: require('../assets/light-logo.jpg'),
-                            isPlaying: isPlaying,
                         })
                     )
                 }

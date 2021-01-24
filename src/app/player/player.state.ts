@@ -4,5 +4,4 @@ export type Track = {
     title: string;
     artist: string;
     artwork: string;
-    isPlaying: any;
 };
