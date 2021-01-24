@@ -1,25 +1,33 @@
-import RNTrackPlayer from 'react-native-track-player';
+import RNTrackPlayer, { State } from 'react-native-track-player';
 import { SagaIterator } from 'redux-saga';
-import { call, takeLatest } from 'redux-saga/effects';
+import { call, takeLatest, delay } from 'redux-saga/effects';
 
 import { MUSIC_CONTROL } from './actions';
 
 export function* playSaga(action: ReturnType<typeof MUSIC_CONTROL.PLAY>): SagaIterator {
-    yield call(RNTrackPlayer.setupPlayer);
     const state = yield call(RNTrackPlayer.getState);
-    if (state === 'idle') {
-        yield call(RNTrackPlayer.add, {
-            id: '1',
-            url: require('../assets/track.mp3'),
-            title: 'Sunflower',
-            artist: 'Post Malone',
-            artwork: require('../assets/light-logo.jpg'),
-        });
-        yield call(RNTrackPlayer.play);
-    } else if (state === 'playing') {
-        yield call(RNTrackPlayer.pause);
-    } else if (state === 'paused') {
-        yield call(RNTrackPlayer.play);
+
+    switch (state) {
+        case State.Stopped:
+        case State.Ready: {
+            yield call(RNTrackPlayer.add, {
+                id: '1',
+                url: require('../assets/track.mp3'),
+                title: 'Sunflower',
+                artist: 'Post Malone',
+                artwork: require('../assets/light-logo.jpg'),
+            });
+            yield call(RNTrackPlayer.play);
+            break;
+        }
+        case State.Playing: {
+            yield call(RNTrackPlayer.pause);
+            break;
+        }
+        case State.Paused: {
+            yield call(RNTrackPlayer.play);
+            break;
+        }
     }
 }
 
