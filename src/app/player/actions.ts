@@ -12,7 +12,10 @@ export const MUSIC_ACTIONS = {
         TRIGGER: createAction('[Music Actions Play Triggered]', (payload: PlayActionPayload) => payload),
         COMPLETED: createAction('[Music Actions Play Completed]', (payload: PlayActionPayload) => payload),
     },
-    ADD_TO_THE_QUEUE: createAction('[Add To The Queue]', (payload: Track[]) => payload),
+    ADD_TO_THE_QUEUE: {
+        TRIGGER: createAction('[Add To The Queue Triggered]', (payload: Track[]) => payload),
+        COMPLETED: createAction('[Add To The Queue Completed]', (payload: Track[]) => payload),
+    },
     CONTROL: {
         TRIGGER: createAction('[Music Actions Control Triggered]', (payload: Control) => payload),
         STARTED: createAction('[Music Actions Control Started]', (payload: Control) => payload),

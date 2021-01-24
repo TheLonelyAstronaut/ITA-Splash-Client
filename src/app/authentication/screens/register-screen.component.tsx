@@ -5,7 +5,7 @@ import styled, { DefaultTheme } from 'styled-components/native';
 import { en } from '../../../locales/locales';
 import { Container } from '../../ui/container.component';
 import { getTheme } from '../../ui/selectors';
-import { themesCollection } from '../../ui/themes';
+import { themesCollection } from '../../ui/themes/themes';
 import I18n from '../../utils/i18n';
 
 import { Title, Input, PasswordText, LoginText, Logo } from './login-screen.component';
@@ -40,9 +40,9 @@ export const RegisterScreen: React.FC = () => {
     return (
         <Container>
             {theme.colors.main === 'black' ? (
-                <Logo source={require('../../assets/dark-logo.jpg')} />
+                <Logo source={require('../../../assets/dark-logo.jpg')} />
             ) : (
-                <Logo source={require('../../assets/light-logo.jpg')} />
+                <Logo source={require('../../../assets/light-logo.jpg')} />
             )}
             <Title>Splash</Title>
             <RegisterInputArea>

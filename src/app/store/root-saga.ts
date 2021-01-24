@@ -1,10 +1,10 @@
+import { Dispatch } from 'redux';
 import { SagaIterator } from 'redux-saga';
 import { spawn, call } from 'redux-saga/effects';
 
 import { listenForLoginSaga } from '../authentication/sagas';
 import { listenPlaySaga, listenControlSaga, listenAddToQueueSaga } from '../player/sagas';
 import { initializationSaga } from '../utils/initialization-saga';
-import { Dispatch } from 'redux';
 
 export function* rootSaga(dispatch: Dispatch): SagaIterator {
     yield spawn(listenForLoginSaga);

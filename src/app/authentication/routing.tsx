@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import { Player } from '../player/player.component';
+import { Player } from '../player/components/player.component';
 
 import { AuthParamList } from './routing.params';
 import LoginScreen from './screens/login-screen.component';

@@ -3,7 +3,7 @@ import { persistReducer } from 'redux-persist';
 import { createReducer } from 'typesafe-redux-helpers';
 
 import { CHANGE_THEME } from './actions';
-import { ThemesEnum, ThemeState } from './theme.state';
+import { ThemesEnum, ThemeState } from './themes/theme.state';
 
 const initialState: ThemeState = {
     theme: ThemesEnum.DARK,

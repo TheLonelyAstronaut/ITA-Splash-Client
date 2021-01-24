@@ -3,13 +3,10 @@ import { Text, FlatList, View, TouchableOpacity } from 'react-native';
 import { Event, useTrackPlayerEvents } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 
-import { RegisterButton } from '../authentication/screens/register-screen.component';
-import { tracks } from '../mocks/tracks';
-import { Container } from '../ui/player';
-import { TrackComponent } from '../ui/tracks-ui/track.component';
-
-import { MUSIC_ACTIONS } from './actions';
-import { ControlActions, Track } from './player.state';
+import { tracks } from '../../../mocks/tracks';
+import { TrackComponent } from '../../ui/tracks/components/track.component';
+import { MUSIC_ACTIONS } from '../actions';
+import { ControlActions, Track } from '../player.state';
 
 const events = [Event.PlaybackState, Event.PlaybackError];
 
