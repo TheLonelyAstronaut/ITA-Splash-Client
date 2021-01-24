@@ -31,7 +31,7 @@ export const createStore = async (): Promise<{ store: Store<ApplicationState>; p
         const p = persistStore(store, null, () => resolve(p));
     });
 
-    await sagaMiddleware.run(rootSaga).toPromise();
+    await sagaMiddleware.run(rootSaga, store.dispatch).toPromise();
 
     return { store, persistor };
 };
