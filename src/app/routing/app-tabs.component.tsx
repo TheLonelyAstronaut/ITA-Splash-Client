@@ -1,56 +1,88 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
-//import { Ionicons } from 'react-native-vector-icons';
 
 import { HomeStack } from '../home/routing';
 import { LibraryStackComponent } from '../library/routing';
 import { SearchStackComponent } from '../search/routing';
 
 import { TabsParamList } from './app-tabs.params';
+import HomeSVG from '../ui/navigation/tab-icon.component';
+import AnimatedTabBar, { TabsConfig, FlashyTabBarItemConfig } from '@gorhom/animated-tabbar';
 
-// const tabs : TabsConfig<BubbleTabBarItemConfig> = {
-//     Home: {
-//         labelStyle: {
-//             color: '#5B37B7',
-//         },
-//         icon: {
-//             component: <Ionicons name="home" size={24} color="black" />,
-//             activeColor: 'rgba(91,55,183,1)',
-//             inactiveColor: 'rgba(0,0,0,1)',
-//         },
-//         background: {
-//             activeColor: 'rgba(223,215,243,1)',
-//             inactiveColor: 'rgba(223,215,243,0)',
-//         },
-//     },
-//     Search: {
-//         labelStyle: {
-//             color: '#1194AA',
-//         },
-//         icon: {
-//             component: <Ionicons name="search" size={24} color="black" />,
-//             activeColor: 'rgba(17,148,170,1)',
-//             inactiveColor: 'rgba(0,0,0,1)',
-//         },
-//         background: {
-//             activeColor: 'rgba(207,235,239,1)',
-//             inactiveColor: 'rgba(207,235,239,0)',
-//         },
-//     },
-// }
+export interface DummyScreenParams {
+    name: string;
+    backgroundColor: string;
+    nextScreen: string;
+    paddingBottom?: number;
+}
 
-const Tabs = createBottomTabNavigator<TabsParamList>();
+export type MainTabsParams = {
+    Home: DummyScreenParams;
+    Search: DummyScreenParams;
+    Library: DummyScreenParams;
+};
 
-export const AppTabs: React.FC = () => {
+const Tab = createBottomTabNavigator<MainTabsParams>();
+
+const tabs: TabsConfig<FlashyTabBarItemConfig, MainTabsParams> = {
+    Home: {
+        labelStyle: {
+            color: '#5B37B7',
+        },
+        icon: {
+            component: HomeSVG,
+            color: 'rgba(91,55,183,0.5)',
+        },
+    },
+    Search: {
+        labelStyle: {
+            color: '#E6A919',
+        },
+        icon: {
+            component: HomeSVG,
+            color: 'rgba(230,169,25,0.5)',
+        },
+    },
+    Library: {
+        labelStyle: {
+            color: '#5B37B7',
+        },
+        icon: {
+            component: HomeSVG,
+            color: 'rgba(91,55,183,0.5)',
+        },
+    },
+};
+
+const AppTabs: React.FC = () => {
     return (
-        <Tabs.Navigator
-        // tabBar={props=>(
-        //     <AnimatedTabBar tabs={tabs} {...props}/>
-        // )}
-        >
-            <Tabs.Screen name={'Home'} component={HomeStack} />
-            <Tabs.Screen name={'Search'} component={SearchStackComponent} />
-            <Tabs.Screen name={'Library'} component={LibraryStackComponent} />
-        </Tabs.Navigator>
+        <Tab.Navigator tabBar={(props) => <AnimatedTabBar preset="flashy" tabs={tabs} {...props} />}>
+            <Tab.Screen
+                name="Home"
+                initialParams={{
+                    backgroundColor: 'black',
+                    nextScreen: 'Likes',
+                }}
+                component={HomeStack}
+            />
+            <Tab.Screen
+                name="Search"
+                initialParams={{
+                    backgroundColor: 'black',
+                    nextScreen: 'Search',
+                }}
+                component={SearchStackComponent}
+            />
+            <Tab.Screen
+                name="Library"
+                initialParams={{
+                    backgroundColor: 'black',
+                    nextScreen: 'Profile',
+                }}
+                component={LibraryStackComponent}
+            />
+        </Tab.Navigator>
     );
 };
+
+export default AppTabs;
