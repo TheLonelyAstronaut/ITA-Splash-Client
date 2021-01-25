@@ -1,8 +1,16 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
+import styled from 'styled-components/native';
 
-import { Track } from '../../../player/player.state';
-import { TrackContainer } from '../track';
+import { Track } from '../../player/player.state';
+
+export const TrackContainer = styled.View`
+    background-color: black;
+    width: 100%;
+    height: 70px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+`;
 
 type TrackComponentProps = {
     track: Track;

@@ -4,7 +4,7 @@ import styled, { DefaultTheme } from 'styled-components/native';
 
 import { en } from '../../../locales/locales';
 import { Container } from '../../ui/container.component';
-import { getTheme } from '../../ui/selectors';
+import { getTheme } from '../../ui/themes/selectors';
 import { themesCollection } from '../../ui/themes/themes';
 import I18n from '../../utils/i18n';
 

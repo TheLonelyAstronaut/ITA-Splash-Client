@@ -4,7 +4,7 @@ import { Event, useTrackPlayerEvents } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 
 import { tracks } from '../../../mocks/tracks';
-import { TrackComponent } from '../../ui/tracks/components/track.component';
+import { TrackComponent } from '../../ui/tracks/track.component';
 import { MUSIC_ACTIONS } from '../actions';
 import { ControlActions, Track } from '../player.state';
 
@@ -12,6 +12,7 @@ const events = [Event.PlaybackState, Event.PlaybackError];
 
 export const Player: React.FC = () => {
     const dispatch = useDispatch();
+
     useTrackPlayerEvents(events, (event) => {
         if (event.type === Event.PlaybackError) {
             console.warn('An error occurred while playing the current track.');
@@ -20,6 +21,7 @@ export const Player: React.FC = () => {
             //alert('HERE');
         }
     });
+
     const handleTrackPress = useCallback(
         (track: Track) => {
             dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: track, queue: tracks }));

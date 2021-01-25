@@ -14,8 +14,14 @@ module.exports = async function () {
         RNTrackPlayer.skipToNext();
     });
 
-    RNTrackPlayer.addEventListener(Event.RemotePrevious, () => {
-        RNTrackPlayer.skipToPrevious();
+    RNTrackPlayer.addEventListener(Event.RemotePrevious, async () => {
+        const position = await RNTrackPlayer.getPosition();
+
+        if (position > 3) {
+            await RNTrackPlayer.seekTo(0);
+        } else {
+            await RNTrackPlayer.skipToPrevious();
+        }
     });
 
     RNTrackPlayer.addEventListener(Event.RemoteStop, () => {

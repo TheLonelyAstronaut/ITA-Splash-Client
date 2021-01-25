@@ -3,9 +3,9 @@ import { TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { DefaultTheme } from 'styled-components/native';
 
-import { CHANGE_THEME } from '../../ui/actions';
 import { Container } from '../../ui/container.component';
-import { getTheme } from '../../ui/selectors';
+import { CHANGE_THEME } from '../../ui/themes/actions';
+import { getTheme } from '../../ui/themes/selectors';
 import { themesCollection, ThemesEnum } from '../../ui/themes/themes';
 import { LOGIN } from '../actions';
 import { AuthNavigationProps } from '../routing.params';

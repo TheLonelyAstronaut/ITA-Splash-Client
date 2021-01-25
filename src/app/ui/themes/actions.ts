@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-redux-helpers';
 
-import { ThemesEnum } from './themes/theme.state';
+import { ThemesEnum } from './theme.state';
 
 export interface ThemePayload {
     theme: ThemesEnum;

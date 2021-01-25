@@ -6,7 +6,9 @@ import { MUSIC_ACTIONS } from './actions';
 import { ControlActions } from './player.state';
 
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
-    yield call(RNTrackPlayer.add, action.payload);
+    const currentTrackID = yield call(RNTrackPlayer.getCurrentTrack);
+    yield call(RNTrackPlayer.add, action.payload, currentTrackID);
+    yield put(MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED(action.payload));
 }
 
 export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>): SagaIterator {
@@ -21,6 +23,7 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
     const queue = yield call(RNTrackPlayer.getQueue);
     const currentTrack = yield call(RNTrackPlayer.getCurrentTrack);
     const position = yield call(RNTrackPlayer.getPosition);
+
     if (!currentTrack) {
         return;
     }
@@ -46,7 +49,7 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
         }
         case ControlActions.SKIP_TO_PREVIOUS: {
             if (currentTrack !== queue[0].id) {
-                if (position < 3) {
+                if (position > 3) {
                     yield call(RNTrackPlayer.seekTo, 0);
                 } else {
                     yield call(RNTrackPlayer.skipToPrevious);

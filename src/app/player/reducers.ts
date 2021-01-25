@@ -19,10 +19,20 @@ const unpersistedReducer = createReducer<TrackState>(initialState)
         ...state,
         currentTrack: action.payload,
     }))
-    .handleAction(MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED, (state, action) => ({
-        ...state,
-        queue: action.payload,
-    }));
+    .handleAction(MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED, (state, action) => {
+        const newQueue = [...state.queue];
+
+        newQueue.forEach((item, index) => {
+            if (item.id === state.currentTrack.id) {
+                newQueue.splice(index, 0, action.payload);
+            }
+        });
+
+        return {
+            ...state,
+            queue: newQueue,
+        };
+    });
 
 export const trackReducer = persistReducer(
     {
