@@ -22,11 +22,15 @@ const unpersistedReducer = createReducer<TrackState>(initialState)
     .handleAction(MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED, (state, action) => {
         const newQueue = [...state.queue];
 
-        newQueue.forEach((item, index) => {
-            if (item.id === state.currentTrack.id) {
-                newQueue.splice(index, 0, action.payload);
-            }
-        });
+        if (!action.payload.insertBeforeTrack) {
+            newQueue.push(action.payload.track);
+        } else {
+            state.queue.forEach((item, index) => {
+                if (item.id === action.payload.insertBeforeTrack) {
+                    newQueue.splice(index, 0, action.payload.track);
+                }
+            });
+        }
 
         return {
             ...state,

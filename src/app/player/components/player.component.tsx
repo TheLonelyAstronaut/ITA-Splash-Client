@@ -29,11 +29,21 @@ export const Player: React.FC = () => {
         [dispatch]
     );
 
+    const handleTrackLongPress = useCallback(
+        (track: Track) => {
+            dispatch(MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER(track));
+            alert('IN THE QUEUE');
+        },
+        [dispatch]
+    );
+
     return (
         <View>
             <FlatList
                 data={tracks}
-                renderItem={({ item }) => <TrackComponent track={item} onPress={handleTrackPress} />}
+                renderItem={({ item }) => (
+                    <TrackComponent track={item} onPress={handleTrackPress} onLongPress={handleTrackLongPress} />
+                )}
                 keyExtractor={(item) => item.id}
             />
             <View style={{ flexDirection: 'row' }}>

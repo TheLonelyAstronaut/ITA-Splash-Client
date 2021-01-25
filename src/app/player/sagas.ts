@@ -1,14 +1,37 @@
-import RNTrackPlayer, { State } from 'react-native-track-player';
+import RNTrackPlayer, { State, Track as RNTrack } from 'react-native-track-player';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import { MUSIC_ACTIONS } from './actions';
-import { ControlActions } from './player.state';
+import { ControlActions, Track } from './player.state';
 
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
-    const currentTrackID = yield call(RNTrackPlayer.getCurrentTrack);
-    yield call(RNTrackPlayer.add, action.payload, currentTrackID);
-    yield put(MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED(action.payload));
+    const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
+    const currentTrack = yield call(RNTrackPlayer.getCurrentTrack);
+    let subIndex = 0;
+    let nextTrackID: string | undefined;
+
+    currentQueue.forEach((item, index) => {
+        if (item.id === currentTrack) {
+            if (currentQueue.length > index + 1 && !nextTrackID) {
+                nextTrackID = currentQueue[index + 1].id;
+            }
+        }
+
+        if (item.id.split('_')[0] === action.payload.id) {
+            subIndex++;
+        }
+    });
+
+    const modifiedTrack: Track = { ...action.payload, id: `${action.payload.id}_${subIndex}` };
+
+    yield call(RNTrackPlayer.add, modifiedTrack, nextTrackID);
+    yield put(
+        MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED({
+            track: modifiedTrack,
+            insertBeforeTrack: nextTrackID,
+        })
+    );
 }
 
 export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>): SagaIterator {

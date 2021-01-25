@@ -28,4 +28,15 @@ export function* initializationSaga(dispatch: Dispatch): SagaIterator {
 
         dispatch(MUSIC_ACTIONS.SET_CURRENT_TRACK(currentTrack));
     });
+
+    // Restoring queue and current song, not working now cause redux-persist cant save require() correctly,
+    // it will work when we move song and images to Amazon
+
+    /*const persistedQueue = yield select(getCurrentQueue);
+    const persistedCurrentTrack = yield select(getCurrentTrack);
+
+    if(persistedCurrentTrack && persistedQueue.length) {
+        yield call(RNTrackPlayer.add, [...persistedQueue]);
+        yield call(RNTrackPlayer.skip, {...persistedCurrentTrack});
+    }*/
 }

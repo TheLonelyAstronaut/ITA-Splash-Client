@@ -5,7 +5,16 @@ import { Track, ControlActions } from './player.state';
 export interface Control {
     action: ControlActions;
 }
-export type PlayActionPayload = { track: Track; queue: Track[] };
+
+export interface AddToTheQueuePayload {
+    track: Track;
+    insertBeforeTrack: string | undefined;
+}
+
+export interface PlayActionPayload {
+    track: Track;
+    queue: Track[];
+}
 
 export const MUSIC_ACTIONS = {
     PLAY: {
@@ -14,7 +23,7 @@ export const MUSIC_ACTIONS = {
     },
     ADD_TO_THE_QUEUE: {
         TRIGGER: createAction('[Add To The Queue Triggered]', (payload: Track) => payload),
-        COMPLETED: createAction('[Add To The Queue Completed]', (payload: Track) => payload),
+        COMPLETED: createAction('[Add To The Queue Completed]', (payload: AddToTheQueuePayload) => payload),
     },
     CONTROL: {
         TRIGGER: createAction('[Music Actions Control Triggered]', (payload: Control) => payload),
