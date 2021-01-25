@@ -25,11 +25,8 @@ const unpersistedReducer = createReducer<TrackState>(initialState)
         if (!action.payload.insertBeforeTrack) {
             newQueue.push(action.payload.track);
         } else {
-            state.queue.forEach((item, index) => {
-                if (item.id === action.payload.insertBeforeTrack) {
-                    newQueue.splice(index, 0, action.payload.track);
-                }
-            });
+            const insertBeforeIndex = newQueue.findIndex((track) => track.id === action.payload.insertBeforeTrack);
+            newQueue.splice(insertBeforeIndex, 0, action.payload.track);
         }
 
         return {

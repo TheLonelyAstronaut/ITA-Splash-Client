@@ -8,20 +8,10 @@ import { ControlActions, Track } from './player.state';
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
     const currentTrack = yield call(RNTrackPlayer.getCurrentTrack);
-    let subIndex = 0;
-    let nextTrackID: string | undefined;
 
-    currentQueue.forEach((item, index) => {
-        if (item.id === currentTrack) {
-            if (currentQueue.length > index + 1 && !nextTrackID) {
-                nextTrackID = currentQueue[index + 1].id;
-            }
-        }
-
-        if (item.id.split('_')[0] === action.payload.id) {
-            subIndex++;
-        }
-    });
+    const nextTrackIndex = currentQueue.findIndex((track) => track.id === currentTrack) + 1;
+    const nextTrackID: string | undefined = currentQueue[nextTrackIndex]?.id;
+    const subIndex: number = currentQueue.filter((track) => track.id.split('_')[0] === action.payload.id).length;
 
     const modifiedTrack: Track = { ...action.payload, id: `${action.payload.id}_${subIndex}` };
 
