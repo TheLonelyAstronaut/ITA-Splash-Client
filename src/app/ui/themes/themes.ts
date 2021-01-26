@@ -1,51 +1,52 @@
 import { DefaultTheme } from 'styled-components/native';
 
 import { ThemesEnum } from './theme.state';
+import { Dimensions, StatusBar } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+
+export const DEVICE_SIZE = Dimensions.get('window');
+
+const defaultValues: DefaultTheme = {
+    fontSize: {
+        large: 24,
+        medium: 16,
+        small: 14,
+        extraSmall: 12,
+    },
+    spacer: 8,
+    fontWeight: {
+        bold: 800,
+        standard: 600,
+        normal: 400,
+        thin: 200,
+    },
+    borderRadius: {
+        large: 50,
+        medium: 20,
+        small: 10,
+    },
+    player: {
+        artworkMarginTop: DEVICE_SIZE.height * 0.08 + getStatusBarHeight(),
+        artworkSize: DEVICE_SIZE.width * 0.85,
+        headerHeight: DEVICE_SIZE.height * 0.08,
+        marginHorizontal: DEVICE_SIZE.width * 0.075,
+        marginVertical: DEVICE_SIZE.height * 0.01,
+        controlButtonSize: 50,
+    },
+} as DefaultTheme;
 
 const darkTheme: DefaultTheme = {
+    ...defaultValues,
     colors: {
         main: '#1e272e',
         secondary: '#d2dae2',
         additive: '#2962ff',
         screenBackground: '#222f3e',
     },
-    fontSize: {
-        large: 48,
-        medium: 18,
-        small: 16,
-        extraSmall: 12,
-    },
-    spacer: 8,
-    fontWeight: {
-        bold: 800,
-        normal: 400,
-        thin: 200,
-    },
-    borderRadius: {
-        large: 50,
-        medium: 20,
-        small: 10,
-    },
 };
 
 const lightTheme: DefaultTheme = {
-    fontSize: {
-        large: 48,
-        medium: 18,
-        small: 16,
-        extraSmall: 12,
-    },
-    spacer: 8,
-    fontWeight: {
-        bold: 800,
-        normal: 400,
-        thin: 200,
-    },
-    borderRadius: {
-        large: 50,
-        medium: 20,
-        small: 10,
-    },
+    ...defaultValues,
     colors: {
         main: '#d2dae2',
         secondary: '#1e272e',

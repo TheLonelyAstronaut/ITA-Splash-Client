@@ -11,6 +11,7 @@ declare module 'styled-components' {
         spacer: number;
         fontWeight: {
             bold: number;
+            standard: number;
             normal: number;
             thin: number;
         };
@@ -24,6 +25,14 @@ declare module 'styled-components' {
             secondary: string;
             additive: string;
             screenBackground: string;
+        };
+        player: {
+            artworkSize: number;
+            artworkMarginTop: number;
+            headerHeight: number;
+            marginHorizontal: number;
+            marginVertical: number;
+            controlButtonSize: number;
         };
     }
 }

@@ -18,3 +18,8 @@ export const getCurrentTrack: Selector<ApplicationState, Track> = createSelector
     getRootTrackState,
     (trackState) => trackState.currentTrack
 );
+
+export const getWasTriggeredByUser: Selector<ApplicationState, boolean> = createSelector(
+    getRootTrackState,
+    (trackState) => trackState.triggeredByUser
+);
