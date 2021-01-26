@@ -30,8 +30,8 @@ const SearchSVG: React.FC<SVGProps> = ({ color, size }: SVGProps) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
             >
-                <AnimatedCircle cx={8} cy={8} r={8} stroke={color} />
-                <AnimatedPath d="M18 18l-4.35-4.35" stroke={color} />
+                <AnimatedCircle cx={8} cy={8} r={10} stroke={color} />
+                <AnimatedPath d="M28 31l-14.35-14.35" stroke={color} />
             </G>
         </Svg>
     );
