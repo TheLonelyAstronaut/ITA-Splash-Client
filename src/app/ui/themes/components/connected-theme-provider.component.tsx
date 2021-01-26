@@ -1,13 +1,12 @@
 import React, { ReactNode } from 'react';
 import { Platform, StatusBar } from 'react-native';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { useSelector } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import { DefaultTheme } from 'styled-components/native';
 
 import { getTheme } from '../selectors';
 import { darkTheme, lightTheme, themesCollection, ThemesEnum } from '../themes';
-
-import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 type Props = {
     children: ReactNode;
