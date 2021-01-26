@@ -8,9 +8,9 @@ import { HomeScreenComponent } from './screens/home-screen.component';
 
 const Stack = createStackNavigator<HomeParamList>();
 
-export const HomeStack: React.FC = () => {
+export const HomeStackComponent: React.FC = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator headerMode={'none'}>
             <Stack.Screen name={'HomeScreen'} component={HomeScreenComponent} />
             <Stack.Screen name={'HomePlaylistScreen'} component={PlaylistScreenComponent} />
             <Stack.Screen name={'HomeMusicianScreen'} component={MusicianScreenComponent} />

@@ -758,10 +758,10 @@
     lodash.pick "^4.4.0"
     lodash.template "^4.5.0"
 
-"@gorhom/animated-tabbar@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@gorhom/animated-tabbar/-/animated-tabbar-2.1.0.tgz#56f9ef8f44bc385053f5e7b80309b8390004061b"
-  integrity sha512-hvfzUIYhF5OvMWszcXH9Y/f6sk2GD4kQT1gsbsTMzXmBQMqcVHS2aCxt7x34bxef66SLKV9pL6jM0X+1jJ+xrQ==
+"@gorhom/animated-tabbar@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@gorhom/animated-tabbar/-/animated-tabbar-2.1.1.tgz#2f804646403b9838e9d24af1e994b706262f9515"
+  integrity sha512-KN+fsmqen3g+w0sDPJSnlUrNUtKno+t/4M39+V0rg78v2tM9q7TVlp23SunsY3CmssT+IRVfGX3iMNkzgOzIdQ==
   dependencies:
     lodash.isequal "^4.5.0"
     react-native-redash "15.7.3"
@@ -6796,6 +6796,11 @@ react-native-localize@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-native-localize/-/react-native-localize-2.0.1.tgz#a5bf2f2910260ac2574d5ca5d5f95dc8bbc4ac1f"
   integrity sha512-Tuf26iH7/pHd+yCAORD2EPLhkHdGTMEUXMiiKb4Pz69dE48R7C+MA30EqubE6qTlvAs6gHM+2E5dzLAxcGH5UA==
+
+react-native-navigation-bar-color@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-navigation-bar-color/-/react-native-navigation-bar-color-2.0.1.tgz#ee2be25cc37105f7da355717b0a9a32c9c059ae6"
+  integrity sha512-1kE/oxWt+HYjRxdZdvke9tJ365xaee5n3+euOQA1En8zQuSbOxiE4SYEGM7TeaWnmLJ0l37mRnPHaB2H4mGh0A==
 
 react-native-reanimated@^1.13.2:
   version "1.13.2"

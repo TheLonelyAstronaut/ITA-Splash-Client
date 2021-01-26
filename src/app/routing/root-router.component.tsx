@@ -9,5 +9,5 @@ import { MainStackComponent } from './main-stack.component';
 
 export const RootRouterComponent: React.FC = () => {
     const isLoggedIn = useSelector(getIsLoggedIn);
-    return <NavigationContainer>{isLoggedIn ? <MainStackComponent /> : <AuthStack />}</NavigationContainer>;
+    return <NavigationContainer>{!isLoggedIn ? <MainStackComponent /> : <AuthStack />}</NavigationContainer>;
 };
