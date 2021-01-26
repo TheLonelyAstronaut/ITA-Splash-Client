@@ -4,9 +4,10 @@ import { ThemesEnum } from './theme.state';
 
 const darkTheme: DefaultTheme = {
     colors: {
-        main: 'black',
-        secondary: 'white',
+        main: '#1e272e',
+        secondary: '#d2dae2',
         additive: '#2962ff',
+        screenBackground: '#222f3e',
     },
     fontSize: {
         large: 48,
@@ -46,9 +47,10 @@ const lightTheme: DefaultTheme = {
         small: 10,
     },
     colors: {
-        main: 'white',
-        secondary: 'black',
+        main: '#d2dae2',
+        secondary: '#1e272e',
         additive: '#2962ff',
+        screenBackground: '#f1f2f6',
     },
 };
 

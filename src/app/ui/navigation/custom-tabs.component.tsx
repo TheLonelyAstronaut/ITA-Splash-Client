@@ -1,14 +1,21 @@
 import AnimatedTabBar from '@gorhom/animated-tabbar';
+import { BottomTabBarProps } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useTheme } from 'styled-components/native';
 
 import { generateTabsPreset } from '../../utils/generate-tabs-preset';
-import { getTheme } from '../selectors';
-import { themesCollection } from '../themes';
 
-export const CustomTabBar = (props: any) => {
-    console.log(props);
-    const currentTheme = useSelector(getTheme);
-    const themedTabs = React.useMemo(() => generateTabsPreset(themesCollection[currentTheme]), [currentTheme]);
-    return <AnimatedTabBar preset="flashy" tabs={themedTabs} {...props} />;
+export const CustomTabBar: React.FC<BottomTabBarProps> = (props: BottomTabBarProps) => {
+    const currentTheme = useTheme();
+
+    const themedTabs = React.useMemo(() => generateTabsPreset(currentTheme), [currentTheme]);
+
+    const tabBarStyle = React.useMemo(
+        () => ({
+            backgroundColor: currentTheme.colors.main,
+        }),
+        [currentTheme]
+    );
+
+    return <AnimatedTabBar preset={'flashy'} tabs={themedTabs} style={tabBarStyle} {...props} />;
 };

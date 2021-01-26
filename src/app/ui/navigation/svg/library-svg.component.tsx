@@ -1,18 +1,20 @@
 import * as React from 'react';
+import { StyleProp } from 'react-native';
 import Animated from 'react-native-reanimated';
 import Svg, { Path, PathProps } from 'react-native-svg';
 
 import { SVGProps } from './svg.state';
 
-const AnimatedPath = (Animated.createAnimatedComponent(Path) as any) as React.ComponentClass<
-    Animated.AnimateProps<{}, PathProps & { style?: any }>
+const AnimatedPath = (Animated.createAnimatedComponent(Path) as unknown) as React.ComponentClass<
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    Animated.AnimateProps<{}, PathProps & { style?: StyleProp<{}> }>
 >;
 
 Animated.addWhitelistedNativeProps({
     stroke: true,
 });
 
-const LibrarySVG = ({ color, size }: SVGProps) => {
+const LibrarySVG: React.FC<SVGProps> = ({ color, size }: SVGProps) => {
     return (
         <Svg width={size} height={size} viewBox="0 0 24 24">
             <AnimatedPath

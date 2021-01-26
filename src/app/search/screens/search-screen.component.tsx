@@ -1,10 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
+
+import { Container } from '../../ui/container.component';
 
 export const SearchScreenComponent: React.FC = () => {
     return (
-        <View>
+        <Container>
             <Text>Search screen</Text>
-        </View>
+        </Container>
     );
 };

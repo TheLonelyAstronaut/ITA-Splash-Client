@@ -23,6 +23,7 @@ declare module 'styled-components' {
             main: string;
             secondary: string;
             additive: string;
+            screenBackground: string;
         };
     }
 }
