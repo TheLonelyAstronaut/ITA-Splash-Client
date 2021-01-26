@@ -798,10 +798,10 @@
     lodash.pick "^4.4.0"
     lodash.template "^4.5.0"
 
-"@gorhom/animated-tabbar@^2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@gorhom/animated-tabbar/-/animated-tabbar-2.1.0.tgz#56f9ef8f44bc385053f5e7b80309b8390004061b"
-  integrity sha512-hvfzUIYhF5OvMWszcXH9Y/f6sk2GD4kQT1gsbsTMzXmBQMqcVHS2aCxt7x34bxef66SLKV9pL6jM0X+1jJ+xrQ==
+"@gorhom/animated-tabbar@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@gorhom/animated-tabbar/-/animated-tabbar-2.1.1.tgz#2f804646403b9838e9d24af1e994b706262f9515"
+  integrity sha512-KN+fsmqen3g+w0sDPJSnlUrNUtKno+t/4M39+V0rg78v2tM9q7TVlp23SunsY3CmssT+IRVfGX3iMNkzgOzIdQ==
   dependencies:
     lodash.isequal "^4.5.0"
     react-native-redash "15.7.3"

@@ -1,36 +1,14 @@
+import AnimatedTabBar from '@gorhom/animated-tabbar';
 import React from 'react';
-import { BubbleTabBarItemConfig, TabsConfig } from '@gorhom/animated-tabbar';
-import HomeSVG from './tab-icon.component';
+import { useSelector } from 'react-redux';
 
-const tabs: TabsConfig<BubbleTabBarItemConfig> = {
-    Home: {
-        labelStyle: {
-            color: '#5B37B7',
-        },
-        icon: {
-            component: HomeSVG,
-            activeColor: 'black',
-            inactiveColor: 'white',
-        },
-        background: {
-            activeColor: 'black',
-            inactiveColor: 'white',
-        },
-    },
-    Search: {
-        labelStyle: {
-            color: '#1194AA',
-        },
-        icon: {
-            component: HomeSVG,
-            activeColor: 'black',
-            inactiveColor: 'white',
-        },
-        background: {
-            activeColor: 'black',
-            inactiveColor: 'white',
-        },
-    },
+import { generateTabsPreset } from '../../utils/generate-tabs-preset';
+import { getTheme } from '../selectors';
+import { themesCollection } from '../themes';
+
+export const CustomTabBar = (props: any) => {
+    console.log(props);
+    const currentTheme = useSelector(getTheme);
+    const themedTabs = React.useMemo(() => generateTabsPreset(themesCollection[currentTheme]), [currentTheme]);
+    return <AnimatedTabBar preset="flashy" tabs={themedTabs} {...props} />;
 };
-
-export default tabs;
