@@ -5,6 +5,7 @@ export type AuthParamList = {
     Login: undefined;
     Register: undefined;
     Verification: undefined;
+    Player: undefined;
 };
 
 export type AuthNavigationProps<T extends keyof AuthParamList> = {

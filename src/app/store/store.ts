@@ -5,9 +5,9 @@ import createSagaMiddleware from 'redux-saga';
 
 import { Logger } from '../utils/logger';
 
-import { ApplicationState } from './ApplicationState';
-import { rootReducer } from './rootReducer';
-import { rootSaga } from './rootSaga';
+import { ApplicationState } from './application-state';
+import { rootReducer } from './root-reducer';
+import { rootSaga } from './root-saga';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const DEV_TOOL_ACTION_CREATORS: { [name: string]: (...args: any[]) => AnyAction } = {
@@ -31,7 +31,7 @@ export const createStore = async (): Promise<{ store: Store<ApplicationState>; p
         const p = persistStore(store, null, () => resolve(p));
     });
 
-    await sagaMiddleware.run(rootSaga).toPromise();
+    await sagaMiddleware.run(rootSaga, store.dispatch).toPromise();
 
     return { store, persistor };
 };
