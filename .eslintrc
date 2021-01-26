@@ -54,7 +54,8 @@
       "files": ["*.config.js", "jest/**/*"],
       "env": {
         "commonjs": true,
-        "node": true
+        "node": true,
+        "amd": true
       },
       "rules": {
         "@typescript-eslint/no-var-requires": "off"
