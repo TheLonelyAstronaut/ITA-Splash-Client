@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable } from 'react-native';
+import { Pressable, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import styled, { useTheme } from 'styled-components/native';
 
@@ -9,7 +9,7 @@ export type ControlButtonProps = {
     iconSize: number;
 };
 
-export const ControlButtonWrapper = styled(Pressable)`
+export const ControlButtonWrapper = styled(TouchableOpacity)`
     margin-horizontal: 50px;
     margin-top: 18px;
 `;
@@ -18,9 +18,9 @@ export const PlayControlButton: React.FC<ControlButtonProps> = (props: ControlBu
     const theme = useTheme();
 
     return (
-        <Pressable onPress={props.onPress}>
+        <TouchableOpacity onPress={props.onPress}>
             <Icon name={props.iconName} size={props.iconSize} color={theme.colors.secondary} />
-        </Pressable>
+        </TouchableOpacity>
     );
 };
 
