@@ -1,6 +1,3 @@
-import { Source } from 'react-native-fast-image';
-import { ImageSourcePropType } from 'react-native';
-
 export enum ArtworkType {
     IMAGE,
     VIDEO,
@@ -11,6 +8,7 @@ export type Track = {
     url: string;
     title: string;
     artist: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     artwork: any;
     artworkType: ArtworkType;
 };
@@ -24,5 +22,4 @@ export enum ControlActions {
 export interface TrackState {
     currentTrack: Track;
     queue: Track[];
-    triggeredByUser: boolean;
 }

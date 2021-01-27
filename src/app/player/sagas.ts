@@ -1,10 +1,9 @@
 import RNTrackPlayer, { State, Track as RNTrack } from 'react-native-track-player';
 import { SagaIterator } from 'redux-saga';
-import { call, put, takeLatest, delay, select } from 'redux-saga/effects';
+import { call, put, takeLeading, delay, takeLatest } from 'redux-saga/effects';
 
 import { MUSIC_ACTIONS } from './actions';
 import { ControlActions, Track } from './player.state';
-import { getWasTriggeredByUser } from './selectors';
 
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
@@ -57,12 +56,6 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
             break;
         }
         case ControlActions.SKIP_TO_NEXT: {
-            const wasUserTriggered = yield select(getWasTriggeredByUser);
-
-            if (!wasUserTriggered) {
-                return;
-            }
-
             if (currentTrack !== queue[queue.length - 1].id) {
                 yield call(RNTrackPlayer.skipToNext);
             }
@@ -83,7 +76,7 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
 }
 
 export function* listenControlSaga(): SagaIterator {
-    yield takeLatest(MUSIC_ACTIONS.CONTROL.TRIGGER, controlSaga);
+    yield takeLeading(MUSIC_ACTIONS.CONTROL.TRIGGER, controlSaga);
 }
 
 export function* listenPlaySaga(): SagaIterator {

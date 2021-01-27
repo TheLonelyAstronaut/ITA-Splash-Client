@@ -1,7 +1,7 @@
 import React from 'react';
-import styled, { useTheme } from 'styled-components/native';
-import Icon from 'react-native-vector-icons/dist/AntDesign';
 import { Pressable } from 'react-native';
+import Icon from 'react-native-vector-icons/dist/AntDesign';
+import styled, { useTheme } from 'styled-components/native';
 
 export type ControlButtonProps = {
     onPress: () => void;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { FlatList, ListRenderItemInfo } from 'react-native';
-import Animated from 'react-native-reanimated';
+import { ListRenderItemInfo } from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 import { State, usePlaybackState } from 'react-native-track-player';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
@@ -11,10 +11,10 @@ import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { MUSIC_ACTIONS } from '../actions';
 import { ControlActions, Track } from '../player.state';
-import { getCurrentTrack, getWasTriggeredByUser } from '../selectors';
+import { getCurrentQueue, getCurrentTrack } from '../selectors';
 
-import { PlayerArtwork } from './player-artwork.component';
 import { ControlButton } from './control-button.component';
+import { PlayerArtwork } from './player-artwork.component';
 
 export const InfoWrapper = styled.SafeAreaView`
     height: ${DEVICE_SIZE.height}px;
@@ -57,17 +57,13 @@ export const ButtonWrapper = styled.View`
     margin-top: ${(props) => props.theme.player.marginVertical * 4}px;
 `;
 
-const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
-
 export const Player: React.FC = () => {
-    const dispatch = useDispatch();
     const currentTrack = useSelector(getCurrentTrack);
-    const wasTriggeredByUser = useSelector(getWasTriggeredByUser);
-    const slider = useRef<typeof AnimatedFlatList>(null);
     const theme = useTheme();
     const currentState = usePlaybackState();
-    const [local, setLocal] = React.useState<Track>(currentTrack);
-    //const currentTrackNumber = React.useMemo(() => currentTrack, []);
+    const dispatch = useDispatch();
+    const queue = useSelector(getCurrentQueue);
+    const _carousel = useRef<Carousel<Track>>();
 
     useEffect(() => {
         dispatch(
@@ -78,90 +74,51 @@ export const Player: React.FC = () => {
         );
     }, [dispatch]);
 
-    /*const handleViewableItemsChanged = React.useCallback((item) => {
-        if(item.changed.length === 2) {
-            dispatch(MUSIC_ACTIONS.SET_USER_TRIGGERED_FLAG(true));
-
-            const firstIndex = item.changed[0].index;
-            const secondIndex = item.changed[1].index;
-
-            if(firstIndex < secondIndex) {
-                dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS }));
-            } else {
-                dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_NEXT }));
-            }
-        }
-    }, [dispatch]);*/
-
-    const renderItem = React.useCallback((info: ListRenderItemInfo<Track>) => <PlayerArtwork track={info.item} />, []);
-
-    const animateSwipeToNext = React.useCallback(
-        (track?: Track) => {
-            const index =
-                tracks.findIndex((value) => (track ? track.id === value.id : currentTrack.id === value.id)) +
-                (track ? 1 : 0);
-
-            if (index >= tracks.length) return;
-
-            slider.current.getNode().scrollToIndex({
-                animated: true,
-                index,
-            });
-        },
-        [slider, currentTrack]
-    );
-
-    const animateSwipeToPrevious = React.useCallback(() => {
-        const index = tracks.findIndex((value) => currentTrack.id === value.id) - 1;
-
-        if (index < 0) return;
-
-        slider.current.getNode().scrollToIndex({
-            animated: true,
-            index,
-        });
-    }, [slider, currentTrack]);
-
-    useEffect(() => {
-        if (currentTrack && !wasTriggeredByUser) {
-            animateSwipeToNext();
-        }
-    }, [currentTrack, local, dispatch, wasTriggeredByUser, animateSwipeToNext]);
-
-    useEffect(() => {
-        if (currentState === State.Playing) {
-            dispatch(MUSIC_ACTIONS.SET_USER_TRIGGERED_FLAG(false));
-        }
-    }, [currentState, dispatch]);
-
     const handleNextTrackPress = React.useCallback(() => {
-        dispatch(MUSIC_ACTIONS.SET_USER_TRIGGERED_FLAG(true));
-
-        animateSwipeToNext(currentTrack);
-    }, [animateSwipeToNext, currentTrack, dispatch]);
+        _carousel?.current?.snapToNext();
+    }, [_carousel]);
 
     const handlePreviousTrackPress = React.useCallback(() => {
-        animateSwipeToPrevious();
-    }, [animateSwipeToPrevious]);
+        _carousel?.current?.snapToPrev();
+    }, [_carousel]);
 
     const handlePlayPausePress = React.useCallback(() => {
         dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.PAUSE_RESUME }));
     }, [dispatch]);
 
+    const changeTrackController = React.useCallback(
+        (nextTrack: number) => {
+            const currentIndex = queue.findIndex((item) => item.id === currentTrack.id);
+
+            if (nextTrack > currentIndex) {
+                dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_NEXT }));
+            } else if (nextTrack < currentIndex) {
+                dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS }));
+            }
+        },
+        [queue, currentTrack, dispatch]
+    );
+
+    const renderItem = React.useCallback((info: ListRenderItemInfo<Track>) => <PlayerArtwork track={info.item} />, []);
+
+    useEffect(() => {
+        const currentIndex = queue.findIndex((item) => item.id === currentTrack.id);
+
+        if (currentIndex != _carousel?.current?.currentIndex) {
+            _carousel?.current?.snapToItem(currentIndex);
+        }
+    }, [currentTrack, queue, _carousel]);
+
     return (
         <AvoidingContainer>
-            <AnimatedFlatList<Track>
-                ref={slider}
-                data={tracks}
-                scrollEventThrottle={16}
-                pagingEnabled={true}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                bounces={false}
-                viewabilityConfig={{ viewAreaCoveragePercentThreshold: 50 }}
+            <Carousel
+                ref={(ref) => (_carousel.current = ref as Carousel<Track>)}
+                data={queue}
+                horizontal={true}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id}
-                //onViewableItemsChanged={handleViewableItemsChanged}
+                sliderWidth={DEVICE_SIZE.width}
+                itemWidth={DEVICE_SIZE.width}
+                onSnapToItem={changeTrackController}
             />
             <InfoWrapper pointerEvents={'box-none'}>
                 <HeaderWrapper>
@@ -193,49 +150,3 @@ export const Player: React.FC = () => {
         </AvoidingContainer>
     );
 };
-
-/*
-const dispatch = useDispatch();
-
-    useTrackPlayerEvents(events, (event) => {
-        if (event.type === Event.PlaybackError) {
-            console.warn('An error occurred while playing the current track.');
-        }
-        if (event.type === Event.PlaybackState) {
-            //alert('HERE');
-        }
-    });
-
-    const handleTrackPress = useCallback(
-        (track: Track) => {
-            dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: track, queue: tracks }));
-        },
-        [dispatch]
-    );
-
-    const handleTrackLongPress = useCallback(
-        (track: Track) => {
-            dispatch(MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER(track));
-            alert('IN THE QUEUE');
-        },
-        [dispatch]
-    );
-
-<View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity
-                    onPress={() => dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS }))}
-                >
-                    <Text style={{ marginRight: 20 }}>Previous</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.PAUSE_RESUME }))}
-                >
-                    <Text style={{ marginRight: 20 }}>Play/pause</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_NEXT }))}
-                >
-                    <Text style={{ marginRight: 20 }}>Next</Text>
-                </TouchableOpacity>
-            </View>
- */

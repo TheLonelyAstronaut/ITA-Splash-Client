@@ -1,9 +1,10 @@
+import { BlurView } from '@react-native-community/blur';
 import React from 'react';
 import styled, { useTheme } from 'styled-components/native';
+
+import { Image } from '../../ui/image.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { ArtworkType, Track } from '../player.state';
-import { Image } from '../../ui/image.component';
-import { BlurView } from '@react-native-community/blur';
 
 export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;

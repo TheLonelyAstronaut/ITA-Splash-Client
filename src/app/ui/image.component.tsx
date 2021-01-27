@@ -1,7 +1,8 @@
 import React from 'react';
-import FastImage, { ImageStyle, Source } from 'react-native-fast-image';
+import FastImage, { ImageStyle } from 'react-native-fast-image';
 
 export type CustomImageProps = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     source: any;
     style: ImageStyle;
     blurred?: boolean;

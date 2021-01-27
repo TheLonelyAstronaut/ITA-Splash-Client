@@ -4,6 +4,7 @@ import { Track, ControlActions } from './player.state';
 
 export interface Control {
     action: ControlActions;
+    trackID?: string;
 }
 
 export interface AddToTheQueuePayload {
