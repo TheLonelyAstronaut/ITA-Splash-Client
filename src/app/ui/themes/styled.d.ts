@@ -32,7 +32,8 @@ declare module 'styled-components' {
             headerHeight: number;
             marginHorizontal: number;
             marginVertical: number;
-            controlButtonSize: number;
+            controlPlayPauseSize: number;
+            controlPrevNextSize: number;
         };
     }
 }

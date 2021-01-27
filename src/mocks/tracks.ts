@@ -2,6 +2,14 @@ import { ArtworkType, Track } from '../app/player/player.state';
 
 export const tracks: Track[] = [
     {
+        id: '0',
+        url: require('../assets/testmp3.mp3'),
+        title: 'test',
+        artist: 'test',
+        artwork: { uri: 'https://media.giphy.com/media/4ck99vdkdx468DQwxB/giphy.gif' },
+        artworkType: ArtworkType.VIDEO,
+    },
+    {
         id: '1',
         url: require('../assets/postmalone.mp3'),
         title: 'Sunflower',

@@ -13,8 +13,9 @@ import { MUSIC_ACTIONS } from '../actions';
 import { ControlActions, Track } from '../player.state';
 import { getCurrentQueue, getCurrentTrack } from '../selectors';
 
-import { ControlButton } from './control-button.component';
+import { PlayControlButton, SkipControlButton } from './control-button.component';
 import { PlayerArtwork } from './player-artwork.component';
+import { TrackProgressSlider } from './tarck-progress-slider.component';
 
 export const InfoWrapper = styled.SafeAreaView`
     height: ${DEVICE_SIZE.height}px;
@@ -54,7 +55,7 @@ export const ArtistName = styled(RegularText)`
 export const ButtonWrapper = styled.View`
     flex-direction: row;
     justify-content: center;
-    margin-top: ${(props) => props.theme.player.marginVertical * 4}px;
+    margin-top: ${(props) => props.theme.player.marginVertical * 3}px;
 `;
 
 export const Player: React.FC = () => {
@@ -99,7 +100,7 @@ export const Player: React.FC = () => {
             if (nextTrack > currentIndex) {
                 dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_NEXT }));
             } else if (nextTrack < currentIndex) {
-                dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS }));
+                dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS, forceSkip: true }));
             }
         },
         [queue, currentTrack, dispatch]
@@ -134,21 +135,22 @@ export const Player: React.FC = () => {
                 <PlayerControlWrapper>
                     <TrackName>{currentTrack.title}</TrackName>
                     <ArtistName>{currentTrack.artist}</ArtistName>
+                    <TrackProgressSlider />
                     <ButtonWrapper>
-                        <ControlButton
+                        <SkipControlButton
                             onPress={handlePreviousTrackPress}
-                            iconName={'stepbackward'}
-                            iconSize={theme.player.controlButtonSize}
+                            iconName={'md-play-skip-back-sharp'}
+                            iconSize={theme.player.controlPrevNextSize}
                         />
-                        <ControlButton
+                        <PlayControlButton
                             onPress={handlePlayPausePress}
-                            iconName={currentState === State.Playing ? 'pausecircle' : 'play'}
-                            iconSize={theme.player.controlButtonSize}
+                            iconName={currentState === State.Playing ? 'pause-circle' : 'play-circle'}
+                            iconSize={theme.player.controlPlayPauseSize}
                         />
-                        <ControlButton
+                        <SkipControlButton
                             onPress={handleNextTrackPress}
-                            iconName={'stepforward'}
-                            iconSize={theme.player.controlButtonSize}
+                            iconName={'md-play-skip-forward-sharp'}
+                            iconSize={theme.player.controlPrevNextSize}
                         />
                     </ButtonWrapper>
                 </PlayerControlWrapper>

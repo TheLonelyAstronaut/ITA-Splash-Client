@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable } from 'react-native';
-import Icon from 'react-native-vector-icons/dist/AntDesign';
+import Icon from 'react-native-vector-icons/dist/Ionicons';
 import styled, { useTheme } from 'styled-components/native';
 
 export type ControlButtonProps = {
@@ -10,10 +10,21 @@ export type ControlButtonProps = {
 };
 
 export const ControlButtonWrapper = styled(Pressable)`
-    margin-horizontal: 10px;
+    margin-horizontal: 50px;
+    margin-top: 18px;
 `;
 
-export const ControlButton: React.FC<ControlButtonProps> = (props: ControlButtonProps) => {
+export const PlayControlButton: React.FC<ControlButtonProps> = (props: ControlButtonProps) => {
+    const theme = useTheme();
+
+    return (
+        <Pressable onPress={props.onPress}>
+            <Icon name={props.iconName} size={props.iconSize} color={theme.colors.secondary} />
+        </Pressable>
+    );
+};
+
+export const SkipControlButton: React.FC<ControlButtonProps> = (props: ControlButtonProps) => {
     const theme = useTheme();
 
     return (

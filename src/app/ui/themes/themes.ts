@@ -31,7 +31,8 @@ const defaultValues: DefaultTheme = {
         headerHeight: DEVICE_SIZE.height * 0.08,
         marginHorizontal: DEVICE_SIZE.width * 0.075,
         marginVertical: DEVICE_SIZE.height * 0.01,
-        controlButtonSize: 50,
+        controlPlayPauseSize: 70,
+        controlPrevNextSize: 35,
     },
 } as DefaultTheme;
 
