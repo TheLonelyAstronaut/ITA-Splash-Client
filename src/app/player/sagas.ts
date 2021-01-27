@@ -63,12 +63,10 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
             break;
         }
         case ControlActions.SKIP_TO_PREVIOUS: {
-            if (currentTrack !== queue[0].id) {
-                if (position > 3) {
-                    yield call(RNTrackPlayer.seekTo, 0);
-                } else {
-                    yield call(RNTrackPlayer.skipToPrevious);
-                }
+            if (position > 3) {
+                yield call(RNTrackPlayer.seekTo, 0);
+            } else {
+                yield call(RNTrackPlayer.skipToPrevious);
             }
             break;
         }

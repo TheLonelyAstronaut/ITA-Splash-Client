@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { State, usePlaybackState } from 'react-native-track-player';
+import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
@@ -78,9 +78,15 @@ export const Player: React.FC = () => {
         _carousel?.current?.snapToNext();
     }, [_carousel]);
 
-    const handlePreviousTrackPress = React.useCallback(() => {
-        _carousel?.current?.snapToPrev();
-    }, [_carousel]);
+    const handlePreviousTrackPress = React.useCallback(async () => {
+        const position = await RNTrackPlayer.getPosition();
+
+        if (position > 3) {
+            dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS }));
+        } else {
+            _carousel?.current?.snapToPrev();
+        }
+    }, [_carousel, dispatch]);
 
     const handlePlayPausePress = React.useCallback(() => {
         dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.PAUSE_RESUME }));
