@@ -1,5 +1,5 @@
 import BottomSheet from '@gorhom/bottom-sheet';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import Animated, { Extrapolate } from 'react-native-reanimated';
 import styled from 'styled-components/native';
 
@@ -7,6 +7,8 @@ import { DEVICE_SIZE } from '../../ui/themes/themes';
 
 import { Player } from './player.component';
 import { Widget } from './widget.component';
+import { BackHandler, StatusBar } from 'react-native';
+import { hideNavigationBar, showNavigationBar } from 'react-native-navigation-bar-color';
 
 export const SheetWrapper = styled.View``;
 
@@ -42,16 +44,41 @@ export type Props = {
 
 export const SwipeableSheet: React.FC<Props> = (props: Props) => {
     const [wasInitialized, setWasInitialized] = React.useState(false);
+    const [currentState, setCurrentState] = React.useState(0);
+
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => [props.paddingBottom, DEVICE_SIZE.height], [props.paddingBottom]);
 
-    const handleSheetChanges = useCallback(() => {
+    const handleSheetChanges = useCallback((index: number) => {
         if (!wasInitialized) {
             setWasInitialized(true);
+        }
+
+        setCurrentState(index);
+
+        if (index) {
+            StatusBar.setHidden(true, 'slide');
+            //hideNavigationBar();
+        } else {
+            StatusBar.setHidden(false, 'slide');
+            //showNavigationBar();
         }
         // We dont need to update it
         // eslint-disable-next-line
     }, []);
+
+    useEffect(() => {
+        const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+            if (currentState) {
+                bottomSheetRef.current?.snapTo(0);
+                return true;
+            }
+
+            return false;
+        });
+
+        return () => sub.remove();
+    }, [bottomSheetRef, currentState]);
 
     const widgetOpacity = props.animatableValue.interpolate({
         inputRange: [props.paddingBottom, props.paddingBottom * 2],
