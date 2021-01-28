@@ -39,7 +39,6 @@ export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>)
 export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRIGGER>): SagaIterator {
     const queue = yield call(RNTrackPlayer.getQueue);
     const currentTrack = yield call(RNTrackPlayer.getCurrentTrack);
-    const progress = yield call(RNTrackPlayer.getPosition);
 
     if (!currentTrack) {
         return;

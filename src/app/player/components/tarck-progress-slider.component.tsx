@@ -1,18 +1,15 @@
-import React from 'react';
+import Slider from '@react-native-community/slider';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { State, useProgress } from 'react-native-track-player';
+import { useProgress } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
-import Slider from '@react-native-community/slider';
 
 import { MUSIC_ACTIONS } from '../actions';
-import Animated, { useValue } from 'react-native-reanimated';
 
 export const TrackProgress = styled(Slider)`
     height: 60px;
 `;
-
-const AnimatedTrackProgress = Animated.createAnimatedComponent(TrackProgress);
 
 export const TimerView = styled.View`
     flex-direction: row;
@@ -37,23 +34,48 @@ const formatTime = (secs) => {
 export const TrackProgressSlider: React.FC = () => {
     const theme = useTheme();
     const { position, duration } = useProgress(500);
+    const [lockedPosition, setLockedPosition] = useState(-1);
+    const [unlockAllowed, setUnlockAllowed] = useState(true);
+    const [triggerUnlocking, setTriggerUnlocking] = useState(false);
     const dispatch = useDispatch();
+
+    const blockAutoupdate = useCallback((value: number) => {
+        setLockedPosition(value);
+        setUnlockAllowed(false);
+    }, []);
 
     const seekTo = React.useCallback(
         (pos) => {
-            return dispatch(MUSIC_ACTIONS.SEEK_TO_POSITION({ position: pos }));
+            dispatch(MUSIC_ACTIONS.SEEK_TO_POSITION({ position: pos }));
+            setLockedPosition(pos);
+            setTriggerUnlocking(true);
         },
         [dispatch]
     );
 
+    const value = React.useMemo(
+        () => (lockedPosition != -1 && !unlockAllowed ? lockedPosition : Math.floor(position)),
+        [position, lockedPosition, unlockAllowed]
+    );
+
+    useEffect(() => {
+        if (lockedPosition != -1 && triggerUnlocking) {
+            setTriggerUnlocking(false);
+            setUnlockAllowed(true);
+        }
+        // We need to trigger this only when position was changed
+        // eslint-disable-next-line
+    }, [position]);
+
     return (
         <View>
-            <AnimatedTrackProgress
+            <TrackProgress
                 minimumValue={0}
-                maximumValue={duration}
-                value={Math.ceil(position)}
+                maximumValue={duration - 1}
+                value={value}
                 minimumTrackTintColor={theme.colors.secondary}
                 maximumTrackTintColor={theme.colors.main}
+                onSlidingStart={blockAutoupdate}
                 onSlidingComplete={seekTo}
                 thumbTintColor={theme.colors.secondary}
             />
