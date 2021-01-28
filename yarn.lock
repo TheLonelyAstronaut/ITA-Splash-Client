@@ -766,6 +766,25 @@
     lodash.isequal "^4.5.0"
     react-native-redash "15.7.3"
 
+"@gorhom/bottom-sheet@^2":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-2.0.5.tgz#aeae862b16492114ff6fcc7cf877331a41ac1bdc"
+  integrity sha512-clF7QX0GWEx0e0ZdTFSoXmreKQMKhkafPn7cud2c0EWKoz61s3MGs0rwJfSHaYoodlKB9mBn6+C5SWx+UW3rUg==
+  dependencies:
+    "@gorhom/portal" "^0.1.4"
+    invariant "^2.2.4"
+    lodash.isequal "^4.5.0"
+    nanoid "^3.1.20"
+    react-native-redash "^14.2.4"
+
+"@gorhom/portal@^0.1.4":
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/@gorhom/portal/-/portal-0.1.4.tgz#ef9e50d4b6c98ebe606a16d22d6cb58d661421b4"
+  integrity sha512-iU3D0i9NureT5ULTvD8moF2FWyFvVGcr/ahcRMDzBblUO1AwwixZRZ+Lf3d6uk0w4ujOQZ7+Az+uUnI+AsXXBw==
+  dependencies:
+    lodash.isequal "^4.5.0"
+    nanoid "^3.1.20"
+
 "@hapi/address@2.x.x":
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
@@ -6076,7 +6095,7 @@ nan@^2.12.1:
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.14.2.tgz#f5376400695168f4cc694ac9393d0c9585eeea19"
   integrity sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
 
-nanoid@^3.1.15:
+nanoid@^3.1.15, nanoid@^3.1.20:
   version "3.1.20"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.20.tgz#badc263c6b1dcf14b71efaa85f6ab4c1d6cfc788"
   integrity sha512-a1cQNyczgKbLX9jwbS/+d7W8fX/RfgYR7lVWwWOGIPNgK2m0MWvrGF6/m4kk6U3QcFMnZf3RIhL0v2Jgh/0Uxw==
@@ -6878,6 +6897,15 @@ react-native-redash@15.7.3:
   version "15.7.3"
   resolved "https://registry.yarnpkg.com/react-native-redash/-/react-native-redash-15.7.3.tgz#40524976857aa7edbed9225985df8f8958505821"
   integrity sha512-L/Ku5mUtOhobQAVt5fMHlvV1tcB2n3Aqg6JxrZBGOuNHYEovocxXiHSY5ZgHpmYwfMpTTgPWIBOWbXRJ/XymWQ==
+  dependencies:
+    abs-svg-path "^0.1.1"
+    normalize-svg-path "^1.0.1"
+    parse-svg-path "^0.1.2"
+
+react-native-redash@^14.2.4:
+  version "14.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-redash/-/react-native-redash-14.2.4.tgz#5dbb4b2f1a7441bb304fe3494b89e0dc9010c8ef"
+  integrity sha512-/1R9UxXv3ffKcrbxolqa2B247Cgd3ikyEm2q1VlBng77Es6PAD4LAOXQ83pBavvwNfOsbhF3ebkbMpJcLaVt3Q==
   dependencies:
     abs-svg-path "^0.1.1"
     normalize-svg-path "^1.0.1"

@@ -81,7 +81,7 @@ export const TrackProgressSlider: React.FC = () => {
             />
             <TimerView>
                 <Timer>{formatTime(position)}</Timer>
-                <Timer>{formatTime(duration)}</Timer>
+                <Timer>{formatTime(duration - position)}</Timer>
             </TimerView>
         </View>
     );

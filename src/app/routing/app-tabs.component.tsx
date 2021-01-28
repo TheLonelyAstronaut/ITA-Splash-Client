@@ -12,7 +12,14 @@ const Tab = createBottomTabNavigator<MainTabsParams>();
 
 const AppTabs: React.FC = () => {
     return (
-        <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
+        <Tab.Navigator
+            tabBar={(props) => <CustomTabBar {...props} />}
+            tabBarOptions={{
+                safeAreaInsets: {
+                    bottom: 0,
+                },
+            }}
+        >
             <Tab.Screen name={'Home'} component={HomeStackComponent} />
             <Tab.Screen name={'Search'} component={SearchStackComponent} />
             <Tab.Screen name={'Library'} component={LibraryStackComponent} />

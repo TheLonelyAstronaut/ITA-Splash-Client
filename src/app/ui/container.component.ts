@@ -6,6 +6,6 @@ export const Container = styled.SafeAreaView`
 `;
 
 export const AvoidingContainer = styled.View`
-    background-color: ${(props) => props.theme.colors.screenBackground};
+    background-color: ${(props) => props.theme.colors.main};
     flex: 1;
 `;

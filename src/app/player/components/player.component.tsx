@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
-import { tracks } from '../../../mocks/tracks';
 import { AvoidingContainer } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
@@ -17,7 +17,7 @@ import { PlayControlButton, SkipControlButton } from './control-button.component
 import { PlayerArtwork } from './player-artwork.component';
 import { TrackProgressSlider } from './tarck-progress-slider.component';
 
-export const InfoWrapper = styled.SafeAreaView`
+export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;
     width: ${DEVICE_SIZE.width}px;
     position: absolute;
@@ -26,6 +26,7 @@ export const InfoWrapper = styled.SafeAreaView`
 
 export const HeaderWrapper = styled.View`
     height: ${(props) => props.theme.player.headerHeight}px;
+    margin-top: ${getStatusBarHeight()}px;
     align-items: center;
     justify-content: center;
 `;
@@ -65,15 +66,6 @@ export const Player: React.FC = () => {
     const dispatch = useDispatch();
     const queue = useSelector(getCurrentQueue);
     const _carousel = useRef<Carousel<Track>>();
-
-    useEffect(() => {
-        dispatch(
-            MUSIC_ACTIONS.PLAY.TRIGGER({
-                track: tracks[0],
-                queue: tracks,
-            })
-        );
-    }, [dispatch]);
 
     const handleNextTrackPress = React.useCallback(() => {
         _carousel?.current?.snapToNext();

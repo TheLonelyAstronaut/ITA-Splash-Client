@@ -9,6 +9,7 @@ declare module 'styled-components' {
             extraSmall: number;
         };
         spacer: number;
+        tabBarHeight: number;
         fontWeight: {
             bold: number;
             standard: number;

@@ -14,6 +14,7 @@ const defaultValues: DefaultTheme = {
         extraSmall: 12,
     },
     spacer: 8,
+    tabBarHeight: 68,
     fontWeight: {
         bold: 800,
         standard: 600,

@@ -1,5 +1,3 @@
-import AsyncStorage from '@react-native-community/async-storage';
-import { persistReducer } from 'redux-persist';
 import { createReducer } from 'typesafe-redux-helpers';
 
 import { MUSIC_ACTIONS } from './actions';
@@ -10,7 +8,7 @@ const initialState: TrackState = {
     queue: [],
 };
 
-const unpersistedReducer = createReducer<TrackState>(initialState)
+export const trackReducer = createReducer<TrackState>(initialState)
     .handleAction(MUSIC_ACTIONS.PLAY.COMPLETED, (state, action) => ({
         ...state,
         currentTrack: action.payload.track,
@@ -35,13 +33,3 @@ const unpersistedReducer = createReducer<TrackState>(initialState)
             queue: newQueue,
         };
     });
-
-export const trackReducer = persistReducer(
-    {
-        key: 'track',
-        version: 1,
-        storage: AsyncStorage,
-        debug: true,
-    },
-    unpersistedReducer
-);

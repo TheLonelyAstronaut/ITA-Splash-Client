@@ -1,15 +1,17 @@
 import { BlurView } from '@react-native-community/blur';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
 import { Image } from '../../ui/image.component';
-import { DEVICE_SIZE } from '../../ui/themes/themes';
+import { getTheme } from '../../ui/themes/selectors';
+import { DEVICE_SIZE, ThemesEnum } from '../../ui/themes/themes';
 import { ArtworkType, Track } from '../player.state';
 
 export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;
     width: ${DEVICE_SIZE.width}px;
-    background-color: transparent;
+    background-color: ${(props) => props.theme.colors.main};
     align-items: center;
 `;
 
@@ -19,7 +21,9 @@ export type PlayerArtworkProps = {
 
 export const PlayerArtwork: React.FC<PlayerArtworkProps> = (props: PlayerArtworkProps) => {
     const theme = useTheme();
+    const themeEnum = useSelector(getTheme);
     const artworkType = props.track.artworkType;
+    const blurType = React.useMemo(() => (themeEnum === ThemesEnum.DARK ? 'normal' : 'light'), [themeEnum]);
 
     const getArtwork = React.useCallback((): React.ReactNode => {
         if (artworkType == ArtworkType.IMAGE) {
@@ -56,6 +60,8 @@ export const PlayerArtwork: React.FC<PlayerArtworkProps> = (props: PlayerArtwork
                         height: DEVICE_SIZE.height,
                         position: 'absolute',
                     }}
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    blurType={blurType as any}
                     blurAmount={5}
                 />
             )}
