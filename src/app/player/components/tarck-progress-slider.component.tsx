@@ -1,14 +1,19 @@
 import React from 'react';
 import { View } from 'react-native';
-import { useTrackPlayerProgress } from 'react-native-track-player';
+import { State, useProgress } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
+import Slider from '@react-native-community/slider';
 
 import { MUSIC_ACTIONS } from '../actions';
+import Animated, { useValue } from 'react-native-reanimated';
 
-export const TrackProgress = styled.Slider`
+export const TrackProgress = styled(Slider)`
     height: 60px;
 `;
+
+const AnimatedTrackProgress = Animated.createAnimatedComponent(TrackProgress);
+
 export const TimerView = styled.View`
     flex-direction: row;
     justify-content: space-between;
@@ -31,19 +36,22 @@ const formatTime = (secs) => {
 
 export const TrackProgressSlider: React.FC = () => {
     const theme = useTheme();
-    const { position, duration } = useTrackPlayerProgress();
+    const { position, duration } = useProgress(500);
     const dispatch = useDispatch();
 
-    const seekTo = (pos) => {
-        return dispatch(MUSIC_ACTIONS.SEEK_TO_POSITION({ position: pos }));
-    };
+    const seekTo = React.useCallback(
+        (pos) => {
+            return dispatch(MUSIC_ACTIONS.SEEK_TO_POSITION({ position: pos }));
+        },
+        [dispatch]
+    );
 
     return (
         <View>
-            <TrackProgress
+            <AnimatedTrackProgress
                 minimumValue={0}
                 maximumValue={duration}
-                value={Math.floor(position)}
+                value={Math.ceil(position)}
                 minimumTrackTintColor={theme.colors.secondary}
                 maximumTrackTintColor={theme.colors.main}
                 onSlidingComplete={seekTo}
