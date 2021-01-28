@@ -15,6 +15,7 @@ const defaultValues: DefaultTheme = {
     },
     spacer: 8,
     tabBarHeight: 68,
+    widgetHeight: 58,
     fontWeight: {
         bold: 800,
         standard: 600,

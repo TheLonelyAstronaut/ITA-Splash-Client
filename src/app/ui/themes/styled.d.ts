@@ -10,6 +10,7 @@ declare module 'styled-components' {
         };
         spacer: number;
         tabBarHeight: number;
+        widgetHeight: number;
         fontWeight: {
             bold: number;
             standard: number;

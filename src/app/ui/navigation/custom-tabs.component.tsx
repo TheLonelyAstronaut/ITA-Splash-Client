@@ -53,7 +53,7 @@ export const CustomTabBar: React.FC<BottomTabBarProps> = (props: BottomTabBarPro
             {isPlayerVisible && (
                 <SheetWrapper pointerEvents={'box-none'}>
                     <SwipeableSheet
-                        paddingBottom={currentTheme.tabBarHeight * 2 + safeArea.bottom}
+                        paddingBottom={currentTheme.tabBarHeight + currentTheme.widgetHeight + safeArea.bottom}
                         animatableValue={animatableValue}
                     />
                 </SheetWrapper>

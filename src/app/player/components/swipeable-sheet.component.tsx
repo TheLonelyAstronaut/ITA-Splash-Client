@@ -1,5 +1,6 @@
 import BottomSheet from '@gorhom/bottom-sheet';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
+import { BackHandler, StatusBar } from 'react-native';
 import Animated, { Extrapolate } from 'react-native-reanimated';
 import styled from 'styled-components/native';
 
@@ -7,8 +8,6 @@ import { DEVICE_SIZE } from '../../ui/themes/themes';
 
 import { Player } from './player.component';
 import { Widget } from './widget.component';
-import { BackHandler, StatusBar } from 'react-native';
-import { hideNavigationBar, showNavigationBar } from 'react-native-navigation-bar-color';
 
 export const SheetWrapper = styled.View``;
 
@@ -26,7 +25,7 @@ export const AnimatedPlayerWrapper = Animated.createAnimatedComponent(styled.Vie
 `);
 
 export const AnimatedWidgetWrapper = Animated.createAnimatedComponent(styled.View`
-    height: ${(props) => props.theme.tabBarHeight}px;
+    height: ${(props) => props.theme.widgetHeight}px;
     position: absolute;
     width: ${DEVICE_SIZE.width}px;
 `);
