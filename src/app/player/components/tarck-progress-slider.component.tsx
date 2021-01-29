@@ -74,7 +74,7 @@ export const TrackProgressSlider: React.FC = () => {
                 maximumValue={duration - 1}
                 value={value}
                 minimumTrackTintColor={theme.colors.secondary}
-                maximumTrackTintColor={theme.colors.main}
+                maximumTrackTintColor={theme.colors.sliderColor}
                 onSlidingStart={blockAutoupdate}
                 onSlidingComplete={seekTo}
                 thumbTintColor={theme.colors.secondary}

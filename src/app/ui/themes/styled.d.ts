@@ -27,6 +27,7 @@ declare module 'styled-components' {
             secondary: string;
             additive: string;
             screenBackground: string;
+            sliderColor: string;
         };
         player: {
             artworkSize: number;

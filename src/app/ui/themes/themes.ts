@@ -45,6 +45,7 @@ const darkTheme: DefaultTheme = {
         secondary: '#d2dae2',
         additive: '#2962ff',
         screenBackground: '#222f3e',
+        sliderColor: '#757b80',
     },
 };
 
@@ -55,6 +56,7 @@ const lightTheme: DefaultTheme = {
         secondary: '#1e272e',
         additive: '#2962ff',
         screenBackground: '#f1f2f6',
+        sliderColor: '#6f7982',
     },
 };
 
