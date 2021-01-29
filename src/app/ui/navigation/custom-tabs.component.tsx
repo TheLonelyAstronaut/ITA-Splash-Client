@@ -1,7 +1,8 @@
 import AnimatedTabBar from '@gorhom/animated-tabbar';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import React from 'react';
-import Animated, { useValue, Extrapolate } from 'react-native-reanimated';
+import { Animated as RNAnimated } from 'react-native';
+import { Extrapolate } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { State, usePlaybackState } from 'react-native-track-player';
 import styled, { useTheme } from 'styled-components/native';
@@ -14,7 +15,7 @@ export const TabBarWrapper = styled.View`
     background-color: ${(props) => props.theme.colors.main};
 `;
 
-export const AnimatableTabBarWrapper = Animated.createAnimatedComponent(TabBarWrapper);
+export const AnimatableTabBarWrapper = RNAnimated.createAnimatedComponent(TabBarWrapper);
 
 export const TabBarSafeWrapper = styled.SafeAreaView``;
 
@@ -28,15 +29,19 @@ const states: State[] = [State.None, State.Stopped, State.Ready] as State[];
 
 export const CustomTabBar: React.FC<BottomTabBarProps> = (props: BottomTabBarProps) => {
     const currentTheme = useTheme();
-    const animatableValue = useValue(0);
+    const [animatableValue] = React.useState<RNAnimated.Value>(new RNAnimated.Value(DEVICE_SIZE.height));
     const currentState = usePlaybackState();
     const safeArea = useSafeAreaInsets();
     const themedTabs = React.useMemo(() => generateTabsPreset(currentTheme), [currentTheme]);
     const isPlayerVisible = React.useMemo(() => states.indexOf(currentState) == -1, [currentState]);
+    const minimalPosition = React.useMemo(
+        () => currentTheme.tabBarHeight + currentTheme.widgetHeight + safeArea.bottom,
+        [safeArea, currentTheme]
+    );
 
     const translateY = animatableValue.interpolate({
-        inputRange: [currentTheme.tabBarHeight * 2 + safeArea.bottom, DEVICE_SIZE.height],
-        outputRange: [0, currentTheme.tabBarHeight + safeArea.bottom],
+        inputRange: [0, DEVICE_SIZE.height - minimalPosition],
+        outputRange: [currentTheme.tabBarHeight + safeArea.bottom, 0],
         extrapolate: Extrapolate.CLAMP,
     });
 

@@ -1,4 +1,3 @@
-import { useBottomSheet } from '@gorhom/bottom-sheet';
 import React from 'react';
 import { Pressable } from 'react-native';
 import { State, usePlaybackState } from 'react-native-track-player';
@@ -9,6 +8,7 @@ import styled, { useTheme } from 'styled-components/native';
 import { Image } from '../../ui/image.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { MUSIC_ACTIONS } from '../actions';
+import { openPlayer } from '../player.ref';
 import { ControlActions } from '../player.state';
 import { getCurrentTrack } from '../selectors';
 
@@ -46,7 +46,6 @@ export const PlayButton = styled.TouchableOpacity`
 
 export const Widget: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
-    const { expand } = useBottomSheet();
     const theme = useTheme();
     const dispatch = useDispatch();
     const currentState = usePlaybackState();
@@ -56,7 +55,7 @@ export const Widget: React.FC = () => {
     }, [dispatch]);
 
     return (
-        <WidgetWrapper onPress={expand}>
+        <WidgetWrapper onPress={openPlayer}>
             <Image
                 source={currentTrack.artwork}
                 style={{
