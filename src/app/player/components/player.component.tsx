@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -11,10 +11,11 @@ import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { MUSIC_ACTIONS } from '../actions';
 import { ControlActions, Track } from '../player.state';
-import { getCurrentQueue, getCurrentTrack } from '../selectors';
+import { getCurrentTrack } from '../selectors';
 
 import { PlayControlButton, SkipControlButton } from './control-button.component';
 import { PlayerArtwork } from './player-artwork.component';
+import { SwipeableTrackChanger } from './swipeable-track-changer.component';
 import { TrackProgressSlider } from './tarck-progress-slider.component';
 
 export const InfoWrapper = styled.View`
@@ -64,7 +65,6 @@ export const Player: React.FC = () => {
     const theme = useTheme();
     const currentState = usePlaybackState();
     const dispatch = useDispatch();
-    const queue = useSelector(getCurrentQueue);
     const _carousel = useRef<Carousel<Track>>();
 
     const handleNextTrackPress = React.useCallback(() => {
@@ -85,39 +85,14 @@ export const Player: React.FC = () => {
         dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.PAUSE_RESUME }));
     }, [dispatch]);
 
-    const changeTrackController = React.useCallback(
-        (nextTrack: number) => {
-            const currentIndex = queue.findIndex((item) => item.id === currentTrack.id);
-
-            if (nextTrack > currentIndex) {
-                dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_NEXT }));
-            } else if (nextTrack < currentIndex) {
-                dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS, forceSkip: true }));
-            }
-        },
-        [queue, currentTrack, dispatch]
-    );
-
     const renderItem = React.useCallback((info: ListRenderItemInfo<Track>) => <PlayerArtwork track={info.item} />, []);
-
-    useEffect(() => {
-        const currentIndex = queue.findIndex((item) => item.id === currentTrack.id);
-
-        if (currentIndex != _carousel?.current?.currentIndex) {
-            _carousel?.current?.snapToItem(currentIndex);
-        }
-    }, [currentTrack, queue, _carousel]);
 
     return (
         <AvoidingContainer>
-            <Carousel
-                ref={(ref) => (_carousel.current = ref as Carousel<Track>)}
-                data={queue}
-                horizontal={true}
+            <SwipeableTrackChanger
+                getRef={(ref) => (_carousel.current = ref)}
                 renderItem={renderItem}
-                sliderWidth={DEVICE_SIZE.width}
-                itemWidth={DEVICE_SIZE.width}
-                onSnapToItem={changeTrackController}
+                width={DEVICE_SIZE.width}
             />
             <InfoWrapper pointerEvents={'box-none'}>
                 <HeaderWrapper>

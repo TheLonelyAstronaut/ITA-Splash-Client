@@ -38,5 +38,8 @@ declare module 'styled-components' {
             controlPlayPauseSize: number;
             controlPrevNextSize: number;
         };
+        widget: {
+            iconSize: number;
+        };
     }
 }

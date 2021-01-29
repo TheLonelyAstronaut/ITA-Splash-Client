@@ -36,6 +36,9 @@ const defaultValues: DefaultTheme = {
         controlPlayPauseSize: 70,
         controlPrevNextSize: 35,
     },
+    widget: {
+        iconSize: 26,
+    },
 } as DefaultTheme;
 
 const darkTheme: DefaultTheme = {

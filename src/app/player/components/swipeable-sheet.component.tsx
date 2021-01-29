@@ -85,9 +85,9 @@ export const SwipeableSheet: React.FC<Props> = (props: Props) => {
             } else {
                 StatusBar.setHidden(false, 'slide');
             }
-            // We dont need to update it
-            // eslint-disable-next-line
         },
+        // We dont need to update it
+        // eslint-disable-next-line
         [bottomBorder]
     );
 
