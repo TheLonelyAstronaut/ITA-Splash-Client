@@ -6,8 +6,6 @@ import { Container } from '../../ui/container.component';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
 import { ThemesEnum } from '../../ui/themes/theme.state';
-import { SHOW_FLASHBAR } from '../../utils/flashbar/actions';
-import { FlashbarEnum } from '../../utils/flashbar/flashbar-state';
 
 export const HomeScreenComponent: React.FC = () => {
     const dispatch = useDispatch();
@@ -25,10 +23,6 @@ export const HomeScreenComponent: React.FC = () => {
         <Container>
             <Text>Home screen</Text>
             <Button title={'Change theme'} onPress={handleChangeTheme} />
-            <Button
-                title={'Show message'}
-                onPress={() => dispatch(SHOW_FLASHBAR({ type: FlashbarEnum.Info, message: 'info message' }))}
-            />
         </Container>
     );
 };
