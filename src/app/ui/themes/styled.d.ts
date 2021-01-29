@@ -3,12 +3,18 @@ import 'styled-components';
 declare module 'styled-components' {
     export interface DefaultTheme {
         fontSize: {
+            extraLarge: number;
             large: number;
             medium: number;
             small: number;
             extraSmall: number;
         };
         spacer: number;
+        sliderHeight: number;
+        separator: {
+            borderWidth: number;
+            borderColor: string;
+        };
         tabBarHeight: number;
         widgetHeight: number;
         fontWeight: {

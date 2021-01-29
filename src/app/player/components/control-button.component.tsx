@@ -10,8 +10,8 @@ export type ControlButtonProps = {
 };
 
 export const ControlButtonWrapper = styled(TouchableOpacity)`
-    margin-horizontal: 50px;
-    margin-top: 18px;
+    margin-horizontal: ${(props) => props.theme.spacer * 6}px;
+    margin-top: ${(props) => props.theme.spacer * 2.2}px;
 `;
 
 export const PlayControlButton: React.FC<ControlButtonProps> = (props: ControlButtonProps) => {

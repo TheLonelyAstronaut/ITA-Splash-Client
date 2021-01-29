@@ -20,21 +20,16 @@ export const WidgetWrapper = styled.View`
     height: ${(props) => props.theme.widgetHeight}px;
     background-color: ${(props) => props.theme.colors.main};
     flex-direction: row;
-    border-bottom-width: 1px;
-    border-bottom-color: black;
+    border-bottom-width: ${(props) => props.theme.separator.borderWidth}px;
+    border-color: ${(props) => props.theme.separator.borderColor};
 `;
 
 export const ArtistText = styled(RegularText)`
-    font-size: 14px;
+    font-size: ${(props) => props.theme.fontSize.small}px;
 `;
 
 export const TitleText = styled(BoldText)`
-    font-size: 18px;
-    margin-bottom: 3px;
-`;
-export const Separator = styled.View`
-    border-width: 1px;
-    border-color: black;
+    font-size: ${(props) => props.theme.fontSize.large}px;
 `;
 
 export const PlayButton = styled.TouchableOpacity`
@@ -45,7 +40,7 @@ export const PlayButton = styled.TouchableOpacity`
 export const TrackInfoWrapper = styled(Pressable)`
     width: ${(props) => DEVICE_SIZE.width - props.theme.widget.iconSize - props.theme.widgetHeight}px;
     height: 100%;
-    padding-horizontal: 20px;
+    padding-horizontal: ${(props) => props.theme.spacer * 2}px;
     justify-content: center;
 `;
 

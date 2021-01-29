@@ -8,12 +8,18 @@ export const DEVICE_SIZE = Dimensions.get('window');
 
 const defaultValues: DefaultTheme = {
     fontSize: {
-        large: 24,
+        extraLarge: 24,
+        large: 18,
         medium: 16,
         small: 14,
         extraSmall: 12,
     },
     spacer: 8,
+    sliderHeight: 60,
+    separator: {
+        borderWidth: 1,
+        borderColor: 'black',
+    },
     tabBarHeight: 68,
     widgetHeight: 58,
     fontWeight: {

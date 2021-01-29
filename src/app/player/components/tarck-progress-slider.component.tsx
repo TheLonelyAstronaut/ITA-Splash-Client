@@ -8,7 +8,7 @@ import styled, { useTheme } from 'styled-components/native';
 import { MUSIC_ACTIONS } from '../actions';
 
 export const TrackProgress = styled(Slider)`
-    height: 60px;
+    height: ${(props) => props.theme.sliderHeight}px;
 `;
 
 export const TimerView = styled.View`
