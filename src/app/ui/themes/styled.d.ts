@@ -3,14 +3,23 @@ import 'styled-components';
 declare module 'styled-components' {
     export interface DefaultTheme {
         fontSize: {
+            extraLarge: number;
             large: number;
             medium: number;
             small: number;
             extraSmall: number;
         };
         spacer: number;
+        sliderHeight: number;
+        separator: {
+            borderWidth: number;
+            borderColor: string;
+        };
+        tabBarHeight: number;
+        widgetHeight: number;
         fontWeight: {
             bold: number;
+            standard: number;
             normal: number;
             thin: number;
         };
@@ -24,6 +33,20 @@ declare module 'styled-components' {
             secondary: string;
             additive: string;
             screenBackground: string;
+            sliderColor: string;
+        };
+        player: {
+            artworkSize: number;
+            artworkMarginTop: number;
+            headerHeight: number;
+            marginHorizontal: number;
+            marginVertical: number;
+            controlPlayPauseSize: number;
+            controlPrevNextSize: number;
+        };
+        widget: {
+            iconSize: number;
+            progressHeight: number;
         };
     }
 }

@@ -4,6 +4,8 @@ import { Track, ControlActions } from './player.state';
 
 export interface Control {
     action: ControlActions;
+    trackID?: string;
+    forceSkip?: boolean;
 }
 
 export interface AddToTheQueuePayload {
@@ -14,6 +16,10 @@ export interface AddToTheQueuePayload {
 export interface PlayActionPayload {
     track: Track;
     queue: Track[];
+}
+
+export interface SeekToPayload {
+    position: number;
 }
 
 export const MUSIC_ACTIONS = {
@@ -31,4 +37,6 @@ export const MUSIC_ACTIONS = {
         COMPLETED: createAction('[Music Actions Control Completed]', (payload: Track) => payload), //Sending current track to reducer, we can take this info from TrackPlayer
     },
     SET_CURRENT_TRACK: createAction('[Music Actions Set Current Track]', (payload: Track) => payload),
+    SET_USER_TRIGGERED_FLAG: createAction('[Music Actions Set User Triggered Flag]', (payload: boolean) => payload),
+    SEEK_TO_POSITION: createAction('[Seek to position]', (payload: SeekToPayload) => payload),
 };

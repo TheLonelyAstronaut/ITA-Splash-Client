@@ -1,6 +1,6 @@
 import RNTrackPlayer, { State, Track as RNTrack } from 'react-native-track-player';
 import { SagaIterator } from 'redux-saga';
-import { call, put, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLeading, takeLatest } from 'redux-saga/effects';
 
 import { MUSIC_ACTIONS } from './actions';
 import { ControlActions, Track } from './player.state';
@@ -24,6 +24,10 @@ export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_T
     );
 }
 
+export function* seekTo(action: ReturnType<typeof MUSIC_ACTIONS.SEEK_TO_POSITION>): SagaIterator {
+    yield call(RNTrackPlayer.seekTo, action.payload.position);
+}
+
 export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>): SagaIterator {
     yield call(RNTrackPlayer.reset);
     yield call(RNTrackPlayer.add, [...action.payload.queue]);
@@ -35,7 +39,6 @@ export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>)
 export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRIGGER>): SagaIterator {
     const queue = yield call(RNTrackPlayer.getQueue);
     const currentTrack = yield call(RNTrackPlayer.getCurrentTrack);
-    const position = yield call(RNTrackPlayer.getPosition);
 
     if (!currentTrack) {
         return;
@@ -61,12 +64,10 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
             break;
         }
         case ControlActions.SKIP_TO_PREVIOUS: {
-            if (currentTrack !== queue[0].id) {
-                if (position > 3) {
-                    yield call(RNTrackPlayer.seekTo, 0);
-                } else {
-                    yield call(RNTrackPlayer.skipToPrevious);
-                }
+            if (!action.payload.forceSkip) {
+                yield call(RNTrackPlayer.seekTo, 0);
+            } else {
+                yield call(RNTrackPlayer.skipToPrevious);
             }
             break;
         }
@@ -74,7 +75,7 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
 }
 
 export function* listenControlSaga(): SagaIterator {
-    yield takeLatest(MUSIC_ACTIONS.CONTROL.TRIGGER, controlSaga);
+    yield takeLeading(MUSIC_ACTIONS.CONTROL.TRIGGER, controlSaga);
 }
 
 export function* listenPlaySaga(): SagaIterator {
@@ -83,4 +84,7 @@ export function* listenPlaySaga(): SagaIterator {
 
 export function* listenAddToQueueSaga(): SagaIterator {
     yield takeLatest(MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER, addToQueueSaga);
+}
+export function* listenSeekTo(): SagaIterator {
+    yield takeLatest(MUSIC_ACTIONS.SEEK_TO_POSITION, seekTo);
 }
