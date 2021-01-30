@@ -1,0 +1,11 @@
+<svg height="20" width="20" viewBox="0 0 24 24">
+    <path
+            d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+            stroke-width="2"
+            fill="none"
+            stroke="#1e272e"
+            fill-rule="evenodd"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+    />
+</svg>
