@@ -46,6 +46,7 @@ declare module 'styled-components' {
         };
         widget: {
             iconSize: number;
+            progressHeight: number;
         };
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListRenderItemInfo, Pressable, View } from 'react-native';
+import { ListRenderItemInfo, Pressable } from 'react-native';
 import { State, usePlaybackState, useProgress } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,13 +19,14 @@ export const WidgetWrapper = styled.View`
     width: ${DEVICE_SIZE.width}px;
     height: ${(props) => props.theme.widgetHeight}px;
     background-color: ${(props) => props.theme.colors.main};
-    flex-direction: row;
 `;
 
-export const Separator = styled.View`
-    background-color: ${(props) => props.theme.separator.borderColor};
-    height: ${(props) => props.theme.separator.borderWidth};
-    margin-top: -3px;
+export const TrackControl = styled.View`
+    width: ${DEVICE_SIZE.width}px;
+    height: ${(props) => props.theme.widgetHeight - props.theme.separator.borderWidth}px;
+    background-color: ${(props) => props.theme.colors.main};
+    border-bottom-width: ${(props) => props.theme.separator.borderWidth};
+    flex-direction: row;
 `;
 
 export const ArtistText = styled(RegularText)`
@@ -47,9 +48,19 @@ export const TrackInfoWrapper = styled(Pressable)`
     padding-horizontal: ${(props) => props.theme.spacer * 2}px;
     justify-content: center;
 `;
-export const ProgressLine = styled.View`
+
+export const ProgressLineWrapper = styled.View`
+    background-color: ${(props) => props.theme.colors.main};
+    height: ${(props) => props.theme.widget.progressHeight}px;
+    position: absolute;
+    margin-top: -${(props) => props.theme.widget.progressHeight}px;
+    width: ${DEVICE_SIZE.width};
+`;
+
+export const ProgressLine = styled.View<{ width: number }>`
     background-color: ${(props) => props.theme.colors.secondary};
-    height: 2px;
+    width: ${(props) => props.width}px;
+    height: 100%;
 `;
 
 export const Widget: React.FC = () => {
@@ -59,10 +70,15 @@ export const Widget: React.FC = () => {
     const currentState = usePlaybackState();
     const trackInfoWidth = React.useMemo(() => DEVICE_SIZE.width - theme.widget.iconSize - theme.widgetHeight, [theme]);
     const { position, duration } = useProgress();
+    const imageDimension = React.useMemo(() => theme.widgetHeight - theme.separator.borderWidth, [theme]);
 
-    const getProgress = () => {
-        return (position / duration) * 100;
-    };
+    const progress = React.useMemo(() => {
+        if (position && duration) {
+            return (position / duration) * DEVICE_SIZE.width;
+        } else {
+            return 0;
+        }
+    }, [position, duration]);
 
     const handlePlayPausePress = React.useCallback(() => {
         dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.PAUSE_RESUME }));
@@ -79,14 +95,13 @@ export const Widget: React.FC = () => {
     );
 
     return (
-        <View>
-            <ProgressLine style={{ width: `${getProgress()}%` }} />
-            <WidgetWrapper>
+        <WidgetWrapper>
+            <TrackControl>
                 <Image
                     source={currentTrack.artwork}
                     style={{
-                        width: theme.widgetHeight - 2,
-                        height: theme.widgetHeight - 2,
+                        width: imageDimension,
+                        height: imageDimension,
                     }}
                 />
                 <SwipeableTrackChanger renderItem={renderItem} width={trackInfoWidth} />
@@ -97,8 +112,10 @@ export const Widget: React.FC = () => {
                         color={theme.colors.secondary}
                     />
                 </PlayButton>
-            </WidgetWrapper>
-            <Separator />
-        </View>
+            </TrackControl>
+            <ProgressLineWrapper>
+                <ProgressLine width={progress} />
+            </ProgressLineWrapper>
+        </WidgetWrapper>
     );
 };

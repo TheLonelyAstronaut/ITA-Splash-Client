@@ -44,6 +44,7 @@ const defaultValues: DefaultTheme = {
     },
     widget: {
         iconSize: 26,
+        progressHeight: 2,
     },
 } as DefaultTheme;
 
