@@ -12,13 +12,6 @@ import { Widget } from './widget.component';
 
 export const SheetWrapper = styled.View``;
 
-export const SheetBackground = styled.View`
-    height: ${DEVICE_SIZE.height}px;
-    width: ${DEVICE_SIZE.width}px;
-    background-color: white;
-    position: absolute;
-`;
-
 export const AnimatedPlayerWrapper = RNAnimated.createAnimatedComponent(styled.View`
     background-color: transparent;
     height: ${DEVICE_SIZE.height}px;
@@ -30,12 +23,6 @@ export const AnimatedWidgetWrapper = RNAnimated.createAnimatedComponent(styled.V
     position: absolute;
     width: ${DEVICE_SIZE.width}px;
 `);
-
-export const BottomSheetBackground = styled.View`
-    height: ${DEVICE_SIZE.height}px;
-    width: ${DEVICE_SIZE.width}px;
-    background-color: ${(props) => props.theme.colors.main};
-`;
 
 export type Props = {
     paddingBottom: number;

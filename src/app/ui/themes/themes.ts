@@ -21,7 +21,7 @@ const defaultValues: DefaultTheme = {
         borderColor: 'black',
     },
     tabBarHeight: 68,
-    widgetHeight: 58,
+    widgetHeight: 55,
     fontWeight: {
         bold: 800,
         standard: 600,

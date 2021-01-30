@@ -1,6 +1,6 @@
 import React from 'react';
-import { ListRenderItemInfo, Pressable } from 'react-native';
-import { State, usePlaybackState } from 'react-native-track-player';
+import { ListRenderItemInfo, Pressable, View } from 'react-native';
+import { State, usePlaybackState, useProgress } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
@@ -20,8 +20,12 @@ export const WidgetWrapper = styled.View`
     height: ${(props) => props.theme.widgetHeight}px;
     background-color: ${(props) => props.theme.colors.main};
     flex-direction: row;
-    border-bottom-width: ${(props) => props.theme.separator.borderWidth}px;
-    border-color: ${(props) => props.theme.separator.borderColor};
+`;
+
+export const Separator = styled.View`
+    background-color: ${(props) => props.theme.separator.borderColor};
+    height: ${(props) => props.theme.separator.borderWidth};
+    margin-top: -3px;
 `;
 
 export const ArtistText = styled(RegularText)`
@@ -43,6 +47,10 @@ export const TrackInfoWrapper = styled(Pressable)`
     padding-horizontal: ${(props) => props.theme.spacer * 2}px;
     justify-content: center;
 `;
+export const ProgressLine = styled.View`
+    background-color: ${(props) => props.theme.colors.secondary};
+    height: 2px;
+`;
 
 export const Widget: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
@@ -50,6 +58,11 @@ export const Widget: React.FC = () => {
     const dispatch = useDispatch();
     const currentState = usePlaybackState();
     const trackInfoWidth = React.useMemo(() => DEVICE_SIZE.width - theme.widget.iconSize - theme.widgetHeight, [theme]);
+    const { position, duration } = useProgress();
+
+    const getProgress = () => {
+        return (position / duration) * 100;
+    };
 
     const handlePlayPausePress = React.useCallback(() => {
         dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.PAUSE_RESUME }));
@@ -66,22 +79,26 @@ export const Widget: React.FC = () => {
     );
 
     return (
-        <WidgetWrapper>
-            <Image
-                source={currentTrack.artwork}
-                style={{
-                    width: theme.widgetHeight,
-                    height: theme.widgetHeight,
-                }}
-            />
-            <SwipeableTrackChanger renderItem={renderItem} width={trackInfoWidth} />
-            <PlayButton onPress={handlePlayPausePress}>
-                <Icon
-                    name={currentState === State.Playing ? 'pause-sharp' : 'play-sharp'}
-                    size={theme.widget.iconSize}
-                    color={theme.colors.secondary}
+        <View>
+            <ProgressLine style={{ width: `${getProgress()}%` }} />
+            <WidgetWrapper>
+                <Image
+                    source={currentTrack.artwork}
+                    style={{
+                        width: theme.widgetHeight - 2,
+                        height: theme.widgetHeight - 2,
+                    }}
                 />
-            </PlayButton>
-        </WidgetWrapper>
+                <SwipeableTrackChanger renderItem={renderItem} width={trackInfoWidth} />
+                <PlayButton onPress={handlePlayPausePress}>
+                    <Icon
+                        name={currentState === State.Playing ? 'pause-sharp' : 'play-sharp'}
+                        size={theme.widget.iconSize}
+                        color={theme.colors.secondary}
+                    />
+                </PlayButton>
+            </WidgetWrapper>
+            <Separator />
+        </View>
     );
 };
