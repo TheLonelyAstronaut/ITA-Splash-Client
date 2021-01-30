@@ -1,5 +1,6 @@
 import React from 'react';
 import { LogBox } from 'react-native';
+import FlashMessage from 'react-native-flash-message';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
@@ -23,6 +24,7 @@ export const App: React.FC = () => {
                     <RootRouterComponent />
                 </ConnectedThemeProvider>
             </Provider>
+            <FlashMessage position={'bottom'} />
         </PersistGate>
     );
 };
