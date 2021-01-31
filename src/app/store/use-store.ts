@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Store } from 'redux';
 import { Persistor } from 'redux-persist';
+import RNBootSplash from 'react-native-bootsplash';
 
 import { Logger } from '../utils/logger';
 
@@ -24,6 +25,7 @@ export const useStore = (): { store: Store; persistor: Persistor } | undefined =
 
             try {
                 // await SplashScreen.hideAsync();
+                await RNBootSplash.hide({ fade: true });
             } catch (err) {
                 Logger.error(new HideSplashScreenError(err));
             }
