@@ -22,7 +22,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="photo_2021-01-13_18-38-46-1024" translatesAutoresizingMaskIntoConstraints="NO" id="Eb7-94-sDL">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Untitled-3-1024" translatesAutoresizingMaskIntoConstraints="NO" id="Eb7-94-sDL">
                                 <rect key="frame" x="54" y="325" width="320" height="221"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -42,6 +42,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="photo_2021-01-13_18-38-46-1024" width="1024" height="1024"/>
+        <image name="Untitled-3-1024" width="1024" height="1024"/>
     </resources>
 </document>
