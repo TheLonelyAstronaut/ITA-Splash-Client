@@ -49,10 +49,12 @@ export const HeaderText = styled(RegularText)`
 
 export const TrackName = styled(BoldText)`
     font-size: ${(props) => props.theme.fontSize.large}px;
+    font-family: ${(props) => props.theme.fontFamily};
 `;
 
 export const ArtistName = styled(RegularText)`
     line-height: 24px;
+    font-family: ${(props) => props.theme.fontFamily};
 `;
 
 export const ButtonWrapper = styled.View`

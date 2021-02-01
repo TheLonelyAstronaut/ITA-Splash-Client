@@ -14,7 +14,7 @@ const defaultValues: DefaultTheme = {
         small: 14,
         extraSmall: 12,
     },
-    fontFamily: Platform.OS === 'ios' ? 'BehrensAntiqua' : 'Behrens Antiqua',
+    fontFamily: Platform.OS === 'ios' ? 'Playfair Display Regular' : 'PlayfairDisplay-Regular',
     spacer: 8,
     sliderHeight: 60,
     separator: {

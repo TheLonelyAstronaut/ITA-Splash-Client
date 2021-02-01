@@ -59,6 +59,13 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>RusMadeInChina.ttf</string>
+		<string>PlayfairDisplay-Regular.ttf</string>
+		<string>electroharmonix.ttf</string>
+		<string>PlayfairDisplay-Medium.ttf</string>
+		<string>PlayfairDisplay-ExtraBold.ttf</string>
+		<string>PlayfairDisplay-Bold.ttf</string>
+		<string>PlayfairDisplay-Black.ttf</string>
 		<string>AntDesign.ttf</string>
 		<string>Behrens Antiqua.ttf</string>
 		<string>Entypo.ttf</string>

@@ -31,10 +31,12 @@ export const TrackControl = styled.View`
 
 export const ArtistText = styled(RegularText)`
     font-size: ${(props) => props.theme.fontSize.small}px;
+    font-family: ${(props) => props.theme.fontFamily};
 `;
 
 export const TitleText = styled(BoldText)`
     font-size: ${(props) => props.theme.fontSize.large}px;
+    font-family: ${(props) => props.theme.fontFamily};
 `;
 
 export const PlayButton = styled.TouchableOpacity`
