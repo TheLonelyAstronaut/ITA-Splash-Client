@@ -6,8 +6,14 @@ export type CustomImageProps = {
     source: any;
     style: ImageStyle;
     blurred?: boolean;
+    onLoadEnd?: () => void;
 };
 
 export const Image: React.FC<CustomImageProps> = (props: CustomImageProps) => (
-    <FastImage style={props.style} source={props.source} resizeMode={FastImage.resizeMode.cover} />
+    <FastImage
+        style={props.style}
+        source={props.source}
+        onLoadEnd={props.onLoadEnd}
+        resizeMode={FastImage.resizeMode.cover}
+    />
 );

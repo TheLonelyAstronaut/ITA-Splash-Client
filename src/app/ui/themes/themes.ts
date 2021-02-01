@@ -51,10 +51,10 @@ const defaultValues: DefaultTheme = {
 const darkTheme: DefaultTheme = {
     ...defaultValues,
     colors: {
-        main: '#1e272e',
+        main: '#1E1E1E',
         secondary: '#d2dae2',
         additive: '#2962ff',
-        screenBackground: '#222f3e',
+        screenBackground: '#000000',
         sliderColor: '#757b80',
     },
 };

@@ -7,6 +7,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { RootRouterComponent } from './app/routing/root-router.component';
 import { useStore } from './app/store/use-store';
 import { ConnectedThemeProvider } from './app/ui/themes/components/connected-theme-provider.component';
+import { SplashScreen } from './app/ui/splash-screen.component';
 
 LogBox.ignoreAllLogs(true);
 
@@ -22,6 +23,7 @@ export const App: React.FC = () => {
             <Provider store={store.store}>
                 <ConnectedThemeProvider>
                     <RootRouterComponent />
+                    <SplashScreen />
                 </ConnectedThemeProvider>
             </Provider>
             <FlashMessage position={'bottom'} />
