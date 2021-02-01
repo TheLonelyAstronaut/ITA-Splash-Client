@@ -35,11 +35,9 @@ export const SplashScreen: React.FC<SplashScreenProps> = (props: SplashScreenPro
         outputColorRange: [lightThemeColor, defaultColor],
     });
 
-    useEffect(() => {
-        RNBootSplash.hide({ fade: true });
-    }, []);
-
     const onLoadEnd = React.useCallback(() => {
+        RNBootSplash.hide({ fade: true });
+
         const hideSplashScreen = () => {
             Animated.timing(opacity, {
                 duration: 400,
