@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { DefaultTheme } from 'styled-components/native';
 
@@ -14,6 +14,7 @@ const defaultValues: DefaultTheme = {
         small: 14,
         extraSmall: 12,
     },
+    fontFamily: Platform.OS === 'ios' ? 'BehrensAntiqua' : 'Behrens Antiqua',
     spacer: 8,
     sliderHeight: 60,
     separator: {

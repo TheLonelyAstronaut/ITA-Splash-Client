@@ -44,6 +44,7 @@ export const PlayerControlWrapper = styled.View`
 
 export const HeaderText = styled(RegularText)`
     font-size: ${(props) => props.theme.fontSize.small}px;
+    font-family: ${(props) => props.theme.fontFamily};
 `;
 
 export const TrackName = styled(BoldText)`

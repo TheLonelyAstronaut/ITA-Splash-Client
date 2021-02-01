@@ -12,6 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		2B786B8F25C89CE4009B77A4 /* Behrens Antiqua.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B786B8E25C89C68009B77A4 /* Behrens Antiqua.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -56,6 +57,9 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Splash/main.m; sourceTree = "<group>"; };
 		17D34B4F46794512BCB6310A /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		1CC6983A3F464474AC30F79C /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		2B786B6925C88B93009B77A4 /* electroharmonix.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = electroharmonix.ttf; path = ../../../../Downloads/electroharmonix/electroharmonix.ttf; sourceTree = "<group>"; };
+		2B786B7625C88F90009B77A4 /* fgfg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = fgfg.ttf; path = ../src/assets/fonts/fgfg.ttf; sourceTree = "<group>"; };
+		2B786B8E25C89C68009B77A4 /* Behrens Antiqua.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Behrens Antiqua.ttf"; path = "../src/assets/fonts/Behrens Antiqua.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Splash-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Splash-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Splash-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Splash-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3221670BA5FF4B8DA63ACA11 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -186,6 +190,9 @@
 		648C35E627874EA5A0204EAD /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2B786B8E25C89C68009B77A4 /* Behrens Antiqua.ttf */,
+				2B786B7625C88F90009B77A4 /* fgfg.ttf */,
+				2B786B6925C88B93009B77A4 /* electroharmonix.ttf */,
 				7E7F45DA1E524ED7A9D35C39 /* AntDesign.ttf */,
 				3221670BA5FF4B8DA63ACA11 /* Entypo.ttf */,
 				70DF5F14DD5E41A7A29F263A /* EvilIcons.ttf */,
@@ -385,6 +392,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B786B8F25C89CE4009B77A4 /* Behrens Antiqua.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);

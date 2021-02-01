@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import Animated, { Easing, useValue } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
@@ -19,12 +19,10 @@ export const SplashScreenWrapper = styled.View`
 
 export const AnimatedSplashScreenWrapper = Animated.createAnimatedComponent(SplashScreenWrapper);
 
-export type SplashScreenProps = {};
-
 const defaultColor = themesCollection[ThemesEnum.DARK]?.colors.screenBackground as string;
 const lightThemeColor = themesCollection[ThemesEnum.LIGHT]?.colors.screenBackground as string;
 
-export const SplashScreen: React.FC<SplashScreenProps> = (props: SplashScreenProps) => {
+export const SplashScreen: React.FC = () => {
     const currentTheme = useSelector(getTheme);
     const backgroundState = useValue(1);
     const opacity = useValue(1);

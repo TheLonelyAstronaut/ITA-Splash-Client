@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Store } from 'redux';
 import { Persistor } from 'redux-persist';
-import RNBootSplash from 'react-native-bootsplash';
 
 import { Logger } from '../utils/logger';
 
