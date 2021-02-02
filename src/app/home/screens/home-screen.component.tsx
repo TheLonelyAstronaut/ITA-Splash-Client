@@ -14,10 +14,10 @@ export const HomeScreenComponent: React.FC = () => {
     const currentThemeEnum = useSelector(getTheme);
 
     const handleChangeTheme = React.useCallback(() => {
-        if (currentThemeEnum === ThemesEnum.LIGHT) {
-            dispatch(CHANGE_THEME({ theme: ThemesEnum.DARK }));
+        if (currentThemeEnum === ThemesEnum.DARK) {
+            dispatch(CHANGE_THEME({ theme: ThemesEnum.JAPANESE }));
         } else {
-            dispatch(CHANGE_THEME({ theme: ThemesEnum.LIGHT }));
+            dispatch(CHANGE_THEME({ theme: ThemesEnum.DARK }));
         }
     }, [dispatch, currentThemeEnum]);
 

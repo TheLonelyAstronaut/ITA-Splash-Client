@@ -23,7 +23,9 @@ export const PlayerArtwork: React.FC<PlayerArtworkProps> = (props: PlayerArtwork
     const theme = useTheme();
     const themeEnum = useSelector(getTheme);
     const artworkType = props.track.artworkType;
-    const blurType = React.useMemo(() => (themeEnum === ThemesEnum.DARK ? 'normal' : 'light'), [themeEnum]);
+    const blurType = React.useMemo(() => (themeEnum === ThemesEnum.DARK || ThemesEnum.JAPANESE ? 'normal' : 'light'), [
+        themeEnum,
+    ]);
 
     const getArtwork = React.useCallback((): React.ReactNode => {
         if (artworkType == ArtworkType.IMAGE) {
