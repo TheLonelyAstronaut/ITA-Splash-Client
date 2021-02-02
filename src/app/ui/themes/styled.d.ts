@@ -17,6 +17,13 @@ declare module 'styled-components' {
         };
         tabBarHeight: number;
         widgetHeight: number;
+        fontFamily: {
+            regular: string;
+            medium: string;
+            bold: string;
+            extraBold: string;
+            black: string;
+        };
         fontWeight: {
             bold: number;
             standard: number;

@@ -23,7 +23,7 @@ export const useStore = (): { store: Store; persistor: Persistor } | undefined =
             setIsReady(true);
 
             try {
-                // await SplashScreen.hideAsync();
+                //await RNBootSplash.hide({ fade: true });
             } catch (err) {
                 Logger.error(new HideSplashScreenError(err));
             }

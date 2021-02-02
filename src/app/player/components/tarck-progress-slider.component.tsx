@@ -18,6 +18,7 @@ export const TimerView = styled.View`
 export const Timer = styled.Text`
     color: ${(props) => props.theme.colors.secondary};
     font-size: ${(props) => props.theme.fontSize.small}px;
+    font-family: ${(props) => props.theme.fontFamily.black};
 `;
 
 const formatTime = (secs) => {

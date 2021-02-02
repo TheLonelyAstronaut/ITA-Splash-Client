@@ -16,7 +16,7 @@ export const ConnectedThemeProvider: React.FC<Props> = (props: Props) => {
     const theme = useSelector(getTheme);
 
     const barStyle = React.useMemo(() => {
-        if (theme === ThemesEnum.DARK) {
+        if (theme === ThemesEnum.DARK || ThemesEnum.JAPANESE) {
             if (Platform.OS === 'android') {
                 StatusBar.setBackgroundColor(darkTheme.colors.screenBackground, true);
                 changeNavigationBarColor(darkTheme.colors.main, false, true);

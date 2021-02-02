@@ -38,7 +38,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>audio</string>
@@ -59,7 +59,15 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>RusMadeInChina.ttf</string>
+		<string>PlayfairDisplay-Regular.ttf</string>
+		<string>electroharmonix.ttf</string>
+		<string>PlayfairDisplay-Medium.ttf</string>
+		<string>PlayfairDisplay-ExtraBold.ttf</string>
+		<string>PlayfairDisplay-Bold.ttf</string>
+		<string>PlayfairDisplay-Black.ttf</string>
 		<string>AntDesign.ttf</string>
+		<string>Behrens Antiqua.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
 		<string>Feather.ttf</string>

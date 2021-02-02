@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { DefaultTheme } from 'styled-components/native';
 
@@ -13,6 +13,13 @@ const defaultValues: DefaultTheme = {
         medium: 16,
         small: 14,
         extraSmall: 12,
+    },
+    fontFamily: {
+        regular: Platform.OS === 'ios' ? 'Playfair Display Regular' : 'PlayfairDisplay-Regular',
+        medium: Platform.OS === 'ios' ? 'Playfair Display Medium' : 'PlayfairDisplay-Medium',
+        bold: Platform.OS === 'ios' ? 'Playfair Display Bold' : 'PlayfairDisplay-Bold',
+        extraBold: Platform.OS === 'ios' ? 'Playfair Display ExtraBold' : 'PlayfairDisplay-ExtraBold',
+        black: Platform.OS === 'ios' ? 'Playfair Display Black' : 'PlayfairDisplay-Black',
     },
     spacer: 8,
     sliderHeight: 60,
@@ -51,10 +58,10 @@ const defaultValues: DefaultTheme = {
 const darkTheme: DefaultTheme = {
     ...defaultValues,
     colors: {
-        main: '#1e272e',
+        main: '#1E1E1E',
         secondary: '#d2dae2',
         additive: '#2962ff',
-        screenBackground: '#222f3e',
+        screenBackground: '#000000',
         sliderColor: '#757b80',
     },
 };
@@ -70,9 +77,28 @@ const lightTheme: DefaultTheme = {
     },
 };
 
+const japaneseDarkTheme: DefaultTheme = {
+    ...defaultValues,
+    fontFamily: {
+        regular: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
+        medium: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
+        bold: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
+        extraBold: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
+        black: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
+    },
+    colors: {
+        main: '#1E1E1E',
+        secondary: '#d2dae2',
+        additive: '#2962ff',
+        screenBackground: '#000000',
+        sliderColor: '#757b80',
+    },
+};
+
 const themesCollection: Partial<Record<ThemesEnum, DefaultTheme>> = {
     [ThemesEnum.LIGHT]: lightTheme,
     [ThemesEnum.DARK]: darkTheme,
+    [ThemesEnum.JAPANESE]: japaneseDarkTheme,
 };
 
-export { darkTheme, lightTheme, themesCollection, ThemesEnum };
+export { darkTheme, lightTheme, japaneseDarkTheme, themesCollection, ThemesEnum };
