@@ -2,9 +2,9 @@ import { createSelector, Selector } from 'reselect';
 
 import { ApplicationState } from '../store/application-state';
 
-import { AuthenticationState } from './authentication.state';
+import { Authentication } from './authentication';
 
-export const getRootAuthenticationState: Selector<ApplicationState, AuthenticationState> = createSelector(
+export const getRootAuthenticationState: Selector<ApplicationState, Authentication> = createSelector(
     (state) => state.authentication,
     (authentication) => authentication
 );

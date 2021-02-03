@@ -5,6 +5,8 @@ import { Persistor } from 'redux-persist';
 import { Logger } from '../utils/logger';
 
 import { createStore } from './store';
+import { client } from '../../graphql/api';
+import { ApplicationState } from './application-state';
 
 export class HideSplashScreenError extends Error {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any
@@ -23,7 +25,8 @@ export const useStore = (): { store: Store; persistor: Persistor } | undefined =
             setIsReady(true);
 
             try {
-                //await RNBootSplash.hide({ fade: true });
+                const token = (store.current?.store.getState() as ApplicationState).authentication.token;
+                client.setAuthToken(token ? token : '');
             } catch (err) {
                 Logger.error(new HideSplashScreenError(err));
             }

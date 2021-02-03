@@ -8,8 +8,11 @@ import { RootRouterComponent } from './app/routing/root-router.component';
 import { useStore } from './app/store/use-store';
 import { SplashScreen } from './app/ui/splash-screen.component';
 import { ConnectedThemeProvider } from './app/ui/themes/components/connected-theme-provider.component';
+import { client } from './graphql/api';
 
 LogBox.ignoreAllLogs(true);
+
+console.log(client);
 
 export const App: React.FC = () => {
     const store = useStore();
