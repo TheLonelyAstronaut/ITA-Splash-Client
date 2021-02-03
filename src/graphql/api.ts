@@ -5,8 +5,6 @@ import { setContext } from '@apollo/client/link/context';
 // eslint-disable-next-line import/no-unresolved
 import { SERVER_ADDRESS } from '@env';
 import { AuthCompletedPayload, LoginPayload } from '../app/authentication/authentication';
-import { put } from 'redux-saga/effects';
-import { LOGIN } from '../app/authentication/actions';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;

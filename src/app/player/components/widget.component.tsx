@@ -10,10 +10,11 @@ import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { MUSIC_ACTIONS } from '../actions';
 import { openPlayer } from '../player.ref';
-import { ControlActions, Track } from '../player.state';
+import { ControlActions } from '../player';
 import { getCurrentTrack } from '../selectors';
 
 import { SwipeableTrackChanger } from './swipeable-track-changer.component';
+import { Track } from '../../../types/music';
 
 export const WidgetWrapper = styled.View`
     width: ${DEVICE_SIZE.width}px;

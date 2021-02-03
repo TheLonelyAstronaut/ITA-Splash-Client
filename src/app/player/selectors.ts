@@ -2,7 +2,8 @@ import { createSelector, Selector } from 'reselect';
 
 import { ApplicationState } from '../store/application-state';
 
-import { Track, TrackState } from './player.state';
+import { TrackState } from './player';
+import { Track } from '../../types/music';
 
 export const getRootTrackState: Selector<ApplicationState, TrackState> = createSelector(
     (state) => state.track,

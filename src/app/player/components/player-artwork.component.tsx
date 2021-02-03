@@ -6,7 +6,7 @@ import styled, { useTheme } from 'styled-components/native';
 import { Image } from '../../ui/image.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, ThemesEnum } from '../../ui/themes/themes';
-import { ArtworkType, Track } from '../player.state';
+import { ArtworkType, Track } from '../../../types/music';
 
 export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;

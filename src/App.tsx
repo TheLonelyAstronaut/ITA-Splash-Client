@@ -4,7 +4,7 @@ import FlashMessage from 'react-native-flash-message';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import { RootRouterComponent } from './app/routing/root-router.component';
+import { RootRouterComponent } from './app/routing/components/root-router.component';
 import { useStore } from './app/store/use-store';
 import { SplashScreen } from './app/ui/splash-screen.component';
 import { ConnectedThemeProvider } from './app/ui/themes/components/connected-theme-provider.component';

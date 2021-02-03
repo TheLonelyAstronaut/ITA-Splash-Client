@@ -1,7 +1,8 @@
 import { createReducer } from 'typesafe-redux-helpers';
 
 import { MUSIC_ACTIONS } from './actions';
-import { Track, TrackState } from './player.state';
+import { TrackState } from './player';
+import { Track } from '../../types/music';
 
 const initialState: TrackState = {
     currentTrack: {} as Track,

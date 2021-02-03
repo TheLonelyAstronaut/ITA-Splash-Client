@@ -4,7 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
 import { MUSIC_ACTIONS } from '../player/actions';
-import { Track } from '../player/player.state';
+import { Track } from '../../types/music';
 
 const CAPABILITIES_ARRAY: Capability[] = [
     Capability.Play,

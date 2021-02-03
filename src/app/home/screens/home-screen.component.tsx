@@ -7,7 +7,7 @@ import { MUSIC_ACTIONS } from '../../player/actions';
 import { Container } from '../../ui/container.component';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
-import { ThemesEnum } from '../../ui/themes/theme.state';
+import { ThemesEnum } from '../../ui/themes/theme';
 
 export const HomeScreenComponent: React.FC = () => {
     const dispatch = useDispatch();

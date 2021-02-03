@@ -3,7 +3,8 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, takeLeading, takeLatest } from 'redux-saga/effects';
 
 import { MUSIC_ACTIONS } from './actions';
-import { ControlActions, Track } from './player.state';
+import { ControlActions } from './player';
+import { Track } from '../../types/music';
 
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
