@@ -1,7 +1,8 @@
 import { createAction } from 'typesafe-redux-helpers';
 
-import { ControlActions } from './player.state';
 import { Track } from '../../types/music';
+
+import { ControlActions } from './player.state';
 
 export interface Control {
     action: ControlActions;

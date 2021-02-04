@@ -6,6 +6,7 @@ import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-playe
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
+import { Track } from '../../../types/music';
 import { AvoidingContainer } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
@@ -17,7 +18,6 @@ import { PlayControlButton, SkipControlButton } from './control-button.component
 import { PlayerArtwork } from './player-artwork.component';
 import { SwipeableTrackChanger } from './swipeable-track-changer.component';
 import { TrackProgressSlider } from './tarck-progress-slider.component';
-import { Track } from '../../../types/music';
 
 export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;

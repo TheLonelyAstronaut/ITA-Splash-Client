@@ -3,10 +3,10 @@ import { ListRenderItemInfo } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { Track } from '../../../types/music';
 import { MUSIC_ACTIONS } from '../actions';
 import { ControlActions } from '../player.state';
 import { getCurrentQueue, getCurrentTrack } from '../selectors';
-import { Track } from '../../../types/music';
 
 export type SwipeableTrackChangerProps = {
     getRef?: (ref: Carousel<Track>) => void;

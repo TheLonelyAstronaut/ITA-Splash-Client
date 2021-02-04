@@ -2,13 +2,15 @@ import React from 'react';
 import { Button, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { client } from '../../../graphql/api';
+import { users } from '../../../mocks/users';
+import { REGISTER } from '../../authentication/actions';
 import { MUSIC_ACTIONS } from '../../player/actions';
+import { SEARCH } from '../../search/actions';
 import { Container } from '../../ui/container.component';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
 import { ThemesEnum } from '../../ui/themes/theme.state';
-import { client } from '../../../graphql/api';
-import { users } from '../../../mocks/users';
 
 export const HomeScreenComponent: React.FC = () => {
     const dispatch = useDispatch();
@@ -27,12 +29,12 @@ export const HomeScreenComponent: React.FC = () => {
     }, [dispatch]);
 
     const handleRegister = () => {
-        client.register({ username: 'vlad', login: 'sfvb', password: '234342' });
+        dispatch(REGISTER.TRIGGER({ username: 'vlad', login: 'sfvb', password: '234342' }));
     };
 
-    const handleSearch = () => {
-        const result = client.search('Sunflower');
-        alert(JSON.stringify(result));
+    const handleSearch = async () => {
+        const result = await dispatch(SEARCH('Sunflower'));
+        console.log(result);
     };
 
     return (

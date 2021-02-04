@@ -5,7 +5,6 @@ import { HomeStackComponent } from '../../home/routing';
 import { LibraryStackComponent } from '../../library/routing';
 import { SearchStackComponent } from '../../search/routing';
 import { CustomTabBar } from '../../ui/navigation/custom-tabs.component';
-
 import { MainTabsParams } from '../app-tabs.params';
 
 const Tab = createBottomTabNavigator<MainTabsParams>();

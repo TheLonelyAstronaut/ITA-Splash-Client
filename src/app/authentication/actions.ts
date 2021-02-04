@@ -1,4 +1,5 @@
 import { createAction } from 'typesafe-redux-helpers';
+
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from './authentication';
 
 export const LOGIN = {

@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
+import { Track } from '../../../types/music';
 import { Image } from '../../ui/image.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
@@ -14,7 +15,6 @@ import { ControlActions } from '../player.state';
 import { getCurrentTrack } from '../selectors';
 
 import { SwipeableTrackChanger } from './swipeable-track-changer.component';
-import { Track } from '../../../types/music';
 
 export const WidgetWrapper = styled.View`
     width: ${DEVICE_SIZE.width}px;

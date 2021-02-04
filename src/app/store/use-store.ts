@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Store } from 'redux';
 import { Persistor } from 'redux-persist';
 
+import { client } from '../../graphql/api';
 import { Logger } from '../utils/logger';
 
-import { createStore } from './store';
-import { client } from '../../graphql/api';
 import { ApplicationState } from './application-state';
+import { createStore } from './store';
 
 export class HideSplashScreenError extends Error {
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types, @typescript-eslint/no-explicit-any

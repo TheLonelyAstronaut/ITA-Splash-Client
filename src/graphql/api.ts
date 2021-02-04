@@ -4,11 +4,12 @@ import { setContext } from '@apollo/client/link/context';
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved
 import { SERVER_ADDRESS } from '@env';
+
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication';
-import { tracks } from '../mocks/tracks';
-import { Track } from '../types/music';
 import { playlist } from '../mocks/playlists';
+import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
+import { Track } from '../types/music';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
