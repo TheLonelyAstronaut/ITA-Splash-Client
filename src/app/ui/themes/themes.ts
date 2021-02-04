@@ -2,7 +2,7 @@ import { Dimensions, Platform } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { DefaultTheme } from 'styled-components/native';
 
-import { ThemesEnum } from './theme.state';
+import { ThemesEnum } from './theme.types';
 
 export const DEVICE_SIZE = Dimensions.get('window');
 

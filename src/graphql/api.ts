@@ -6,9 +6,9 @@ import { setContext } from '@apollo/client/link/context';
 import { SERVER_ADDRESS } from '@env';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication';
+import { SearchResult, SearchResultType } from '../app/search/search.types';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
-import { Track } from '../types/music';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
@@ -44,7 +44,7 @@ export class GraphQLAPI {
     };
 
     login = async (payload: LoginPayload): Promise<AuthCompletedPayload> => {
-        const user = await users.filter((user) => user.username === payload.username);
+        const user = users.filter((user) => user.username === payload.username && user.password === payload.password);
         if (user.length > 0) {
             this.setAuthToken(user[0].token);
             return { username: user[0].username, token: user[0].token };
@@ -54,7 +54,7 @@ export class GraphQLAPI {
     };
 
     register = async (payload: RegisterPayload): Promise<void> => {
-        const user = await users.filter((user) => user.username === payload.username);
+        const user = users.filter((user) => user.username === payload.username);
 
         if (user.length > 0) {
             throw new Error('user already exists');
@@ -67,10 +67,10 @@ export class GraphQLAPI {
     //     return playlist;
     // };
 
-    search = async (name: string): Promise<Track[]> => {
-        const result = await tracks.filter((track) => track.title === name);
+    search = async (name: string): Promise<SearchResult[]> => {
+        const result = tracks.filter((track) => track.title === name);
         if (result.length > 0) {
-            return result;
+            return [{ data: result, type: SearchResultType.ARTIST }];
         } else {
             throw new Error('nothing founded');
         }

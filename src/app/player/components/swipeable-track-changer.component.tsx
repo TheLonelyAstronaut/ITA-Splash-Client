@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Track } from '../../../types/music';
 import { MUSIC_ACTIONS } from '../actions';
-import { ControlActions } from '../player.state';
+import { ControlActions } from '../player.types';
 import { getCurrentQueue, getCurrentTrack } from '../selectors';
 
 export type SwipeableTrackChangerProps = {

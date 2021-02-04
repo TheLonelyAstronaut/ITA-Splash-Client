@@ -1,9 +1,8 @@
 import { createSelector, Selector } from 'reselect';
 
-import { Track } from '../../types/music';
 import { ApplicationState } from '../store/application-state';
 
-import { SearchState } from './search.state';
+import { SearchResult, SearchState } from './search.types';
 
 export const getRootSearchState: Selector<ApplicationState, SearchState> = createSelector(
     (state) => state.search,
@@ -15,7 +14,7 @@ export const getSearchText: Selector<ApplicationState, string> = createSelector(
     (search) => search.searchText
 );
 
-export const getSearchResults: Selector<ApplicationState, Track[]> = createSelector(
+export const getSearchResults: Selector<ApplicationState, SearchResult[]> = createSelector(
     getRootSearchState,
     (search) => search.results
 );

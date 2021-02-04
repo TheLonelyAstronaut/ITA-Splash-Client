@@ -11,7 +11,7 @@ import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { MUSIC_ACTIONS } from '../actions';
 import { openPlayer } from '../player.ref';
-import { ControlActions } from '../player.state';
+import { ControlActions } from '../player.types';
 import { getCurrentTrack } from '../selectors';
 
 import { SwipeableTrackChanger } from './swipeable-track-changer.component';

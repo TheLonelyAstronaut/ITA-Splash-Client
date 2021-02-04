@@ -11,7 +11,7 @@ import { AvoidingContainer } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { MUSIC_ACTIONS } from '../actions';
-import { ControlActions } from '../player.state';
+import { ControlActions } from '../player.types';
 import { getCurrentTrack } from '../selectors';
 
 import { PlayControlButton, SkipControlButton } from './control-button.component';

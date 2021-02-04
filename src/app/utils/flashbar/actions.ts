@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-redux-helpers';
 
-import { FlashbarEnum } from './flashbar-state';
+import { FlashbarEnum } from './flashbar';
 
 export interface FlashBarProps {
     type: FlashbarEnum;

@@ -7,7 +7,7 @@ export interface SearchPayload {
     result: Track[];
 }
 
-export const SEARCH = {
+export const SEARCH_ALL = {
     TRIGGER: createAction('[Search Trigger]', (payload: string) => payload),
     STARTED: createAction('[Search Started]', (payload: SearchPayload) => payload),
 };

@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { tracks } from '../../../mocks/tracks';
 import { REGISTER } from '../../authentication/actions';
 import { MUSIC_ACTIONS } from '../../player/actions';
-import { SEARCH } from '../../search/actions';
+import { SEARCH_ALL } from '../../search/actions';
 import { Container } from '../../ui/container.component';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
-import { ThemesEnum } from '../../ui/themes/theme.state';
+import { ThemesEnum } from '../../ui/themes/theme.types';
 
 export const HomeScreenComponent: React.FC = () => {
     const dispatch = useDispatch();
@@ -32,7 +32,7 @@ export const HomeScreenComponent: React.FC = () => {
     };
 
     const handleSearch = () => {
-        dispatch(SEARCH.TRIGGER('Sunflower'));
+        dispatch(SEARCH_ALL.TRIGGER('Sunflower'));
     };
 
     return (

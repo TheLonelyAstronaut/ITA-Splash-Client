@@ -1,11 +1,11 @@
-export interface userProps {
+export interface UserProps {
     login: string;
     password: string;
     username: string;
     token: string;
 }
 
-export const users: userProps[] = [
+export const users: UserProps[] = [
     {
         login: 'vlad',
         password: '123',
