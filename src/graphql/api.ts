@@ -1,4 +1,4 @@
-import { createHttpLink, ApolloClient, InMemoryCache, ApolloQueryResult } from '@apollo/client';
+import { createHttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -6,7 +6,6 @@ import { setContext } from '@apollo/client/link/context';
 import { SERVER_ADDRESS } from '@env';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication';
-import { playlist } from '../mocks/playlists';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
 import { Track } from '../types/music';
@@ -54,32 +53,24 @@ export class GraphQLAPI {
         }
     };
 
-    register = async (payload: RegisterPayload): Promise<any> => {
+    register = async (payload: RegisterPayload): Promise<void> => {
         const user = await users.filter((user) => user.username === payload.username);
 
         if (user.length > 0) {
             throw new Error('user already exists');
         } else {
-            users.push(payload);
+            console.log('registered');
         }
     };
 
-    getTrack = (): Track => {
-        return tracks[0];
-    };
+    // getPLaylistById = (id: number): Playlist[] => {
+    //     return playlist;
+    // };
 
-    getCurrentPlaylist = (): Track[] => {
-        return tracks;
-    };
-
-    getPLaylists = (): Track[][] => {
-        return playlist;
-    };
-
-    search = async (name: string): Promise<Track> => {
+    search = async (name: string): Promise<Track[]> => {
         const result = await tracks.filter((track) => track.title === name);
         if (result.length > 0) {
-            return result[0];
+            return result;
         } else {
             throw new Error('nothing founded');
         }

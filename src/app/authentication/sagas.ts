@@ -6,7 +6,7 @@ import { Logger } from '../utils/logger';
 
 import { LOGIN, REGISTER } from './actions';
 
-export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>) {
+export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>): SagaIterator {
     yield call(client.register, action.payload);
 }
 

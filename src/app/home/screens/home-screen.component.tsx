@@ -2,8 +2,7 @@ import React from 'react';
 import { Button, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { client } from '../../../graphql/api';
-import { users } from '../../../mocks/users';
+import { tracks } from '../../../mocks/tracks';
 import { REGISTER } from '../../authentication/actions';
 import { MUSIC_ACTIONS } from '../../player/actions';
 import { SEARCH } from '../../search/actions';
@@ -25,16 +24,15 @@ export const HomeScreenComponent: React.FC = () => {
     }, [dispatch, currentThemeEnum]);
 
     const handlePlay = React.useCallback(() => {
-        dispatch(MUSIC_ACTIONS.PLAY.TRIGGER());
+        dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: tracks[0], queue: tracks }));
     }, [dispatch]);
 
     const handleRegister = () => {
         dispatch(REGISTER.TRIGGER({ username: 'vlad', login: 'sfvb', password: '234342' }));
     };
 
-    const handleSearch = async () => {
-        const result = await dispatch(SEARCH('Sunflower'));
-        console.log(result);
+    const handleSearch = () => {
+        dispatch(SEARCH.TRIGGER('Sunflower'));
     };
 
     return (

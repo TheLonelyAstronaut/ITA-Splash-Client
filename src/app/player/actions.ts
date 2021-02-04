@@ -26,7 +26,7 @@ export interface SeekToPayload {
 
 export const MUSIC_ACTIONS = {
     PLAY: {
-        TRIGGER: createAction('[Music Actions Play Triggered]'),
+        TRIGGER: createAction('[Music Actions Play Triggered]', (payload: PlayActionPayload) => payload),
         COMPLETED: createAction('[Music Actions Play Completed]', (payload: PlayActionPayload) => payload),
     },
     ADD_TO_THE_QUEUE: {

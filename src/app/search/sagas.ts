@@ -1,14 +1,15 @@
 import { SagaIterator } from 'redux-saga';
-import { call, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLatest } from 'redux-saga/effects';
 
 import { client } from '../../graphql/api';
 
 import { SEARCH } from './actions';
 
-export function* searchSaga(action: ReturnType<typeof SEARCH>): SagaIterator {
-    yield call(client.search, action.payload);
+export function* searchSaga(action: ReturnType<typeof SEARCH.TRIGGER>): SagaIterator {
+    const result = yield call(client.search, action.payload);
+    yield put(SEARCH.STARTED({ text: action.payload, result: result }));
 }
 
 export function* listenForSearchSaga(): SagaIterator {
-    yield takeLatest(SEARCH, searchSaga);
+    yield takeLatest(SEARCH.TRIGGER, searchSaga);
 }

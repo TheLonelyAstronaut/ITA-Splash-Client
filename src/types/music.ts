@@ -16,5 +16,5 @@ export type Track = {
 export type Playlist = {
     tracks: Track[];
     name: string;
-    id: string;
+    id: number;
 };

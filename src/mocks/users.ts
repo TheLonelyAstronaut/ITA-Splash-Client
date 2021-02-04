@@ -2,7 +2,7 @@ export interface userProps {
     login: string;
     password: string;
     username: string;
-    token?: string | any;
+    token: string;
 }
 
 export const users: userProps[] = [
