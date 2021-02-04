@@ -1,8 +1,8 @@
 import { createSelector, Selector } from 'reselect';
 
-import { ApplicationState } from '../store/application-state';
+import { ApplicationState } from '../store/application-state.types';
 
-import { AuthenticationState } from './authentication.state';
+import { AuthenticationState } from './authentication.types';
 
 export const getRootAuthenticationState: Selector<ApplicationState, AuthenticationState> = createSelector(
     (state) => state.authentication,

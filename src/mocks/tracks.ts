@@ -1,4 +1,4 @@
-import { ArtworkType, Track } from '../app/player/player.state';
+import { ArtworkType, Track } from '../types/music';
 
 export const tracks: Track[] = [
     {

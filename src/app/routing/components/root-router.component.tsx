@@ -2,8 +2,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { AuthStack } from '../authentication/routing';
-import { getIsLoggedIn } from '../authentication/selectors';
+import { AuthStack } from '../../authentication/routing';
+import { getIsLoggedIn } from '../../authentication/selectors';
 
 import { MainStackComponent } from './main-stack.component';
 

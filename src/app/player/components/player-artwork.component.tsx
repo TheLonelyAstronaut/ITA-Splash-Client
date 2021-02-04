@@ -3,10 +3,10 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
+import { ArtworkType, Track } from '../../../types/music';
 import { Image } from '../../ui/image.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, ThemesEnum } from '../../ui/themes/themes';
-import { ArtworkType, Track } from '../player.state';
 
 export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;

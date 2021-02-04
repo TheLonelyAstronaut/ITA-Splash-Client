@@ -1,12 +1,11 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
-import { HomeStackComponent } from '../home/routing';
-import { LibraryStackComponent } from '../library/routing';
-import { SearchStackComponent } from '../search/routing';
-import { CustomTabBar } from '../ui/navigation/custom-tabs.component';
-
-import { MainTabsParams } from './app-tabs.params';
+import { HomeStackComponent } from '../../home/routing';
+import { LibraryStackComponent } from '../../library/routing';
+import { SearchStackComponent } from '../../search/routing';
+import { CustomTabBar } from '../../ui/navigation/custom-tabs.component';
+import { MainTabsParams } from '../app-tabs.params';
 
 const Tab = createBottomTabNavigator<MainTabsParams>();
 

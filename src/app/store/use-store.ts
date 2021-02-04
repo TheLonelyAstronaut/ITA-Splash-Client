@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Store } from 'redux';
 import { Persistor } from 'redux-persist';
 
+import { client } from '../../graphql/api';
 import { Logger } from '../utils/logger';
 
+import { ApplicationState } from './application-state.types';
 import { createStore } from './store';
 
 export class HideSplashScreenError extends Error {
@@ -23,7 +25,8 @@ export const useStore = (): { store: Store; persistor: Persistor } | undefined =
             setIsReady(true);
 
             try {
-                //await RNBootSplash.hide({ fade: true });
+                const token = (store.current?.store.getState() as ApplicationState).authentication.token;
+                client.setAuthToken(token ? token : '');
             } catch (err) {
                 Logger.error(new HideSplashScreenError(err));
             }

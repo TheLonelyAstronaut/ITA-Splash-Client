@@ -13,13 +13,8 @@ export type Track = {
     artworkType: ArtworkType;
 };
 
-export enum ControlActions {
-    PAUSE_RESUME,
-    SKIP_TO_NEXT,
-    SKIP_TO_PREVIOUS,
-}
-
-export interface TrackState {
-    currentTrack: Track;
-    queue: Track[];
-}
+export type Playlist = {
+    tracks: Track[];
+    name: string;
+    id: number;
+};

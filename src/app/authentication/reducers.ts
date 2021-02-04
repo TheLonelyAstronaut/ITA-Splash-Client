@@ -4,7 +4,7 @@ import { MigrationManifest, PersistedState } from 'redux-persist/es/types';
 import { createReducer } from 'typesafe-redux-helpers';
 
 import { LOGIN } from './actions';
-import { AuthenticationState } from './authentication.state';
+import { AuthenticationState } from './authentication.types';
 
 const initialState: AuthenticationState = {
     error: undefined,

@@ -5,12 +5,13 @@ import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
+import { Track } from '../../../types/music';
 import { Image } from '../../ui/image.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { MUSIC_ACTIONS } from '../actions';
 import { openPlayer } from '../player.ref';
-import { ControlActions, Track } from '../player.state';
+import { ControlActions } from '../player.types';
 import { getCurrentTrack } from '../selectors';
 
 import { SwipeableTrackChanger } from './swipeable-track-changer.component';

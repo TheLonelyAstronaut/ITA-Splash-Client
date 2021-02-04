@@ -2,8 +2,10 @@ import RNTrackPlayer, { State, Track as RNTrack } from 'react-native-track-playe
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLeading, takeLatest } from 'redux-saga/effects';
 
+import { Track } from '../../types/music';
+
 import { MUSIC_ACTIONS } from './actions';
-import { ControlActions, Track } from './player.state';
+import { ControlActions } from './player.types';
 
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
@@ -33,7 +35,7 @@ export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>)
     yield call(RNTrackPlayer.add, [...action.payload.queue]);
     yield call(RNTrackPlayer.skip, action.payload.track.id);
     yield call(RNTrackPlayer.play);
-    yield put(MUSIC_ACTIONS.PLAY.COMPLETED(action.payload));
+    yield put(MUSIC_ACTIONS.PLAY.COMPLETED({ track: action.payload.track, queue: action.payload.queue }));
 }
 
 export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRIGGER>): SagaIterator {

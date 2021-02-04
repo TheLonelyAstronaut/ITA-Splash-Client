@@ -3,8 +3,8 @@ import { Dispatch } from 'redux';
 import { SagaIterator } from 'redux-saga';
 import { call } from 'redux-saga/effects';
 
+import { Track } from '../../types/music';
 import { MUSIC_ACTIONS } from '../player/actions';
-import { Track } from '../player/player.state';
 
 const CAPABILITIES_ARRAY: Capability[] = [
     Capability.Play,
