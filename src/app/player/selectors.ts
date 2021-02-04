@@ -1,7 +1,7 @@
 import { createSelector, Selector } from 'reselect';
 
 import { Track } from '../../types/music';
-import { ApplicationState } from '../store/application-state';
+import { ApplicationState } from '../store/application-state.types';
 
 import { TrackState } from './player.types';
 

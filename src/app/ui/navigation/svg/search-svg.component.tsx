@@ -3,7 +3,7 @@ import { StyleProp } from 'react-native';
 import Animated from 'react-native-reanimated';
 import Svg, { G, Circle, Path, PathProps, CircleProps } from 'react-native-svg';
 
-import { SVGProps } from './svg';
+import { SVGProps } from './svg.types';
 
 const AnimatedPath = (Animated.createAnimatedComponent(Path) as unknown) as React.ComponentClass<
     // eslint-disable-next-line @typescript-eslint/ban-types

@@ -5,7 +5,7 @@ import { Persistor } from 'redux-persist';
 import { client } from '../../graphql/api';
 import { Logger } from '../utils/logger';
 
-import { ApplicationState } from './application-state';
+import { ApplicationState } from './application-state.types';
 import { createStore } from './store';
 
 export class HideSplashScreenError extends Error {

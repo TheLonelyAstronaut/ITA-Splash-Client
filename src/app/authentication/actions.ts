@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-redux-helpers';
 
-import { AuthCompletedPayload, LoginPayload, RegisterPayload } from './authentication';
+import { AuthCompletedPayload, LoginPayload, RegisterPayload } from './authentication.types';
 
 export const LOGIN = {
     TRIGGER: createAction('[Login] Trigger', (payload: LoginPayload) => payload),

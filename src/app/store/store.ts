@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 
 import { Logger } from '../utils/logger';
 
-import { ApplicationState } from './application-state';
+import { ApplicationState } from './application-state.types';
 import { rootReducer } from './root-reducer';
 import { rootSaga } from './root-saga';
 

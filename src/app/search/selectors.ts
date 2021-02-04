@@ -1,6 +1,6 @@
 import { createSelector, Selector } from 'reselect';
 
-import { ApplicationState } from '../store/application-state';
+import { ApplicationState } from '../store/application-state.types';
 
 import { SearchResult, SearchState } from './search.types';
 

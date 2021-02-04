@@ -5,7 +5,7 @@ import { setContext } from '@apollo/client/link/context';
 // eslint-disable-next-line import/no-unresolved
 import { SERVER_ADDRESS } from '@env';
 
-import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication';
+import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
