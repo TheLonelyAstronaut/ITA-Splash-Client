@@ -1,4 +1,4 @@
-export interface Authentication {
+export interface AuthenticationState {
     isFetching: boolean;
     error?: Error;
     username?: string;
@@ -13,10 +13,16 @@ export interface LoginPayload {
 export interface RegisterPayload {
     username: string;
     password: string;
-    phone: string;
+    login: string;
 }
 
 export interface AuthCompletedPayload {
     username: string;
     token: string;
+}
+
+export interface RegisterCompletedPayload {
+    username: string;
+    login: string;
+    password: string;
 }

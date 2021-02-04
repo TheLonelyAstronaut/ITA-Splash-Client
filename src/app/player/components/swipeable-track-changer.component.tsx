@@ -4,7 +4,7 @@ import Carousel from 'react-native-snap-carousel';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { MUSIC_ACTIONS } from '../actions';
-import { ControlActions } from '../player';
+import { ControlActions } from '../player.state';
 import { getCurrentQueue, getCurrentTrack } from '../selectors';
 import { Track } from '../../../types/music';
 

@@ -3,8 +3,9 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, takeLeading, takeLatest } from 'redux-saga/effects';
 
 import { MUSIC_ACTIONS } from './actions';
-import { ControlActions } from './player';
+import { ControlActions } from './player.state';
 import { Track } from '../../types/music';
+import { client } from '../../graphql/api';
 
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
@@ -29,12 +30,15 @@ export function* seekTo(action: ReturnType<typeof MUSIC_ACTIONS.SEEK_TO_POSITION
     yield call(RNTrackPlayer.seekTo, action.payload.position);
 }
 
-export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>): SagaIterator {
+export function* playSaga(): SagaIterator {
+    const track = client.getTrack();
+    const queue = client.getCurrentPlaylist();
+
     yield call(RNTrackPlayer.reset);
-    yield call(RNTrackPlayer.add, [...action.payload.queue]);
-    yield call(RNTrackPlayer.skip, action.payload.track.id);
+    yield call(RNTrackPlayer.add, [...queue]);
+    yield call(RNTrackPlayer.skip, track.id);
     yield call(RNTrackPlayer.play);
-    yield put(MUSIC_ACTIONS.PLAY.COMPLETED(action.payload));
+    yield put(MUSIC_ACTIONS.PLAY.COMPLETED({ track: track, queue: queue }));
 }
 
 export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRIGGER>): SagaIterator {

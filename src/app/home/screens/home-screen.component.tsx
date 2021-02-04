@@ -2,12 +2,13 @@ import React from 'react';
 import { Button, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { tracks } from '../../../mocks/tracks';
 import { MUSIC_ACTIONS } from '../../player/actions';
 import { Container } from '../../ui/container.component';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
-import { ThemesEnum } from '../../ui/themes/theme';
+import { ThemesEnum } from '../../ui/themes/theme.state';
+import { client } from '../../../graphql/api';
+import { users } from '../../../mocks/users';
 
 export const HomeScreenComponent: React.FC = () => {
     const dispatch = useDispatch();
@@ -22,19 +23,25 @@ export const HomeScreenComponent: React.FC = () => {
     }, [dispatch, currentThemeEnum]);
 
     const handlePlay = React.useCallback(() => {
-        dispatch(
-            MUSIC_ACTIONS.PLAY.TRIGGER({
-                track: tracks[0],
-                queue: tracks,
-            })
-        );
+        dispatch(MUSIC_ACTIONS.PLAY.TRIGGER());
     }, [dispatch]);
+
+    const handleRegister = () => {
+        client.register({ username: 'vlad', login: 'sfvb', password: '234342' });
+    };
+
+    const handleSearch = () => {
+        const result = client.search('Sunflower');
+        alert(JSON.stringify(result));
+    };
 
     return (
         <Container>
             <Text>Home screen</Text>
             <Button title={'Change theme'} onPress={handleChangeTheme} />
             <Button title={'Play'} onPress={handlePlay} />
+            <Button title={'Register'} onPress={handleRegister} />
+            <Button title={'Search'} onPress={handleSearch} />
         </Container>
     );
 };

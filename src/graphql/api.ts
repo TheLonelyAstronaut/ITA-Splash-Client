@@ -4,7 +4,11 @@ import { setContext } from '@apollo/client/link/context';
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved
 import { SERVER_ADDRESS } from '@env';
-import { AuthCompletedPayload, LoginPayload } from '../app/authentication/authentication';
+import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication';
+import { tracks } from '../mocks/tracks';
+import { Track } from '../types/music';
+import { playlist } from '../mocks/playlists';
+import { users } from '../mocks/users';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
@@ -40,11 +44,43 @@ export class GraphQLAPI {
     };
 
     login = async (payload: LoginPayload): Promise<AuthCompletedPayload> => {
-        if (payload.username === 'vlad' && payload.password === '123') {
-            this.setAuthToken('123qwe');
-            return { username: 'vlad', token: '123qwe' };
+        const user = await users.filter((user) => user.username === payload.username);
+        if (user.length > 0) {
+            this.setAuthToken(user[0].token);
+            return { username: user[0].username, token: user[0].token };
         } else {
-            throw new Error('error');
+            throw new Error('invalid input');
+        }
+    };
+
+    register = async (payload: RegisterPayload): Promise<any> => {
+        const user = await users.filter((user) => user.username === payload.username);
+
+        if (user.length > 0) {
+            throw new Error('user already exists');
+        } else {
+            users.push(payload);
+        }
+    };
+
+    getTrack = (): Track => {
+        return tracks[0];
+    };
+
+    getCurrentPlaylist = (): Track[] => {
+        return tracks;
+    };
+
+    getPLaylists = (): Track[][] => {
+        return playlist;
+    };
+
+    search = async (name: string): Promise<Track> => {
+        const result = await tracks.filter((track) => track.title === name);
+        if (result.length > 0) {
+            return result[0];
+        } else {
+            throw new Error('nothing founded');
         }
     };
 }

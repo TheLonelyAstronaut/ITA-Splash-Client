@@ -4,16 +4,16 @@ import { MigrationManifest, PersistedState } from 'redux-persist/es/types';
 import { createReducer } from 'typesafe-redux-helpers';
 
 import { LOGIN } from './actions';
-import { Authentication } from './authentication';
+import { AuthenticationState } from './authentication';
 
-const initialState: Authentication = {
+const initialState: AuthenticationState = {
     error: undefined,
     isFetching: false,
     username: undefined,
     token: undefined,
 };
 
-const unpersistedReducer = createReducer<Authentication>(initialState)
+const unpersistedReducer = createReducer<AuthenticationState>(initialState)
     .handleAction(LOGIN.STARTED, (state, action) => ({
         error: undefined,
         isFetching: true,

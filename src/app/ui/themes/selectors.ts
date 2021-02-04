@@ -2,7 +2,7 @@ import { createSelector, Selector } from 'reselect';
 
 import { ApplicationState } from '../../store/application-state';
 
-import { ThemesEnum, ThemeState } from './theme';
+import { ThemesEnum, ThemeState } from './theme.state';
 
 export const getRootThemeState: Selector<ApplicationState, ThemeState> = createSelector(
     (state) => state.theming,
