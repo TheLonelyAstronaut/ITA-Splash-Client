@@ -1,10 +1,10 @@
 import { createAction } from 'typesafe-redux-helpers';
 
-import { Track } from '../../types/music';
+import { SearchResult } from './search.types';
 
 export interface SearchPayload {
     text: string;
-    result: Track[];
+    result: SearchResult[];
 }
 
 export const SEARCH_ALL = {
