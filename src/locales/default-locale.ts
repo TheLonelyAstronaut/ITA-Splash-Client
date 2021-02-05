@@ -1,4 +1,8 @@
 export interface DefaultLocale {
-    login: string;
-    hello: string;
+    Email: string;
+    Password: string;
+    SignIn: string;
+    SignUp: string;
+    RepeatPassword: string;
+    Name: string;
 }
