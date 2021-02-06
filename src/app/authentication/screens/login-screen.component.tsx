@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components/native';
 
 import { Container } from '../../ui/container.component';
@@ -9,6 +9,7 @@ import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, ThemesEnum } from '../../ui/themes/themes';
 import I18n from '../../utils/i18n';
 import { AuthNavigationProps } from '../routing.params';
+import { LOGIN } from '../actions';
 
 export type LoginScreenProps = AuthNavigationProps<'Login'>;
 
@@ -92,17 +93,17 @@ export const SignUpWrapper = styled.TouchableOpacity`
 `;
 
 export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps) => {
-    //const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const themeKey = useSelector(getTheme);
 
-    // const handleLogin = useCallback(() => {
-    //     dispatch(
-    //         LOGIN.TRIGGER({
-    //             username: 'vlad',
-    //             password: '123',
-    //         })
-    //     );
-    // }, [dispatch]);
+    const handleLogin = useCallback(() => {
+        dispatch(
+            LOGIN.TRIGGER({
+                username: 'vlad',
+                password: '123',
+            })
+        );
+    }, [dispatch]);
     //
     // const handleTheme = useCallback(() => {
     //     dispatch(CHANGE_THEME({ theme: ThemesEnum.LIGHT }));
@@ -129,7 +130,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                         <Input />
                         <InputText>{I18n.t('Password')}</InputText>
                         <Input />
-                        <LinearButton title={'SignIn'} />
+                        <LinearButton title={'SignIn'} onPress={handleLogin} />
                         <SignUpWrapper onPress={() => props.navigation.navigate('Register')}>
                             <SignUpText>{I18n.t('SignUp')}</SignUpText>
                         </SignUpWrapper>

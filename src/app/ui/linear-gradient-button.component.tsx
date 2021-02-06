@@ -18,14 +18,15 @@ export const SingInText = styled.Text`
 `;
 export interface Props {
     title: string;
+    onPress: () => void;
 }
 
-export const LinearButton: React.FC<Props> = (title) => {
+export const LinearButton: React.FC<Props> = (props: Props) => {
     const themeKey = useSelector(getTheme);
     const theme = useMemo(() => themesCollection[themeKey] as DefaultTheme, [themeKey]);
 
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={props.onPress}>
             <LinearGradient
                 useAngle={true}
                 angle={-0.7}
@@ -38,7 +39,7 @@ export const LinearButton: React.FC<Props> = (title) => {
                     marginTop: theme.spacer * 4,
                 }}
             >
-                <SingInText>{I18n.t(`${title.title}`)}</SingInText>
+                <SingInText>{I18n.t(`${props.title}`)}</SingInText>
             </LinearGradient>
         </TouchableOpacity>
     );
