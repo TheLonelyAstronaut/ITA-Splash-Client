@@ -18,7 +18,7 @@ export const SingInText = styled.Text`
 `;
 export interface Props {
     title: string;
-    onPress: () => void;
+    onPress?: () => void;
 }
 
 export const LinearButton: React.FC<Props> = (props: Props) => {
@@ -26,7 +26,7 @@ export const LinearButton: React.FC<Props> = (props: Props) => {
     const theme = useMemo(() => themesCollection[themeKey] as DefaultTheme, [themeKey]);
 
     return (
-        <TouchableOpacity onPress={props.onPress}>
+        <TouchableOpacity onPress={props?.onPress}>
             <LinearGradient
                 useAngle={true}
                 angle={-0.7}
