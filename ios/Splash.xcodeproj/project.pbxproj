@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* SplashTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SplashTests.m */; };
 		0D1F3D2725BB10D6003688E3 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D1F3D2625BB10D6003688E3 /* File.swift */; };
+		0D684C9C25CEA5D9003D3828 /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D684C9B25CEA5D9003D3828 /* PressStart2P-Regular.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -20,7 +21,6 @@
 		2B786BBC25C8ACDD009B77A4 /* PlayfairDisplay-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B786BAE25C8AC4D009B77A4 /* PlayfairDisplay-Regular.ttf */; };
 		2B786BC225C8BD7A009B77A4 /* electroharmonix.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B786BC125C8BD71009B77A4 /* electroharmonix.ttf */; };
 		2B786BCC25C8C029009B77A4 /* RusMadeInChina.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B786BCB25C8C006009B77A4 /* RusMadeInChina.ttf */; };
-		2BC5381325CDFF85007DE517 /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2BC5381225CDFF65007DE517 /* PressStart2P-Regular.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -56,6 +56,7 @@
 		00E356F21AD99517003FC87E /* SplashTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SplashTests.m; sourceTree = "<group>"; };
 		0D1F3D2525BB10D5003688E3 /* Splash-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Splash-Bridging-Header.h"; sourceTree = "<group>"; };
 		0D1F3D2625BB10D6003688E3 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		0D684C9B25CEA5D9003D3828 /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PressStart2P-Regular.ttf"; sourceTree = "<group>"; };
 		1259B0E3006D4A58BCF10284 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Splash.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Splash.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = Splash/AppDelegate.h; sourceTree = "<group>"; };
@@ -73,7 +74,6 @@
 		2B786BB225C8AC4E009B77A4 /* PlayfairDisplay-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PlayfairDisplay-ExtraBold.ttf"; sourceTree = "<group>"; };
 		2B786BC125C8BD71009B77A4 /* electroharmonix.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = electroharmonix.ttf; sourceTree = "<group>"; };
 		2B786BCB25C8C006009B77A4 /* RusMadeInChina.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = RusMadeInChina.ttf; sourceTree = "<group>"; };
-		2BC5381225CDFF65007DE517 /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "PressStart2P-Regular.ttf"; path = "../../../../Downloads/Press_Start_2P/PressStart2P-Regular.ttf"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* Splash-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Splash-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Splash-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Splash-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3221670BA5FF4B8DA63ACA11 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -205,8 +205,8 @@
 			isa = PBXGroup;
 			children = (
 				2B786BCB25C8C006009B77A4 /* RusMadeInChina.ttf */,
-				2BC5381225CDFF65007DE517 /* PressStart2P-Regular.ttf */,
 				2B786BC125C8BD71009B77A4 /* electroharmonix.ttf */,
+				0D684C9B25CEA5D9003D3828 /* PressStart2P-Regular.ttf */,
 				2B786BAC25C8AC4D009B77A4 /* PlayfairDisplay-Black.ttf */,
 				2B786BA825C8AC4D009B77A4 /* PlayfairDisplay-Bold.ttf */,
 				2B786BB225C8AC4E009B77A4 /* PlayfairDisplay-ExtraBold.ttf */,
@@ -281,6 +281,7 @@
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
 				FE9870853E0F4E1D8FA2142D /* [CP] Copy Pods Resources */,
+				255F8F2BD2FE844DF620C2A3 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -303,6 +304,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				8A20F76067F77138B0880FD7 /* [CP] Copy Pods Resources */,
+				E456B6AF852B90F1B90B41BD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -412,7 +414,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2BC5381325CDFF85007DE517 /* PressStart2P-Regular.ttf in Resources */,
 				2B786BCC25C8C029009B77A4 /* RusMadeInChina.ttf in Resources */,
 				2B786BC225C8BD7A009B77A4 /* electroharmonix.ttf in Resources */,
 				2B786BB825C8ACDD009B77A4 /* PlayfairDisplay-Black.ttf in Resources */,
@@ -423,6 +424,7 @@
 				2B786B8F25C89CE4009B77A4 /* Behrens Antiqua.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				0D684C9C25CEA5D9003D3828 /* PressStart2P-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +480,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		255F8F2BD2FE844DF620C2A3 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Splash-SplashTests/Pods-Splash-SplashTests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Splash-SplashTests/Pods-Splash-SplashTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
@@ -608,6 +628,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E456B6AF852B90F1B90B41BD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Splash/Pods-Splash-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Splash/Pods-Splash-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {

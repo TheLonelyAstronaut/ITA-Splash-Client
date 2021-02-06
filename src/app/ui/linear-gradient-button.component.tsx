@@ -28,12 +28,9 @@ export const LinearButton: React.FC<Props> = (title) => {
         <TouchableOpacity>
             <LinearGradient
                 useAngle={true}
-                angle={45}
-                start={{ x: 0.0, y: 0.0 }}
-                end={{ x: 0.0, y: 1.0 }}
-                angleCenter={{ x: 0.5, y: 0.5 }}
-                locations={[0.0, 1]}
-                colors={[theme.colors.additivePink, theme.colors.additiveBlue]}
+                angle={-0.7}
+                angleCenter={{ x: 1, y: 0.5 }}
+                colors={[theme.colors.additiveBlue, theme.colors.additivePink]}
                 style={{
                     width: DEVICE_SIZE.width * 0.71,
                     height: 45,

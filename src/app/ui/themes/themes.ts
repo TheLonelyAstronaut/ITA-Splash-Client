@@ -21,7 +21,7 @@ const defaultValues: DefaultTheme = {
         extraBold: Platform.OS === 'ios' ? 'Playfair Display ExtraBold' : 'PlayfairDisplay-ExtraBold',
         black: Platform.OS === 'ios' ? 'Playfair Display Black' : 'PlayfairDisplay-Black',
     },
-    logoFont: Platform.OS === 'ios' ? 'Playfair Display Black' : 'PressStart2P-Regular',
+    logoFont: 'PressStart2P-Regular',
     spacer: 8,
     sliderHeight: 60,
     separator: {
