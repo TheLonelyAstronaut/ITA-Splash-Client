@@ -4,7 +4,11 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { client } from '../../graphql/api';
 import { Logger } from '../utils/logger';
 
-import { LOGIN, REGISTER } from './actions';
+import { LOGIN, LOGOUT, REGISTER } from './actions';
+
+export function* logoutSaga(): SagaIterator {
+    yield call(client.logout);
+}
 
 export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>): SagaIterator {
     yield call(client.register, action.payload);
@@ -22,6 +26,10 @@ export function* loginSaga(action: ReturnType<typeof LOGIN.TRIGGER>): SagaIterat
         yield call(Logger.error, error);
         yield put(LOGIN.COMPLETED.failed(error));
     }
+}
+
+export function* listenForLogoutSaga(): SagaIterator {
+    yield takeLatest(LOGOUT.TRIGGER, logoutSaga);
 }
 
 export function* listenForLoginSaga(): SagaIterator {

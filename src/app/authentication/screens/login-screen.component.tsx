@@ -1,15 +1,15 @@
-import React, { useCallback } from 'react';
+import React, { useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components/native';
+import styled, { useTheme } from 'styled-components/native';
 
-import { Container } from '../../ui/container.component';
+import { AvoidingContainer } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, ThemesEnum } from '../../ui/themes/themes';
 import I18n from '../../utils/i18n';
-import { AuthNavigationProps } from '../routing.params';
 import { LOGIN } from '../actions';
+import { AuthNavigationProps } from '../routing.params';
 
 export type LoginScreenProps = AuthNavigationProps<'Login'>;
 
@@ -18,7 +18,7 @@ export const Title = styled.Text`
     font-size: ${(props) => props.theme.fontSize.large}px;
     text-align: center;
     font-family: ${(props) => props.theme.logoFont};
-    margin-top: 5px;
+    margin-top: 12px;
 `;
 
 export const LogoContainer = styled.View`
@@ -92,25 +92,25 @@ export const SignUpWrapper = styled.TouchableOpacity`
     margin-left: ${DEVICE_SIZE.width * 0.27};
 `;
 
+export const validateEmail: (string) => boolean = (email: string) => {
+    const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    return re.test(String(email).toLowerCase());
+};
+
 export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps) => {
     const dispatch = useDispatch();
     const themeKey = useSelector(getTheme);
+    const theme = useTheme();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [validation, setValidation] = useState(true);
 
-    const handleLogin = useCallback(() => {
-        dispatch(
-            LOGIN.TRIGGER({
-                username: 'vlad',
-                password: '123',
-            })
-        );
-    }, [dispatch]);
-    //
-    // const handleTheme = useCallback(() => {
-    //     dispatch(CHANGE_THEME({ theme: ThemesEnum.LIGHT }));
-    // }, [dispatch]);
+    const handleLogin = () => {
+        dispatch(LOGIN.TRIGGER({ email: email, password: password }));
+    };
 
     return (
-        <Container>
+        <AvoidingContainer>
             <KeyboardAvoidingView
                 contentContainerStyle={{ flex: 1 }}
                 style={{ flex: 1 }}
@@ -124,12 +124,19 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                 <LogoContainer>
                     <Title>Splash</Title>
                 </LogoContainer>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <InputArea>
                         <EmailText>{I18n.t('Email')}</EmailText>
-                        <Input />
+                        <Input
+                            //eslint-disable-next-line react-native/no-color-literals
+                            style={{ borderColor: validation ? theme.colors.additivePink : 'red' }}
+                            onChangeText={(val) => {
+                                setEmail(val);
+                                setValidation(validateEmail(email));
+                            }}
+                        />
                         <InputText>{I18n.t('Password')}</InputText>
-                        <Input />
+                        <Input secureTextEntry={true} onChangeText={(val) => setPassword(val)} />
                         <LinearButton title={'SignIn'} onPress={handleLogin} />
                         <SignUpWrapper onPress={() => props.navigation.navigate('Register')}>
                             <SignUpText>{I18n.t('SignUp')}</SignUpText>
@@ -137,7 +144,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                     </InputArea>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </Container>
+        </AvoidingContainer>
     );
 };
 

@@ -1,17 +1,19 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { DefaultTheme } from 'styled-components/native';
 
-import { Container } from '../../ui/container.component';
+import { users } from '../../../mocks/users';
+import { AvoidingContainer } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, themesCollection, ThemesEnum } from '../../ui/themes/themes';
 import I18n from '../../utils/i18n';
+import { REGISTER } from '../actions';
 import { AuthNavigationProps } from '../routing.params';
 
-import { BackgroundImage, EmailText, Input, InputText, Title } from './login-screen.component';
+import { BackgroundImage, EmailText, Input, InputText, Title, validateEmail } from './login-screen.component';
 
 export const RegisterInputArea = styled.View`
     background-color: ${(props) => props.theme.colors.main};
@@ -40,25 +42,24 @@ export const LogoWrapper = styled.View`
 export type RegisterScreenProps = AuthNavigationProps<'Register'>;
 
 export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScreenProps) => {
-    //const dispatch = useDispatch();
+    const dispatch = useDispatch();
     const themeKey = useSelector(getTheme);
     const theme = useMemo(() => themesCollection[themeKey] as DefaultTheme, [themeKey]);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [repeatPassword, setRepeatPassword] = useState('');
+    const [name, setName] = useState('');
+    const [validation, setValidation] = useState(true);
 
-    // const handleLogin = useCallback(() => {
-    //     dispatch(
-    //         LOGIN.TRIGGER({
-    //             username: 'vlad',
-    //             password: '123',
-    //         })
-    //     );
-    // }, [dispatch]);
-    //
-    // const handleTheme = useCallback(() => {
-    //     dispatch(CHANGE_THEME({ theme: ThemesEnum.DARK }));
-    // }, [dispatch]);
+    const handleRegister = () => {
+        if (password === repeatPassword) {
+            dispatch(REGISTER.TRIGGER({ email: email, username: name, password: password }));
+            console.log(users);
+        }
+    };
 
     return (
-        <Container>
+        <AvoidingContainer>
             <KeyboardAvoidingView
                 contentContainerStyle={{ flex: 1 }}
                 style={{ flex: 1 }}
@@ -77,21 +78,28 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                         <Title>Splash</Title>
                     </LogoContainer>
                 </LogoWrapper>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     <RegisterInputArea>
                         <EmailText>{I18n.t('Name')}</EmailText>
-                        <Input />
+                        <Input onChangeText={(val) => setName(val)} />
                         <InputText>{I18n.t('Email')}</InputText>
-                        <Input />
+                        <Input
+                            //eslint-disable-next-line react-native/no-color-literals
+                            style={{ borderColor: validation ? theme.colors.additivePink : 'red' }}
+                            onChangeText={(val) => {
+                                setEmail(val);
+                                setValidation(validateEmail(email));
+                            }}
+                        />
                         <InputText>{I18n.t('Password')}</InputText>
-                        <Input />
+                        <Input onChangeText={(val) => setPassword(val)} secureTextEntry={true} />
                         <InputText>{I18n.t('RepeatPassword')}</InputText>
-                        <Input />
-                        <LinearButton title={'SignUp'} />
+                        <Input onChangeText={(val) => setRepeatPassword(val)} secureTextEntry={true} />
+                        <LinearButton title={'SignUp'} onPress={handleRegister} />
                     </RegisterInputArea>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </Container>
+        </AvoidingContainer>
     );
 };
 

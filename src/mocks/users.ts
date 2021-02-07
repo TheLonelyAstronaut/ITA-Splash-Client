@@ -1,25 +1,25 @@
 export interface UserProps {
-    login: string;
+    email: string;
     password: string;
     username: string;
-    token: string;
+    token?: string;
 }
 
 export const users: UserProps[] = [
     {
-        login: 'vlad',
+        email: 'vlad',
         password: '123',
         username: 'vlad',
         token: '123qwe',
     },
     {
-        login: 'vadim',
+        email: 'vadim',
         password: '1234',
         username: 'vadim',
         token: '1234qwe',
     },
     {
-        login: 'kekes',
+        email: 'kekes',
         password: '12345',
         username: 'kekes',
         token: '12345qwe',

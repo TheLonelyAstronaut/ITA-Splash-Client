@@ -18,7 +18,7 @@ const unpersistedReducer = createReducer<AuthenticationState>(initialState)
         error: undefined,
         isFetching: true,
         token: undefined,
-        username: action.payload.username,
+        username: action.payload.email,
     }))
     .handleAction(
         LOGIN.COMPLETED,
@@ -26,7 +26,7 @@ const unpersistedReducer = createReducer<AuthenticationState>(initialState)
             error: undefined,
             isFetching: false,
             token: action.payload.token,
-            username: action.payload.username,
+            username: action.payload.email,
         }),
         (state, action) => ({
             error: action.payload as Error,
