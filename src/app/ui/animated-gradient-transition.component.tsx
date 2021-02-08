@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { PropTypes } from 'prop-types';
-import { Animated, Easing } from 'react-native';
 import _ from 'lodash';
+import React, { Component } from 'react';
+import { Animated, Easing, EasingFunction } from 'react-native';
+import NativeLinearGradient, { LinearGradientProps } from 'react-native-linear-gradient';
 
-import NativeLinearGradient from 'react-native-linear-gradient';
+type AnimatedInterpolation = Animated.AnimatedInterpolation;
 
-class LinearGradient extends React.Component {
+class LinearGradient extends React.Component<LinearGradientProps> {
     // Generate back the colors array with all transformed props
-    _generateColorsArray(props) {
+    _generateColorsArray(props: LinearGradientProps) {
         const propsKeys = Object.keys(props);
-        const colorsArray = [];
+        const colorsArray: (keyof LinearGradientProps)[] = [];
 
         propsKeys.forEach((key) => {
             if (key.indexOf('animatedColor') !== -1 && props[key] && typeof props[key] === 'string') {
@@ -33,18 +33,25 @@ class LinearGradient extends React.Component {
     }
 }
 
-Animated.LinearGradient = Animated.createAnimatedComponent(LinearGradient);
+const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
-class AnimatedGradientTransition extends Component {
-    static propTypes = {
-        ...NativeLinearGradient.propTypes,
-        animation: PropTypes.shape({
-            toValue: PropTypes.number,
-            duration: PropTypes.number,
-            easing: PropTypes.func,
-        }),
-    };
+type AnimationProps = {
+    toValue: number;
+    duration: number;
+    easing: EasingFunction;
+};
 
+type AnimatedGradientTransitionProps = LinearGradientProps & {
+    animation: AnimationProps;
+};
+
+type AnimatedGradientTransitionState = {
+    colors: (string | number)[];
+    prevColors: (string | number)[];
+    animatedColors: Animated.Value[];
+};
+
+class AnimatedGradientTransition extends Component<AnimatedGradientTransitionProps, AnimatedGradientTransitionState> {
     static defaultProps = {
         animation: {
             toValue: 1,
@@ -53,7 +60,7 @@ class AnimatedGradientTransition extends Component {
         },
     };
 
-    constructor(props) {
+    constructor(props: AnimatedGradientTransitionProps) {
         super(props);
 
         this.state = {
@@ -63,7 +70,10 @@ class AnimatedGradientTransition extends Component {
         };
     }
 
-    static getDerivedStateFromProps(nextProps, prevState) {
+    static getDerivedStateFromProps(
+        nextProps: AnimatedGradientTransitionProps,
+        prevState: AnimatedGradientTransitionState
+    ): AnimatedGradientTransitionState | null {
         const keys = ['colors'];
         const mutableProps = _.pick(nextProps, keys);
         const stateToCompare = _.pick(prevState, keys);
@@ -87,7 +97,12 @@ class AnimatedGradientTransition extends Component {
         return null;
     }
 
-    static animateGradientTransition(animatedColors, curColors, prevColors, animation) {
+    static animateGradientTransition(
+        animatedColors: Animated.Value[],
+        curColors: (string | number)[],
+        prevColors: (string | number)[],
+        animation: AnimationProps
+    ): Animated.Value[] {
         // Animate only if the new colors are different
         if (!_.isEqual(prevColors, curColors)) {
             // Update number of animatedValue if the length is different
@@ -104,6 +119,7 @@ class AnimatedGradientTransition extends Component {
                         toValue: animation.toValue,
                         duration: animation.duration,
                         easing: animation.easing,
+                        useNativeDriver: false,
                     });
                 })
             ).start();
@@ -112,7 +128,7 @@ class AnimatedGradientTransition extends Component {
         return animatedColors;
     }
 
-    _getColorSafely(colors, index) {
+    _getColorSafely(colors: (string | number)[], index: number): string | number {
         if (colors[index]) {
             return colors[index];
         }
@@ -120,20 +136,23 @@ class AnimatedGradientTransition extends Component {
         return colors.slice(-1)[0];
     }
 
-    _getInterpolatedColors() {
+    _getInterpolatedColors(): AnimatedInterpolation[] {
         const { colors, prevColors, animatedColors } = this.state;
 
         return animatedColors.map((animatedColor, index) => {
             return animatedColor.interpolate({
                 inputRange: [0, 1],
-                outputRange: [this._getColorSafely(prevColors, index), this._getColorSafely(colors, index)],
+                outputRange: [
+                    this._getColorSafely(prevColors, index) as string,
+                    this._getColorSafely(colors, index) as string,
+                ],
             });
         });
     }
 
     // Send all colors as props to enable Animated api to transform it
-    _generateColorsProps(interpolatedColors) {
-        let props = {};
+    _generateColorsProps(interpolatedColors: AnimatedInterpolation[]): Record<string, AnimatedInterpolation> {
+        let props: Record<string, AnimatedInterpolation> = {};
 
         interpolatedColors.forEach((interpolateColor, index) => {
             const key = `animatedColor${index}`;
@@ -150,15 +169,15 @@ class AnimatedGradientTransition extends Component {
         return props;
     }
 
-    render() {
+    render(): React.ReactNode {
         const { children, ...props } = this.props;
         const interpolatedColors = this._getInterpolatedColors();
         const animatedColorsProps = this._generateColorsProps(interpolatedColors);
 
         return (
-            <Animated.LinearGradient {...props} {...animatedColorsProps}>
+            <AnimatedLinearGradient {...props} {...animatedColorsProps}>
                 {children}
-            </Animated.LinearGradient>
+            </AnimatedLinearGradient>
         );
     }
 }

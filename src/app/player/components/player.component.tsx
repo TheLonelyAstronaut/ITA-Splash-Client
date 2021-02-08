@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import { getColorFromURL } from 'rn-dominant-color';
 import Carousel from 'react-native-snap-carousel';
@@ -13,12 +13,13 @@ import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { MUSIC_ACTIONS } from '../actions';
 import { ControlActions } from '../player.types';
-import { getCurrentTrack } from '../selectors';
+import { getCurrentQueue, getCurrentTrack } from '../selectors';
 
 import { PlayControlButton, SkipControlButton } from './control-button.component';
 import { PlayerArtwork } from './player-artwork.component';
 import { SwipeableTrackChanger } from './swipeable-track-changer.component';
 import { TrackProgressSlider } from './tarck-progress-slider.component';
+import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 
 export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;
@@ -68,22 +69,36 @@ export const AvoidingBackground = styled(AvoidingContainer)<{ backgroundColor: s
 
 export const Player: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
+    const currentQueue = useSelector(getCurrentQueue);
     const theme = useTheme();
     const currentState = usePlaybackState();
     const dispatch = useDispatch();
     const _carousel = useRef<Carousel<Track>>();
     const [backgroundColor, setBackgroundColor] = useState(theme.colors.main);
+    const [gradient, setGradient] = useState([theme.colors.main, theme.colors.main]);
+
+    const handleOnSnap = React.useCallback(
+        (currentIndex) => {
+            if (!currentQueue.length) return;
+
+            getColorFromURL(currentQueue[currentIndex].artwork.uri).then((colors) => {
+                if (currentIndex === _carousel.current?.currentIndex) {
+                    setBackgroundColor(colors.primary);
+                    setGradient([colors.primary, theme.colors.main]);
+                }
+            });
+        },
+        [currentQueue, theme.colors.main]
+    );
+
+    useEffect(() => {
+        setGradient([theme.colors.main, theme.colors.main]);
+    }, [currentTrack, theme.colors.main]);
 
     React.useEffect(() => {
-        if (!currentTrack) return;
-        const currentIndex = _carousel.current?.currentIndex;
-
-        getColorFromURL(currentTrack.artwork.uri).then((colors) => {
-            if (currentIndex === _carousel.current?.currentIndex) {
-                setBackgroundColor(colors.primary);
-            }
-        });
-    }, [currentTrack]);
+        handleOnSnap(0);
+        // eslint-disable-next-line
+    }, []);
 
     const handleNextTrackPress = React.useCallback(() => {
         _carousel?.current?.snapToNext();
@@ -107,39 +122,42 @@ export const Player: React.FC = () => {
 
     return (
         <AvoidingBackground backgroundColor={backgroundColor}>
-            <SwipeableTrackChanger
-                getRef={(ref) => (_carousel.current = ref)}
-                renderItem={renderItem}
-                width={DEVICE_SIZE.width}
-            />
-            <InfoWrapper pointerEvents={'box-none'}>
-                <HeaderWrapper>
-                    <HeaderText>Playlist info</HeaderText>
-                </HeaderWrapper>
-                <GestureProvider pointerEvents={'box-none'} />
-                <PlayerControlWrapper>
-                    <TrackName>{currentTrack.title}</TrackName>
-                    <ArtistName>{currentTrack.artist}</ArtistName>
-                    <TrackProgressSlider />
-                    <ButtonWrapper>
-                        <SkipControlButton
-                            onPress={handlePreviousTrackPress}
-                            iconName={'md-play-skip-back-sharp'}
-                            iconSize={theme.player.controlPrevNextSize}
-                        />
-                        <PlayControlButton
-                            onPress={handlePlayPausePress}
-                            iconName={currentState === State.Playing ? 'pause-circle' : 'play-circle'}
-                            iconSize={theme.player.controlPlayPauseSize}
-                        />
-                        <SkipControlButton
-                            onPress={handleNextTrackPress}
-                            iconName={'md-play-skip-forward-sharp'}
-                            iconSize={theme.player.controlPrevNextSize}
-                        />
-                    </ButtonWrapper>
-                </PlayerControlWrapper>
-            </InfoWrapper>
+            <AnimatedGradientTransition colors={gradient}>
+                <SwipeableTrackChanger
+                    getRef={(ref) => (_carousel.current = ref)}
+                    renderItem={renderItem}
+                    width={DEVICE_SIZE.width}
+                    onSnapToItem={handleOnSnap}
+                />
+                <InfoWrapper pointerEvents={'box-none'}>
+                    <HeaderWrapper>
+                        <HeaderText>Playlist info</HeaderText>
+                    </HeaderWrapper>
+                    <GestureProvider pointerEvents={'box-none'} />
+                    <PlayerControlWrapper>
+                        <TrackName>{currentTrack.title}</TrackName>
+                        <ArtistName>{currentTrack.artist}</ArtistName>
+                        <TrackProgressSlider />
+                        <ButtonWrapper>
+                            <SkipControlButton
+                                onPress={handlePreviousTrackPress}
+                                iconName={'md-play-skip-back-sharp'}
+                                iconSize={theme.player.controlPrevNextSize}
+                            />
+                            <PlayControlButton
+                                onPress={handlePlayPausePress}
+                                iconName={currentState === State.Playing ? 'pause-circle' : 'play-circle'}
+                                iconSize={theme.player.controlPlayPauseSize}
+                            />
+                            <SkipControlButton
+                                onPress={handleNextTrackPress}
+                                iconName={'md-play-skip-forward-sharp'}
+                                iconSize={theme.player.controlPrevNextSize}
+                            />
+                        </ButtonWrapper>
+                    </PlayerControlWrapper>
+                </InfoWrapper>
+            </AnimatedGradientTransition>
         </AvoidingBackground>
     );
 };

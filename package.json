@@ -41,6 +41,7 @@
     "@types/styled-components-react-native": "^5.1.0",
     "graphql": "^15.5.0",
     "i18n-js": "^3.8.0",
+    "lodash": "^4.17.20",
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-bootsplash": "^3.1.2",

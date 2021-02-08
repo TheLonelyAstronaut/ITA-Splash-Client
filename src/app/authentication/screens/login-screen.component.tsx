@@ -51,7 +51,6 @@ export const Input = styled.TextInput<Props>`
     background-color: ${(props) => props.theme.colors.inputBackground};
     border-color: ${(props) => props.theme.colors.additivePink};
     color: ${(props) => props.theme.colors.secondary};
-    font-family: ${(props) => props.theme.fontFamily.regular};
     font-size: ${(props) => props.theme.fontSize.medium};
 `;
 
@@ -60,7 +59,6 @@ export const ValidationInput = styled(Input)<Props>`
 `;
 
 export const EmailText = styled.Text`
-    font-family: ${(props) => props.theme.fontFamily.extraBold};
     font-size: ${(props) => props.theme.fontSize.medium}px;
     margin-left: ${(props) => props.theme.spacer * 3}px;
     margin-top: ${(props) => props.theme.spacer * 5}px;
@@ -68,7 +66,6 @@ export const EmailText = styled.Text`
 `;
 
 export const InputText = styled.Text`
-    font-family: ${(props) => props.theme.fontFamily.extraBold};
     font-size: ${(props) => props.theme.fontSize.medium}px;
     margin-left: ${(props) => props.theme.spacer * 3}px;
     margin-top: ${(props) => props.theme.spacer}%;
@@ -88,7 +85,6 @@ export const SignUpText = styled.Text`
     color: ${(props) => props.theme.colors.secondary};
     font-size: ${(props) => props.theme.fontSize.medium}px;
     margin-top: ${(props) => props.theme.spacer * 2.5}px;
-    font-family: ${(props) => props.theme.fontFamily.bold};
 `;
 export const BackgroundImage = styled.ImageBackground`
     width: ${DEVICE_SIZE.width};
