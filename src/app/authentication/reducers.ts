@@ -3,7 +3,7 @@ import { createMigrate, persistReducer } from 'redux-persist';
 import { MigrationManifest, PersistedState } from 'redux-persist/es/types';
 import { createReducer } from 'typesafe-redux-helpers';
 
-import { LOGIN, LOGOUT } from './actions';
+import { LOGIN, LOGOUT, REGISTER } from './actions';
 import { AuthenticationState } from './authentication.types';
 
 const initialState: AuthenticationState = {
@@ -27,9 +27,9 @@ const unpersistedReducer = createReducer<AuthenticationState>(initialState)
         (state, action) => ({
             error: undefined,
             isFetching: false,
-            token: action.payload.token,
-            email: action.payload.email,
-            username: action.payload.username,
+            token: action.payload.data.token,
+            email: action.payload.data.email,
+            username: action.payload.data.username,
         }),
         (state, action) => ({
             error: action.payload as Error,
@@ -45,6 +45,13 @@ const unpersistedReducer = createReducer<AuthenticationState>(initialState)
         token: undefined,
         email: undefined,
         username: undefined,
+    }))
+    .handleAction(REGISTER.COMPLETED, (state, action) => ({
+        error: undefined,
+        isFetching: false,
+        token: action.payload.data.token,
+        email: action.payload.data.email,
+        username: action.payload.data.username,
     }));
 
 const migrations: MigrationManifest = {

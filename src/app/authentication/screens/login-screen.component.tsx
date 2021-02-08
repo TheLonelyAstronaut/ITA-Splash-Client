@@ -112,9 +112,9 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
     const [password, setPassword] = useState('');
     const [validation, setValidation] = useState(true);
 
-    const handleLogin = () => {
+    const handleLogin = useCallback(() => {
         dispatch(LOGIN.TRIGGER({ email: email, password: password }));
-    };
+    }, [dispatch, email, password]);
 
     return (
         <AvoidingContainer>

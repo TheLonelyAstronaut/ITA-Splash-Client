@@ -13,6 +13,8 @@ export function* logoutSaga(): SagaIterator {
 
 export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>): SagaIterator {
     yield call(client.register, action.payload);
+    const result = yield call(client.register, action.payload);
+    yield put(REGISTER.COMPLETED(result));
 }
 
 export function* loginSaga(action: ReturnType<typeof LOGIN.TRIGGER>): SagaIterator {

@@ -1,3 +1,11 @@
+export interface User {
+    email: string;
+    password: string;
+    username: string;
+    token: string;
+    profileImg?: unknown;
+}
+
 export interface AuthenticationState {
     isFetching: boolean;
     error?: Error;
@@ -18,7 +26,5 @@ export interface RegisterPayload {
 }
 
 export interface AuthCompletedPayload {
-    email: string;
-    token: string;
-    username: string;
+    data: User;
 }

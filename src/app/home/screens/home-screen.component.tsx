@@ -3,9 +3,8 @@ import { Button, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { tracks } from '../../../mocks/tracks';
-import { LOGOUT, REGISTER } from '../../authentication/actions';
+import { LOGOUT } from '../../authentication/actions';
 import { MUSIC_ACTIONS } from '../../player/actions';
-import { SEARCH_ALL } from '../../search/actions';
 import { Container } from '../../ui/container.component';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
@@ -30,13 +29,6 @@ export const HomeScreenComponent: React.FC<HomeScreenProps> = () => {
         dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: tracks[0], queue: tracks }));
     }, [dispatch]);
 
-    const handleRegister = () => {
-        dispatch(REGISTER.TRIGGER({ username: 'vlad', email: 'sfvb', password: '234342' }));
-    };
-
-    const handleSearch = () => {
-        dispatch(SEARCH_ALL.TRIGGER('Sunflower'));
-    };
     const handleLogout = () => {
         dispatch(LOGOUT.TRIGGER());
     };
@@ -46,8 +38,6 @@ export const HomeScreenComponent: React.FC<HomeScreenProps> = () => {
             <Text>Home screen</Text>
             <Button title={'Change theme'} onPress={handleChangeTheme} />
             <Button title={'Play'} onPress={handlePlay} />
-            <Button title={'Register'} onPress={handleRegister} />
-            <Button title={'Search'} onPress={handleSearch} />
             <Button title={'Logout'} onPress={handleLogout} />
         </Container>
     );
