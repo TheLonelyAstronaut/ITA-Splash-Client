@@ -73,13 +73,19 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                 style={{ flex: 1 }}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                {themeKey === ThemesEnum.DARK && ThemesEnum.JAPANESE ? (
-                    <BackgroundImage source={require('../../../assets/background.jpg')} />
-                ) : (
-                    <BackgroundImage source={require('../../../assets/light-background.jpg')} />
-                )}
+                <BackgroundImage
+                    source={
+                        themeKey === ThemesEnum.DARK && ThemesEnum.JAPANESE
+                            ? require('../../../assets/background.jpg')
+                            : require('../../../assets/light-background.jpg')
+                    }
+                />
                 <LogoWrapper>
-                    <BackButtonContainer onPress={() => props.navigation.goBack()}>
+                    <BackButtonContainer
+                        onPress={useCallback(() => {
+                            props.navigation.goBack();
+                        }, [props.navigation])}
+                    >
                         <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
                     </BackButtonContainer>
                     <LogoContainer>

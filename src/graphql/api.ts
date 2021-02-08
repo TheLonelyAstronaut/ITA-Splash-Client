@@ -60,7 +60,12 @@ export class GraphQLAPI {
         if (user.length > 0) {
             throw new Error('user already exists');
         } else {
-            users.push(payload);
+            users.push({
+                token: Math.random().toString(),
+                username: payload.username,
+                email: payload.email,
+                password: payload.password,
+            });
         }
     };
 

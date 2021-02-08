@@ -9,7 +9,6 @@ export interface AuthenticationState {
 export interface LoginPayload {
     email: string;
     password: string;
-    username?: string;
 }
 
 export interface RegisterPayload {
@@ -20,12 +19,6 @@ export interface RegisterPayload {
 
 export interface AuthCompletedPayload {
     email: string;
-    token?: string;
+    token: string;
     username: string;
-}
-
-export interface RegisterCompletedPayload {
-    email: string;
-    login: string;
-    password: string;
 }

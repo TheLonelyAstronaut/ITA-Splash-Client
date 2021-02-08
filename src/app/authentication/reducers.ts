@@ -20,7 +20,7 @@ const unpersistedReducer = createReducer<AuthenticationState>(initialState)
         isFetching: true,
         token: undefined,
         email: action.payload.email,
-        username: action.payload.username,
+        username: undefined,
     }))
     .handleAction(
         LOGIN.COMPLETED,
