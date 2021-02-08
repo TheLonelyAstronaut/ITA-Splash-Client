@@ -46,13 +46,23 @@ const unpersistedReducer = createReducer<AuthenticationState>(initialState)
         email: undefined,
         username: undefined,
     }))
-    .handleAction(REGISTER.COMPLETED, (state, action) => ({
-        error: undefined,
-        isFetching: false,
-        token: action.payload.data.token,
-        email: action.payload.data.email,
-        username: action.payload.data.username,
-    }));
+    .handleAction(
+        REGISTER.COMPLETED,
+        (state, action) => ({
+            error: undefined,
+            isFetching: false,
+            token: action.payload.data.token,
+            email: action.payload.data.email,
+            username: action.payload.data.username,
+        }),
+        (state, action) => ({
+            error: action.payload as Error,
+            isFetching: false,
+            token: undefined,
+            email: state.email,
+            username: state.username,
+        })
+    );
 
 const migrations: MigrationManifest = {
     2: (state: PersistedState) => ({

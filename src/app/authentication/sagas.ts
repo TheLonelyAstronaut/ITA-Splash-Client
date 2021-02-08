@@ -12,9 +12,15 @@ export function* logoutSaga(): SagaIterator {
 }
 
 export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>): SagaIterator {
-    yield call(client.register, action.payload);
-    const result = yield call(client.register, action.payload);
-    yield put(REGISTER.COMPLETED(result));
+    try {
+        const result = yield call(client.register, action.payload);
+        yield put(REGISTER.COMPLETED(result));
+    } catch (err) {
+        const error = new Error(err);
+
+        yield call(Logger.error, error);
+        yield put(REGISTER.COMPLETED.failed(error));
+    }
 }
 
 export function* loginSaga(action: ReturnType<typeof LOGIN.TRIGGER>): SagaIterator {

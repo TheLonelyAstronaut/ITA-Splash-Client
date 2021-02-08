@@ -59,12 +59,12 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
     const [name, setName] = useState('');
     const [validation, setValidation] = useState(true);
 
-    const handleRegister = () => {
+    const handleRegister = useCallback(() => {
         if (password === repeatPassword) {
             dispatch(REGISTER.TRIGGER({ email: email, username: name, password: password }));
             console.log(users);
         }
-    };
+    }, [dispatch, email, password, repeatPassword]);
 
     return (
         <AvoidingContainer>
