@@ -24,7 +24,7 @@ export class GraphQLAPI {
         });
     }
 
-    setAuthToken = (token: string): void => {
+    setAuthToken = (token: string | undefined): void => {
         const httpLink = createHttpLink({
             uri: SERVER_ADDRESS,
         });
@@ -44,23 +44,34 @@ export class GraphQLAPI {
     };
 
     login = async (payload: LoginPayload): Promise<AuthCompletedPayload> => {
-        const user = users.filter((user) => user.username === payload.username && user.password === payload.password);
+        const user = users.filter((user) => user.email === payload.email && user.password === payload.password);
+
         if (user.length > 0) {
             this.setAuthToken(user[0].token);
-            return { username: user[0].username, token: user[0].token };
+            return { data: user[0] };
         } else {
             throw new Error('invalid input');
         }
     };
 
-    register = async (payload: RegisterPayload): Promise<void> => {
-        const user = users.filter((user) => user.username === payload.username);
+    register = async (payload: RegisterPayload): Promise<AuthCompletedPayload> => {
+        const user = users.filter((user) => user.email === payload.email);
 
         if (user.length > 0) {
             throw new Error('user already exists');
         } else {
-            console.log('registered');
+            users.push({
+                token: Math.random().toString(),
+                username: payload.username,
+                email: payload.email,
+                password: payload.password,
+            });
+            return { data: user[0] };
         }
+    };
+
+    logout = (): void => {
+        console.log('logout');
     };
 
     // getPLaylistById = (id: number): Playlist[] => {

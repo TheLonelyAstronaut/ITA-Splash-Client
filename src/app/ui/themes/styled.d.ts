@@ -24,6 +24,7 @@ declare module 'styled-components' {
             extraBold: string;
             black: string;
         };
+        logoFont: string;
         fontWeight: {
             bold: number;
             standard: number;
@@ -38,9 +39,11 @@ declare module 'styled-components' {
         colors: {
             main: string;
             secondary: string;
-            additive: string;
+            additivePink: string;
+            additiveBlue: string;
             screenBackground: string;
             sliderColor: string;
+            inputBackground: string;
         };
         player: {
             artworkSize: number;

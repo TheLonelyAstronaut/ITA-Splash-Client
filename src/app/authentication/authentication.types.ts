@@ -1,28 +1,30 @@
+export interface User {
+    email: string;
+    password: string;
+    username: string;
+    token: string;
+    profileImg?: unknown;
+}
+
 export interface AuthenticationState {
     isFetching: boolean;
     error?: Error;
     username?: string;
     token?: string;
+    email?: string;
 }
 
 export interface LoginPayload {
-    username: string;
+    email: string;
     password: string;
 }
 
 export interface RegisterPayload {
     username: string;
     password: string;
-    login: string;
+    email: string;
 }
 
 export interface AuthCompletedPayload {
-    username: string;
-    token: string;
-}
-
-export interface RegisterCompletedPayload {
-    username: string;
-    login: string;
-    password: string;
+    data: User;
 }
