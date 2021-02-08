@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +13,15 @@ import I18n from '../../utils/i18n';
 import { REGISTER } from '../actions';
 import { AuthNavigationProps } from '../routing.params';
 
-import { BackgroundImage, EmailText, Input, InputText, Title, validateEmail } from './login-screen.component';
+import {
+    BackgroundImage,
+    EmailText,
+    Input,
+    InputText,
+    Title,
+    validateEmail,
+    ValidationInput,
+} from './login-screen.component';
 
 export const RegisterInputArea = styled.View`
     background-color: ${(props) => props.theme.colors.main};
@@ -80,22 +88,35 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                 </LogoWrapper>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <RegisterInputArea>
-                        <EmailText>{I18n.t('Name')}</EmailText>
-                        <Input onChangeText={(val) => setName(val)} />
-                        <InputText>{I18n.t('Email')}</InputText>
+                        <EmailText>{I18n.t('auth.name')}</EmailText>
                         <Input
-                            //eslint-disable-next-line react-native/no-color-literals
-                            style={{ borderColor: validation ? theme.colors.additivePink : 'red' }}
-                            onChangeText={(val) => {
-                                setEmail(val);
-                                setValidation(validateEmail(email));
-                            }}
+                            onChangeText={useCallback((val) => {
+                                setName(val);
+                            }, [])}
                         />
-                        <InputText>{I18n.t('Password')}</InputText>
-                        <Input onChangeText={(val) => setPassword(val)} secureTextEntry={true} />
-                        <InputText>{I18n.t('RepeatPassword')}</InputText>
-                        <Input onChangeText={(val) => setRepeatPassword(val)} secureTextEntry={true} />
-                        <LinearButton title={'SignUp'} onPress={handleRegister} />
+                        <InputText>{I18n.t('auth.email')}</InputText>
+                        <ValidationInput
+                            valid={validation}
+                            onChangeText={useCallback((val) => {
+                                setEmail(val);
+                                setValidation(validateEmail(val));
+                            }, [])}
+                        />
+                        <InputText>{I18n.t('auth.password')}</InputText>
+                        <Input
+                            onChangeText={useCallback((val) => {
+                                setPassword(val);
+                            }, [])}
+                            secureTextEntry={true}
+                        />
+                        <InputText>{I18n.t('auth.repeatPassword')}</InputText>
+                        <Input
+                            onChangeText={useCallback((val) => {
+                                setRepeatPassword(val);
+                            }, [])}
+                            secureTextEntry={true}
+                        />
+                        <LinearButton title={'auth.signUp'} onPress={handleRegister} />
                     </RegisterInputArea>
                 </ScrollView>
             </KeyboardAvoidingView>

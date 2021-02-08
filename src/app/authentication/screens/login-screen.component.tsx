@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import styled, { useTheme } from 'styled-components/native';
+import styled from 'styled-components/native';
 
 import { AvoidingContainer } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
@@ -18,14 +18,14 @@ export const Title = styled.Text`
     font-size: ${(props) => props.theme.fontSize.large}px;
     text-align: center;
     font-family: ${(props) => props.theme.logoFont};
-    margin-top: 12px;
+    margin-top: ${(props) => props.theme.spacer * 1.5}px;
 `;
 
 export const LogoContainer = styled.View`
     width: ${DEVICE_SIZE.width * 0.3}px;
-    height: 40px;
+    height: ${(props) => props.theme.spacer * 5}px;
     background-color: ${(props) => props.theme.colors.main};
-    margin-left: 34px;
+    margin-left: ${(props) => props.theme.spacer * 4.2}px;
     margin-top: 40%;
 `;
 
@@ -37,7 +37,11 @@ export const InputArea = styled.View`
     margin-top: 35%;
 `;
 
-export const Input = styled.TextInput`
+export type Props = {
+    valid?: boolean;
+};
+
+export const Input = styled.TextInput<Props>`
     height: 45px;
     width: ${DEVICE_SIZE.width * 0.71}px;
     border-width: 1px;
@@ -49,6 +53,10 @@ export const Input = styled.TextInput`
     color: ${(props) => props.theme.colors.secondary};
     font-family: ${(props) => props.theme.fontFamily.regular};
     font-size: ${(props) => props.theme.fontSize.medium};
+`;
+
+export const ValidationInput = styled(Input)<Props>`
+    border-color: ${(props) => (props.valid ? props.theme.colors.additivePink : 'red')};
 `;
 
 export const EmailText = styled.Text`
@@ -100,7 +108,6 @@ export const validateEmail: (string) => boolean = (email: string) => {
 export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps) => {
     const dispatch = useDispatch();
     const themeKey = useSelector(getTheme);
-    const theme = useTheme();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [validation, setValidation] = useState(true);
@@ -126,20 +133,24 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                 </LogoContainer>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <InputArea>
-                        <EmailText>{I18n.t('Email')}</EmailText>
-                        <Input
-                            //eslint-disable-next-line react-native/no-color-literals
-                            style={{ borderColor: validation ? theme.colors.additivePink : 'red' }}
-                            onChangeText={(val) => {
+                        <EmailText>{I18n.t('auth.email')}</EmailText>
+                        <ValidationInput
+                            valid={validation}
+                            onChangeText={useCallback((val) => {
                                 setEmail(val);
-                                setValidation(validateEmail(email));
-                            }}
+                                setValidation(validateEmail(val));
+                            }, [])}
                         />
-                        <InputText>{I18n.t('Password')}</InputText>
-                        <Input secureTextEntry={true} onChangeText={(val) => setPassword(val)} />
-                        <LinearButton title={'SignIn'} onPress={handleLogin} />
+                        <InputText>{I18n.t('auth.password')}</InputText>
+                        <Input
+                            secureTextEntry={true}
+                            onChangeText={useCallback((val) => {
+                                setPassword(val);
+                            }, [])}
+                        />
+                        <LinearButton title={'auth.signIn'} onPress={handleLogin} />
                         <SignUpWrapper onPress={() => props.navigation.navigate('Register')}>
-                            <SignUpText>{I18n.t('SignUp')}</SignUpText>
+                            <SignUpText>{I18n.t('auth.signUp')}</SignUpText>
                         </SignUpWrapper>
                     </InputArea>
                 </ScrollView>

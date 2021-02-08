@@ -3,7 +3,7 @@ import { createMigrate, persistReducer } from 'redux-persist';
 import { MigrationManifest, PersistedState } from 'redux-persist/es/types';
 import { createReducer } from 'typesafe-redux-helpers';
 
-import { LOGIN } from './actions';
+import { LOGIN, LOGOUT } from './actions';
 import { AuthenticationState } from './authentication.types';
 
 const initialState: AuthenticationState = {
@@ -11,6 +11,7 @@ const initialState: AuthenticationState = {
     isFetching: false,
     username: undefined,
     token: undefined,
+    email: undefined,
 };
 
 const unpersistedReducer = createReducer<AuthenticationState>(initialState)
@@ -18,7 +19,8 @@ const unpersistedReducer = createReducer<AuthenticationState>(initialState)
         error: undefined,
         isFetching: true,
         token: undefined,
-        username: action.payload.email,
+        email: action.payload.email,
+        username: action.payload.username,
     }))
     .handleAction(
         LOGIN.COMPLETED,
@@ -26,15 +28,24 @@ const unpersistedReducer = createReducer<AuthenticationState>(initialState)
             error: undefined,
             isFetching: false,
             token: action.payload.token,
-            username: action.payload.email,
+            email: action.payload.email,
+            username: action.payload.username,
         }),
         (state, action) => ({
             error: action.payload as Error,
             isFetching: false,
             token: undefined,
+            email: state.email,
             username: state.username,
         })
-    );
+    )
+    .handleAction(LOGOUT.COMPLETED, () => ({
+        error: undefined,
+        isFetching: false,
+        token: undefined,
+        email: undefined,
+        username: undefined,
+    }));
 
 const migrations: MigrationManifest = {
     2: (state: PersistedState) => ({

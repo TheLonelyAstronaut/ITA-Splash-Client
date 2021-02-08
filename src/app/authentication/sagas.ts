@@ -8,6 +8,7 @@ import { LOGIN, LOGOUT, REGISTER } from './actions';
 
 export function* logoutSaga(): SagaIterator {
     yield call(client.logout);
+    yield put(LOGOUT.COMPLETED());
 }
 
 export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>): SagaIterator {

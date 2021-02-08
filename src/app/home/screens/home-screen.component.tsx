@@ -3,7 +3,7 @@ import { Button, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { tracks } from '../../../mocks/tracks';
-import { LOGIN, LOGOUT, REGISTER } from '../../authentication/actions';
+import { LOGOUT, REGISTER } from '../../authentication/actions';
 import { MUSIC_ACTIONS } from '../../player/actions';
 import { SEARCH_ALL } from '../../search/actions';
 import { Container } from '../../ui/container.component';
@@ -39,7 +39,6 @@ export const HomeScreenComponent: React.FC<HomeScreenProps> = () => {
     };
     const handleLogout = () => {
         dispatch(LOGOUT.TRIGGER());
-        dispatch(LOGIN.TRIGGER({ email: '', password: '' }));
     };
 
     return (

@@ -3,11 +3,13 @@ export interface AuthenticationState {
     error?: Error;
     username?: string;
     token?: string;
+    email?: string;
 }
 
 export interface LoginPayload {
     email: string;
     password: string;
+    username?: string;
 }
 
 export interface RegisterPayload {
@@ -19,6 +21,7 @@ export interface RegisterPayload {
 export interface AuthCompletedPayload {
     email: string;
     token?: string;
+    username: string;
 }
 
 export interface RegisterCompletedPayload {

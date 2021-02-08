@@ -48,8 +48,7 @@ export class GraphQLAPI {
 
         if (user.length > 0) {
             this.setAuthToken(user[0].token);
-            console.log(user);
-            return { email: user[0].username, token: user[0].token };
+            return { email: user[0].email, token: user[0].token, username: user[0].username };
         } else {
             throw new Error('invalid input');
         }
