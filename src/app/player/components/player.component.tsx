@@ -11,9 +11,9 @@ import { Track } from '../../../types/music';
 import { AvoidingContainer } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
-import { MUSIC_ACTIONS } from '../actions';
+import { ADD_TRACK_GRADIENT, MUSIC_ACTIONS } from '../actions';
 import { ControlActions } from '../player.types';
-import { getCurrentQueue, getCurrentTrack } from '../selectors';
+import { getCurrentQueue, getCurrentTrack, getTrackGradient } from '../selectors';
 
 import { PlayControlButton, SkipControlButton } from './control-button.component';
 import { PlayerArtwork } from './player-artwork.component';
@@ -63,8 +63,8 @@ export const ButtonWrapper = styled.View`
     margin-top: ${(props) => props.theme.player.marginVertical * 3}px;
 `;
 
-export const AvoidingBackground = styled(AvoidingContainer)<{ backgroundColor: string }>`
-    background-color: ${(props) => props.backgroundColor};
+export const AvoidingBackground = styled(AvoidingContainer)`
+    background-color: ${(props) => props.theme.colors.main};
 `;
 
 export const Player: React.FC = () => {
@@ -74,31 +74,22 @@ export const Player: React.FC = () => {
     const currentState = usePlaybackState();
     const dispatch = useDispatch();
     const _carousel = useRef<Carousel<Track>>();
-    const [backgroundColor, setBackgroundColor] = useState(theme.colors.main);
-    const [gradient, setGradient] = useState([theme.colors.main, theme.colors.main]);
-
-    const handleOnSnap = React.useCallback(
-        (currentIndex) => {
-            if (!currentQueue.length) return;
-
-            getColorFromURL(currentQueue[currentIndex].artwork.uri).then((colors) => {
-                if (currentIndex === _carousel.current?.currentIndex) {
-                    setBackgroundColor(colors.primary);
-                    setGradient([colors.primary, theme.colors.main]);
-                }
-            });
-        },
-        [currentQueue, theme.colors.main]
-    );
+    const gradient = useSelector(getTrackGradient(currentTrack.id, [theme.colors.main, theme.colors.main]));
 
     useEffect(() => {
-        setGradient([theme.colors.main, theme.colors.main]);
-    }, [currentTrack, theme.colors.main]);
-
-    React.useEffect(() => {
-        handleOnSnap(0);
-        // eslint-disable-next-line
-    }, []);
+        if (currentQueue) {
+            currentQueue.forEach((item) => {
+                getColorFromURL(item.artwork.uri).then((colors) => {
+                    dispatch(
+                        ADD_TRACK_GRADIENT({
+                            gradient: [colors.primary, theme.colors.main],
+                            track: item.id,
+                        })
+                    );
+                });
+            });
+        }
+    }, [currentQueue, dispatch, theme.colors.main]);
 
     const handleNextTrackPress = React.useCallback(() => {
         _carousel?.current?.snapToNext();
@@ -121,13 +112,12 @@ export const Player: React.FC = () => {
     const renderItem = React.useCallback((info: ListRenderItemInfo<Track>) => <PlayerArtwork track={info.item} />, []);
 
     return (
-        <AvoidingBackground backgroundColor={backgroundColor}>
+        <AvoidingBackground>
             <AnimatedGradientTransition colors={gradient}>
                 <SwipeableTrackChanger
                     getRef={(ref) => (_carousel.current = ref)}
                     renderItem={renderItem}
                     width={DEVICE_SIZE.width}
-                    onSnapToItem={handleOnSnap}
                 />
                 <InfoWrapper pointerEvents={'box-none'}>
                     <HeaderWrapper>

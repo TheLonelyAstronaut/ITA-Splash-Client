@@ -24,6 +24,11 @@ export interface SeekToPayload {
     position: number;
 }
 
+export interface AddGradientPayload {
+    gradient: string[];
+    track: string;
+}
+
 export const MUSIC_ACTIONS = {
     PLAY: {
         TRIGGER: createAction('[Music Actions Play Triggered]', (payload: PlayActionPayload) => payload),
@@ -42,3 +47,5 @@ export const MUSIC_ACTIONS = {
     SET_USER_TRIGGERED_FLAG: createAction('[Music Actions Set User Triggered Flag]', (payload: boolean) => payload),
     SEEK_TO_POSITION: createAction('[Seek to position]', (payload: SeekToPayload) => payload),
 };
+
+export const ADD_TRACK_GRADIENT = createAction('[Add Track Gradient]', (payload: AddGradientPayload) => payload);
