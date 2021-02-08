@@ -1,5 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { ListRenderItemInfo } from 'react-native';
+import { getColorFromURL } from 'rn-dominant-color';
 import Carousel from 'react-native-snap-carousel';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
@@ -61,12 +62,28 @@ export const ButtonWrapper = styled.View`
     margin-top: ${(props) => props.theme.player.marginVertical * 3}px;
 `;
 
+export const AvoidingBackground = styled(AvoidingContainer)<{ backgroundColor: string }>`
+    background-color: ${(props) => props.backgroundColor};
+`;
+
 export const Player: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
     const theme = useTheme();
     const currentState = usePlaybackState();
     const dispatch = useDispatch();
     const _carousel = useRef<Carousel<Track>>();
+    const [backgroundColor, setBackgroundColor] = useState(theme.colors.main);
+
+    React.useEffect(() => {
+        if (!currentTrack) return;
+        const currentIndex = _carousel.current?.currentIndex;
+
+        getColorFromURL(currentTrack.artwork.uri).then((colors) => {
+            if (currentIndex === _carousel.current?.currentIndex) {
+                setBackgroundColor(colors.primary);
+            }
+        });
+    }, [currentTrack]);
 
     const handleNextTrackPress = React.useCallback(() => {
         _carousel?.current?.snapToNext();
@@ -89,7 +106,7 @@ export const Player: React.FC = () => {
     const renderItem = React.useCallback((info: ListRenderItemInfo<Track>) => <PlayerArtwork track={info.item} />, []);
 
     return (
-        <AvoidingContainer>
+        <AvoidingBackground backgroundColor={backgroundColor}>
             <SwipeableTrackChanger
                 getRef={(ref) => (_carousel.current = ref)}
                 renderItem={renderItem}
@@ -123,6 +140,6 @@ export const Player: React.FC = () => {
                     </ButtonWrapper>
                 </PlayerControlWrapper>
             </InfoWrapper>
-        </AvoidingContainer>
+        </AvoidingBackground>
     );
 };
