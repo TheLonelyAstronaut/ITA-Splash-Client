@@ -21,6 +21,7 @@ const defaultValues: DefaultTheme = {
         extraBold: Platform.OS === 'ios' ? 'Playfair Display ExtraBold' : 'PlayfairDisplay-ExtraBold',
         black: Platform.OS === 'ios' ? 'Playfair Display Black' : 'PlayfairDisplay-Black',
     },
+    logoFont: 'PressStart2P-Regular',
     spacer: 8,
     sliderHeight: 60,
     separator: {
@@ -59,21 +60,25 @@ const darkTheme: DefaultTheme = {
     ...defaultValues,
     colors: {
         main: '#1E1E1E',
-        secondary: '#d2dae2',
-        additive: '#2962ff',
+        secondary: '#fff',
+        additivePink: '#FF4BF8',
+        additiveBlue: '#2B63FF',
         screenBackground: '#000000',
         sliderColor: '#757b80',
+        inputBackground: '#343434',
     },
 };
 
 const lightTheme: DefaultTheme = {
     ...defaultValues,
     colors: {
-        main: '#d2dae2',
+        main: '#fff',
         secondary: '#1e272e',
-        additive: '#2962ff',
+        additivePink: '#FF4BF8',
+        additiveBlue: '#2B63FF',
         screenBackground: '#f1f2f6',
         sliderColor: '#6f7982',
+        inputBackground: '#E5E5E5',
     },
 };
 
@@ -86,12 +91,15 @@ const japaneseDarkTheme: DefaultTheme = {
         extraBold: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
         black: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
     },
+    logoFont: Platform.OS === 'ios' ? 'Press Start 2P' : 'PressStart2P-Regular',
     colors: {
         main: '#1E1E1E',
-        secondary: '#d2dae2',
-        additive: '#2962ff',
+        secondary: '#fff',
+        additivePink: '#FF4BF8',
+        additiveBlue: '#2B63FF',
         screenBackground: '#000000',
         sliderColor: '#757b80',
+        inputBackground: '#343434',
     },
 };
 

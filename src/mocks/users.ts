@@ -1,27 +1,25 @@
-export interface UserProps {
-    login: string;
-    password: string;
-    username: string;
-    token: string;
-}
+import { User } from '../app/authentication/authentication.types';
 
-export const users: UserProps[] = [
+export const users: User[] = [
     {
-        login: 'vlad',
+        email: 'vlad',
         password: '123',
         username: 'vlad',
         token: '123qwe',
+        profileImg: require('../assets/profile-image.jpg'),
     },
     {
-        login: 'vadim',
+        email: 'vadim',
         password: '1234',
         username: 'vadim',
         token: '1234qwe',
+        profileImg: require('../assets/profile-image.jpg'),
     },
     {
-        login: 'kekes',
+        email: 'kekes',
         password: '12345',
         username: 'kekes',
         token: '12345qwe',
+        profileImg: require('../assets/profile-image.jpg'),
     },
 ];

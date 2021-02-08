@@ -1,13 +1,25 @@
 import { DefaultLocale } from './default-locale';
 
 const en: DefaultLocale = {
-    hello: 'hello',
-    login: 'login',
+    auth: {
+        email: 'Email',
+        password: 'Password',
+        repeatPassword: 'Repeat password',
+        name: 'Name',
+        signIn: 'Sign In',
+        signUp: 'Sign Up',
+    },
 };
 
 const ru: DefaultLocale = {
-    hello: 'привет',
-    login: 'логин',
+    auth: {
+        email: 'Электронная почта',
+        password: 'Пароль',
+        repeatPassword: 'Повторите пароль',
+        name: 'Имя',
+        signIn: 'Войти',
+        signUp: 'Регистрация',
+    },
 };
 
 export { en, ru };
