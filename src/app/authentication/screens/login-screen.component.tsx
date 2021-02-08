@@ -123,11 +123,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                 style={{ flex: 1 }}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-                {themeKey === ThemesEnum.DARK || ThemesEnum.JAPANESE ? (
-                    <BackgroundImage source={require('../../../assets/background.jpg')} />
-                ) : (
-                    <BackgroundImage source={require('../../../assets/light-background.jpg')} />
-                )}
+                <BackgroundImage
+                    source={
+                        themeKey === ThemesEnum.DARK && ThemesEnum.JAPANESE
+                            ? require('../../../assets/background.jpg')
+                            : require('../../../assets/light-background.jpg')
+                    }
+                />
                 <LogoContainer>
                     <Title>Splash</Title>
                 </LogoContainer>
