@@ -1,4 +1,4 @@
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { DefaultTheme } from 'styled-components/native';
 
@@ -25,7 +25,7 @@ const defaultValues: DefaultTheme = {
     spacer: 8,
     sliderHeight: 60,
     separator: {
-        borderWidth: 1,
+        borderWidth: StyleSheet.hairlineWidth,
         borderColor: 'black',
     },
     tabBarHeight: 68,
@@ -42,13 +42,17 @@ const defaultValues: DefaultTheme = {
         small: 10,
     },
     player: {
-        artworkMarginTop: DEVICE_SIZE.height * 0.08 + getStatusBarHeight(),
+        artworkMarginTop:
+            (DEVICE_SIZE.height * 0.57 - DEVICE_SIZE.width * 0.85) / 2 +
+            DEVICE_SIZE.height * 0.04 +
+            getStatusBarHeight(),
         artworkSize: DEVICE_SIZE.width * 0.85,
         headerHeight: DEVICE_SIZE.height * 0.08,
         marginHorizontal: DEVICE_SIZE.width * 0.075,
         marginVertical: DEVICE_SIZE.height * 0.01,
         controlPlayPauseSize: 70,
         controlPrevNextSize: 35,
+        playerControlHeight: DEVICE_SIZE.height * 0.35,
     },
     widget: {
         iconSize: 26,

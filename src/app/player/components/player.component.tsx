@@ -1,16 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ListRenderItemInfo } from 'react-native';
-import { getColorFromURL } from 'rn-dominant-color';
 import Carousel from 'react-native-snap-carousel';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { err } from 'react-native-svg/lib/typescript/xml';
 import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
 import { useDispatch, useSelector } from 'react-redux';
+import { getColorFromURL } from 'rn-dominant-color';
 import styled, { useTheme } from 'styled-components/native';
 
 import { Track } from '../../../types/music';
+import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 import { AvoidingContainer } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
+import { Logger } from '../../utils/logger';
 import { ADD_TRACK_GRADIENT, MUSIC_ACTIONS } from '../actions';
 import { ControlActions } from '../player.types';
 import { getCurrentQueue, getCurrentTrack, getTrackGradient } from '../selectors';
@@ -19,7 +22,6 @@ import { PlayControlButton, SkipControlButton } from './control-button.component
 import { PlayerArtwork } from './player-artwork.component';
 import { SwipeableTrackChanger } from './swipeable-track-changer.component';
 import { TrackProgressSlider } from './tarck-progress-slider.component';
-import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 
 export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;
@@ -36,25 +38,29 @@ export const HeaderWrapper = styled.View`
 `;
 
 export const GestureProvider = styled.View`
-    height: ${(props) => props.theme.player.artworkSize}px;
+    flex: 2;
 `;
 
 export const PlayerControlWrapper = styled.View`
-    flex: 1;
+    height: ${(props) => props.theme.player.playerControlHeight}px;
     padding-horizontal: ${(props) => props.theme.player.marginHorizontal}px;
-    padding-vertical: ${(props) => props.theme.player.marginVertical}px;
+    margin-vertical: ${(props) => props.theme.player.marginVertical}px;
 `;
 
 export const HeaderText = styled(RegularText)`
-    font-size: ${(props) => props.theme.fontSize.small}px;
+    font-size: ${(props) => props.theme.fontSize.small - 1}px;
+    font-weight: 700;
 `;
 
 export const TrackName = styled(BoldText)`
-    font-size: ${(props) => props.theme.fontSize.large}px;
+    font-size: ${(props) => props.theme.fontSize.extraLarge}px;
 `;
 
 export const ArtistName = styled(RegularText)`
     line-height: 24px;
+    font-size: ${(props) => props.theme.fontSize.medium - 1}px;
+    opacity: 0.6;
+    font-weight: 700;
 `;
 
 export const ButtonWrapper = styled.View`
@@ -79,14 +85,18 @@ export const Player: React.FC = () => {
     useEffect(() => {
         if (currentQueue) {
             currentQueue.forEach((item) => {
-                getColorFromURL(item.artwork.uri).then((colors) => {
-                    dispatch(
-                        ADD_TRACK_GRADIENT({
-                            gradient: [colors.primary, theme.colors.main],
-                            track: item.id,
-                        })
-                    );
-                });
+                try {
+                    getColorFromURL(item.artwork.uri).then((colors) => {
+                        dispatch(
+                            ADD_TRACK_GRADIENT({
+                                gradient: [colors.primary, theme.colors.main],
+                                track: item.id,
+                            })
+                        );
+                    });
+                } catch (error) {
+                    Logger.log(error);
+                }
             });
         }
     }, [currentQueue, dispatch, theme.colors.main]);
@@ -121,7 +131,7 @@ export const Player: React.FC = () => {
                 />
                 <InfoWrapper pointerEvents={'box-none'}>
                     <HeaderWrapper>
-                        <HeaderText>Playlist info</HeaderText>
+                        <HeaderText>{currentTrack.artist}</HeaderText>
                     </HeaderWrapper>
                     <GestureProvider pointerEvents={'box-none'} />
                     <PlayerControlWrapper>

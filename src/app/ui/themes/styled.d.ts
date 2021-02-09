@@ -51,6 +51,7 @@ declare module 'styled-components' {
             headerHeight: number;
             marginHorizontal: number;
             marginVertical: number;
+            playerControlHeight: number;
             controlPlayPauseSize: number;
             controlPrevNextSize: number;
         };
