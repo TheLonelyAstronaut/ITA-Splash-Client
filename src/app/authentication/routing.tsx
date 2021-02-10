@@ -1,4 +1,4 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import React from 'react';
 
 import { Player } from '../player/components/player.component';
@@ -11,7 +11,10 @@ const Stack = createStackNavigator<AuthParamList>();
 
 export const AuthStack: React.FC = () => {
     return (
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={'Login'}>
+        <Stack.Navigator
+            screenOptions={{ headerShown: false, ...TransitionPresets.ModalPresentationIOS }}
+            initialRouteName={'Login'}
+        >
             <Stack.Screen name={'Login'} component={LoginScreen} />
             <Stack.Screen name={'Register'} component={RegisterScreen} />
             <Stack.Screen name={'Player'} component={Player} />

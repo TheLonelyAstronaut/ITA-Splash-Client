@@ -44,6 +44,7 @@ declare module 'styled-components' {
             screenBackground: string;
             sliderColor: string;
             inputBackground: string;
+            contrast: string;
         };
         player: {
             artworkSize: number;

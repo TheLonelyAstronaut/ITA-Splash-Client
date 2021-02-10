@@ -70,6 +70,7 @@ const darkTheme: DefaultTheme = {
         screenBackground: '#000000',
         sliderColor: '#757b80',
         inputBackground: '#343434',
+        contrast: '#ff073a',
     },
 };
 
@@ -83,6 +84,7 @@ const lightTheme: DefaultTheme = {
         screenBackground: '#f1f2f6',
         sliderColor: '#6f7982',
         inputBackground: '#E5E5E5',
+        contrast: '#ff073a',
     },
 };
 
@@ -104,6 +106,7 @@ const japaneseDarkTheme: DefaultTheme = {
         screenBackground: '#000000',
         sliderColor: '#757b80',
         inputBackground: '#343434',
+        contrast: '#ff073a',
     },
 };
 

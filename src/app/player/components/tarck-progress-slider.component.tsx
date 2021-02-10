@@ -15,7 +15,7 @@ export const TrackProgress = styled(Slider)`
 export const TimerView = styled.View`
     flex-direction: row;
     justify-content: space-between;
-    margintop: -5px;
+    margin-top: -5px;
 `;
 
 export const Timer = styled(RegularText)`
