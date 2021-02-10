@@ -39,7 +39,7 @@ export const LogoContainer = styled.View`
 `;
 
 export const BackButtonContainer = styled.TouchableOpacity`
-    margin-left: 25px;
+    margin-left: ${(props) => props.theme.spacer * 3};
     margin-top: 20%;
 `;
 

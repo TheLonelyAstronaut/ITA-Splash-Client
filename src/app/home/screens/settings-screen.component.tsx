@@ -10,6 +10,7 @@ import { Container } from '../../ui/container.component';
 import { RegularText } from '../../ui/text.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, ThemesEnum } from '../../ui/themes/themes';
+import I18n from '../../utils/i18n';
 import { SettingsItemComponent } from '../components/settings-item.component';
 import { HomeNavigationProps } from '../routing.params';
 
@@ -63,11 +64,11 @@ export const SettingsScreenComponent: React.FC<SettingsScreenProps> = (props: Se
     let themeName: string;
 
     if (themeKey === ThemesEnum.DARK) {
-        themeName = 'Dark';
+        themeName = I18n.t('settings.dark');
     } else if (themeKey === ThemesEnum.LIGHT) {
-        themeName = 'Light';
+        themeName = I18n.t('settings.light');
     } else {
-        themeName = 'Japanese';
+        themeName = I18n.t('settings.japanese');
     }
 
     const handleLogout = () => {
@@ -91,17 +92,17 @@ export const SettingsScreenComponent: React.FC<SettingsScreenProps> = (props: Se
             <ProfileImage source={require('../../../assets/profile-image.jpg')} />
             <Username>{username}</Username>
             <EditProfileButton>
-                <EditText>Edit profile</EditText>
+                <EditText>{I18n.t('settings.edit')}</EditText>
             </EditProfileButton>
             <SettingsItemComponent
-                title={'Theme'}
+                title={I18n.t('settings.theme')}
                 onPress={useCallback(() => {
                     props.navigation.navigate('ThemeChangeScreen');
                 }, [props.navigation])}
                 theme={themeName}
             />
             <SettingsItemComponent
-                title={'Change password'}
+                title={I18n.t('settings.changePassword')}
                 onPress={useCallback(() => {
                     props.navigation.navigate('PasswordChangeScreen');
                 }, [props.navigation])}

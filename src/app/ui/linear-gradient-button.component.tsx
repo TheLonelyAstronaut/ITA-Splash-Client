@@ -39,7 +39,7 @@ export const LinearButton: React.FC<Props> = (props: Props) => {
                     marginTop: theme.spacer * 4,
                 }}
             >
-                <SingInText>{I18n.t(`${props.title}`)}</SingInText>
+                <SingInText>{props.title}</SingInText>
             </LinearGradient>
         </TouchableOpacity>
     );

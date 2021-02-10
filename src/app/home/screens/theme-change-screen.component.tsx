@@ -7,6 +7,7 @@ import { Container } from '../../ui/container.component';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
 import { ThemesEnum } from '../../ui/themes/theme.types';
+import I18n from '../../utils/i18n';
 import { ThemeItemComponent } from '../components/theme-changer-item.component';
 import { HomeNavigationProps } from '../routing.params';
 
@@ -40,10 +41,18 @@ export const ThemeChangeScreenComponent: React.FC<SettingsScreenProps> = (props:
             >
                 <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
             </BackButton>
-            <ThemeItemComponent title={'Dark'} onPress={changeToDark} selected={themeKey === ThemesEnum.DARK} />
-            <ThemeItemComponent title={'Light'} onPress={changeToLight} selected={themeKey === ThemesEnum.LIGHT} />
             <ThemeItemComponent
-                title={'Japanese'}
+                title={I18n.t('settings.dark')}
+                onPress={changeToDark}
+                selected={themeKey === ThemesEnum.DARK}
+            />
+            <ThemeItemComponent
+                title={I18n.t('settings.light')}
+                onPress={changeToLight}
+                selected={themeKey === ThemesEnum.LIGHT}
+            />
+            <ThemeItemComponent
+                title={I18n.t('settings.japanese')}
                 onPress={changeToJapanese}
                 selected={themeKey === ThemesEnum.JAPANESE}
             />
