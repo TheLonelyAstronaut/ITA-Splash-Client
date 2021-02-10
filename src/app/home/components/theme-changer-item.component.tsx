@@ -15,7 +15,7 @@ export const ThemeItem = styled.TouchableOpacity`
 `;
 export const ThemeText = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.large};
+    font-size: ${(props) => props.theme.fontSize.medium};
     margin-left: ${(props) => props.theme.spacer * 3.2};
 `;
 export const CheckMark = styled.View`

@@ -15,7 +15,7 @@ export const SettingsItem = styled.TouchableOpacity`
 `;
 export const SettingsText = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.large};
+    font-size: ${(props) => props.theme.fontSize.medium};
     margin-left: ${(props) => props.theme.spacer * 3.2};
 `;
 export const Chevron = styled.View`

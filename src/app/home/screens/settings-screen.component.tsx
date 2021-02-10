@@ -37,8 +37,8 @@ export const EditProfileButton = styled.TouchableOpacity`
 export const EditText = styled(RegularText)`
     color: ${(props) => props.theme.colors.main};
     text-align: center;
-    font-size: ${(props) => props.theme.fontSize.small};
-    margin-top: 2px;
+    font-size: ${(props) => props.theme.fontSize.extraSmall};
+    margin-top: ${(props) => props.theme.spacer * 0.5};
 `;
 
 export const ProfileImage = styled.Image`
@@ -50,7 +50,7 @@ export const ProfileImage = styled.Image`
 export const Username = styled(RegularText)`
     text-align: center;
     margin-top: ${(props) => props.theme.spacer * 2};
-    font-size: ${(props) => props.theme.fontSize.extraLarge};
+    font-size: ${(props) => props.theme.fontSize.large};
 `;
 
 export type SettingsScreenProps = HomeNavigationProps<'SettingsScreen'>;
