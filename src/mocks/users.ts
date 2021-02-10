@@ -4,7 +4,7 @@ export const users: User[] = [
     {
         email: 'vlad',
         password: '123',
-        username: 'vlad',
+        username: 'Vladislav',
         token: '123qwe',
         profileImg: require('../assets/profile-image.jpg'),
     },

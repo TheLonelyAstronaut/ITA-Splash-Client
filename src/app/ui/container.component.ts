@@ -3,8 +3,8 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
     background-color: ${(props) => props.theme.colors.screenBackground};
-    margin-top: ${getStatusBarHeight()}px;
-    margin-bottom: ${(props) => props.theme.widgetHeight}px;
+    padding-top: ${getStatusBarHeight()}px;
+    padding-bottom: ${(props) => props.theme.widgetHeight}px;
     flex: 1;
 `;
 
