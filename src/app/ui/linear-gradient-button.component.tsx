@@ -17,7 +17,7 @@ export const SingInText = styled.Text`
     font-weight: 600;
 `;
 
-export const TouchableWrapper = styled(Pressable)`
+export const TouchableWrapper = styled(TouchableOpacity)`
     margin-top: ${(props) => props.theme.spacer * 3}px;
     height: 45px;
     width: ${DEVICE_SIZE.width * 0.7};

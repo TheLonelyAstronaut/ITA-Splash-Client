@@ -15,7 +15,7 @@ export const LogoContainer = styled.View`
     width: ${DEVICE_SIZE.width * 0.35}px;
     height: ${(props) => props.theme.spacer * 5}px;
     background-color: ${(props) => props.theme.colors.main};
-    margin-left: ${(props) => props.theme.spacer * 4.2}px;
+    margin-left: ${(props) => props.theme.spacer * 6}px;
     margin-top: 40%;
     padding-horizontal: 10px;
 `;
@@ -24,7 +24,7 @@ export const InputArea = styled.View`
     width: ${DEVICE_SIZE.width * 0.83}px;
     height: 360px;
     align-self: center;
-    margin-top: 35%;
+    margin-top: 45%;
     padding-horizontal: ${(props) => props.theme.spacer * 3}px;
     padding-top: ${(props) => props.theme.spacer * 4}px;
 `;
@@ -38,12 +38,13 @@ export const Input = styled.TextInput<Props>`
     width: ${DEVICE_SIZE.width * 0.71}px;
     border-width: 1px;
     align-self: center;
-    margin-top: ${(props) => props.theme.spacer}px;
+    margin-top: ${(props) => props.theme.spacer * 3}px;
     padding-left: ${(props) => props.theme.spacer}px;
     background-color: ${(props) => props.theme.colors.inputBackground};
     border-color: ${(props) => props.theme.colors.additivePink};
     color: ${(props) => props.theme.colors.secondary};
     font-size: ${(props) => props.theme.fontSize.medium};
+    font-weight: 600;
 `;
 
 export const ValidationInput = styled(Input)<Props>`

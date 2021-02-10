@@ -24,9 +24,8 @@ import { AuthNavigationProps } from '../routing.params';
 
 export const RegisterInputArea = styled.View`
     width: ${DEVICE_SIZE.width * 0.83}px;
-    height: 525px;
     align-self: center;
-    margin-top: 25%;
+    margin-top: 40%;
     padding-horizontal: ${(props) => props.theme.spacer * 3}px;
 `;
 
@@ -92,29 +91,29 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                         </LogoContainer>
                     </LogoWrapper>
                     <RegisterInputArea>
-                        <InputText>{I18n.t('auth.name')}</InputText>
                         <Input
+                            placeholder={I18n.t('auth.name')}
                             onChangeText={useCallback((val) => {
                                 setName(val);
                             }, [])}
                         />
-                        <InputText>{I18n.t('auth.email')}</InputText>
                         <ValidationInput
+                            placeholder={I18n.t('auth.email')}
                             valid={validation}
                             onChangeText={useCallback((val) => {
                                 setEmail(val);
                                 setValidation(validateEmail(val));
                             }, [])}
                         />
-                        <InputText>{I18n.t('auth.password')}</InputText>
                         <Input
+                            placeholder={I18n.t('auth.password')}
                             onChangeText={useCallback((val) => {
                                 setPassword(val);
                             }, [])}
                             secureTextEntry={true}
                         />
-                        <InputText>{I18n.t('auth.repeatPassword')}</InputText>
                         <Input
+                            placeholder={I18n.t('auth.repeatPassword')}
                             onChangeText={useCallback((val) => {
                                 setRepeatPassword(val);
                             }, [])}

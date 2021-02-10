@@ -54,17 +54,17 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                         <Title>Splash</Title>
                     </LogoContainer>
                     <InputArea>
-                        <InputText>{I18n.t('auth.email')}</InputText>
                         <ValidationInput
                             valid={validation}
+                            placeholder={I18n.t('auth.email')}
                             onChangeText={useCallback((val) => {
                                 setEmail(val);
                                 setValidation(validateEmail(val));
                             }, [])}
                         />
-                        <InputText>{I18n.t('auth.password')}</InputText>
                         <Input
                             secureTextEntry={true}
+                            placeholder={I18n.t('auth.password')}
                             onChangeText={useCallback((val) => {
                                 setPassword(val);
                             }, [])}
