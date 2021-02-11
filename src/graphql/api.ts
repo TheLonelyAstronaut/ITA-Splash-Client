@@ -91,7 +91,7 @@ export class GraphQLAPI {
         if (currentPass === users[0].password) {
             users[0].password = newPass;
         } else {
-            new Error('Incorrect password');
+            throw new Error('Incorrect password');
         }
     };
 }

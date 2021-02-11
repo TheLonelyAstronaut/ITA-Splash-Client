@@ -9,7 +9,7 @@ export function* changePasswordSaga(action: ReturnType<typeof CHANGE_PASSWORD.TR
     try {
         yield call(client.changePassword, action.payload.currentPass, action.payload.newPass);
     } catch (err) {
-        new Error(err);
+        throw new Error(err);
     }
 }
 
