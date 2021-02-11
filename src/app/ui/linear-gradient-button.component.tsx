@@ -4,8 +4,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import { useSelector } from 'react-redux';
 import styled, { DefaultTheme } from 'styled-components/native';
 
-import I18n from '../utils/i18n';
-
 import { getTheme } from './themes/selectors';
 import { DEVICE_SIZE, themesCollection } from './themes/themes';
 

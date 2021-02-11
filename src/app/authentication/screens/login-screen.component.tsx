@@ -150,7 +150,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                                 setPassword(val);
                             }, [])}
                         />
-                        <LinearButton title={'auth.signIn'} onPress={handleLogin} />
+                        <LinearButton title={I18n.t('auth.signIn')} onPress={handleLogin} />
                         <SignUpWrapper onPress={() => props.navigation.navigate('Register')}>
                             <SignUpText>{I18n.t('auth.signUp')}</SignUpText>
                         </SignUpWrapper>

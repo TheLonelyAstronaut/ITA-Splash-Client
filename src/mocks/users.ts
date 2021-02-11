@@ -2,7 +2,7 @@ import { User } from '../app/authentication/authentication.types';
 
 export const users: User[] = [
     {
-        email: 'vlad',
+        email: 'vlad@gmail.com',
         password: '123',
         username: 'Vladislav',
         token: '123qwe',

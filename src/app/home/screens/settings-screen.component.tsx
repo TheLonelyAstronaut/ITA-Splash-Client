@@ -5,7 +5,7 @@ import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 import { LOGOUT } from '../../authentication/actions';
-import { getUsername } from '../../authentication/selectors';
+import { getEmail } from '../../authentication/selectors';
 import { Container } from '../../ui/container.component';
 import { RegularText } from '../../ui/text.component';
 import { getTheme } from '../../ui/themes/selectors';
@@ -57,7 +57,7 @@ export const Username = styled(RegularText)`
 export type SettingsScreenProps = HomeNavigationProps<'SettingsScreen'>;
 
 export const SettingsScreenComponent: React.FC<SettingsScreenProps> = (props: SettingsScreenProps) => {
-    const username = useSelector(getUsername);
+    const email = useSelector(getEmail);
     const theme = useTheme();
     const dispatch = useDispatch();
     const themeKey = useSelector(getTheme);
@@ -71,9 +71,9 @@ export const SettingsScreenComponent: React.FC<SettingsScreenProps> = (props: Se
         themeName = I18n.t('settings.japanese');
     }
 
-    const handleLogout = () => {
+    const handleLogout = useCallback(() => {
         dispatch(LOGOUT.TRIGGER());
-    };
+    }, []);
 
     return (
         <Container>
@@ -90,10 +90,10 @@ export const SettingsScreenComponent: React.FC<SettingsScreenProps> = (props: Se
                 </LogoutButton>
             </HeaderButtonsWrapper>
             <ProfileImage source={require('../../../assets/profile-image.jpg')} />
-            <Username>{username}</Username>
-            <EditProfileButton>
-                <EditText>{I18n.t('settings.edit')}</EditText>
-            </EditProfileButton>
+            <Username>{email}</Username>
+            {/*<EditProfileButton>*/}
+            {/*    <EditText>{I18n.t('settings.edit')}</EditText>*/}
+            {/*</EditProfileButton>*/}
             <SettingsItemComponent
                 title={I18n.t('settings.theme')}
                 onPress={useCallback(() => {

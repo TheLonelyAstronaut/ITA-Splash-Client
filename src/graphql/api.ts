@@ -86,6 +86,14 @@ export class GraphQLAPI {
             throw new Error('nothing founded');
         }
     };
+
+    changePassword = async (currentPass: string, newPass: string): Promise<void> => {
+        if (currentPass === users[0].password) {
+            users[0].password = newPass;
+        } else {
+            new Error('Incorrect password');
+        }
+    };
 }
 
 export const client = new GraphQLAPI();

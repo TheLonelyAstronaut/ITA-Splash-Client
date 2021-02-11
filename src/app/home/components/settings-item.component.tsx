@@ -20,11 +20,13 @@ export const SettingsText = styled(RegularText)`
 `;
 export const Chevron = styled.View`
     margin-right: ${(props) => props.theme.spacer * 3};
+    margin-top: 3px;
 `;
 export const ThemeText = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
     font-size: ${(props) => props.theme.fontSize.small};
     margin-left: ${(props) => props.theme.spacer * 20};
+    margin-top: 3px;
 `;
 
 export interface Props {

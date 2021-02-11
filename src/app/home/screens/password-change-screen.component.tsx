@@ -1,17 +1,21 @@
 import React, { useCallback, useState } from 'react';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
+import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
-import { Input } from '../../authentication/screens/login-screen.component';
+import { Input, ValidationInput } from '../../authentication/screens/login-screen.component';
 import { Container } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { RegularText } from '../../ui/text.component';
+import { SHOW_FLASHBAR } from '../../utils/flashbar/actions';
+import { FlashbarEnum } from '../../utils/flashbar/flashbar.types';
 import I18n from '../../utils/i18n';
+import { CHANGE_PASSWORD } from '../actions';
 import { HomeNavigationProps } from '../routing.params';
 
 export const InputWrapper = styled.View`
-    margin-top: ${(props) => props.theme.spacer * 15};
+    margin-top: ${(props) => props.theme.spacer};
 `;
 export const InputText = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
@@ -31,10 +35,30 @@ export const PasswordChangeScreenComponent: React.FC<SettingsScreenProps> = (pro
     const [currentPass, setCurrentPass] = useState('');
     const [newPass, setNewPass] = useState('');
     const [repeatPass, setRepeatPass] = useState('');
+    const [match, setMatch] = useState(true);
+    const dispatch = useDispatch();
 
-    const handleSaveChanges = () => {
-        return null;
-    };
+    const handleSaveChanges = useCallback(() => {
+        if (newPass === repeatPass && currentPass !== '' && newPass !== '') {
+            dispatch(CHANGE_PASSWORD.TRIGGER({ currentPass: currentPass, newPass: newPass }));
+            dispatch(
+                SHOW_FLASHBAR({
+                    type: FlashbarEnum.Success,
+                    message: 'Password successfully changed',
+                })
+            );
+            props.navigation.goBack();
+        } else {
+            setMatch(false);
+            dispatch(
+                SHOW_FLASHBAR({
+                    type: FlashbarEnum.Danger,
+                    message: 'Passwords dont match',
+                    description: 'Try again',
+                })
+            );
+        }
+    }, [dispatch, currentPass, newPass, repeatPass, props.navigation]);
 
     return (
         <Container>
@@ -61,8 +85,10 @@ export const PasswordChangeScreenComponent: React.FC<SettingsScreenProps> = (pro
                     secureTextEntry={true}
                 />
                 <InputText>{I18n.t('settings.repeatNewPassword')}</InputText>
-                <Input
+                <ValidationInput
+                    valid={match}
                     onChangeText={useCallback((val) => {
+                        setMatch(true);
                         setRepeatPass(val);
                     }, [])}
                     secureTextEntry={true}
