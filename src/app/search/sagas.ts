@@ -6,8 +6,12 @@ import { client } from '../../graphql/api';
 import { SEARCH_ALL } from './actions';
 
 export function* searchSaga(action: ReturnType<typeof SEARCH_ALL.TRIGGER>): SagaIterator {
-    const result = yield call(client.search, action.payload);
-    yield put(SEARCH_ALL.STARTED({ text: action.payload, result: result }));
+    try {
+        const result = yield call(client.search, action.payload);
+        yield put(SEARCH_ALL.STARTED({ text: action.payload, result: result }));
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 export function* listenForSearchSaga(): SagaIterator {

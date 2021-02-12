@@ -18,3 +18,11 @@ export type Playlist = {
     name: string;
     id: number;
 };
+
+export type Artist = {
+    id: number;
+    name: string;
+    popularTracks: Track[];
+    image: string;
+    albums: Track[];
+};

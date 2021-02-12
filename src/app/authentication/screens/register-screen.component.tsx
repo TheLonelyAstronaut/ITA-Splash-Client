@@ -64,7 +64,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
             dispatch(REGISTER.TRIGGER({ email: email, username: name, password: password }));
             console.log(users);
         }
-    }, [dispatch, email, password, repeatPassword]);
+    }, [dispatch, email, password, repeatPassword, name]);
 
     return (
         <AvoidingContainer>
