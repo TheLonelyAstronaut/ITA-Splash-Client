@@ -54,6 +54,10 @@ const defaultValues: DefaultTheme = {
         iconSize: 26,
         progressHeight: 2,
     },
+    searchItem: {
+        height: 60,
+        searchImage: 60,
+    },
 } as DefaultTheme;
 
 const darkTheme: DefaultTheme = {

@@ -6,7 +6,7 @@ import { DEVICE_SIZE } from './themes/themes';
 
 export const Container = styled.TouchableOpacity`
     width: ${DEVICE_SIZE.width};
-    height: 60px;
+    height: ${(props) => props.theme.searchItem.height}px;
     background-color: black;
     margin-bottom: ${(props) => props.theme.spacer * 2};
     margin-top: ${(props) => props.theme.spacer * 2};
@@ -27,8 +27,8 @@ export const ArtistText = styled(RegularText)`
 `;
 
 export const ArtistImage = styled.Image`
-    width: 60px;
-    height: 60px;
+    width: ${(props) => props.theme.searchItem.searchImage}px;
+    height: ${(props) => props.theme.searchItem.searchImage}px;
     border-radius: 100px;
     margin-left: ${(props) => props.theme.spacer * 5};
 `;

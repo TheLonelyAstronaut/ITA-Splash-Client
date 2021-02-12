@@ -59,5 +59,9 @@ declare module 'styled-components' {
             iconSize: number;
             progressHeight: number;
         };
+        searchItem: {
+            height: number;
+            searchImage: number;
+        };
     }
 }
