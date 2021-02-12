@@ -16,7 +16,7 @@ export const Wrapper = styled.View`
 `;
 export const InfoWrapper = styled.View`
     margin-left: ${(props) => props.theme.spacer * 1.5};
-    margin-top: ${(props) => props.theme.spacer};
+    margin-top: ${(props) => props.theme.spacer * 1.5};
 `;
 export const ArtistName = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
