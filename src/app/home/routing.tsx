@@ -10,7 +10,7 @@ const Stack = createStackNavigator<HomeParamList>();
 
 export const HomeStackComponent: React.FC = () => {
     return (
-        <Stack.Navigator headerMode={'none'}>
+        <Stack.Navigator headerMode={'none'} initialRouteName={'HomeAlbumsScreen'}>
             <Stack.Screen name={'HomeScreen'} component={HomeScreenComponent} />
             <Stack.Screen name={'HomePlaylistScreen'} component={PlaylistScreenComponent} />
             <Stack.Screen name={'HomeMusicianScreen'} component={MusicianScreenComponent} />

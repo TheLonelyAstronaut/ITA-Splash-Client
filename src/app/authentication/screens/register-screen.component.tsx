@@ -39,7 +39,7 @@ export const LogoContainer = styled.View`
 `;
 
 export const BackButtonContainer = styled.TouchableOpacity`
-    margin-left: 25px;
+    margin-left: ${(props) => props.theme.spacer * 3}px;
     margin-top: 20%;
 `;
 
@@ -64,7 +64,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
             dispatch(REGISTER.TRIGGER({ email: email, username: name, password: password }));
             console.log(users);
         }
-    }, [dispatch, email, password, repeatPassword]);
+    }, [dispatch, email, password, repeatPassword, name]);
 
     return (
         <AvoidingContainer>
