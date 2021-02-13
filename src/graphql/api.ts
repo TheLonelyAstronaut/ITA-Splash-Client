@@ -1,4 +1,4 @@
-import { createHttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -6,7 +6,10 @@ import { setContext } from '@apollo/client/link/context';
 import { SERVER_ADDRESS } from '@env';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
+import { LibraryData, LibraryElementType } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
+import { library } from '../mocks/library';
+import { playlist } from '../mocks/playlists';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
 
@@ -85,6 +88,10 @@ export class GraphQLAPI {
         } else {
             throw new Error('nothing founded');
         }
+    };
+
+    getLibrary = async (id: number): Promise<LibraryData[]> => {
+        return library;
     };
 }
 
