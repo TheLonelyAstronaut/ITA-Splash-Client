@@ -11,7 +11,7 @@ import { DEVICE_SIZE, ThemesEnum } from '../../ui/themes/themes';
 export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;
     width: ${DEVICE_SIZE.width}px;
-    background-color: ${(props) => props.theme.colors.main};
+    background-color: transparent;
     align-items: center;
 `;
 

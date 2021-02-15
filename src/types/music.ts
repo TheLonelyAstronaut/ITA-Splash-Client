@@ -9,7 +9,7 @@ export type Track = {
     title: string;
     artist: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    artwork: any;
+    artwork: string;
     artworkType: ArtworkType;
 };
 
