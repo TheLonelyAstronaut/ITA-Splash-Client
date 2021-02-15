@@ -56,6 +56,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                         <ValidationInput
                             valid={validation}
                             placeholder={I18n.t('auth.email')}
+                            placeholderTextColor={theme.colors.inputBackground}
                             onChangeText={useCallback((val) => {
                                 setEmail(val);
                                 setValidation(validateEmail(val));
@@ -64,6 +65,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                         <Input
                             secureTextEntry={true}
                             placeholder={I18n.t('auth.password')}
+                            placeholderTextColor={theme.colors.inputBackground}
                             onChangeText={useCallback((val) => {
                                 setPassword(val);
                             }, [])}

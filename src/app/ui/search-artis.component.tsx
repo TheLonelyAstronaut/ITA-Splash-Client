@@ -22,7 +22,7 @@ export const ArtistName = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
 `;
 export const ArtistText = styled(RegularText)`
-    color: ${(props) => props.theme.colors.placeholderColor};
+    color: ${(props) => props.theme.colors.inputBackground};
     font-size: ${(props) => props.theme.fontSize.extraSmall};
 `;
 

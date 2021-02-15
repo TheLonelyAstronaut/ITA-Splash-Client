@@ -20,11 +20,10 @@ export const SearchInput = styled.TextInput`
     align-self: center;
     margin-top: ${(props) => props.theme.spacer}px;
     padding-left: ${(props) => props.theme.spacer * 2}px;
-    background-color: ${(props) => props.theme.colors.inputBackground};
+    background-color: ${(props) => props.theme.colors.main};
     border-color: ${(props) => props.theme.colors.additivePink};
     color: ${(props) => props.theme.colors.secondary};
-    font-family: ${(props) => props.theme.fontFamily.regular};
-    font-size: ${(props) => props.theme.fontSize.medium};
+    font-size: ${(props) => props.theme.fontSize.small};
 `;
 
 export const Header = styled(RegularText)`
@@ -34,7 +33,7 @@ export const Header = styled(RegularText)`
 `;
 
 export const EmptyText = styled(RegularText)`
-    color: ${(props) => props.theme.colors.contrast};
+    color: ${(props) => props.theme.colors.inputBackground};
     text-align: center;
     margin-top: 60%;
     font-size: ${(props) => props.theme.fontSize.large};
@@ -65,7 +64,7 @@ export const SearchScreenComponent: React.FC = () => {
             <Header>Search</Header>
             <SearchInput
                 placeholder={'Type to search'}
-                placeholderTextColor={theme.colors.contrast}
+                placeholderTextColor={theme.colors.inputBackground}
                 onChangeText={useCallback(
                     (val) => {
                         setSearch(val);
