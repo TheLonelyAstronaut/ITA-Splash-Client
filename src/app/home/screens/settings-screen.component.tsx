@@ -73,7 +73,7 @@ export const SettingsScreenComponent: React.FC<SettingsScreenProps> = (props: Se
 
     const handleLogout = useCallback(() => {
         dispatch(LOGOUT.TRIGGER());
-    }, []);
+    }, [dispatch]);
 
     return (
         <Container>
@@ -91,9 +91,6 @@ export const SettingsScreenComponent: React.FC<SettingsScreenProps> = (props: Se
             </HeaderButtonsWrapper>
             <ProfileImage source={require('../../../assets/profile-image.jpg')} />
             <Username>{email}</Username>
-            {/*<EditProfileButton>*/}
-            {/*    <EditText>{I18n.t('settings.edit')}</EditText>*/}
-            {/*</EditProfileButton>*/}
             <SettingsItemComponent
                 title={I18n.t('settings.theme')}
                 onPress={useCallback(() => {

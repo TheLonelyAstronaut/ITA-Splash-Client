@@ -34,9 +34,7 @@ export const LogoContainer = styled(BaseLogoContainer)`
     margin-left: 0%;
 `;
 
-
 export const BackButtonContainer = styled.TouchableOpacity``;
-
 
 export const LogoWrapper = styled.View`
     flex-direction: row;
