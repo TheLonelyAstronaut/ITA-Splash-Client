@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-import { RegularText } from '../../ui/text.component';
+import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 
 export const AlbumWrapper = styled.TouchableOpacity`
@@ -19,16 +19,17 @@ export const AlbumImage = styled.Image`
 
 export const InfoWrapper = styled.View`
     margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer};
+    margin-top: ${(props) => props.theme.spacer * 2};
 `;
 
-export const AlbumName = styled(RegularText)`
+export const AlbumName = styled(BoldText)`
     color: ${(props) => props.theme.colors.secondary};
     margin-bottom: ${(props) => props.theme.spacer * 0.5};
     font-size: ${(props) => props.theme.fontSize.large};
 `;
 export const AlbumYear = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
+    font-size: ${(props) => props.theme.fontSize.small};
 `;
 
 export type AlbumProps = {
