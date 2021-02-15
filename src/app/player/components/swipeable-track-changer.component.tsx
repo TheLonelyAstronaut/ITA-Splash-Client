@@ -12,6 +12,7 @@ export type SwipeableTrackChangerProps = {
     getRef?: (ref: Carousel<Track>) => void;
     renderItem: (info: ListRenderItemInfo<Track>) => JSX.Element;
     width: number;
+    onSnapToItem?: (index: number) => void;
 };
 
 export const SwipeableTrackChanger: React.FC<SwipeableTrackChangerProps> = (props: SwipeableTrackChangerProps) => {
@@ -29,8 +30,12 @@ export const SwipeableTrackChanger: React.FC<SwipeableTrackChangerProps> = (prop
             } else if (nextTrack < currentIndex) {
                 dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.SKIP_TO_PREVIOUS, forceSkip: true }));
             }
+
+            if (props.onSnapToItem) {
+                props.onSnapToItem(nextTrack);
+            }
         },
-        [queue, currentTrack, dispatch]
+        [queue, currentTrack, dispatch, props]
     );
 
     useEffect(() => {

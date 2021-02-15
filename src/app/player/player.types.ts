@@ -9,4 +9,5 @@ export enum ControlActions {
 export interface TrackState {
     currentTrack: Track;
     queue: Track[];
+    trackGradient: Record<string, string[]>;
 }
