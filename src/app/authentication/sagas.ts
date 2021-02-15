@@ -1,3 +1,4 @@
+import RNTrackPlayer from 'react-native-track-player';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
@@ -9,6 +10,8 @@ import { LOGIN, LOGOUT, REGISTER } from './actions';
 export function* logoutSaga(): SagaIterator {
     yield call(client.logout);
     yield put(LOGOUT.COMPLETED());
+    yield call(RNTrackPlayer.stop);
+    yield call(RNTrackPlayer.reset);
 }
 
 export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>): SagaIterator {

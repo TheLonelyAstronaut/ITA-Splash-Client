@@ -2,12 +2,13 @@ import { createReducer } from 'typesafe-redux-helpers';
 
 import { Track } from '../../types/music';
 
-import { MUSIC_ACTIONS } from './actions';
+import { ADD_TRACK_GRADIENT, MUSIC_ACTIONS } from './actions';
 import { TrackState } from './player.types';
 
 const initialState: TrackState = {
     currentTrack: {} as Track,
     queue: [],
+    trackGradient: {},
 };
 
 export const trackReducer = createReducer<TrackState>(initialState)
@@ -34,4 +35,8 @@ export const trackReducer = createReducer<TrackState>(initialState)
             ...state,
             queue: newQueue,
         };
-    });
+    })
+    .handleAction(ADD_TRACK_GRADIENT, (state, action) => ({
+        ...state,
+        trackGradient: { ...state.trackGradient, [action.payload.track]: action.payload.gradient },
+    }));

@@ -1,4 +1,4 @@
-import { Dimensions, Platform } from 'react-native';
+import { Dimensions, Platform, StyleSheet } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { DefaultTheme } from 'styled-components/native';
 
@@ -15,17 +15,17 @@ const defaultValues: DefaultTheme = {
         extraSmall: 12,
     },
     fontFamily: {
-        regular: Platform.OS === 'ios' ? 'Playfair Display Regular' : 'PlayfairDisplay-Regular',
-        medium: Platform.OS === 'ios' ? 'Playfair Display Medium' : 'PlayfairDisplay-Medium',
-        bold: Platform.OS === 'ios' ? 'Playfair Display Bold' : 'PlayfairDisplay-Bold',
-        extraBold: Platform.OS === 'ios' ? 'Playfair Display ExtraBold' : 'PlayfairDisplay-ExtraBold',
-        black: Platform.OS === 'ios' ? 'Playfair Display Black' : 'PlayfairDisplay-Black',
+        regular: 'system font',
+        medium: 'system font',
+        bold: 'system font',
+        extraBold: 'system font',
+        black: 'system font',
     },
     logoFont: 'PressStart2P-Regular',
     spacer: 8,
     sliderHeight: 60,
     separator: {
-        borderWidth: 1,
+        borderWidth: StyleSheet.hairlineWidth,
         borderColor: 'black',
     },
     tabBarHeight: 68,
@@ -42,13 +42,17 @@ const defaultValues: DefaultTheme = {
         small: 10,
     },
     player: {
-        artworkMarginTop: DEVICE_SIZE.height * 0.08 + getStatusBarHeight(),
+        artworkMarginTop:
+            (DEVICE_SIZE.height * 0.57 - DEVICE_SIZE.width * 0.85) / 2 +
+            DEVICE_SIZE.height * 0.04 +
+            getStatusBarHeight(),
         artworkSize: DEVICE_SIZE.width * 0.85,
         headerHeight: DEVICE_SIZE.height * 0.08,
         marginHorizontal: DEVICE_SIZE.width * 0.075,
         marginVertical: DEVICE_SIZE.height * 0.01,
         controlPlayPauseSize: 70,
         controlPrevNextSize: 35,
+        playerControlHeight: DEVICE_SIZE.height * 0.35,
     },
     widget: {
         iconSize: 26,
@@ -70,7 +74,7 @@ const darkTheme: DefaultTheme = {
         screenBackground: '#000000',
         sliderColor: '#757b80',
         inputBackground: '#343434',
-        placeholderColor: '#C4C4C4',
+        contrast: '#ff073a',
     },
 };
 
@@ -84,7 +88,7 @@ const lightTheme: DefaultTheme = {
         screenBackground: '#f1f2f6',
         sliderColor: '#6f7982',
         inputBackground: '#E5E5E5',
-        placeholderColor: '#878787',
+        contrast: '#ff073a',
     },
 };
 
@@ -106,7 +110,7 @@ const japaneseDarkTheme: DefaultTheme = {
         screenBackground: '#000000',
         sliderColor: '#757b80',
         inputBackground: '#343434',
-        placeholderColor: '#C4C4C4',
+        contrast: '#ff073a',
     },
 };
 

@@ -1,18 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
 import { useDispatch, useSelector } from 'react-redux';
+// Add types declaration or move to backend?
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { getColorFromURL } from 'rn-dominant-color';
 import styled, { useTheme } from 'styled-components/native';
 
 import { Track } from '../../../types/music';
+import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 import { AvoidingContainer } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
-import { MUSIC_ACTIONS } from '../actions';
+import { Logger } from '../../utils/logger';
+import { ADD_TRACK_GRADIENT, MUSIC_ACTIONS } from '../actions';
 import { ControlActions } from '../player.types';
-import { getCurrentTrack } from '../selectors';
+import { getCurrentQueue, getCurrentTrack, getTrackGradient } from '../selectors';
 
 import { PlayControlButton, SkipControlButton } from './control-button.component';
 import { PlayerArtwork } from './player-artwork.component';
@@ -34,25 +40,29 @@ export const HeaderWrapper = styled.View`
 `;
 
 export const GestureProvider = styled.View`
-    height: ${(props) => props.theme.player.artworkSize}px;
+    flex: 2;
 `;
 
 export const PlayerControlWrapper = styled.View`
-    flex: 1;
+    height: ${(props) => props.theme.player.playerControlHeight}px;
     padding-horizontal: ${(props) => props.theme.player.marginHorizontal}px;
-    padding-vertical: ${(props) => props.theme.player.marginVertical}px;
+    margin-vertical: ${(props) => props.theme.player.marginVertical}px;
 `;
 
 export const HeaderText = styled(RegularText)`
-    font-size: ${(props) => props.theme.fontSize.small}px;
+    font-size: ${(props) => props.theme.fontSize.small - 1}px;
+    font-weight: 700;
 `;
 
 export const TrackName = styled(BoldText)`
-    font-size: ${(props) => props.theme.fontSize.large}px;
+    font-size: ${(props) => props.theme.fontSize.extraLarge}px;
 `;
 
 export const ArtistName = styled(RegularText)`
     line-height: 24px;
+    font-size: ${(props) => props.theme.fontSize.medium - 1}px;
+    opacity: 0.6;
+    font-weight: 700;
 `;
 
 export const ButtonWrapper = styled.View`
@@ -61,12 +71,37 @@ export const ButtonWrapper = styled.View`
     margin-top: ${(props) => props.theme.player.marginVertical * 3}px;
 `;
 
+export const AvoidingBackground = styled(AvoidingContainer)`
+    background-color: ${(props) => props.theme.colors.main};
+`;
+
 export const Player: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
+    const currentQueue = useSelector(getCurrentQueue);
     const theme = useTheme();
     const currentState = usePlaybackState();
     const dispatch = useDispatch();
     const _carousel = useRef<Carousel<Track>>();
+    const gradient = useSelector(getTrackGradient(currentTrack.id, [theme.colors.main, theme.colors.main]));
+
+    useEffect(() => {
+        if (currentQueue) {
+            currentQueue.forEach((item) => {
+                try {
+                    getColorFromURL(item.artwork).then((colors) => {
+                        dispatch(
+                            ADD_TRACK_GRADIENT({
+                                gradient: [colors.primary, theme.colors.main],
+                                track: item.id,
+                            })
+                        );
+                    });
+                } catch (error) {
+                    Logger.log(error);
+                }
+            });
+        }
+    }, [currentQueue, dispatch, theme.colors.main]);
 
     const handleNextTrackPress = React.useCallback(() => {
         _carousel?.current?.snapToNext();
@@ -89,40 +124,42 @@ export const Player: React.FC = () => {
     const renderItem = React.useCallback((info: ListRenderItemInfo<Track>) => <PlayerArtwork track={info.item} />, []);
 
     return (
-        <AvoidingContainer>
-            <SwipeableTrackChanger
-                getRef={(ref) => (_carousel.current = ref)}
-                renderItem={renderItem}
-                width={DEVICE_SIZE.width}
-            />
-            <InfoWrapper pointerEvents={'box-none'}>
-                <HeaderWrapper>
-                    <HeaderText>Playlist info</HeaderText>
-                </HeaderWrapper>
-                <GestureProvider pointerEvents={'box-none'} />
-                <PlayerControlWrapper>
-                    <TrackName>{currentTrack.title}</TrackName>
-                    <ArtistName>{currentTrack.artist}</ArtistName>
-                    <TrackProgressSlider />
-                    <ButtonWrapper>
-                        <SkipControlButton
-                            onPress={handlePreviousTrackPress}
-                            iconName={'md-play-skip-back-sharp'}
-                            iconSize={theme.player.controlPrevNextSize}
-                        />
-                        <PlayControlButton
-                            onPress={handlePlayPausePress}
-                            iconName={currentState === State.Playing ? 'pause-circle' : 'play-circle'}
-                            iconSize={theme.player.controlPlayPauseSize}
-                        />
-                        <SkipControlButton
-                            onPress={handleNextTrackPress}
-                            iconName={'md-play-skip-forward-sharp'}
-                            iconSize={theme.player.controlPrevNextSize}
-                        />
-                    </ButtonWrapper>
-                </PlayerControlWrapper>
-            </InfoWrapper>
-        </AvoidingContainer>
+        <AvoidingBackground>
+            <AnimatedGradientTransition colors={gradient}>
+                <SwipeableTrackChanger
+                    getRef={(ref) => (_carousel.current = ref)}
+                    renderItem={renderItem}
+                    width={DEVICE_SIZE.width}
+                />
+                <InfoWrapper pointerEvents={'box-none'}>
+                    <HeaderWrapper>
+                        <HeaderText>{currentTrack.artist}</HeaderText>
+                    </HeaderWrapper>
+                    <GestureProvider pointerEvents={'box-none'} />
+                    <PlayerControlWrapper>
+                        <TrackName>{currentTrack.title}</TrackName>
+                        <ArtistName>{currentTrack.artist}</ArtistName>
+                        <TrackProgressSlider />
+                        <ButtonWrapper>
+                            <SkipControlButton
+                                onPress={handlePreviousTrackPress}
+                                iconName={'md-play-skip-back-sharp'}
+                                iconSize={theme.player.controlPrevNextSize}
+                            />
+                            <PlayControlButton
+                                onPress={handlePlayPausePress}
+                                iconName={currentState === State.Playing ? 'pause-circle' : 'play-circle'}
+                                iconSize={theme.player.controlPlayPauseSize}
+                            />
+                            <SkipControlButton
+                                onPress={handleNextTrackPress}
+                                iconName={'md-play-skip-forward-sharp'}
+                                iconSize={theme.player.controlPrevNextSize}
+                            />
+                        </ButtonWrapper>
+                    </PlayerControlWrapper>
+                </InfoWrapper>
+            </AnimatedGradientTransition>
+        </AvoidingBackground>
     );
 };

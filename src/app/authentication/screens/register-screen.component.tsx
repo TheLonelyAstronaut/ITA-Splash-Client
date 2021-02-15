@@ -10,41 +10,37 @@ import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, themesCollection, ThemesEnum } from '../../ui/themes/themes';
 import I18n from '../../utils/i18n';
+import { validateEmail } from '../../utils/validators';
 import { REGISTER } from '../actions';
-import { AuthNavigationProps } from '../routing.params';
-
 import {
     BackgroundImage,
-    EmailText,
     Input,
-    InputText,
     Title,
-    validateEmail,
     ValidationInput,
-} from './login-screen.component';
+    LogoContainer as BaseLogoContainer,
+} from '../components/styled.component';
+import { AuthNavigationProps } from '../routing.params';
 
 export const RegisterInputArea = styled.View`
-    background-color: ${(props) => props.theme.colors.main};
     width: ${DEVICE_SIZE.width * 0.83}px;
-    height: 525px;
     align-self: center;
-    margin-top: 25%;
-`;
-export const LogoContainer = styled.View`
-    width: ${DEVICE_SIZE.width * 0.3}px;
-    height: 40px;
-    background-color: ${(props) => props.theme.colors.main};
-    margin-left: ${DEVICE_SIZE.width * 0.45 + 5}px;
-    margin-top: 20%;
+    margin-top: 40%;
+    padding-horizontal: ${(props) => props.theme.spacer * 3}px;
 `;
 
-export const BackButtonContainer = styled.TouchableOpacity`
-    margin-left: 25px;
-    margin-top: 20%;
+export const LogoContainer = styled(BaseLogoContainer)`
+    background-color: ${(props) => props.theme.colors.main};
+    margin-top: 0%;
+    margin-left: 0%;
 `;
+
+export const BackButtonContainer = styled.TouchableOpacity``;
 
 export const LogoWrapper = styled.View`
     flex-direction: row;
+    justify-content: space-between;
+    padding-horizontal: ${DEVICE_SIZE.width * 0.14}px;
+    margin-top: 20%;
 `;
 
 export type RegisterScreenProps = AuthNavigationProps<'Register'>;
@@ -76,47 +72,47 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                 <BackgroundImage
                     source={
                         themeKey === ThemesEnum.DARK && ThemesEnum.JAPANESE
-                            ? require('../../../assets/background.jpg')
+                            ? require('../../../assets/register-background.png')
                             : require('../../../assets/light-background.jpg')
                     }
                 />
-                <LogoWrapper>
-                    <BackButtonContainer
-                        onPress={useCallback(() => {
-                            props.navigation.goBack();
-                        }, [props.navigation])}
-                    >
-                        <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
-                    </BackButtonContainer>
-                    <LogoContainer>
-                        <Title>Splash</Title>
-                    </LogoContainer>
-                </LogoWrapper>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
+                    <LogoWrapper>
+                        <BackButtonContainer
+                            onPress={useCallback(() => {
+                                props.navigation.goBack();
+                            }, [props.navigation])}
+                        >
+                            <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
+                        </BackButtonContainer>
+                        <LogoContainer>
+                            <Title>Splash</Title>
+                        </LogoContainer>
+                    </LogoWrapper>
                     <RegisterInputArea>
-                        <EmailText>{I18n.t('auth.name')}</EmailText>
                         <Input
+                            placeholder={I18n.t('auth.name')}
                             onChangeText={useCallback((val) => {
                                 setName(val);
                             }, [])}
                         />
-                        <InputText>{I18n.t('auth.email')}</InputText>
                         <ValidationInput
+                            placeholder={I18n.t('auth.email')}
                             valid={validation}
                             onChangeText={useCallback((val) => {
                                 setEmail(val);
                                 setValidation(validateEmail(val));
                             }, [])}
                         />
-                        <InputText>{I18n.t('auth.password')}</InputText>
                         <Input
+                            placeholder={I18n.t('auth.password')}
                             onChangeText={useCallback((val) => {
                                 setPassword(val);
                             }, [])}
                             secureTextEntry={true}
                         />
-                        <InputText>{I18n.t('auth.repeatPassword')}</InputText>
                         <Input
+                            placeholder={I18n.t('auth.repeatPassword')}
                             onChangeText={useCallback((val) => {
                                 setRepeatPassword(val);
                             }, [])}

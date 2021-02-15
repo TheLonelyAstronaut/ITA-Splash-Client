@@ -19,3 +19,8 @@ export const getCurrentTrack: Selector<ApplicationState, Track> = createSelector
     getRootTrackState,
     (trackState) => trackState.currentTrack
 );
+
+export const getTrackGradient = (id: string, resolver: string[]): Selector<ApplicationState, string[]> =>
+    createSelector(getRootTrackState, (trackState) =>
+        trackState.trackGradient[id] ? trackState.trackGradient[id] : resolver
+    );
