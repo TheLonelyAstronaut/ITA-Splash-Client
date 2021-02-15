@@ -15,7 +15,6 @@ import { REGISTER } from '../actions';
 import {
     BackgroundImage,
     Input,
-    InputText,
     Title,
     ValidationInput,
     LogoContainer as BaseLogoContainer,
@@ -61,7 +60,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
             dispatch(REGISTER.TRIGGER({ email: email, username: name, password: password }));
             console.log(users);
         }
-    }, [dispatch, email, password, repeatPassword]);
+    }, [dispatch, email, password, repeatPassword, name]);
 
     return (
         <AvoidingContainer>

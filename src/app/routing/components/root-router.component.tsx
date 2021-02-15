@@ -2,14 +2,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { useTheme } from 'styled-components/native';
 
 import { AuthStack } from '../../authentication/routing';
 import { getUsername } from '../../authentication/selectors';
-
-import { MainStackComponent } from './main-stack.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { ThemesEnum } from '../../ui/themes/theme.types';
-import { useTheme } from 'styled-components/native';
+
+import { MainStackComponent } from './main-stack.component';
 
 const AppStack = createStackNavigator();
 

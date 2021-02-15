@@ -14,7 +14,6 @@ import {
     BackgroundImage,
     Input,
     InputArea,
-    InputText,
     LogoContainer,
     Title,
     ValidationInput,

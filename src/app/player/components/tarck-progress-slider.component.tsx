@@ -5,8 +5,8 @@ import { useProgress } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
-import { MUSIC_ACTIONS } from '../actions';
 import { RegularText } from '../../ui/text.component';
+import { MUSIC_ACTIONS } from '../actions';
 
 export const TrackProgress = styled(Slider)`
     height: ${(props) => props.theme.sliderHeight}px;

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Pressable, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useSelector } from 'react-redux';
 import styled, { DefaultTheme } from 'styled-components/native';

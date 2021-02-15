@@ -6,7 +6,7 @@ export const tracks: Track[] = [
         url: require('../assets/testmp3.mp3'),
         title: 'test',
         artist: 'test',
-        artwork: { uri: 'https://profilepicture7.com/img/img_dongman/4/-1390993833.jpg' },
+        artwork: 'https://profilepicture7.com/img/img_dongman/4/-1390993833.jpg',
         artworkType: ArtworkType.IMAGE,
     },
     {
@@ -14,7 +14,7 @@ export const tracks: Track[] = [
         url: require('../assets/postmalone.mp3'),
         title: 'Sunflower',
         artist: 'Post Malone',
-        artwork: { uri: 'https://wallpapercave.com/wp/wp4354959.jpg' },
+        artwork: 'https://wallpapercave.com/wp/wp4354959.jpg',
         artworkType: ArtworkType.IMAGE,
     },
     {
@@ -22,7 +22,7 @@ export const tracks: Track[] = [
         url: require('../assets/travisscott.mp3'),
         title: 'Sicko mode',
         artist: 'Travis Scott',
-        artwork: { uri: 'https://images.genius.com/9c8508d3056b146aee2ad72d5f0606e7.926x926x1.jpg' },
+        artwork: 'https://images.genius.com/9c8508d3056b146aee2ad72d5f0606e7.926x926x1.jpg',
         artworkType: ArtworkType.IMAGE,
     },
     {
@@ -30,7 +30,7 @@ export const tracks: Track[] = [
         url: require('../assets/queen.mp3'),
         title: 'Dont Stop Me Now',
         artist: 'Queen',
-        artwork: { uri: 'https://i.pinimg.com/originals/b0/6b/a1/b06ba1e97a5ede25d56cb473c1d54636.jpg' },
+        artwork: 'https://i.pinimg.com/originals/b0/6b/a1/b06ba1e97a5ede25d56cb473c1d54636.jpg',
         artworkType: ArtworkType.IMAGE,
     },
     {
@@ -38,7 +38,7 @@ export const tracks: Track[] = [
         url: require('../assets/skryptonite.mp3'),
         title: 'Чистый',
         artist: 'Скриптонит',
-        artwork: { uri: 'https://zapoem.com/images/covers/87d2f033.a.13052128-1.jpg' },
+        artwork: 'https://zapoem.com/images/covers/87d2f033.a.13052128-1.jpg',
         artworkType: ArtworkType.IMAGE,
     },
 ];

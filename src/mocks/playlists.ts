@@ -1,4 +1,5 @@
-import { ArtworkType, Playlist } from '../types/music';
+import { Playlist } from '../types/music';
+
 import { tracks } from './tracks';
 
 export const playlist: Playlist[] = [

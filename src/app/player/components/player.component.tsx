@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { err } from 'react-native-svg/lib/typescript/xml';
 import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
 import { useDispatch, useSelector } from 'react-redux';
+// Add types declaration or move to backend?
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { getColorFromURL } from 'rn-dominant-color';
 import styled, { useTheme } from 'styled-components/native';
 
@@ -86,7 +88,7 @@ export const Player: React.FC = () => {
         if (currentQueue) {
             currentQueue.forEach((item) => {
                 try {
-                    getColorFromURL(item.artwork.uri).then((colors) => {
+                    getColorFromURL(item.artwork).then((colors) => {
                         dispatch(
                             ADD_TRACK_GRADIENT({
                                 gradient: [colors.primary, theme.colors.main],
