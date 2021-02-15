@@ -6,10 +6,9 @@ import { setContext } from '@apollo/client/link/context';
 import { SERVER_ADDRESS } from '@env';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
-import { LibraryData, LibraryElementType } from '../app/library/library.types';
+import { LibraryData } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
 import { library } from '../mocks/library';
-import { playlist } from '../mocks/playlists';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
 
@@ -91,6 +90,15 @@ export class GraphQLAPI {
     };
 
     getLibrary = async (id: number): Promise<LibraryData[]> => {
+        return library;
+    };
+
+    addPlaylist = async (action: LibraryData): Promise<LibraryData[]> => {
+        library.push({
+            data: { name: action.data.name, id: action.data.id, tracks: action.data.tracks },
+            type: action.type,
+        });
+        console.log(library);
         return library;
     };
 }

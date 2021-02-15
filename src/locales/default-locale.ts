@@ -7,4 +7,12 @@ export interface DefaultLocale {
         signUp: string;
         name: string;
     };
+    library: {
+        music: string;
+        favoriteTracks: string;
+        addNewPlaylist: string;
+        tracks: string;
+        comeUpPlaylistName: string;
+        create: string;
+    };
 }

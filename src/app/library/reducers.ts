@@ -8,7 +8,7 @@ import { LibraryData } from './library.types';
 export type LibraryParams = {
     isFetching: boolean;
     error?: Error;
-    data?: LibraryData[];
+    data: LibraryData[];
 };
 
 export const initialState: LibraryParams = {
@@ -18,10 +18,10 @@ export const initialState: LibraryParams = {
 };
 
 export const libraryReducer = createReducer<LibraryParams>(initialState)
-    .handleAction(LOAD_LIBRARY.TRIGGER, (state, action) => ({
+    .handleAction(LOAD_LIBRARY.TRIGGER, () => ({
         isFetching: true,
         error: undefined,
-        data: undefined,
+        data: [],
     }))
     .handleAction(
         LOAD_LIBRARY.COMPLETED,
@@ -30,9 +30,9 @@ export const libraryReducer = createReducer<LibraryParams>(initialState)
             error: undefined,
             data: action.payload,
         }),
-        (state, action) => ({
+        () => ({
             isFetching: false,
             error: new Error('error'),
-            data: undefined,
+            data: [],
         })
     );

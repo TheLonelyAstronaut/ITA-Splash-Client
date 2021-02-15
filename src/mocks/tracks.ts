@@ -2,20 +2,12 @@ import { ArtworkType, Track } from '../types/music';
 
 export const tracks: Track[] = [
     {
-        id: '0',
-        url: require('../assets/testmp3.mp3'),
-        title: 'test',
-        artist: 'test',
-        artwork: { uri: 'https://media.giphy.com/media/4ck99vdkdx468DQwxB/giphy.gif' },
-        artworkType: ArtworkType.VIDEO,
-    },
-    {
         id: '1',
         url: require('../assets/postmalone.mp3'),
         title: 'Sunflower',
         artist: 'Post Malone',
-        artwork: { uri: 'https://media.giphy.com/media/4ck99vdkdx468DQwxB/giphy.gif' },
-        artworkType: ArtworkType.VIDEO,
+        artwork: require('../assets/postmalone.jpg'),
+        artworkType: ArtworkType.IMAGE,
     },
     {
         id: '2',
@@ -40,5 +32,13 @@ export const tracks: Track[] = [
         artist: 'Scryptonite',
         artwork: require('../assets/skryptonite.jpg'),
         artworkType: ArtworkType.IMAGE,
+    },
+    {
+        id: '0',
+        url: require('../assets/testmp3.mp3'),
+        title: 'test',
+        artist: 'test',
+        artwork: { uri: 'https://media.giphy.com/media/4ck99vdkdx468DQwxB/giphy.gif' },
+        artworkType: ArtworkType.VIDEO,
     },
 ];
