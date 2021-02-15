@@ -31,11 +31,15 @@ export const TrackControl = styled.View`
 `;
 
 export const ArtistText = styled(RegularText)`
-    font-size: ${(props) => props.theme.fontSize.small}px;
+    font-size: ${(props) => props.theme.fontSize.extraSmall}px;
+    font-weight: 600;
+    margin-top: 2px;
+    opacity: 0.6;
 `;
 
 export const TitleText = styled(BoldText)`
-    font-size: ${(props) => props.theme.fontSize.large}px;
+    font-size: ${(props) => props.theme.fontSize.small}px;
+    font-weight: 700;
 `;
 
 export const PlayButton = styled.TouchableOpacity`

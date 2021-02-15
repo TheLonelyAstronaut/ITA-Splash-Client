@@ -1,110 +1,21 @@
-import { ArtworkType, Playlist } from '../types/music';
+import { Playlist } from '../types/music';
+
+import { tracks } from './tracks';
 
 export const playlist: Playlist[] = [
     {
         id: 0,
         name: 'Playlist 1',
-        tracks: [
-            {
-                id: '0',
-                title: 'Sunflower',
-                url: require('../assets/postmalone.mp3'),
-                artist: 'Post Malone',
-                artwork: require('../assets/postmalone.jpg'),
-                artworkType: ArtworkType.VIDEO,
-            },
-            {
-                id: '2',
-                url: require('../assets/travisscott.mp3'),
-                title: 'Sicko mode',
-                artist: 'Travis Scott',
-                artwork: require('../assets/travisscott.jpg'),
-                artworkType: ArtworkType.IMAGE,
-            },
-            {
-                id: '3',
-                url: require('../assets/queen.mp3'),
-                title: 'Dont Stop Me Now',
-                artist: 'Queen',
-                artwork: require('../assets/queen.jpg'),
-                artworkType: ArtworkType.IMAGE,
-            },
-            {
-                id: '4',
-                url: require('../assets/skryptonite.mp3'),
-                title: 'Chistiy',
-                artist: 'Scryptonite',
-                artwork: require('../assets/skryptonite.jpg'),
-                artworkType: ArtworkType.IMAGE,
-            },
-        ],
+        tracks: tracks,
     },
     {
         id: 1,
         name: 'Playlist 2',
-        tracks: [
-            {
-                id: '0',
-                title: 'Sunflower',
-                url: require('../assets/postmalone.mp3'),
-                artist: 'Post Malone',
-                artwork: require('../assets/postmalone.jpg'),
-                artworkType: ArtworkType.VIDEO,
-            },
-            {
-                id: '2',
-                url: require('../assets/travisscott.mp3'),
-                title: 'Sicko mode',
-                artist: 'Travis Scott',
-                artwork: require('../assets/travisscott.jpg'),
-                artworkType: ArtworkType.IMAGE,
-            },
-            {
-                id: '3',
-                url: require('../assets/queen.mp3'),
-                title: 'Dont Stop Me Now',
-                artist: 'Queen',
-                artwork: require('../assets/queen.jpg'),
-                artworkType: ArtworkType.IMAGE,
-            },
-            {
-                id: '4',
-                url: require('../assets/skryptonite.mp3'),
-                title: 'Chistiy',
-                artist: 'Scryptonite',
-                artwork: require('../assets/skryptonite.jpg'),
-                artworkType: ArtworkType.IMAGE,
-            },
-        ],
+        tracks: tracks,
     },
     {
         id: 2,
         name: 'Playlist 2',
-        tracks: [
-            {
-                id: '0',
-                title: 'Sunflower',
-                url: require('../assets/postmalone.mp3'),
-                artist: 'Post Malone',
-                artwork: require('../assets/postmalone.jpg'),
-                artworkType: ArtworkType.VIDEO,
-            },
-            {
-                id: '2',
-                url: require('../assets/travisscott.mp3'),
-                title: 'Sicko mode',
-                artist: 'Travis Scott',
-                artwork: require('../assets/travisscott.jpg'),
-                artworkType: ArtworkType.IMAGE,
-            },
-            {
-                id: '3',
-                url: require('../assets/queen.mp3'),
-                title: 'Dont Stop Me Now',
-                artist: 'Queen',
-                artwork: require('../assets/queen.jpg'),
-                artworkType: ArtworkType.IMAGE,
-            },
-        ],
+        tracks: tracks,
     },
 ];

@@ -5,6 +5,7 @@ import { useProgress } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
+import { RegularText } from '../../ui/text.component';
 import { MUSIC_ACTIONS } from '../actions';
 
 export const TrackProgress = styled(Slider)`
@@ -14,11 +15,14 @@ export const TrackProgress = styled(Slider)`
 export const TimerView = styled.View`
     flex-direction: row;
     justify-content: space-between;
+    margin-top: -5px;
 `;
-export const Timer = styled.Text`
+
+export const Timer = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.small}px;
-    font-family: ${(props) => props.theme.fontFamily.black};
+    font-size: ${(props) => props.theme.fontSize.extraSmall}px;
+    opacity: 0.6;
+    font-weight: 700;
 `;
 
 const formatTime = (secs) => {
