@@ -6,6 +6,7 @@ import styled, { DefaultTheme } from 'styled-components/native';
 
 import { getTheme } from './themes/selectors';
 import { DEVICE_SIZE, themesCollection } from './themes/themes';
+import I18n from '../utils/i18n';
 
 export const SingInText = styled.Text`
     color: ${(props) => props.theme.colors.secondary};

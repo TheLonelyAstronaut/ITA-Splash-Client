@@ -53,12 +53,12 @@ export const CombinedPlaylistImage: React.FC<LibraryData> = (data: LibraryData) 
     return (
         <CombinedImageContainer>
             <Wrapper>
-                <Img source={data.data.tracks[0].artwork} />
-                <Img source={data.data.tracks[1].artwork} />
+                <Img source={{ uri: `${data.data.tracks[0].artwork}` }} />
+                <Img source={{ uri: `${data.data.tracks[1].artwork}` }} />
             </Wrapper>
             <Wrapper>
-                <Img source={data.data.tracks[2].artwork} />
-                <Img source={data.data.tracks[3].artwork} />
+                <Img source={{ uri: `${data.data.tracks[2].artwork}` }} />
+                <Img source={{ uri: `${data.data.tracks[3].artwork}` }} />
             </Wrapper>
         </CombinedImageContainer>
     );
@@ -74,7 +74,7 @@ export const PlaylistImageRender: React.FC<LibraryData> = (data: LibraryData) =>
                 return <PlaylistImage source={require('../../../assets/blank-playlist.png')} />;
             case 1:
             case 3:
-                return <PlaylistImage source={data.data.tracks[0].artwork} />;
+                return <PlaylistImage source={{ uri: data.data.tracks[0].artwork }} />;
             case 4:
                 return <CombinedPlaylistImage data={data.data} type={data.type} />;
         }

@@ -2,7 +2,6 @@ import { ArtworkType, Track } from '../types/music';
 
 export const tracks: Track[] = [
     {
-
         id: '0',
         url: require('../assets/testmp3.mp3'),
         title: 'test',
@@ -47,7 +46,7 @@ export const tracks: Track[] = [
         url: require('../assets/testmp3.mp3'),
         title: 'test',
         artist: 'test',
-        artwork: { uri: 'https://media.giphy.com/media/4ck99vdkdx468DQwxB/giphy.gif' },
+        artwork: 'https://media.giphy.com/media/4ck99vdkdx468DQwxB/giphy.gif',
         artworkType: ArtworkType.VIDEO,
     },
 ];

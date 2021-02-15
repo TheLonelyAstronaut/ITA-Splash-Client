@@ -6,7 +6,7 @@ import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 import { library } from '../../../mocks/library';
-import { Input } from '../../authentication/screens/login-screen.component';
+import { Input } from '../../authentication/components/styled.component';
 import { Container } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { BoldText, RegularText } from '../../ui/text.component';
@@ -100,7 +100,7 @@ export const LibraryScreen: React.FC = () => {
                     <ModalText>{I18n.t('library.comeUpPlaylistName')}</ModalText>
                     <PlaylistInput autoFocus={true} onChangeText={(val) => setPlaylistName(val)} />
                     <LinearButton
-                        title={I18n.t('library.create')}
+                        title={'library.create'}
                         onPress={() => {
                             try {
                                 if (playlistName === '') {
