@@ -34,7 +34,7 @@ export const Header = styled(RegularText)`
 `;
 
 export const EmptyText = styled(RegularText)`
-    color: ${(props) => props.theme.colors.placeholderColor};
+    color: ${(props) => props.theme.colors.contrast};
     text-align: center;
     margin-top: 60%;
     font-size: ${(props) => props.theme.fontSize.large};
@@ -65,7 +65,7 @@ export const SearchScreenComponent: React.FC = () => {
             <Header>Search</Header>
             <SearchInput
                 placeholder={'Type to search'}
-                placeholderTextColor={theme.colors.placeholderColor}
+                placeholderTextColor={theme.colors.contrast}
                 onChangeText={useCallback(
                     (val) => {
                         setSearch(val);
