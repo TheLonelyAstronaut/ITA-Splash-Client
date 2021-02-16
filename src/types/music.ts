@@ -11,6 +11,7 @@ export type Track = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     artwork: string;
     artworkType: ArtworkType;
+    liked: boolean;
 };
 
 export type Playlist = {

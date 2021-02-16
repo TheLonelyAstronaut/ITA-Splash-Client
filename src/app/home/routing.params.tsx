@@ -6,6 +6,7 @@ export type HomeParamList = {
     HomePlaylistScreen: undefined;
     HomeMusicianScreen: undefined;
     HomeAlbumsScreen: undefined;
+    HomeAlbumScreen: undefined;
 };
 
 export type HomeNavigationProps<T extends keyof HomeParamList> = {
