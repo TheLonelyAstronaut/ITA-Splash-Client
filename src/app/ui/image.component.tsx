@@ -4,7 +4,7 @@ import FastImage, { ImageStyle } from 'react-native-fast-image';
 export type CustomImageProps = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     source: any;
-    style: ImageStyle;
+    style?: ImageStyle;
     blurred?: boolean;
     onLoadEnd?: () => void;
 };

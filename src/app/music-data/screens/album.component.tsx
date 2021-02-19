@@ -1,19 +1,18 @@
 import React, { useCallback, useState } from 'react';
 import { FlatList, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch } from 'react-redux';
-import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
-import { albums } from '../../../mocks/albums';
 import { Track } from '../../../types/music';
 import { HomeNavigationProps } from '../../home/routing.params';
 import { MUSIC_ACTIONS } from '../../player/actions';
+import { BackButton } from '../../ui/back-button.component';
 import { Container } from '../../ui/container.component';
+import { Image } from '../../ui/image.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { TrackComponent } from '../../ui/tracks/track.component';
 
-export const AlbumImage = styled.Image`
+export const AlbumImage = styled(Image)`
     margin-top: ${(props) => props.theme.spacer * 3};
     margin-left: ${(props) => props.theme.spacer * 6 - 4};
     width: 225px;
@@ -28,10 +27,6 @@ export const InfoWrapper = styled.View`
     flex-direction: row;
     justify-content: space-between;
     margin-left: 20px;
-`;
-export const BackButtonContainer = styled.TouchableOpacity`
-    margin-top: ${(props) => props.theme.spacer * 2 + 2};
-    margin-left: ${(props) => props.theme.spacer * 2};
 `;
 
 export const AlbumName = styled(BoldText)`
@@ -75,25 +70,22 @@ export const TracksWrapper = styled.View`
 export type AlbumComponentProps = HomeNavigationProps<'HomeAlbumScreen'>;
 
 export const AlbumScreenComponent: React.FC<AlbumComponentProps> = (props: AlbumComponentProps) => {
-    const theme = useTheme();
     const [liked, setLiked] = useState(false);
     const dispatch = useDispatch();
 
     const handleTrackPlay = (item: Track) => {
-        dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: item, queue: albums[0].data }));
+        dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: item, queue: props.route.params.album.data }));
     };
 
     return (
         <Container>
             <HeaderWrapper>
-                <BackButtonContainer
+                <BackButton
                     onPress={useCallback(() => {
                         props.navigation.goBack();
                     }, [props.navigation])}
-                >
-                    <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
-                </BackButtonContainer>
-                <AlbumImage source={albums[0].img} />
+                />
+                <AlbumImage source={props.route.params.album.artwork} />
             </HeaderWrapper>
             <InfoWrapper>
                 <TouchableOpacity
@@ -113,11 +105,11 @@ export const AlbumScreenComponent: React.FC<AlbumComponentProps> = (props: Album
                     )}
                 </TouchableOpacity>
                 <TextWrapper>
-                    <AlbumName>{albums[0].name}</AlbumName>
+                    <AlbumName>{props.route.params.album.name}</AlbumName>
                     <ArtistWrapper>
-                        <AlbumArtist>{albums[0].artist}</AlbumArtist>
+                        <AlbumArtist>{props.route.params.album.artist}</AlbumArtist>
                     </ArtistWrapper>
-                    <AlbumYear>{'Album ' + albums[0].year}</AlbumYear>
+                    <AlbumYear>{'Album ' + props.route.params.album.year}</AlbumYear>
                 </TextWrapper>
                 <TouchableOpacity>
                     <PlayButton source={require('../../../assets/play-button-color.png')} />
@@ -125,7 +117,7 @@ export const AlbumScreenComponent: React.FC<AlbumComponentProps> = (props: Album
             </InfoWrapper>
             <TracksWrapper>
                 <FlatList
-                    data={albums[0].data}
+                    data={props.route.params.album.data}
                     keyExtractor={(item) => item.id.toString()}
                     renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
                 />
