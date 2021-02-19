@@ -22,7 +22,8 @@ export type Playlist = {
 export type Artist = {
     id: number;
     name: string;
-    popularTracks: Track[];
+    popularTracks?: Track[];
     image: string;
-    albums: Track[];
+    albums?: Track[];
+    similarArtists?: Artist[];
 };

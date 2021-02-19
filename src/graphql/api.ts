@@ -81,9 +81,11 @@ export class GraphQLAPI {
     // };
 
     search = async (name: string): Promise<SearchResult[]> => {
-        const artists1 = artists.filter((artist) => artist.name === name);
-        const tracks1 = tracks.filter((track) => track.artist === name || track.title === name);
-        const playlists1 = playlist.filter((playlist) => playlist.name === name);
+        const artists1 = artists.filter((artist) => artist.name.includes(name) && name !== '');
+        const tracks1 = tracks.filter(
+            (track) => track.artist.includes(name) || (track.title.includes(name) && name !== '')
+        );
+        const playlists1 = playlist.filter((playlist) => playlist.name.includes(name) && name !== '');
         const result: SearchResult[] = [];
         artists1.map((item) => {
             result.push({

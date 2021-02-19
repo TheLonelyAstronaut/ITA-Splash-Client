@@ -1,6 +1,6 @@
 import { createReducer } from 'typesafe-redux-helpers';
 
-import { SEARCH_ALL } from './actions';
+import { NOTHING_FOUNDED, SEARCH_ALL } from './actions';
 import { SearchState } from './search.types';
 
 const initialState: SearchState = {
@@ -8,6 +8,7 @@ const initialState: SearchState = {
     results: [],
     isFetching: false,
     error: undefined,
+    nothingFounded: false,
 };
 
 export const searchReducer = createReducer<SearchState>(initialState)
@@ -16,9 +17,25 @@ export const searchReducer = createReducer<SearchState>(initialState)
         searchText: action.payload,
         isFetching: true,
     }))
-    .handleAction(SEARCH_ALL.STARTED, (state, action) => ({
-        searchText: action.payload.text,
-        results: action.payload.result,
-        isFetching: false,
-        error: undefined,
+    .handleAction(SEARCH_ALL.STARTED, (state) => ({
+        ...state,
+        isFetching: true,
+    }))
+    .handleAction(
+        SEARCH_ALL.COMPLETED,
+        (state, action) => ({
+            searchText: action.payload.text,
+            results: action.payload.result,
+            isFetching: false,
+            error: undefined,
+            nothingFounded: false,
+        }),
+        (state, action) => ({
+            ...state,
+            error: (action.payload.message as unknown) as Error,
+        })
+    )
+    .handleAction(NOTHING_FOUNDED, (state) => ({
+        ...state,
+        nothingFounded: true,
     }));

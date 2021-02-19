@@ -18,5 +18,6 @@ export interface SearchState {
     searchText: string;
     results: SearchResult[];
     isFetching: boolean;
-    error: undefined;
+    error: undefined | Error;
+    nothingFounded: boolean;
 }

@@ -5,13 +5,12 @@ import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 import { Container } from '../../ui/container.component';
-import { SearchArtistComponent } from '../../ui/search-artis.component';
-import { SearchTrackComponent } from '../../ui/search-track.component';
+import { SearchResultComponent } from '../../ui/search-result.component';
 import { RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { SEARCH_ALL } from '../actions';
-import { SearchResult, SearchResultType } from '../search.types';
-import { getIsFetching, getSearchResults } from '../selectors';
+import { SearchResult } from '../search.types';
+import { getIsFetching, getNothingFounded, getSearchResults } from '../selectors';
 
 export const SearchInput = styled.TextInput`
     width: ${DEVICE_SIZE.width * 0.8};
@@ -19,6 +18,7 @@ export const SearchInput = styled.TextInput`
     border-width: 1px;
     align-self: center;
     margin-top: ${(props) => props.theme.spacer}px;
+    margin-bottom: ${(props) => props.theme.spacer * 3}px;
     padding-left: ${(props) => props.theme.spacer * 2}px;
     background-color: ${(props) => props.theme.colors.main};
     border-color: ${(props) => props.theme.colors.additivePink};
@@ -42,6 +42,9 @@ export const EmptyText = styled(RegularText)`
 export const Indicator = styled.ActivityIndicator`
     margin-top: 60%;
 `;
+export const Separator: React.FC = styled.View`
+    margin-bottom: ${(props) => props.theme.spacer * 2};
+`;
 
 export const SearchScreenComponent: React.FC = () => {
     const theme = useTheme();
@@ -49,15 +52,13 @@ export const SearchScreenComponent: React.FC = () => {
     const dispatch = useDispatch();
     const results = useSelector(getSearchResults);
     const isFetching = useSelector(getIsFetching);
+    const nothingFounded = useSelector(getNothingFounded);
 
-    const renderItem: ListRenderItem<SearchResult> = ({ item }) => {
-        console.log(item);
-        if (item.type === SearchResultType.ARTIST) {
-            return <SearchArtistComponent title={item.title} artist={item.description} image={item.image} />;
-        } else if (item.type === SearchResultType.TRACK) {
-            return <SearchTrackComponent title={item.title} artist={item.description} image={item.image} />;
-        } else return null;
-    };
+    const renderItem: ListRenderItem<SearchResult> = useCallback(({ item }) => {
+        return (
+            <SearchResultComponent title={item.title} artist={item.description} image={item.image} type={item.type} />
+        );
+    }, []);
 
     return (
         <Container>
@@ -75,13 +76,18 @@ export const SearchScreenComponent: React.FC = () => {
             />
             {search ? (
                 !isFetching ? (
-                    <FlatList<SearchResult>
-                        data={results}
-                        renderItem={renderItem}
-                        keyExtractor={(item, index) => index + Math.random().toString()}
-                    />
+                    nothingFounded === false ? (
+                        <FlatList<SearchResult>
+                            data={results}
+                            renderItem={renderItem}
+                            keyExtractor={(item, index) => index + Math.random().toString()}
+                            ItemSeparatorComponent={Separator}
+                        />
+                    ) : (
+                        <Indicator collapsable={true} />
+                    )
                 ) : (
-                    <Indicator collapsable={true} />
+                    <EmptyText>Nothing was found</EmptyText>
                 )
             ) : (
                 <EmptyText>Type something to search</EmptyText>

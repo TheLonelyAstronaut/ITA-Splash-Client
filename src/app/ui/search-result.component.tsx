@@ -1,6 +1,9 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
+import { SearchResultType } from '../search/search.types';
+import { Image } from '../ui/image.component';
+
 import { RegularText } from './text.component';
 import { DEVICE_SIZE } from './themes/themes';
 
@@ -8,8 +11,7 @@ export const Container = styled.TouchableOpacity`
     width: ${DEVICE_SIZE.width};
     height: ${(props) => props.theme.searchItem.height}px;
     background-color: black;
-    margin-bottom: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 2};
+    margin-bottom: ${(props) => props.theme.spacer};
 `;
 export const Wrapper = styled.View`
     flex-direction: row;
@@ -18,7 +20,7 @@ export const InfoWrapper = styled.View`
     margin-left: ${(props) => props.theme.spacer * 1.5};
     margin-top: ${(props) => props.theme.spacer * 1.5};
 `;
-export const ArtistName = styled(RegularText)`
+export const TrackName = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
 `;
 export const ArtistText = styled(RegularText)`
@@ -26,7 +28,13 @@ export const ArtistText = styled(RegularText)`
     font-size: ${(props) => props.theme.fontSize.extraSmall};
 `;
 
-export const ArtistImage = styled.Image`
+export const TrackImage = styled(Image)`
+    width: ${(props) => props.theme.searchItem.searchImage}px;
+    height: ${(props) => props.theme.searchItem.searchImage}px;
+    margin-left: ${(props) => props.theme.spacer * 5};
+`;
+
+export const ArtistImage = styled(Image)`
     width: ${(props) => props.theme.searchItem.searchImage}px;
     height: ${(props) => props.theme.searchItem.searchImage}px;
     border-radius: 100px;
@@ -38,15 +46,21 @@ export type Props = {
     artist: string;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     image: any;
+    type: SearchResultType;
 };
 
-export const SearchArtistComponent: React.FC<Props> = (props: Props) => {
+export const SearchResultComponent: React.FC<Props> = (props: Props) => {
     return (
         <Container>
             <Wrapper>
-                <ArtistImage source={props.image} />
+                {props.type === SearchResultType.TRACK || props.type === SearchResultType.PLAYLIST ? (
+                    <TrackImage source={props.image} />
+                ) : (
+                    <ArtistImage source={props.image} style={{ borderRadius: 100 }} />
+                )}
+
                 <InfoWrapper>
-                    <ArtistName>{props.title}</ArtistName>
+                    <TrackName>{props.title}</TrackName>
                     <ArtistText>{props.artist}</ArtistText>
                 </InfoWrapper>
             </Wrapper>
