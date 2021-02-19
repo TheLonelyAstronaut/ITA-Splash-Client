@@ -2,13 +2,14 @@ import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { Album } from '../../mocks/albums';
+import { Playlist } from '../../types/music';
 
 export type HomeParamList = {
     HomeScreen: undefined;
-    HomePlaylistScreen: undefined;
+    HomePlaylistScreen: { data: Playlist | Album };
     HomeMusicianScreen: undefined;
     HomeAlbumsScreen: undefined;
-    HomeAlbumScreen: { album: Album };
+    HomeAlbumScreen: { data: Playlist | Album };
 };
 
 export type HomeNavigationProps<T extends keyof HomeParamList> = {

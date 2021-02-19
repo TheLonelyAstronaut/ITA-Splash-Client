@@ -7,6 +7,7 @@ import { Track } from '../../../types/music';
 import { HomeNavigationProps } from '../../home/routing.params';
 import { MUSIC_ACTIONS } from '../../player/actions';
 import { BackButton } from '../../ui/back-button.component';
+import { CombinedPlaylistImage } from '../../ui/combined-image-component';
 import { Container } from '../../ui/container.component';
 import { Image } from '../../ui/image.component';
 import { BoldText, RegularText } from '../../ui/text.component';
@@ -67,17 +68,62 @@ export const TracksWrapper = styled.View`
     margin-top: ${(props) => props.theme.spacer}px;
 `;
 
-export type AlbumComponentProps = HomeNavigationProps<'HomeAlbumScreen'>;
+export type MusicTemplateProps = HomeNavigationProps<'HomeAlbumScreen'>;
 
-export const AlbumScreenComponent: React.FC<AlbumComponentProps> = (props: AlbumComponentProps) => {
+export const MusicListTemplateScreen: React.FC<MusicTemplateProps> = (props: MusicTemplateProps) => {
     const [liked, setLiked] = useState(false);
     const dispatch = useDispatch();
 
-    const handleTrackPlay = (item: Track) => {
-        dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: item, queue: props.route.params.album.data }));
-    };
+    // const handleTrackPlay = (item: Track) => {
+    //     dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: item, queue: props.route.params.album.data }));
+    // };
 
     return (
+        // <Container>
+        //     <HeaderWrapper>
+        //         <BackButton
+        //             onPress={useCallback(() => {
+        //                 props.navigation.goBack();
+        //             }, [props.navigation])}
+        //         />
+        //         <AlbumImage source={props.route.params.album.artwork} />
+        //     </HeaderWrapper>
+        //     <InfoWrapper>
+        //         <TouchableOpacity
+        //             onPress={useCallback(() => {
+        //                 setLiked(!liked);
+        //                 // if(liked){
+        //                 //     dispatch(ADD_TO_LIKED);
+        //                 // }else{
+        //                 //     dispatch(DELETE_FROM_LIKED);
+        //                 // }
+        //             }, [liked])}
+        //         >
+        //             {liked ? (
+        //                 <LikeButton source={require('../../../assets/like-button-color.png')} />
+        //             ) : (
+        //                 <LikeButton source={require('../../../assets/like-button-blank.png')} />
+        //             )}
+        //         </TouchableOpacity>
+        //         <TextWrapper>
+        //             <AlbumName>{props.route.params.album.name}</AlbumName>
+        //             <ArtistWrapper>
+        //                 <AlbumArtist>{props.route.params.album.artist}</AlbumArtist>
+        //             </ArtistWrapper>
+        //             <AlbumYear>{'Album ' + props.route.params.album.year}</AlbumYear>
+        //         </TextWrapper>
+        //         <TouchableOpacity>
+        //             <PlayButton source={require('../../../assets/play-button-color.png')} />
+        //         </TouchableOpacity>
+        //     </InfoWrapper>
+        //     <TracksWrapper>
+        //         <FlatList
+        //             data={props.route.params.album.data}
+        //             keyExtractor={(item) => item.id.toString()}
+        //             renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
+        //         />
+        //     </TracksWrapper>
+        // </Container>
         <Container>
             <HeaderWrapper>
                 <BackButton
@@ -85,7 +131,7 @@ export const AlbumScreenComponent: React.FC<AlbumComponentProps> = (props: Album
                         props.navigation.goBack();
                     }, [props.navigation])}
                 />
-                <AlbumImage source={props.route.params.album.artwork} />
+                <CombinedPlaylistImage data={props.route.params.data} />
             </HeaderWrapper>
             <InfoWrapper>
                 <TouchableOpacity
@@ -105,22 +151,20 @@ export const AlbumScreenComponent: React.FC<AlbumComponentProps> = (props: Album
                     )}
                 </TouchableOpacity>
                 <TextWrapper>
-                    <AlbumName>{props.route.params.album.name}</AlbumName>
-                    <ArtistWrapper>
-                        <AlbumArtist>{props.route.params.album.artist}</AlbumArtist>
-                    </ArtistWrapper>
-                    <AlbumYear>{'Album ' + props.route.params.album.year}</AlbumYear>
+                    <AlbumName>{props.route.params.data.name}</AlbumName>
                 </TextWrapper>
                 <TouchableOpacity>
                     <PlayButton source={require('../../../assets/play-button-color.png')} />
                 </TouchableOpacity>
             </InfoWrapper>
             <TracksWrapper>
-                <FlatList
-                    data={props.route.params.album.data}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
-                />
+                {props.route.params.data === undefined ? null : (
+                    <FlatList
+                        data={props.route.params.data.tracks}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={(item) => <TrackComponent track={item.item} onPress={console.log('')} />}
+                    />
+                )}
             </TracksWrapper>
         </Container>
     );

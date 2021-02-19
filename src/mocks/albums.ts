@@ -3,7 +3,7 @@ import { Track } from '../types/music';
 import { tracks } from './tracks';
 
 export interface Album {
-    data: Track[];
+    tracks: Track[];
     year: string;
     artwork: string;
     name: string;
@@ -12,21 +12,21 @@ export interface Album {
 
 export const albums: Album[] = [
     {
-        data: tracks,
+        tracks: tracks,
         year: '2020',
         artwork: require('../assets/travisscott.jpg'),
         name: 'ASTRO WORLD',
         artist: 'Travis Scott',
     },
     {
-        data: tracks,
+        tracks: tracks,
         year: '2021',
         artwork: require('../assets/queen.jpg'),
         name: 'Queen',
         artist: 'Queen',
     },
     {
-        data: tracks,
+        tracks: tracks,
         year: '2019',
         artwork: require('../assets/postmalone.jpg'),
         name: 'Hollywood`s Bleeding',
