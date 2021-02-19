@@ -6,16 +6,16 @@ export const playlist: Playlist[] = [
     {
         id: 0,
         name: 'Playlist 1',
-        tracks: tracks,
+        data: tracks,
     },
     {
         id: 1,
         name: 'Playlist 2',
-        tracks: tracks,
+        data: tracks,
     },
     {
         id: 2,
         name: 'Playlist 2',
-        tracks: tracks,
+        data: tracks,
     },
 ];
