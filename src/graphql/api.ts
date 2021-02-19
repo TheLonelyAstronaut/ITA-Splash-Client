@@ -95,7 +95,7 @@ export class GraphQLAPI {
 
     addPlaylist = async (action: LibraryData): Promise<LibraryData[]> => {
         library.push({
-            data: { name: action.data.name, id: action.data.id, tracks: action.data.tracks },
+            data: { name: action.data.name, id: 15 },
             type: action.type,
         });
         console.log(library);

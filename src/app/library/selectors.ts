@@ -14,3 +14,8 @@ export const getLibrary: Selector<ApplicationState, LibraryData[] | undefined> =
     getRootLibraryState,
     (library) => library.data
 );
+
+export const getIsFetching: Selector<ApplicationState, boolean> = createSelector(
+    getRootLibraryState,
+    (library) => library.isFetching
+);

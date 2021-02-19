@@ -18,7 +18,7 @@ export const initialState: LibraryParams = {
 };
 
 export const libraryReducer = createReducer<LibraryParams>(initialState)
-    .handleAction(LOAD_LIBRARY.TRIGGER, () => ({
+    .handleAction(LOAD_LIBRARY.STARTED, () => ({
         isFetching: true,
         error: undefined,
         data: [],

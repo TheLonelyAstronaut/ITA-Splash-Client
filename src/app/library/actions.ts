@@ -3,7 +3,8 @@ import { createAction } from 'typesafe-redux-helpers';
 import { LibraryData } from './library.types';
 
 export const LOAD_LIBRARY = {
-    TRIGGER: createAction('[Load Libary Trigger]', (payload: number) => payload),
+    TRIGGER: createAction('[Load Library Trigger]', (payload: number) => payload),
+    STARTED: createAction('[Load Library Started]', (payload) => payload),
     COMPLETED: createAction('[Load Library Completed]', (payload: LibraryData[]) => payload),
 };
 

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
-import { library } from '../../../mocks/library';
 import { Input } from '../../authentication/components/styled.component';
 import { Container } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
@@ -16,7 +15,7 @@ import { ADD_PLAYLIST, LOAD_LIBRARY } from '../actions';
 import { AddPlaylistItem } from '../components/add-playlist.component';
 import { PlaylistItem } from '../components/playlist-item.component';
 import { LibraryElementType } from '../library.types';
-import { getLibrary, getRootLibraryState } from '../selectors';
+import { getIsFetching, getLibrary, getRootLibraryState } from '../selectors';
 
 export const HeaderText = styled(BoldText)`
     color: ${(props) => props.theme.colors.secondary};
@@ -46,44 +45,49 @@ export const ModalText = styled(RegularText)`
 export const CrossButton = styled.TouchableOpacity`
     align-self: flex-end;
 `;
+export const Indicator = styled.ActivityIndicator`
+    margin-top: 60%;
+`;
 
 export const LibraryScreen: React.FC = () => {
     const [visible, setVisible] = useState(false);
     const [playlistName, setPlaylistName] = useState('');
     const dispatch = useDispatch();
     const theme = useTheme();
+    const isFetching = useSelector(getIsFetching);
+    const extraData = useSelector(getRootLibraryState);
 
     const handleAddPlaylist = useCallback(
         (name: string) => {
-            dispatch(
-                ADD_PLAYLIST.TRIGGER({ type: LibraryElementType.PLAYLIST, data: { name: name, id: 15, tracks: [] } })
-            );
+            dispatch(ADD_PLAYLIST.TRIGGER({ type: LibraryElementType.PLAYLIST, data: { name: name } }));
         },
         [dispatch]
     );
 
     useEffect(() => {
-        dispatch(LOAD_LIBRARY.COMPLETED(library));
-    }, [dispatch, handleAddPlaylist]);
+        dispatch(LOAD_LIBRARY.TRIGGER(1));
+    }, [dispatch]);
+
+    const handleModal = useCallback(() => {
+        setVisible(true);
+    }, []);
 
     const data = useSelector(getLibrary);
 
     return (
         <Container>
             <HeaderText>{I18n.t('library.music')}</HeaderText>
-            <FlatList
-                data={data}
-                renderItem={(item) => <PlaylistItem name={item.item.data.name} data={item.item} />}
-                keyExtractor={(item) => item.data.id.toString()}
-                extraData={useSelector(getRootLibraryState)}
-                ListHeaderComponent={
-                    <AddPlaylistItem
-                        onPress={useCallback(() => {
-                            setVisible(true);
-                        }, [])}
-                    />
-                }
-            />
+            {isFetching ? (
+                <Indicator />
+            ) : (
+                <FlatList
+                    data={data}
+                    renderItem={(item) => <PlaylistItem name={item.item.data.name} data={item.item} />}
+                    keyExtractor={(item) => item.data.toString()}
+                    extraData={extraData}
+                    ListHeaderComponent={<AddPlaylistItem onPress={handleModal} />}
+                />
+            )}
 
             <AddPlaylistModal
                 animationType={'slide'}
