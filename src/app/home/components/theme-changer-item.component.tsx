@@ -31,15 +31,13 @@ export interface Props {
 export const ThemeItemComponent: React.FC<Props> = (props: Props) => {
     const theme = useTheme();
     return (
-        <>
-            <ThemeItem onPress={props.onPress}>
-                <ThemeText>{props.title}</ThemeText>
-                {props.selected ? (
-                    <CheckMark>
-                        <Icon name={'checkmark'} size={24} color={theme.colors.secondary} />
-                    </CheckMark>
-                ) : null}
-            </ThemeItem>
-        </>
+        <ThemeItem onPress={props.onPress}>
+            <ThemeText>{props.title}</ThemeText>
+            {props.selected ? (
+                <CheckMark>
+                    <Icon name={'checkmark'} size={20} color={theme.colors.secondary} />
+                </CheckMark>
+            ) : null}
+        </ThemeItem>
     );
 };

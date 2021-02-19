@@ -38,14 +38,12 @@ export interface Props {
 export const SettingsItemComponent: React.FC<Props> = (props: Props) => {
     const theme = useTheme();
     return (
-        <>
-            <SettingsItem onPress={props.onPress}>
-                <SettingsText>{props.title}</SettingsText>
-                <ThemeText>{props.theme}</ThemeText>
-                <Chevron>
-                    <Icon name={'chevron-forward'} color={theme.colors.secondary} size={18} />
-                </Chevron>
-            </SettingsItem>
-        </>
+        <SettingsItem onPress={props.onPress}>
+            <SettingsText>{props.title}</SettingsText>
+            <ThemeText>{props.theme}</ThemeText>
+            <Chevron>
+                <Icon name={'chevron-forward'} color={theme.colors.secondary} size={18} />
+            </Chevron>
+        </SettingsItem>
     );
 };

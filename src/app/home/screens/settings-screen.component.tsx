@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
@@ -61,15 +61,15 @@ export const SettingsScreenComponent: React.FC<SettingsScreenProps> = (props: Se
     const theme = useTheme();
     const dispatch = useDispatch();
     const themeKey = useSelector(getTheme);
-    let themeName: string;
-
-    if (themeKey === ThemesEnum.DARK) {
-        themeName = I18n.t('settings.dark');
-    } else if (themeKey === ThemesEnum.LIGHT) {
-        themeName = I18n.t('settings.light');
-    } else {
-        themeName = I18n.t('settings.japanese');
-    }
+    const themeName = useMemo(() => {
+        if (themeKey === ThemesEnum.DARK) {
+            return I18n.t('settings.dark');
+        } else if (themeKey === ThemesEnum.LIGHT) {
+            return I18n.t('settings.light');
+        } else {
+            return I18n.t('settings.japanese');
+        }
+    }, [themeKey]);
 
     const handleLogout = useCallback(() => {
         dispatch(LOGOUT.TRIGGER());

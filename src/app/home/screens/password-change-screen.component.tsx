@@ -8,8 +8,6 @@ import { Input, ValidationInput } from '../../authentication/components/styled.c
 import { Container } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { RegularText } from '../../ui/text.component';
-import { SHOW_FLASHBAR } from '../../utils/flashbar/actions';
-import { FlashbarEnum } from '../../utils/flashbar/flashbar.types';
 import I18n from '../../utils/i18n';
 import { CHANGE_PASSWORD } from '../actions';
 import { HomeNavigationProps } from '../routing.params';
@@ -40,26 +38,8 @@ export const PasswordChangeScreenComponent: React.FC<SettingsScreenProps> = (pro
     const dispatch = useDispatch();
 
     const handleSaveChanges = useCallback(() => {
-        if (newPass === repeatPass && currentPass !== '' && newPass !== '') {
-            dispatch(CHANGE_PASSWORD.TRIGGER({ currentPass: currentPass, newPass: newPass }));
-            dispatch(
-                SHOW_FLASHBAR({
-                    type: FlashbarEnum.Success,
-                    message: 'Password successfully changed',
-                })
-            );
-            props.navigation.goBack();
-        } else {
-            setMatch(false);
-            dispatch(
-                SHOW_FLASHBAR({
-                    type: FlashbarEnum.Danger,
-                    message: 'Passwords dont match',
-                    description: 'Try again',
-                })
-            );
-        }
-    }, [dispatch, currentPass, newPass, repeatPass, props.navigation]);
+        dispatch(CHANGE_PASSWORD.TRIGGER({ currentPass: currentPass, newPass: newPass, repeatNewPass: repeatPass }));
+    }, [dispatch, currentPass, newPass, repeatPass]);
 
     return (
         <Container>

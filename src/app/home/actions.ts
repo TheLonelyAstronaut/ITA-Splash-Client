@@ -3,6 +3,7 @@ import { createAction } from 'typesafe-redux-helpers';
 export interface PassProps {
     currentPass: string;
     newPass: string;
+    repeatNewPass: string;
 }
 
 export const CHANGE_PASSWORD = {
