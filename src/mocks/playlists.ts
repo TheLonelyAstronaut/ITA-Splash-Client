@@ -6,16 +6,19 @@ export const playlist: Playlist[] = [
     {
         id: 0,
         name: 'Playlist 1',
-        data: tracks,
+        tracks: tracks,
+        image: require('../assets/travisscott.jpg'),
     },
     {
         id: 1,
         name: 'Playlist 2',
-        data: tracks,
+        tracks: tracks,
+        image: require('../assets/travisscott.jpg'),
     },
     {
         id: 2,
-        name: 'Playlist 2',
-        data: tracks,
+        name: 'Playlist 3',
+        tracks: tracks,
+        image: require('../assets/travisscott.jpg'),
     },
 ];
