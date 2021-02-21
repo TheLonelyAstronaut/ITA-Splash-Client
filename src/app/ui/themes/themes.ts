@@ -13,6 +13,7 @@ const defaultValues: DefaultTheme = {
         medium: 16,
         small: 14,
         extraSmall: 12,
+        welcome: 36,
     },
     fontFamily: {
         regular: 'system font',

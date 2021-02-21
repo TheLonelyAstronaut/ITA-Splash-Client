@@ -118,7 +118,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                             }, [])}
                             secureTextEntry={true}
                         />
-                        <LinearButton title={'auth.signUp'} onPress={handleRegister} />
+                        <LinearButton title={I18n.t('auth.signUp')} onPress={handleRegister} />
                     </RegisterInputArea>
                 </ScrollView>
             </KeyboardAvoidingView>
