@@ -19,4 +19,13 @@ export interface DefaultLocale {
         edit: string;
         saveChanges: string;
     };
+    home: {
+        welcome: string;
+        recentlyPlayed: string;
+        recommendedArtists: string;
+        popularAlbums: string;
+        newReleases: string;
+        error: string;
+        tryAgain: string;
+    };
 }

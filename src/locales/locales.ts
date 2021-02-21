@@ -21,6 +21,15 @@ const en: DefaultLocale = {
         edit: 'Edit profile',
         saveChanges: 'Save changes',
     },
+    home: {
+        welcome: 'Welcome',
+        recentlyPlayed: 'Recently played',
+        popularAlbums: 'Popular albums',
+        recommendedArtists: 'Recommended artists',
+        newReleases: 'New releases',
+        error: 'Oops...something went wrong',
+        tryAgain: 'Try again',
+    },
 };
 
 const ru: DefaultLocale = {
@@ -43,6 +52,15 @@ const ru: DefaultLocale = {
         repeatNewPassword: 'Повторите новый пароль',
         edit: 'Редактировать',
         saveChanges: 'Сохранить изменения',
+    },
+    home: {
+        welcome: 'Добро пожаловать',
+        recentlyPlayed: 'Недавно прослушано',
+        popularAlbums: 'Популярные альбомы',
+        recommendedArtists: 'Советуем исполнителей',
+        newReleases: 'Новые релизы',
+        error: 'Ууупс...что-то пошло не так',
+        tryAgain: 'Снова',
     },
 };
 

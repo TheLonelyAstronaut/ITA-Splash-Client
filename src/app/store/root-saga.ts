@@ -4,6 +4,7 @@ import { spawn, call } from 'redux-saga/effects';
 
 import { listenForLoginSaga, listenForLogoutSaga, listenForRegisterSaga } from '../authentication/sagas';
 import { listenForChangePasswordSaga } from '../home/sagas';
+import { listenForLoadHomepage } from '../home/sagas';
 import { listenPlaySaga, listenControlSaga, listenAddToQueueSaga, listenSeekTo } from '../player/sagas';
 import { listenForSearchSaga } from '../search/sagas';
 import { listenFlashbarSaga } from '../utils/flashbar/sagas';
@@ -20,6 +21,7 @@ export function* rootSaga(dispatch: Dispatch): SagaIterator {
     yield spawn(listenForSearchSaga);
     yield spawn(listenForLogoutSaga);
     yield spawn(listenForChangePasswordSaga);
+    yield spawn(listenForLoadHomepage);
 
     yield call(initializationSaga, dispatch);
 }
