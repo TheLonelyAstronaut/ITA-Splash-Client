@@ -12,7 +12,6 @@ export const SearchStackComponent: React.FC = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name={'SearchScreen'} component={SearchScreenComponent} />
-            <Stack.Screen name={'SearchResultScreen'} component={SearchScreenComponent} />
             <Stack.Screen name={'SearchPlaylistScreen'} component={PlaylistScreenComponent} />
             <Stack.Screen name={'SearchMusicianScreen'} component={MusicianScreenComponent} />
             <Stack.Screen name={'SearchAlbumsScreen'} component={AlbumsScreenComponent} />

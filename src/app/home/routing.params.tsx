@@ -6,10 +6,9 @@ import { Playlist } from '../../types/music';
 
 export type HomeParamList = {
     HomeScreen: undefined;
-    HomePlaylistScreen: { data: Playlist | Album };
-    HomeMusicianScreen: undefined;
-    HomeAlbumsScreen: undefined;
-    HomeAlbumScreen: { data: Playlist | Album };
+    SettingsScreen: undefined;
+    ThemeChangeScreen: undefined;
+    PasswordChangeScreen: undefined;
 };
 
 export type HomeNavigationProps<T extends keyof HomeParamList> = {

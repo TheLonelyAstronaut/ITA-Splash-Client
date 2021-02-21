@@ -40,7 +40,7 @@ export const Input = styled.TextInput<Props>`
     align-self: center;
     margin-top: ${(props) => props.theme.spacer * 3}px;
     padding-left: ${(props) => props.theme.spacer}px;
-    background-color: ${(props) => props.theme.colors.inputBackground};
+    background-color: ${(props) => props.theme.colors.main};
     border-color: ${(props) => props.theme.colors.additivePink};
     color: ${(props) => props.theme.colors.secondary};
     font-size: ${(props) => props.theme.fontSize.medium};

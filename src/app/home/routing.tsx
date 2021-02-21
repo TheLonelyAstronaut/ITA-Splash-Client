@@ -9,6 +9,9 @@ import { MusicListTemplateScreen } from '../music-data/screens/music-list-templa
 
 import { HomeParamList } from './routing.params';
 import { HomeScreenComponent } from './screens/home-screen.component';
+import { PasswordChangeScreenComponent } from './screens/password-change-screen.component';
+import { SettingsScreenComponent } from './screens/settings-screen.component';
+import { ThemeChangeScreenComponent } from './screens/theme-change-screen.component';
 
 const Stack = createStackNavigator<HomeParamList>();
 
@@ -16,18 +19,9 @@ export const HomeStackComponent: React.FC = () => {
     return (
         <Stack.Navigator headerMode={'none'} initialRouteName={'HomePlaylistScreen'}>
             <Stack.Screen name={'HomeScreen'} component={HomeScreenComponent} />
-            <Stack.Screen
-                name={'HomePlaylistScreen'}
-                component={MusicListTemplateScreen}
-                initialParams={{ data: playlist[0] }}
-            />
-            <Stack.Screen name={'HomeMusicianScreen'} component={MusicianScreenComponent} />
-            <Stack.Screen name={'HomeAlbumsScreen'} component={AlbumsScreenComponent} />
-            <Stack.Screen
-                name={'HomeAlbumScreen'}
-                component={AlbumScreenComponent}
-                initialParams={{ data: albums[0] }}
-            />
+            <Stack.Screen name={'SettingsScreen'} component={SettingsScreenComponent} />
+            <Stack.Screen name={'ThemeChangeScreen'} component={ThemeChangeScreenComponent} />
+            <Stack.Screen name={'PasswordChangeScreen'} component={PasswordChangeScreenComponent} />
         </Stack.Navigator>
     );
 };

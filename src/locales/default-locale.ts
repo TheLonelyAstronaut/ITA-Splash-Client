@@ -7,4 +7,33 @@ export interface DefaultLocale {
         signUp: string;
         name: string;
     };
+    library: {
+        music: string;
+        favoriteTracks: string;
+        addNewPlaylist: string;
+        tracks: string;
+        comeUpPlaylistName: string;
+        create: string;
+    };
+    settings: {
+        dark: string;
+        light: string;
+        japanese: string;
+        theme: string;
+        changePassword: string;
+        currentPassword: string;
+        newPassword: string;
+        repeatNewPassword: string;
+        edit: string;
+        saveChanges: string;
+    };
+    home: {
+        welcome: string;
+        recentlyPlayed: string;
+        recommendedArtists: string;
+        popularAlbums: string;
+        newReleases: string;
+        error: string;
+        tryAgain: string;
+    };
 }

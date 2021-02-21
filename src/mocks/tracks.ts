@@ -46,4 +46,12 @@ export const tracks: Track[] = [
         artworkType: ArtworkType.IMAGE,
         liked: true,
     },
+    {
+        id: '5',
+        url: require('../assets/testmp3.mp3'),
+        title: 'test',
+        artist: 'test',
+        artwork: 'https://media.giphy.com/media/4ck99vdkdx468DQwxB/giphy.gif',
+        artworkType: ArtworkType.VIDEO,
+    },
 ];

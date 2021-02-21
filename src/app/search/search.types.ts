@@ -1,4 +1,4 @@
-import { Track } from '../../types/music';
+import { Track, Playlist, Artist } from '../../types/music';
 
 export enum SearchResultType {
     ARTIST,
@@ -7,11 +7,16 @@ export enum SearchResultType {
 }
 
 export type SearchResult = {
-    data: Track[];
+    title: string;
+    description: string;
+    image: string;
     type: SearchResultType;
+    data: Artist | Track | Playlist;
 };
 
 export interface SearchState {
     searchText: string;
     results: SearchResult[];
+    isFetching: boolean;
+    error: undefined | Error;
 }

@@ -12,7 +12,7 @@ import styled, { useTheme } from 'styled-components/native';
 
 import { Track } from '../../../types/music';
 import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
-import { AvoidingContainer } from '../../ui/container.component';
+import { AvoidingContainer, Container } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { Logger } from '../../utils/logger';
@@ -71,7 +71,7 @@ export const ButtonWrapper = styled.View`
     margin-top: ${(props) => props.theme.player.marginVertical * 3}px;
 `;
 
-export const AvoidingBackground = styled(AvoidingContainer)`
+export const AvoidingBackground = styled(Container)`
     background-color: ${(props) => props.theme.colors.main};
 `;
 

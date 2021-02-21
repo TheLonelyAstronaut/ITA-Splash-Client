@@ -92,12 +92,14 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                     <RegisterInputArea>
                         <Input
                             placeholder={I18n.t('auth.name')}
+                            placeholderTextColor={theme.colors.inputBackground}
                             onChangeText={useCallback((val) => {
                                 setName(val);
                             }, [])}
                         />
                         <ValidationInput
                             placeholder={I18n.t('auth.email')}
+                            placeholderTextColor={theme.colors.inputBackground}
                             valid={validation}
                             onChangeText={useCallback((val) => {
                                 setEmail(val);
@@ -106,6 +108,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                         />
                         <Input
                             placeholder={I18n.t('auth.password')}
+                            placeholderTextColor={theme.colors.inputBackground}
                             onChangeText={useCallback((val) => {
                                 setPassword(val);
                             }, [])}
@@ -113,17 +116,16 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                         />
                         <Input
                             placeholder={I18n.t('auth.repeatPassword')}
+                            placeholderTextColor={theme.colors.inputBackground}
                             onChangeText={useCallback((val) => {
                                 setRepeatPassword(val);
                             }, [])}
                             secureTextEntry={true}
                         />
-                        <LinearButton title={'auth.signUp'} onPress={handleRegister} />
+                        <LinearButton title={I18n.t('auth.signUp')} onPress={handleRegister} />
                     </RegisterInputArea>
                 </ScrollView>
             </KeyboardAvoidingView>
         </AvoidingContainer>
     );
 };
-
-export default RegisterScreen;

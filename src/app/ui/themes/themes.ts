@@ -13,6 +13,7 @@ const defaultValues: DefaultTheme = {
         medium: 16,
         small: 14,
         extraSmall: 12,
+        welcome: 36,
     },
     fontFamily: {
         regular: 'system font',
@@ -58,6 +59,10 @@ const defaultValues: DefaultTheme = {
         iconSize: 26,
         progressHeight: 2,
     },
+    searchItem: {
+        height: 60,
+        searchImage: 60,
+    },
 } as DefaultTheme;
 
 const darkTheme: DefaultTheme = {
@@ -83,7 +88,7 @@ const lightTheme: DefaultTheme = {
         additiveBlue: '#2B63FF',
         screenBackground: '#f1f2f6',
         sliderColor: '#6f7982',
-        inputBackground: '#E5E5E5',
+        inputBackground: '#464646',
         contrast: '#ff073a',
     },
 };

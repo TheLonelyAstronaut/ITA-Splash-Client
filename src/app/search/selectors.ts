@@ -18,3 +18,8 @@ export const getSearchResults: Selector<ApplicationState, SearchResult[]> = crea
     getRootSearchState,
     (search) => search.results
 );
+
+export const getIsFetching: Selector<ApplicationState, boolean> = createSelector(
+    getRootSearchState,
+    (search) => search.isFetching
+);

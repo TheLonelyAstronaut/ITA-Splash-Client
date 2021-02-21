@@ -1,4 +1,4 @@
-import { createHttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -6,9 +6,15 @@ import { setContext } from '@apollo/client/link/context';
 import { SERVER_ADDRESS } from '@env';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
+import { LibraryData, LibraryElementType } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
+import { artists } from '../mocks/artists';
+import { playlist } from '../mocks/playlists';
+import { library } from '../mocks/library';
+import { home, HomepageData } from '../mocks/home-mock';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
+import { AddPlaylistPayload } from '../app/library/actions';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
@@ -79,12 +85,75 @@ export class GraphQLAPI {
     // };
 
     search = async (name: string): Promise<SearchResult[]> => {
-        const result = tracks.filter((track) => track.title === name);
+        console.log(name);
+
+        const artists1 = artists.filter((artist) => artist.name.includes(name) && name !== '');
+        const tracks1 = tracks.filter(
+            (track) => track.artist.includes(name) || (track.title.includes(name) && name !== '')
+        );
+        const playlists1 = playlist.filter((playlist) => playlist.name.includes(name) && name !== '');
+        const result: SearchResult[] = [];
+
+        artists1.map((item) => {
+            result.push({
+                title: item.name,
+                description: 'Artist',
+                image: item.image,
+                type: SearchResultType.ARTIST,
+                data: item,
+            });
+        });
+
+        tracks1.map((item) => {
+            result.push({
+                title: item.title,
+                description: item.artist,
+                image: item.artwork,
+                type: SearchResultType.TRACK,
+                data: item,
+            });
+        });
+
+        playlists1.map((item) => {
+            result.push({
+                title: item.name,
+                description: 'playlist',
+                image: require('../assets/travisscott.jpg'),
+                type: SearchResultType.PLAYLIST,
+                data: item,
+            });
+        });
+
         if (result.length > 0) {
-            return [{ data: result, type: SearchResultType.ARTIST }];
+            return result;
         } else {
-            throw new Error('nothing founded');
+            return [];
         }
+    };
+
+    getLibrary = async (id: number): Promise<LibraryData[]> => {
+        return library;
+    };
+
+    addPlaylist = async (action: AddPlaylistPayload): Promise<LibraryData[]> => {
+        library.push({
+            data: { name: action.name, id: library.length },
+            type: LibraryElementType.PLAYLIST,
+        });
+
+        return library;
+    };
+
+    changePassword = async (currentPass: string, newPass: string): Promise<void> => {
+        if (currentPass === users[0].password) {
+            users[0].password = newPass;
+        } else {
+            throw new Error('Incorrect password');
+        }
+    };
+
+    getHomepageData = async (id: number): Promise<HomepageData[]> => {
+        return home;
     };
 }
 

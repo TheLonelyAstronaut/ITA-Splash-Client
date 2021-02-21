@@ -3,6 +3,7 @@ import 'styled-components';
 declare module 'styled-components' {
     export interface DefaultTheme {
         fontSize: {
+            welcome: number;
             extraLarge: number;
             large: number;
             medium: number;
@@ -59,6 +60,10 @@ declare module 'styled-components' {
         widget: {
             iconSize: number;
             progressHeight: number;
+        };
+        searchItem: {
+            height: number;
+            searchImage: number;
         };
     }
 }
