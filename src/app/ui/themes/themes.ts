@@ -59,6 +59,10 @@ const defaultValues: DefaultTheme = {
         iconSize: 26,
         progressHeight: 2,
     },
+    searchItem: {
+        height: 60,
+        searchImage: 60,
+    },
 } as DefaultTheme;
 
 const darkTheme: DefaultTheme = {
@@ -70,7 +74,7 @@ const darkTheme: DefaultTheme = {
         additiveBlue: '#2B63FF',
         screenBackground: '#000000',
         sliderColor: '#757b80',
-        inputBackground: '#343434',
+        inputBackground: '#C4C4C4',
         contrast: '#ff073a',
     },
 };
@@ -84,7 +88,7 @@ const lightTheme: DefaultTheme = {
         additiveBlue: '#2B63FF',
         screenBackground: '#f1f2f6',
         sliderColor: '#6f7982',
-        inputBackground: '#E5E5E5',
+        inputBackground: '#464646',
         contrast: '#ff073a',
     },
 };
@@ -106,7 +110,7 @@ const japaneseDarkTheme: DefaultTheme = {
         additiveBlue: '#2B63FF',
         screenBackground: '#000000',
         sliderColor: '#757b80',
-        inputBackground: '#343434',
+        inputBackground: '#C4C4C4',
         contrast: '#ff073a',
     },
 };

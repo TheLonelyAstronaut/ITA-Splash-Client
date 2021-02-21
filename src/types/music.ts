@@ -28,3 +28,12 @@ export type Artist = {
     albums?: Playlist[];
     similarArtists?: Artist[];
 };
+
+export type Artist = {
+    id: number;
+    name: string;
+    popularTracks?: Track[];
+    image: string;
+    albums?: Track[];
+    similarArtists?: Artist[];
+};

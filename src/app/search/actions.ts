@@ -9,5 +9,8 @@ export interface SearchPayload {
 
 export const SEARCH_ALL = {
     TRIGGER: createAction('[Search Trigger]', (payload: string) => payload),
-    STARTED: createAction('[Search Started]', (payload: SearchPayload) => payload),
+    STARTED: createAction('[Search Started]', (payload) => payload),
+    COMPLETED: createAction('[Search Completed]', (payload: SearchPayload) => payload),
 };
+
+export const NOTHING_FOUNDED = createAction('[Nothing Founded]', (payload) => payload);

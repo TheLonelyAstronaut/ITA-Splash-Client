@@ -8,6 +8,8 @@ import { SERVER_ADDRESS } from '@env';
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
 import { LibraryData } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
+import { artists } from '../mocks/artists';
+import { playlist } from '../mocks/playlists';
 import { library } from '../mocks/library';
 import { home, HomepageData } from '../mocks/home-mock';
 import { tracks } from '../mocks/tracks';
@@ -82,9 +84,41 @@ export class GraphQLAPI {
     // };
 
     search = async (name: string): Promise<SearchResult[]> => {
-        const result = tracks.filter((track) => track.title === name);
+        const artists1 = artists.filter((artist) => artist.name.includes(name) && name !== '');
+        const tracks1 = tracks.filter(
+            (track) => track.artist.includes(name) || (track.title.includes(name) && name !== '')
+        );
+        const playlists1 = playlist.filter((playlist) => playlist.name.includes(name) && name !== '');
+        const result: SearchResult[] = [];
+        artists1.map((item) => {
+            result.push({
+                title: item.name,
+                description: 'artist',
+                image: item.image,
+                type: SearchResultType.ARTIST,
+                data: item,
+            });
+        });
+        tracks1.map((item) => {
+            result.push({
+                title: item.title,
+                description: item.artist,
+                image: item.artwork,
+                type: SearchResultType.TRACK,
+                data: item,
+            });
+        });
+        playlists1.map((item) => {
+            result.push({
+                title: item.name,
+                description: 'playlist',
+                image: require('../assets/travisscott.jpg'),
+                type: SearchResultType.PLAYLIST,
+                data: item,
+            });
+        });
         if (result.length > 0) {
-            return [{ data: result, type: SearchResultType.ARTIST }];
+            return result;
         } else {
             throw new Error('nothing founded');
         }
