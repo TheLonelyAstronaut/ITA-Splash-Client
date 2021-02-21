@@ -5,7 +5,7 @@ import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 import { Input, ValidationInput } from '../../authentication/components/styled.component';
-import { Container } from '../../ui/container.component';
+import { AvoidingContainer, Container } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { RegularText } from '../../ui/text.component';
 import I18n from '../../utils/i18n';
@@ -42,7 +42,7 @@ export const PasswordChangeScreenComponent: React.FC<SettingsScreenProps> = (pro
     }, [dispatch, currentPass, newPass, repeatPass]);
 
     return (
-        <Container>
+        <AvoidingContainer>
             <BackButtonContainer
                 onPress={useCallback(() => {
                     props.navigation.goBack();
@@ -76,6 +76,6 @@ export const PasswordChangeScreenComponent: React.FC<SettingsScreenProps> = (pro
                 />
                 <LinearButton title={'settings.saveChanges'} onPress={handleSaveChanges} />
             </InputWrapper>
-        </Container>
+        </AvoidingContainer>
     );
 };

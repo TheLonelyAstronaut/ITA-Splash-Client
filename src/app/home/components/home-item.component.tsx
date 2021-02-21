@@ -14,8 +14,6 @@ export type PlaylistProps = {
 export const Wrapper = styled.TouchableOpacity`
     height: ${DEVICE_SIZE.height * 0.16};
     width: ${DEVICE_SIZE.width * 0.22};
-    background-color: ${(props) => props.theme.colors.screenBackground};
-    margin-bottom: 5px;
     margin-left: ${(props) => props.theme.spacer * 3};
 `;
 export const PlaylistImage = styled(Image)`
@@ -33,12 +31,13 @@ export const PlaylistName = styled(RegularText)`
     margin-top: ${(props) => props.theme.spacer};
 `;
 
-export const HomeItemComponent: React.FC<PlaylistProps> = (data: PlaylistProps) => {
-    const isArtist = (data.data as Artist).popularTracks;
+export const HomeItemComponent: React.FC<PlaylistProps> = ({ data }: PlaylistProps) => {
+    const isArtist = (data as Artist).popularTracks;
+
     return (
         <Wrapper>
-            {isArtist ? <ArtistImage source={data.data.image} /> : <PlaylistImage source={data.data.image} />}
-            <PlaylistName>{data.data.name}</PlaylistName>
+            {isArtist ? <ArtistImage source={{ uri: data.image }} /> : <PlaylistImage source={{ uri: data.image }} />}
+            <PlaylistName>{data.name}</PlaylistName>
         </Wrapper>
     );
 };

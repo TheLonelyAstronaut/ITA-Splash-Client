@@ -6,7 +6,7 @@ import { setContext } from '@apollo/client/link/context';
 import { SERVER_ADDRESS } from '@env';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
-import { LibraryData } from '../app/library/library.types';
+import { LibraryData, LibraryElementType } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
 import { artists } from '../mocks/artists';
 import { playlist } from '../mocks/playlists';
@@ -14,6 +14,7 @@ import { library } from '../mocks/library';
 import { home, HomepageData } from '../mocks/home-mock';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
+import { AddPlaylistPayload } from '../app/library/actions';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
@@ -84,21 +85,25 @@ export class GraphQLAPI {
     // };
 
     search = async (name: string): Promise<SearchResult[]> => {
+        console.log(name);
+
         const artists1 = artists.filter((artist) => artist.name.includes(name) && name !== '');
         const tracks1 = tracks.filter(
             (track) => track.artist.includes(name) || (track.title.includes(name) && name !== '')
         );
         const playlists1 = playlist.filter((playlist) => playlist.name.includes(name) && name !== '');
         const result: SearchResult[] = [];
+
         artists1.map((item) => {
             result.push({
                 title: item.name,
-                description: 'artist',
+                description: 'Artist',
                 image: item.image,
                 type: SearchResultType.ARTIST,
                 data: item,
             });
         });
+
         tracks1.map((item) => {
             result.push({
                 title: item.title,
@@ -108,6 +113,7 @@ export class GraphQLAPI {
                 data: item,
             });
         });
+
         playlists1.map((item) => {
             result.push({
                 title: item.name,
@@ -117,10 +123,11 @@ export class GraphQLAPI {
                 data: item,
             });
         });
+
         if (result.length > 0) {
             return result;
         } else {
-            throw new Error('nothing founded');
+            return [];
         }
     };
 
@@ -128,12 +135,13 @@ export class GraphQLAPI {
         return library;
     };
 
-    addPlaylist = async (action: LibraryData): Promise<LibraryData[]> => {
+    addPlaylist = async (action: AddPlaylistPayload): Promise<LibraryData[]> => {
         library.push({
-            data: { name: action.data.name, id: 15 },
-            type: action.type,
+            data: { name: action.name, id: library.length },
+            type: LibraryElementType.PLAYLIST,
         });
-        console.log(library);
+
+        return library;
     };
 
     changePassword = async (currentPass: string, newPass: string): Promise<void> => {
@@ -143,7 +151,7 @@ export class GraphQLAPI {
             throw new Error('Incorrect password');
         }
     };
-    
+
     getHomepageData = async (id: number): Promise<HomepageData[]> => {
         return home;
     };

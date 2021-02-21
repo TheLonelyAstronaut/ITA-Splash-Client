@@ -5,12 +5,13 @@ import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 import { Container } from '../../ui/container.component';
-import { SearchResultComponent } from '../../ui/search-result.component';
-import { RegularText } from '../../ui/text.component';
+import { SearchResultComponent } from '../components/search-result.component';
+import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { SEARCH_ALL } from '../actions';
 import { SearchResult } from '../search.types';
-import { getIsFetching, getNothingFounded, getSearchResults } from '../selectors';
+import { getIsFetching, getSearchResults } from '../selectors';
+import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 
 export const SearchInput = styled.TextInput`
     width: ${DEVICE_SIZE.width * 0.8};
@@ -26,10 +27,11 @@ export const SearchInput = styled.TextInput`
     font-size: ${(props) => props.theme.fontSize.small};
 `;
 
-export const Header = styled(RegularText)`
+export const Header = styled(BoldText)`
     font-size: ${(props) => props.theme.fontSize.extraLarge};
     margin-left: ${(props) => props.theme.spacer * 5};
     margin-top: ${(props) => props.theme.spacer * 8};
+    margin-bottom: ${(props) => props.theme.spacer};
 `;
 
 export const EmptyText = styled(RegularText)`
@@ -42,7 +44,8 @@ export const EmptyText = styled(RegularText)`
 export const Indicator = styled.ActivityIndicator`
     margin-top: 60%;
 `;
-export const Separator: React.FC = styled.View`
+
+export const Separator = styled.View`
     margin-bottom: ${(props) => props.theme.spacer * 2};
 `;
 
@@ -52,7 +55,6 @@ export const SearchScreenComponent: React.FC = () => {
     const dispatch = useDispatch();
     const results = useSelector(getSearchResults);
     const isFetching = useSelector(getIsFetching);
-    const nothingFounded = useSelector(getNothingFounded);
 
     const renderItem: ListRenderItem<SearchResult> = useCallback(({ item }) => {
         return (
@@ -62,24 +64,34 @@ export const SearchScreenComponent: React.FC = () => {
 
     return (
         <Container>
-            <Header>Search</Header>
-            <SearchInput
-                placeholder={'Type to search'}
-                placeholderTextColor={theme.colors.inputBackground}
-                onChangeText={useCallback(
-                    (val) => {
-                        setSearch(val);
-                        dispatch(SEARCH_ALL.TRIGGER(val));
-                    },
-                    [dispatch]
-                )}
-            />
-            {search ? (
-                !isFetching ? (
-                    nothingFounded === false ? (
+            <AnimatedGradientTransition
+                colors={[
+                    theme.colors.additivePink,
+                    theme.colors.screenBackground,
+                    theme.colors.screenBackground,
+                    theme.colors.screenBackground,
+                    theme.colors.screenBackground,
+                ]}
+                style={{ flex: 1 }}
+            >
+                <Header>Search</Header>
+                <SearchInput
+                    placeholder={'Type to search'}
+                    placeholderTextColor={theme.colors.inputBackground}
+                    onChangeText={useCallback(
+                        (val) => {
+                            setSearch(val);
+                            dispatch(SEARCH_ALL.TRIGGER(val));
+                        },
+                        [dispatch]
+                    )}
+                />
+                {search ? (
+                    !isFetching ? (
                         <FlatList<SearchResult>
                             data={results}
                             renderItem={renderItem}
+                            ListEmptyComponent={!results.length ? <EmptyText>Nothing was found</EmptyText> : null}
                             keyExtractor={(item, index) => index + Math.random().toString()}
                             ItemSeparatorComponent={Separator}
                         />
@@ -87,11 +99,9 @@ export const SearchScreenComponent: React.FC = () => {
                         <Indicator collapsable={true} />
                     )
                 ) : (
-                    <EmptyText>Nothing was found</EmptyText>
-                )
-            ) : (
-                <EmptyText>Type something to search</EmptyText>
-            )}
+                    <EmptyText>Type something to search</EmptyText>
+                )}
+            </AnimatedGradientTransition>
         </Container>
     );
 };

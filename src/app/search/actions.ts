@@ -12,5 +12,3 @@ export const SEARCH_ALL = {
     STARTED: createAction('[Search Started]', (payload) => payload),
     COMPLETED: createAction('[Search Completed]', (payload: SearchPayload) => payload),
 };
-
-export const NOTHING_FOUNDED = createAction('[Nothing Founded]', (payload) => payload);

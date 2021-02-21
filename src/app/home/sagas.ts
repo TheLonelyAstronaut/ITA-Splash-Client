@@ -37,7 +37,7 @@ export function* loadHomePageSaga(action: ReturnType<typeof LOAD_HOME_DATA.TRIGG
 export function* listenForLoadHomepage(): SagaIterator {
     yield takeLatest(LOAD_HOME_DATA.TRIGGER, loadHomePageSaga);
 }
-                                                       
+
 export function* listenForChangePasswordSaga(): SagaIterator {
     yield takeLatest(CHANGE_PASSWORD.TRIGGER, changePasswordSaga);
 }

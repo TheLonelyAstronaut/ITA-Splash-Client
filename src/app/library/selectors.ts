@@ -10,7 +10,7 @@ export const getRootLibraryState: Selector<ApplicationState, LibraryParams> = cr
     (library) => library
 );
 
-export const getLibrary: Selector<ApplicationState, LibraryData[] | undefined> = createSelector(
+export const getLibrary: Selector<ApplicationState, LibraryData[]> = createSelector(
     getRootLibraryState,
     (library) => library.data
 );

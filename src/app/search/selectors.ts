@@ -23,8 +23,3 @@ export const getIsFetching: Selector<ApplicationState, boolean> = createSelector
     getRootSearchState,
     (search) => search.isFetching
 );
-
-export const getNothingFounded: Selector<ApplicationState, boolean> = createSelector(
-    getRootSearchState,
-    (search) => search.nothingFounded
-);

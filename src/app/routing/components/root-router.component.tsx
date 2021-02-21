@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { useTheme } from 'styled-components/native';
 
 import { AuthStack } from '../../authentication/routing';
-import { getUsername } from '../../authentication/selectors';
+import { getAccessToken } from '../../authentication/selectors';
 import { getTheme } from '../../ui/themes/selectors';
 import { ThemesEnum } from '../../ui/themes/theme.types';
 
@@ -14,7 +14,7 @@ import { MainStackComponent } from './main-stack.component';
 const AppStack = createStackNavigator();
 
 export const RootRouterComponent: React.FC = () => {
-    const isLoggedIn = useSelector(getUsername);
+    const isLoggedIn = useSelector(getAccessToken);
     const currentTheme = useTheme();
     const currentThemeEnum = useSelector(getTheme);
 

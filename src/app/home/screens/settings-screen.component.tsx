@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 
 import { LOGOUT } from '../../authentication/actions';
 import { getEmail } from '../../authentication/selectors';
-import { Container } from '../../ui/container.component';
+import { AvoidingContainer, Container } from '../../ui/container.component';
 import { RegularText } from '../../ui/text.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, ThemesEnum } from '../../ui/themes/themes';
@@ -76,7 +76,7 @@ export const SettingsScreenComponent: React.FC<SettingsScreenProps> = (props: Se
     }, [dispatch]);
 
     return (
-        <Container>
+        <AvoidingContainer>
             <HeaderButtonsWrapper>
                 <BackButton
                     onPress={useCallback(() => {
@@ -104,6 +104,6 @@ export const SettingsScreenComponent: React.FC<SettingsScreenProps> = (props: Se
                     props.navigation.navigate('PasswordChangeScreen');
                 }, [props.navigation])}
             />
-        </Container>
+        </AvoidingContainer>
     );
 };
