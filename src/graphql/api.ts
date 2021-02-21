@@ -88,6 +88,14 @@ export class GraphQLAPI {
         }
     };
 
+    changePassword = async (currentPass: string, newPass: string): Promise<void> => {
+        if (currentPass === users[0].password) {
+            users[0].password = newPass;
+        } else {
+            throw new Error('Incorrect password');
+        }
+    };
+    
     getHomepageData = async (id: number): Promise<HomepageData[]> => {
         return home;
     };

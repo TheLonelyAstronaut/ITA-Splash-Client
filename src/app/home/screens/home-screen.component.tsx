@@ -3,7 +3,6 @@ import { FlatList, SectionList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
-
 import { Album } from '../../../mocks/albums';
 import { Artist, Playlist } from '../../../types/music';
 import { Container } from '../../ui/container.component';
