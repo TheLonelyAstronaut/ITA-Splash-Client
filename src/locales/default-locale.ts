@@ -7,4 +7,13 @@ export interface DefaultLocale {
         signUp: string;
         name: string;
     };
+    home: {
+        welcome: string;
+        recentlyPlayed: string;
+        recommendedArtists: string;
+        popularAlbums: string;
+        newReleases: string;
+        error: string;
+        tryAgain: string;
+    };
 }

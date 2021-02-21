@@ -7,6 +7,7 @@ import { SERVER_ADDRESS } from '@env';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
+import { home, HomepageData } from '../mocks/home-mock';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
 
@@ -85,6 +86,10 @@ export class GraphQLAPI {
         } else {
             throw new Error('nothing founded');
         }
+    };
+
+    getHomepageData = async (id: number): Promise<HomepageData[]> => {
+        return home;
     };
 }
 
