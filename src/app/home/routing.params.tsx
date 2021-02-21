@@ -6,6 +6,9 @@ export type HomeParamList = {
     HomePlaylistScreen: undefined;
     HomeMusicianScreen: undefined;
     HomeAlbumsScreen: undefined;
+    SettingsScreen: undefined;
+    ThemeChangeScreen: undefined;
+    PasswordChangeScreen: undefined;
 };
 
 export type HomeNavigationProps<T extends keyof HomeParamList> = {

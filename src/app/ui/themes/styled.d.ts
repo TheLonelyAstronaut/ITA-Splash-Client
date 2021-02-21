@@ -3,6 +3,7 @@ import 'styled-components';
 declare module 'styled-components' {
     export interface DefaultTheme {
         fontSize: {
+            welcome: number;
             extraLarge: number;
             large: number;
             medium: number;

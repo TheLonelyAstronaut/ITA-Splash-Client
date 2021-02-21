@@ -7,8 +7,8 @@ import { SHOW_FLASHBAR } from './actions';
 export function* flashbarSaga(action: ReturnType<typeof SHOW_FLASHBAR>): SagaIterator {
     yield call(showMessage, {
         type: action.payload.type,
-        message: action.payload.title,
-        description: action.payload.message,
+        message: action.payload.message,
+        description: action.payload?.description,
     });
 }
 

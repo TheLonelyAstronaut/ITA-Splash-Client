@@ -6,9 +6,12 @@ import { setContext } from '@apollo/client/link/context';
 import { SERVER_ADDRESS } from '@env';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
+import { LibraryData } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
 import { artists } from '../mocks/artists';
 import { playlist } from '../mocks/playlists';
+import { library } from '../mocks/library';
+import { home, HomepageData } from '../mocks/home-mock';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
 
@@ -119,6 +122,30 @@ export class GraphQLAPI {
         } else {
             throw new Error('nothing founded');
         }
+    };
+
+    getLibrary = async (id: number): Promise<LibraryData[]> => {
+        return library;
+    };
+
+    addPlaylist = async (action: LibraryData): Promise<LibraryData[]> => {
+        library.push({
+            data: { name: action.data.name, id: 15 },
+            type: action.type,
+        });
+        console.log(library);
+    };
+
+    changePassword = async (currentPass: string, newPass: string): Promise<void> => {
+        if (currentPass === users[0].password) {
+            users[0].password = newPass;
+        } else {
+            throw new Error('Incorrect password');
+        }
+    };
+    
+    getHomepageData = async (id: number): Promise<HomepageData[]> => {
+        return home;
     };
 }
 
