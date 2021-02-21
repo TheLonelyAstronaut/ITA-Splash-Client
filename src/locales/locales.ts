@@ -9,6 +9,14 @@ const en: DefaultLocale = {
         signIn: 'Sign In',
         signUp: 'Sign Up',
     },
+    library: {
+        music: 'Music',
+        favoriteTracks: 'Favorite tracks',
+        tracks: 'tracks',
+        addNewPlaylist: 'Add new playlist',
+        comeUpPlaylistName: 'Come up with a playlist name',
+        create: 'Create',
+    },
     settings: {
         dark: 'Dark',
         light: 'Light',
@@ -40,6 +48,14 @@ const ru: DefaultLocale = {
         name: 'Имя',
         signIn: 'Войти',
         signUp: 'Регистрация',
+    },
+    library: {
+        music: 'Музыка',
+        favoriteTracks: 'Любимые треки',
+        tracks: 'треков',
+        addNewPlaylist: 'Добавить плейлист',
+        comeUpPlaylistName: 'Придумайте название плейлиста',
+        create: 'Создать',
     },
     settings: {
         dark: 'Темная',

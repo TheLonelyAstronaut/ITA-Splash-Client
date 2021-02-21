@@ -1,4 +1,4 @@
-import { createHttpLink, ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -6,7 +6,9 @@ import { setContext } from '@apollo/client/link/context';
 import { SERVER_ADDRESS } from '@env';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
+import { LibraryData } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
+import { library } from '../mocks/library';
 import { home, HomepageData } from '../mocks/home-mock';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
@@ -86,6 +88,18 @@ export class GraphQLAPI {
         } else {
             throw new Error('nothing founded');
         }
+    };
+
+    getLibrary = async (id: number): Promise<LibraryData[]> => {
+        return library;
+    };
+
+    addPlaylist = async (action: LibraryData): Promise<LibraryData[]> => {
+        library.push({
+            data: { name: action.data.name, id: 15 },
+            type: action.type,
+        });
+        console.log(library);
     };
 
     changePassword = async (currentPass: string, newPass: string): Promise<void> => {

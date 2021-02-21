@@ -1,6 +1,7 @@
 import { combineReducers, Reducer } from 'redux';
 
 import { authenticationReducer } from '../authentication/reducers';
+import { libraryReducer } from '../library/reducers';
 import { homeReducer } from '../home/reducers';
 import { trackReducer } from '../player/reducers';
 import { searchReducer } from '../search/reducers';
@@ -13,5 +14,6 @@ export const rootReducer: Reducer<ApplicationState> = combineReducers<Applicatio
     theming: themeReducer,
     track: trackReducer,
     search: searchReducer,
+    library: libraryReducer,
     homepage: homeReducer,
 });

@@ -41,4 +41,12 @@ export const tracks: Track[] = [
         artwork: 'https://zapoem.com/images/covers/87d2f033.a.13052128-1.jpg',
         artworkType: ArtworkType.IMAGE,
     },
+    {
+        id: '0',
+        url: require('../assets/testmp3.mp3'),
+        title: 'test',
+        artist: 'test',
+        artwork: 'https://media.giphy.com/media/4ck99vdkdx468DQwxB/giphy.gif',
+        artworkType: ArtworkType.VIDEO,
+    },
 ];
