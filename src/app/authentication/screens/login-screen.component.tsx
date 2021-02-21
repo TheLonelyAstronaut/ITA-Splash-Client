@@ -3,7 +3,7 @@ import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components/native';
 
-import { AvoidingContainer } from '../../ui/container.component';
+import { Container } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { ThemesEnum } from '../../ui/themes/themes';
@@ -35,7 +35,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
     }, [dispatch, email, password]);
 
     return (
-        <AvoidingContainer>
+        <Container>
             <KeyboardAvoidingView
                 contentContainerStyle={{ flex: 1 }}
                 style={{ flex: 1 }}
@@ -79,7 +79,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
                     </InputArea>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </AvoidingContainer>
+        </Container>
     );
 };
 

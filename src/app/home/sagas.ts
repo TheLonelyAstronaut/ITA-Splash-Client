@@ -1,13 +1,12 @@
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { Logger } from '../utils/logger';
 
-import { LOAD_HOME_DATA } from './actions';
 import { client } from '../../graphql/api';
 import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
 import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
+import { Logger } from '../utils/logger';
 
-import { CHANGE_PASSWORD } from './actions';
+import { LOAD_HOME_DATA, CHANGE_PASSWORD } from './actions';
 
 export function* changePasswordSaga(action: ReturnType<typeof CHANGE_PASSWORD.TRIGGER>): SagaIterator {
     if (

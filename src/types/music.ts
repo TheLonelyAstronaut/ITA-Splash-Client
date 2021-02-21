@@ -15,7 +15,7 @@ export type Track = {
 };
 
 export type Playlist = {
-    tracks?: [] | Track[];
+    tracks: Track[];
     name: string;
     id: number;
     image?: string;
@@ -26,6 +26,15 @@ export type Artist = {
     name: string;
     popularTracks?: Track[];
     image: string;
-    albums?: Playlist[];
+    albums?: Album[];
     similarArtists?: Artist[];
 };
+
+export interface Album {
+    id: number;
+    tracks: Track[];
+    year: string;
+    image: string;
+    name: string;
+    artist: string;
+}

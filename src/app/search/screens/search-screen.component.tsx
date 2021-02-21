@@ -4,14 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
+import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 import { Container } from '../../ui/container.component';
-import { SearchResultComponent } from '../components/search-result.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { SEARCH_ALL } from '../actions';
+import { SearchResultComponent } from '../components/search-result.component';
+import { SearchNavigationProps } from '../routing.params';
 import { SearchResult } from '../search.types';
 import { getIsFetching, getSearchResults } from '../selectors';
-import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 
 export const SearchInput = styled.TextInput`
     width: ${DEVICE_SIZE.width * 0.8};
@@ -49,18 +50,21 @@ export const Separator = styled.View`
     margin-bottom: ${(props) => props.theme.spacer * 2};
 `;
 
-export const SearchScreenComponent: React.FC = () => {
+export type SearchScreenProps = SearchNavigationProps<'SearchScreen'>;
+
+export const SearchScreenComponent: React.FC<SearchScreenProps> = (props: SearchScreenProps) => {
     const theme = useTheme();
     const [search, setSearch] = useState('');
     const dispatch = useDispatch();
     const results = useSelector(getSearchResults);
     const isFetching = useSelector(getIsFetching);
 
-    const renderItem: ListRenderItem<SearchResult> = useCallback(({ item }) => {
-        return (
-            <SearchResultComponent title={item.title} artist={item.description} image={item.image} type={item.type} />
-        );
-    }, []);
+    const renderItem: ListRenderItem<SearchResult> = useCallback(
+        ({ item }) => {
+            return <SearchResultComponent {...item} navigation={props.navigation} />;
+        },
+        [props.navigation]
+    );
 
     return (
         <Container>

@@ -2,12 +2,10 @@ import React from 'react';
 import Icon from 'react-native-vector-icons/Fontisto';
 import styled from 'styled-components/native';
 
-import { Album } from '../../mocks/albums';
-import { Playlist } from '../../types/music';
-
-import { Image } from './image.component';
-import { RegularText } from './text.component';
-import { DEVICE_SIZE } from './themes/themes';
+import { Playlist, Album } from '../../../types/music';
+import { Image } from '../image.component';
+import { RegularText } from '../text.component';
+import { DEVICE_SIZE } from '../themes/themes';
 
 export const PlaylistContainer = styled.TouchableOpacity`
     width: ${DEVICE_SIZE.width};
@@ -23,30 +21,34 @@ export const PlaylistImage = styled(Image)`
     width: 220px;
     height: 220px;
 `;
+
 export const PlaylistIconWrapper = styled.View`
     width: 90px;
     height: 90px;
-    margin-left: ${(props) => props.theme.spacer * 3}px;
     background-color: ${(props) => props.theme.colors.main};
     padding: 18px;
 `;
+
 export const PlaylistIcon = styled.View`
     align-self: center;
 `;
+
 export const PlaylistName = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
 `;
+
 export const InfoWrapper = styled.View`
     margin-left: ${(props) => props.theme.spacer * 2};
     margin-top: ${(props) => props.theme.spacer * 3};
 `;
+
 export const TracksAmount = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
     font-size: ${(props) => props.theme.fontSize.small};
 `;
+
 export const CombinedImageContainer = styled.View`
     margin-top: ${(props) => props.theme.spacer * 3};
-    margin-left: ${(props) => props.theme.spacer * 6 - 4};
     width: 220px;
     height: 220px;
 `;

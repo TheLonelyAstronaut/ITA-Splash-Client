@@ -103,13 +103,13 @@ export const Widget: React.FC = () => {
         <WidgetWrapper>
             <TrackControl>
                 <Image
-                    source={currentTrack.artwork}
+                    source={{ uri: currentTrack.artwork }}
                     style={{
                         width: imageDimension,
                         height: imageDimension,
                     }}
                 />
-                <SwipeableTrackChanger renderItem={renderItem} width={trackInfoWidth} />
+                <SwipeableTrackChanger renderItem={renderItem} width={trackInfoWidth} height={theme.widgetHeight} />
                 <PlayButton onPress={handlePlayPausePress}>
                     <Icon
                         name={currentState === State.Playing ? 'pause-sharp' : 'play-sharp'}

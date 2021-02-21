@@ -12,7 +12,7 @@ import styled, { useTheme } from 'styled-components/native';
 
 import { Track } from '../../../types/music';
 import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
-import { AvoidingContainer, Container } from '../../ui/container.component';
+import { Container } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { Logger } from '../../utils/logger';
@@ -130,6 +130,7 @@ export const Player: React.FC = () => {
                     getRef={(ref) => (_carousel.current = ref)}
                     renderItem={renderItem}
                     width={DEVICE_SIZE.width}
+                    height={DEVICE_SIZE.height}
                 />
                 <InfoWrapper pointerEvents={'box-none'}>
                     <HeaderWrapper>

@@ -4,23 +4,22 @@ import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
-import { albums } from '../../../mocks/albums';
-import { Container } from '../../ui/container.component';
+import { AvoidingContainer } from '../../ui/container.component';
 import { AlbumComponent } from '../components/album.component';
-import { MusicDataNavigationProps } from '../route.params';
+import { MusicStackNavigationProps } from '../routing.params';
 
 export const BackButtonContainer = styled.TouchableOpacity`
     margin-left: ${(props) => props.theme.spacer * 3}px;
     margin-top: ${(props) => props.theme.spacer * 2}px;
 `;
 
-export type MusicDataProps = MusicDataNavigationProps<'Albums'>;
+export type MusicDataProps = MusicStackNavigationProps<'AlbumsScreen'>;
 
 export const AlbumsScreenComponent: React.FC<MusicDataProps> = (props: MusicDataProps) => {
     const theme = useTheme();
 
     return (
-        <Container>
+        <AvoidingContainer>
             <BackButtonContainer
                 onPress={useCallback(() => {
                     props.navigation.goBack();
@@ -29,12 +28,10 @@ export const AlbumsScreenComponent: React.FC<MusicDataProps> = (props: MusicData
                 <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
             </BackButtonContainer>
             <FlatList
-                data={albums}
-                renderItem={(item) => (
-                    <AlbumComponent image={item.item.image} name={item.item.name} year={item.item.year} />
-                )}
+                data={props.route.params.albums}
+                renderItem={({ item }) => <AlbumComponent data={item} navigation={props.navigation} />}
                 keyExtractor={(item) => item.name}
             />
-        </Container>
+        </AvoidingContainer>
     );
 };

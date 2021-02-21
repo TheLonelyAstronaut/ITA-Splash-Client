@@ -53,5 +53,6 @@ export const tracks: Track[] = [
         artist: 'test',
         artwork: 'https://media.giphy.com/media/4ck99vdkdx468DQwxB/giphy.gif',
         artworkType: ArtworkType.VIDEO,
+        liked: true,
     },
 ];

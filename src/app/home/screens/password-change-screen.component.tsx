@@ -5,7 +5,7 @@ import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 import { Input, ValidationInput } from '../../authentication/components/styled.component';
-import { AvoidingContainer, Container } from '../../ui/container.component';
+import { AvoidingContainer } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { RegularText } from '../../ui/text.component';
 import I18n from '../../utils/i18n';

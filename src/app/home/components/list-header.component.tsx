@@ -1,8 +1,9 @@
-import React from 'react';
-import styled, { useTheme } from 'styled-components/native';
-import I18n from '../../utils/i18n';
 import { useNavigation } from '@react-navigation/native';
+import React from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
+import styled, { useTheme } from 'styled-components/native';
+
+import I18n from '../../utils/i18n';
 
 export const HeaderWrapper = styled.View`
     flex-direction: row;

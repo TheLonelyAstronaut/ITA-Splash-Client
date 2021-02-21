@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { AvoidingContainer, Container } from '../../ui/container.component';
+import { AvoidingContainer } from '../../ui/container.component';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
 import { ThemesEnum } from '../../ui/themes/theme.types';

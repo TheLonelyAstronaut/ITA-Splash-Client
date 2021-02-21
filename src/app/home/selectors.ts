@@ -1,8 +1,8 @@
 import { createSelector, Selector } from 'reselect';
 
-import { HomepageData } from '../../mocks/home-mock';
 import { ApplicationState } from '../store/application-state.types';
 
+import { HomepageData } from './home.types';
 import { HomeStateProps } from './reducers';
 
 export const getRootHomepageState: Selector<ApplicationState, HomeStateProps> = createSelector(

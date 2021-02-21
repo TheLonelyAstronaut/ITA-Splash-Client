@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components/native';
@@ -8,7 +8,6 @@ import { getCurrentTrack } from '../../player/selectors';
 import { RegularText } from '../text.component';
 
 export const TrackContainer = styled.TouchableOpacity`
-    background-color: ${(props) => props.theme.colors.screenBackground};
     width: 100%;
     height: 60px;
     margin-top: 10px;
@@ -56,7 +55,8 @@ type TrackComponentProps = {
 };
 
 export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackComponentProps) => {
-    const isPlaying = props.track === useSelector(getCurrentTrack);
+    const currentTrack = useSelector(getCurrentTrack);
+    const isPlaying = useMemo(() => props.track.id === currentTrack.id, [props, currentTrack]);
     const handleLongPress = React.useCallback(() => {
         if (props.onLongPress) {
             props.onLongPress(props.track);

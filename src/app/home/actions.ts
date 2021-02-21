@@ -1,5 +1,6 @@
 import { createAction } from 'typesafe-redux-helpers';
-import { HomepageData } from '../../mocks/home-mock';
+
+import { HomepageData } from './home.types';
 
 export interface PassProps {
     currentPass: string;

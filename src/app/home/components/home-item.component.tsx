@@ -1,14 +1,16 @@
-import React from 'react';
+import { StackNavigationProp } from '@react-navigation/stack';
+import React, { useCallback } from 'react';
 import styled from 'styled-components/native';
 
-import { Album } from '../../../mocks/albums';
-import { Artist, Playlist } from '../../../types/music';
+import { Artist, Playlist, Album } from '../../../types/music';
 import { Image } from '../../ui/image.component';
 import { RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
+import { HomeParamList } from '../routing.params';
 
 export type PlaylistProps = {
     data: Playlist | Artist | Album;
+    navigation: StackNavigationProp<HomeParamList, 'HomeScreen'>;
 };
 
 export const Wrapper = styled.TouchableOpacity`
@@ -31,11 +33,38 @@ export const PlaylistName = styled(RegularText)`
     margin-top: ${(props) => props.theme.spacer};
 `;
 
-export const HomeItemComponent: React.FC<PlaylistProps> = ({ data }: PlaylistProps) => {
+export const HomeItemComponent: React.FC<PlaylistProps> = ({ data, navigation }: PlaylistProps) => {
     const isArtist = (data as Artist).popularTracks;
+    const isAlbum = (data as Album).year;
+
+    const handlePress = useCallback(() => {
+        const transfer = (stack: string, screen: string, params: unknown) => {
+            // Strange RN navigation behavior
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            navigation.navigate(stack, {
+                screen,
+                params,
+            });
+        };
+
+        if (isArtist) {
+            transfer('HomeMusicStack', 'ArtistScreen', {
+                id: (data as Artist).id,
+            });
+        } else if (isAlbum) {
+            transfer('HomeMusicStack', 'AlbumScreen', {
+                id: (data as Album).id,
+            });
+        } else {
+            transfer('Library', 'PlaylistScreen', {
+                id: (data as Playlist).id,
+            });
+        }
+    }, [data, isAlbum, isArtist, navigation]);
 
     return (
-        <Wrapper>
+        <Wrapper onPress={handlePress}>
             {isArtist ? <ArtistImage source={{ uri: data.image }} /> : <PlaylistImage source={{ uri: data.image }} />}
             <PlaylistName>{data.name}</PlaylistName>
         </Wrapper>

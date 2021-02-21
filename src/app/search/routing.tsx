@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import { PlaylistScreenComponent, MusicianScreenComponent, AlbumsScreenComponent } from '../music-data';
+import { MusicStackComponent } from '../music-stack/routing';
 
 import { SearchStackParamList } from './routing.params';
 import { SearchScreenComponent } from './screens/search-screen.component';
@@ -12,9 +12,7 @@ export const SearchStackComponent: React.FC = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name={'SearchScreen'} component={SearchScreenComponent} />
-            <Stack.Screen name={'SearchPlaylistScreen'} component={PlaylistScreenComponent} />
-            <Stack.Screen name={'SearchMusicianScreen'} component={MusicianScreenComponent} />
-            <Stack.Screen name={'SearchAlbumsScreen'} component={AlbumsScreenComponent} />
+            <Stack.Screen name={'SearchMusicStack'} component={MusicStackComponent} />
         </Stack.Navigator>
     );
 };

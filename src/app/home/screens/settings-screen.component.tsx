@@ -6,7 +6,7 @@ import styled from 'styled-components/native';
 
 import { LOGOUT } from '../../authentication/actions';
 import { getEmail } from '../../authentication/selectors';
-import { AvoidingContainer, Container } from '../../ui/container.component';
+import { AvoidingContainer } from '../../ui/container.component';
 import { RegularText } from '../../ui/text.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, ThemesEnum } from '../../ui/themes/themes';

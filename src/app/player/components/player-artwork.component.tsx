@@ -31,7 +31,7 @@ export const PlayerArtwork: React.FC<PlayerArtworkProps> = (props: PlayerArtwork
         if (artworkType == ArtworkType.IMAGE) {
             return (
                 <Image
-                    source={props.track.artwork}
+                    source={{ uri: props.track.artwork }}
                     style={{
                         width: theme.player.artworkSize,
                         height: theme.player.artworkSize,
@@ -42,7 +42,7 @@ export const PlayerArtwork: React.FC<PlayerArtworkProps> = (props: PlayerArtwork
         } else {
             return (
                 <Image
-                    source={props.track.artwork}
+                    source={{ uri: props.track.artwork }}
                     style={{
                         width: DEVICE_SIZE.width,
                         height: DEVICE_SIZE.height,

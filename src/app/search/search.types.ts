@@ -1,17 +1,14 @@
-import { Track, Playlist, Artist } from '../../types/music';
+import { Track, Artist, Album } from '../../types/music';
 
 export enum SearchResultType {
     ARTIST,
-    PLAYLIST,
+    ALBUM,
     TRACK,
 }
 
 export type SearchResult = {
-    title: string;
-    description: string;
-    image: string;
     type: SearchResultType;
-    data: Artist | Track | Playlist;
+    data: Artist | Track | Album;
 };
 
 export interface SearchState {

@@ -1,16 +1,12 @@
+import { HomepageData } from '../app/home/home.types';
 import I18n from '../app/utils/i18n';
-import { Artist, Playlist } from '../types/music';
+import { Artist, Playlist, Album } from '../types/music';
 
-import { Album, albums } from './albums';
+import { albums } from './albums';
 import { artists } from './artists';
 import { playlist } from './playlists';
 
 export type RenderDataProp = (Artist | Playlist | Album)[];
-
-export interface HomepageData {
-    title: string;
-    data: RenderDataProp[];
-}
 
 export const home: HomepageData[] = [
     {

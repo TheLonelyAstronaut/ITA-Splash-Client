@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled, { DefaultTheme } from 'styled-components/native';
 
 import { users } from '../../../mocks/users';
-import { AvoidingContainer } from '../../ui/container.component';
+import { Container } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, themesCollection, ThemesEnum } from '../../ui/themes/themes';
@@ -63,7 +63,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
     }, [dispatch, email, password, repeatPassword, name]);
 
     return (
-        <AvoidingContainer>
+        <Container>
             <KeyboardAvoidingView
                 contentContainerStyle={{ flex: 1 }}
                 style={{ flex: 1 }}
@@ -126,6 +126,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                     </RegisterInputArea>
                 </ScrollView>
             </KeyboardAvoidingView>
-        </AvoidingContainer>
+        </Container>
     );
 };

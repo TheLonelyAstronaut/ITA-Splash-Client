@@ -6,15 +6,17 @@ import { setContext } from '@apollo/client/link/context';
 import { SERVER_ADDRESS } from '@env';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
+import { HomepageData } from '../app/home/home.types';
+import { AddPlaylistPayload } from '../app/library/actions';
 import { LibraryData, LibraryElementType } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
+import { albums } from '../mocks/albums';
 import { artists } from '../mocks/artists';
-import { playlist } from '../mocks/playlists';
+import { home } from '../mocks/home-mock';
 import { library } from '../mocks/library';
-import { home, HomepageData } from '../mocks/home-mock';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
-import { AddPlaylistPayload } from '../app/library/actions';
+import { Artist, Album } from '../types/music';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
@@ -91,14 +93,11 @@ export class GraphQLAPI {
         const tracks1 = tracks.filter(
             (track) => track.artist.includes(name) || (track.title.includes(name) && name !== '')
         );
-        const playlists1 = playlist.filter((playlist) => playlist.name.includes(name) && name !== '');
+        const albums1 = albums.filter((album) => album.name.includes(name) && name !== '');
         const result: SearchResult[] = [];
 
         artists1.map((item) => {
             result.push({
-                title: item.name,
-                description: 'Artist',
-                image: item.image,
                 type: SearchResultType.ARTIST,
                 data: item,
             });
@@ -106,20 +105,14 @@ export class GraphQLAPI {
 
         tracks1.map((item) => {
             result.push({
-                title: item.title,
-                description: item.artist,
-                image: item.artwork,
                 type: SearchResultType.TRACK,
                 data: item,
             });
         });
 
-        playlists1.map((item) => {
+        albums1.map((item) => {
             result.push({
-                title: item.name,
-                description: 'playlist',
-                image: require('../assets/travisscott.jpg'),
-                type: SearchResultType.PLAYLIST,
+                type: SearchResultType.ALBUM,
                 data: item,
             });
         });
@@ -137,7 +130,7 @@ export class GraphQLAPI {
 
     addPlaylist = async (action: AddPlaylistPayload): Promise<LibraryData[]> => {
         library.push({
-            data: { name: action.name, id: library.length },
+            data: { name: action.name, id: library.length, tracks: [] },
             type: LibraryElementType.PLAYLIST,
         });
 
@@ -154,6 +147,26 @@ export class GraphQLAPI {
 
     getHomepageData = async (id: number): Promise<HomepageData[]> => {
         return home;
+    };
+
+    getArtist = async (id: number): Promise<Artist> => {
+        const artist = artists.find((artist) => artist.id === id);
+
+        if (artist) {
+            return artist;
+        } else {
+            throw new Error('Invalid artist id');
+        }
+    };
+
+    getAlbum = async (id: number): Promise<Album> => {
+        const album = albums.find((album) => album.id === id);
+
+        if (album) {
+            return album;
+        } else {
+            throw new Error('Invalid artist id');
+        }
     };
 }
 

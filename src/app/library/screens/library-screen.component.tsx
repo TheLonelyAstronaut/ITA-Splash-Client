@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
@@ -15,8 +16,8 @@ import I18n from '../../utils/i18n';
 import { ADD_PLAYLIST, LOAD_LIBRARY } from '../actions';
 import { AddPlaylistItem } from '../components/add-playlist.component';
 import { PlaylistItem } from '../components/playlist-item.component';
-import { getIsFetching, getLibrary, getRootLibraryState } from '../selectors';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { LibraryStackNavigationProps } from '../routing.params';
+import { getIsFetchingLibrary, getLibrary, getRootLibraryState } from '../selectors';
 
 export const HeaderText = styled(BoldText)`
     color: ${(props) => props.theme.colors.secondary};
@@ -57,12 +58,14 @@ export const Indicator = styled.ActivityIndicator`
     margin-top: 60%;
 `;
 
-export const LibraryScreen: React.FC = () => {
+export type LibraryScreenParams = LibraryStackNavigationProps<'PlaylistsScreen'>;
+
+export const LibraryScreen: React.FC<LibraryScreenParams> = (props: LibraryScreenParams) => {
     const [visible, setVisible] = useState(false);
     const [playlistName, setPlaylistName] = useState('');
     const dispatch = useDispatch();
     const theme = useTheme();
-    const isFetching = useSelector(getIsFetching);
+    const isFetching = useSelector(getIsFetchingLibrary);
     const extraData = useSelector(getRootLibraryState);
 
     const handleAddPlaylist = useCallback(
@@ -100,7 +103,9 @@ export const LibraryScreen: React.FC = () => {
                 ) : (
                     <FlatList
                         data={data}
-                        renderItem={(item) => <PlaylistItem name={item.item.data.name} data={item.item} />}
+                        renderItem={(item) => (
+                            <PlaylistItem name={item.item.data.name} data={item.item} navigation={props.navigation} />
+                        )}
                         keyExtractor={(item) => item.data.toString()}
                         extraData={extraData}
                         ListHeaderComponent={<AddPlaylistItem onPress={handleModal} />}

@@ -1,8 +1,7 @@
 import { createReducer } from 'typesafe-redux-helpers';
 
-import { HomepageData } from '../../mocks/home-mock';
-
 import { LOAD_HOME_DATA } from './actions';
+import { HomepageData } from './home.types';
 
 export interface HomeStateProps {
     isFetching: boolean;

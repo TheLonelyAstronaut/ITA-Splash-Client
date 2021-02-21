@@ -4,10 +4,11 @@ import React from 'react';
 import { Animated as RNAnimated } from 'react-native';
 import { Extrapolate } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { State, usePlaybackState } from 'react-native-track-player';
+import { useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
 import { SwipeableSheet } from '../../player/components/swipeable-sheet.component';
+import { getCurrentQueue } from '../../player/selectors';
 import { generateTabsPreset } from '../../utils/generate-tabs-preset';
 import { DEVICE_SIZE } from '../themes/themes';
 
@@ -25,15 +26,13 @@ export const SheetWrapper = styled.View`
     width: ${DEVICE_SIZE.width}px;
 `;
 
-const states: State[] = [State.None, State.Stopped, State.Ready] as State[];
-
 export const CustomTabBar: React.FC<BottomTabBarProps> = (props: BottomTabBarProps) => {
     const currentTheme = useTheme();
     const [animatableValue] = React.useState<RNAnimated.Value>(new RNAnimated.Value(DEVICE_SIZE.height));
-    const currentState = usePlaybackState();
+    const currentQueue = useSelector(getCurrentQueue);
     const safeArea = useSafeAreaInsets();
     const themedTabs = React.useMemo(() => generateTabsPreset(currentTheme), [currentTheme]);
-    const isPlayerVisible = React.useMemo(() => states.indexOf(currentState) == -1, [currentState]);
+    const isPlayerVisible = React.useMemo(() => currentQueue.length, [currentQueue]);
     const minimalPosition = React.useMemo(
         () => currentTheme.tabBarHeight + currentTheme.widgetHeight + safeArea.bottom,
         [safeArea, currentTheme]
@@ -55,7 +54,7 @@ export const CustomTabBar: React.FC<BottomTabBarProps> = (props: BottomTabBarPro
 
     return (
         <React.Fragment>
-            {isPlayerVisible && (
+            {!!isPlayerVisible && (
                 <SheetWrapper pointerEvents={'box-none'}>
                     <SwipeableSheet
                         paddingBottom={currentTheme.tabBarHeight + currentTheme.widgetHeight + safeArea.bottom}
