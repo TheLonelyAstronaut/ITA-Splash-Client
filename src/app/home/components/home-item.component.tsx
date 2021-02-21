@@ -1,13 +1,11 @@
 import React from 'react';
 import styled from 'styled-components/native';
 
-import { Album } from '../../mocks/albums';
-import { Artist, Playlist } from '../../types/music';
-
-import { ArtistImage } from './home-artist.component';
-import { Image } from './image.component';
-import { RegularText } from './text.component';
-import { DEVICE_SIZE } from './themes/themes';
+import { Album } from '../../../mocks/albums';
+import { Artist, Playlist } from '../../../types/music';
+import { Image } from '../../ui/image.component';
+import { RegularText } from '../../ui/text.component';
+import { DEVICE_SIZE } from '../../ui/themes/themes';
 
 export type PlaylistProps = {
     data: Playlist | Artist | Album;
@@ -25,6 +23,9 @@ export const PlaylistImage = styled(Image)`
     width: 100px;
     align-self: center;
 `;
+export const ArtistImage = styled(PlaylistImage)`
+    border-radius: 100px;
+`;
 export const PlaylistName = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
     text-align: center;
@@ -32,8 +33,8 @@ export const PlaylistName = styled(RegularText)`
     margin-top: ${(props) => props.theme.spacer};
 `;
 
-export const PlaylistOrAlbumComponent: React.FC<PlaylistProps> = (data: PlaylistProps) => {
-    const isArtist = 'popularTracks' in data.data;
+export const HomeItemComponent: React.FC<PlaylistProps> = (data: PlaylistProps) => {
+    const isArtist = (data.data as Artist).popularTracks;
     return (
         <Wrapper>
             {isArtist ? <ArtistImage source={data.data.image} /> : <PlaylistImage source={data.data.image} />}

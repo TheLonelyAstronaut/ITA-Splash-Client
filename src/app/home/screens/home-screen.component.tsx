@@ -6,22 +6,20 @@ import styled from 'styled-components/native';
 
 import { Album } from '../../../mocks/albums';
 import { Artist, Playlist } from '../../../types/music';
-import { SearchResultType } from '../../search/search.types';
 import { Container } from '../../ui/container.component';
-import { ArtistComponent } from '../../ui/home-artist.component';
-import { PlaylistOrAlbumComponent } from '../../ui/home-playlist-or-album';
 import { RegularText } from '../../ui/text.component';
+import I18n from '../../utils/i18n';
 import { LOAD_HOME_DATA } from '../actions';
+import { HomeItemComponent } from '../components/home-item.component';
 import { HomeNavigationProps } from '../routing.params';
 import { getError, getHomepageData, getIsFetching } from '../selectors';
-import I18n from '../../utils/i18n';
 
 export type HomeScreenProps = HomeNavigationProps<'HomeScreen'>;
 
 export const WelcomeText = styled.Text`
     color: ${(props) => props.theme.colors.secondary};
     font-size: ${(props) => props.theme.fontSize.welcome};
-    font-weight: 600;
+    font-weight: 700;
     margin-top: ${(props) => props.theme.spacer * 4};
     margin-top: ${(props) => props.theme.spacer * 6};
     margin-left: ${(props) => props.theme.spacer * 2 + 2};
@@ -80,38 +78,23 @@ export const HomeScreenComponent: React.FC<HomeScreenProps> = () => {
 
     type Props = {
         data: (Playlist | Artist | Album)[];
-        type: SearchResultType;
     };
-    const RenderItem: React.FC<Props> = (item: Props) => {
-        if (item.type === SearchResultType.ARTIST) {
-            return (
-                <FlatList
-                    horizontal={true}
-                    data={item.data}
-                    renderItem={(item) => <ArtistComponent data={item.item} />}
-                    keyExtractor={(item) => item.name + Math.random().toString()}
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{ paddingRight: theme.spacer * 3 }}
-                />
-            );
-        } else {
-            return (
-                <FlatList
-                    horizontal={true}
-                    data={item.data}
-                    renderItem={(item) => <PlaylistOrAlbumComponent data={item.item} />}
-                    keyExtractor={(item) => item.name + Math.random().toString()}
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{ paddingRight: theme.spacer * 3 }}
-                />
-            );
-        }
+    const RenderItem: React.FC<Props> = ({ data }: Props) => {
+        return (
+            <FlatList
+                horizontal={true}
+                data={data}
+                renderItem={(item) => <HomeItemComponent data={item.item} />}
+                keyExtractor={(item) => item.name + Math.random().toString()}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingRight: theme.spacer * 3 }}
+            />
+        );
     };
     return (
         <Container>
             {isFetching ? (
                 <View>
-                    <WelcomeText>{I18n.t('home.welcome')}</WelcomeText>
                     <Indicator />
                 </View>
             ) : error ? (
@@ -123,14 +106,14 @@ export const HomeScreenComponent: React.FC<HomeScreenProps> = () => {
                 </ErrorWrapper>
             ) : (
                 <View>
-                    <WelcomeText>{I18n.t('home.welcome')}</WelcomeText>
                     <SectionList
                         sections={data}
-                        renderItem={({ item, section }) => <RenderItem data={item} type={section.type} />}
+                        renderItem={({ item }) => <RenderItem data={item} />}
                         renderSectionHeader={({ section: { title } }) => <SectionTitle>{title}</SectionTitle>}
                         keyExtractor={(item) => item + Math.random().toString()}
                         stickySectionHeadersEnabled={false}
-                        contentContainerStyle={{ paddingBottom: theme.widgetHeight * 2.7 }}
+                        contentContainerStyle={{ paddingBottom: theme.widgetHeight }}
+                        ListHeaderComponent={<WelcomeText>{I18n.t('home.welcome')}</WelcomeText>}
                     />
                 </View>
             )}
