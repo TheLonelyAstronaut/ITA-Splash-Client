@@ -72,6 +72,7 @@ const migrations: MigrationManifest = {
         // token was a string previously instead of an object, clear existing auth
         token: undefined,
         username: undefined,
+        email: undefined,
     }),
 };
 
@@ -79,7 +80,7 @@ export const authenticationReducer = persistReducer(
     {
         key: 'authentication',
         version: 1,
-        whitelist: ['token', 'username'],
+        whitelist: ['token'],
         storage: AsyncStorage,
         debug: true,
         migrate: createMigrate(migrations, { debug: true }),

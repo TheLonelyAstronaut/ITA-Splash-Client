@@ -9,6 +9,7 @@ import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/auth
 import { LibraryData } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
 import { library } from '../mocks/library';
+import { home, HomepageData } from '../mocks/home-mock';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
 
@@ -99,7 +100,18 @@ export class GraphQLAPI {
             type: action.type,
         });
         console.log(library);
-        return library;
+    };
+
+    changePassword = async (currentPass: string, newPass: string): Promise<void> => {
+        if (currentPass === users[0].password) {
+            users[0].password = newPass;
+        } else {
+            throw new Error('Incorrect password');
+        }
+    };
+    
+    getHomepageData = async (id: number): Promise<HomepageData[]> => {
+        return home;
     };
 }
 

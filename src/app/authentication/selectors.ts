@@ -29,6 +29,11 @@ export const getUsername: Selector<ApplicationState, string | undefined> = creat
     (auth) => auth.username
 );
 
+export const getEmail: Selector<ApplicationState, string | undefined> = createSelector(
+    getRootAuthenticationState,
+    (auth) => auth.email
+);
+
 export const getAccessToken: Selector<ApplicationState, string | undefined> = createSelector(
     getRootAuthenticationState,
     (auth) => auth.token

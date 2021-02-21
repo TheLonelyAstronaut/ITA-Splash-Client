@@ -4,7 +4,7 @@ import { FlashbarEnum } from './flashbar.types';
 
 export interface FlashBarProps {
     type: FlashbarEnum;
-    title: string;
+    description?: string;
     message: string;
 }
 
