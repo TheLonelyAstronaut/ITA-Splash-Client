@@ -1,11 +1,11 @@
 import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
+import { Album } from '../../mocks/albums';
+import { Playlist } from '../../types/music';
+
 export type HomeParamList = {
     HomeScreen: undefined;
-    HomePlaylistScreen: undefined;
-    HomeMusicianScreen: undefined;
-    HomeAlbumsScreen: undefined;
     SettingsScreen: undefined;
     ThemeChangeScreen: undefined;
     PasswordChangeScreen: undefined;
