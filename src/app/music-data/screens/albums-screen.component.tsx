@@ -31,7 +31,7 @@ export const AlbumsScreenComponent: React.FC<MusicDataProps> = (props: MusicData
             <FlatList
                 data={albums}
                 renderItem={(item) => (
-                    <AlbumComponent image={item.item.img} name={item.item.name} year={item.item.year} />
+                    <AlbumComponent image={item.item.image} name={item.item.name} year={item.item.year} />
                 )}
                 keyExtractor={(item) => item.name}
             />
