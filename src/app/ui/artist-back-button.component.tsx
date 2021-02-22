@@ -4,9 +4,7 @@ import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 export const ArtistBackButtonContainer = styled.TouchableOpacity`
-    margin-top: ${(props) => props.theme.spacer * 6};
     margin-left: ${(props) => props.theme.spacer * 4};
-    background-color: black;
     width: 31px;
     border-radius: 50px;
     background-color: rgba(52, 52, 52, 0.4);

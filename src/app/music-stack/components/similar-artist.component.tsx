@@ -29,8 +29,12 @@ export const SimilarArtistComponent: React.FC<Props> = (item: Props) => {
     const navigation = useNavigation();
 
     const handlePress = useCallback(() => {
-        navigation.navigate('ArtistScreen', {
-            id: item.artist.id,
+        navigation.navigate({
+            name: 'ArtistScreen',
+            key: 'ArtistScreen_' + item.artist.id + '_' + Math.random().toString(),
+            params: {
+                id: item.artist.id,
+            },
         });
     }, [item, navigation]);
 

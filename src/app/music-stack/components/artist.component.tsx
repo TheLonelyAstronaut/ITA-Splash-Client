@@ -1,6 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
-import { FlatList, ScrollView } from 'react-native';
+import { FlatList } from 'react-native';
+import Animated, { useValue, Extrapolate } from 'react-native-reanimated';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
@@ -9,7 +11,6 @@ import { Artist, Track } from '../../../types/music';
 import { MUSIC_ACTIONS, PlayActionPayload } from '../../player/actions';
 import { ArtistBackButton } from '../../ui/artist-back-button.component';
 import { Container } from '../../ui/container.component';
-import { Image } from '../../ui/image.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { PopularTrackComponent } from '../../ui/tracks/popular-track.compoennt';
@@ -17,23 +18,63 @@ import { PopularTrackComponent } from '../../ui/tracks/popular-track.compoennt';
 import { AlbumComponent } from './album.component';
 import { SimilarArtistComponent } from './similar-artist.component';
 
+export const COVER_HEIGHT = DEVICE_SIZE.height * 0.4;
+export const COVER_WIDTH = DEVICE_SIZE.width;
+export const STATUS_BAR = getStatusBarHeight() + 64; //theme.spacer
+export const PLAY_BUTTON_SIZE = 60;
+
 export type ArtistProps = {
     data: Artist;
 };
 
-export const Header = styled.View``;
+export const Header = styled.SafeAreaView`
+    padding-vertical: ${(props) => props.theme.spacer}px;
+    position: absolute;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background-color: ${(props) => props.theme.colors.main}
+    height: ${STATUS_BAR}px;
+`;
+
+export const AnimatedHeaderWrapper = Animated.createAnimatedComponent(Header);
 
 export const ArtistName = styled(BoldText)`
-    margin-top: ${DEVICE_SIZE.height * 0.25};
     font-size: ${(props) => props.theme.fontSize.extraLarge + 15};
     margin-left: ${(props) => props.theme.spacer * 2};
 `;
 
-export const ArtistImage = styled(Image)`
-    width: ${DEVICE_SIZE.width};
-    height: ${DEVICE_SIZE.height * 0.4};
+export const MinifiedArtistName = styled(BoldText)`
+    align-self: center;
+`;
+
+export const AnimatedArtistName = Animated.createAnimatedComponent(ArtistName);
+
+export const AnimatedMinifiedArtistName = Animated.createAnimatedComponent(MinifiedArtistName);
+
+export const ArtistImage = styled.Image`
+    width: ${COVER_WIDTH};
+    height: ${COVER_HEIGHT};
     position: absolute;
 `;
+
+export const BackButtonWrapper = styled.View`
+    position: absolute;
+    left: 0;
+    top: ${(props) => props.theme.spacer * 2 + getStatusBarHeight()};
+`;
+
+export const PlayButton = styled.TouchableOpacity`
+    background-color: ${(props) => props.theme.colors.additivePink};
+    height: ${PLAY_BUTTON_SIZE}px;
+    width: ${PLAY_BUTTON_SIZE}px;
+    border-radius: ${PLAY_BUTTON_SIZE / 2}px;
+    position: absolute;
+    right: ${(props) => props.theme.spacer * 4}px;
+`;
+
+export const AnimatedPlayButton = Animated.createAnimatedComponent(PlayButton);
 
 export const Popular = styled(BoldText)`
     color: ${(props) => props.theme.colors.secondary};
@@ -72,10 +113,37 @@ export const Separator = styled.View`
     padding: ${(props) => props.theme.spacer * 1.5}px;
 `;
 
+export const DataWrapper = styled.View`
+    background-color: ${(props) => props.theme.colors.screenBackground};
+`;
+
 export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const theme = useTheme();
+    const scrollValue = useValue(0);
+
+    const imageHeight = scrollValue.interpolate({
+        inputRange: [0, COVER_HEIGHT / 2],
+        outputRange: [COVER_HEIGHT, COVER_HEIGHT / 2],
+    });
+
+    const artistOpacity = scrollValue.interpolate({
+        inputRange: [-COVER_HEIGHT / 4, 0, COVER_HEIGHT / 2],
+        outputRange: [0, 1, 0.4],
+    });
+
+    const headerOpacity = scrollValue.interpolate({
+        inputRange: [0, COVER_HEIGHT - STATUS_BAR - 10],
+        outputRange: [0, 1],
+        extrapolate: Extrapolate.CLAMP,
+    });
+
+    const playerButtonTranslateY = scrollValue.interpolate({
+        inputRange: [0, COVER_HEIGHT - STATUS_BAR - 10],
+        outputRange: [COVER_HEIGHT - PLAY_BUTTON_SIZE / 2 - 20, STATUS_BAR - PLAY_BUTTON_SIZE / 2],
+        extrapolateRight: Extrapolate.CLAMP,
+    });
 
     const handleTrackPlay = useCallback(
         (item: Track) => {
@@ -86,51 +154,76 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
 
     const HeaderComponent = () => {
         return (
-            <Header>
-                <ArtistImage source={{ uri: props.data.image }} />
-                <ArtistBackButton onPress={() => navigation.goBack()} />
-                <ArtistName>{props.data.name}</ArtistName>
-                <Popular>Popular tracks</Popular>
-            </Header>
+            <>
+                <AnimatedHeaderWrapper style={{ opacity: headerOpacity }}>
+                    <AnimatedMinifiedArtistName>{props.data.name}</AnimatedMinifiedArtistName>
+                </AnimatedHeaderWrapper>
+                <BackButtonWrapper>
+                    <ArtistBackButton onPress={() => navigation.goBack()} />
+                </BackButtonWrapper>
+            </>
         );
     };
 
     return (
         <Container>
-            <ScrollView contentContainerStyle={{ paddingBottom: theme.widgetHeight }}>
-                <PoularTracksWrapper>
-                    <FlatList
-                        data={props.data.popularTracks}
-                        renderItem={({ item, index }) => (
-                            <PopularTrackComponent index={index} track={item} onPress={handleTrackPlay} />
-                        )}
-                        ListHeaderComponent={<HeaderComponent />}
-                    />
-                </PoularTracksWrapper>
-                <AlbumsWrapper>
-                    <Albums>Popular releases</Albums>
-                    <FlatList data={props.data.albums} renderItem={({ item }) => <AlbumComponent data={item} />} />
-                </AlbumsWrapper>
-                <DiscographyButton
-                    onPress={() => {
-                        navigation.navigate('AlbumsScreen', {
-                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                            albums: props.data.albums!,
-                        });
-                    }}
-                >
-                    <DiscographyText>Open discography</DiscographyText>
-                </DiscographyButton>
-                <ArtistsWrapper>
-                    <FlatList
-                        data={props.data.similarArtists}
-                        renderItem={({ item }) => <SimilarArtistComponent artist={item} />}
-                        horizontal={true}
-                        ItemSeparatorComponent={Separator}
-                        contentContainerStyle={{ marginLeft: theme.spacer * 3 }}
-                    />
-                </ArtistsWrapper>
-            </ScrollView>
+            <Animated.Image
+                source={{ uri: props.data.image }}
+                style={{ width: COVER_WIDTH, height: imageHeight, position: 'absolute', resizeMode: 'cover' }}
+            />
+            <Animated.ScrollView
+                contentContainerStyle={{
+                    paddingBottom: theme.widgetHeight,
+                    paddingTop: COVER_HEIGHT - theme.fontSize.extraLarge - 40,
+                }}
+                showsVerticalScrollIndicator={false}
+                scrollEventThrottle={16}
+                onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollValue } } }])}
+            >
+                <AnimatedArtistName style={{ opacity: artistOpacity }}>{props.data.name}</AnimatedArtistName>
+                <DataWrapper>
+                    <PoularTracksWrapper>
+                        <FlatList
+                            data={props.data.popularTracks}
+                            scrollEnabled={false}
+                            renderItem={({ item, index }) => (
+                                <PopularTrackComponent index={index} track={item} onPress={handleTrackPlay} />
+                            )}
+                            ListHeaderComponent={<Popular>Popular tracks</Popular>}
+                        />
+                    </PoularTracksWrapper>
+                    <AlbumsWrapper>
+                        <Albums>Popular releases</Albums>
+                        <FlatList data={props.data.albums} renderItem={({ item }) => <AlbumComponent data={item} />} />
+                    </AlbumsWrapper>
+                    <DiscographyButton
+                        onPress={() => {
+                            navigation.navigate('AlbumsScreen', {
+                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                                albums: props.data.albums!,
+                            });
+                        }}
+                    >
+                        <DiscographyText>Open discography</DiscographyText>
+                    </DiscographyButton>
+                    <ArtistsWrapper>
+                        <FlatList
+                            data={props.data.similarArtists}
+                            renderItem={({ item }) => <SimilarArtistComponent artist={item} />}
+                            horizontal={true}
+                            ItemSeparatorComponent={Separator}
+                            contentContainerStyle={{ marginLeft: theme.spacer * 3 }}
+                        />
+                    </ArtistsWrapper>
+                </DataWrapper>
+            </Animated.ScrollView>
+            <HeaderComponent />
+            <AnimatedPlayButton
+                style={{
+                    transform: [{ translateY: playerButtonTranslateY }],
+                }}
+                onPress={() => handleTrackPlay(props.data.popularTracks![0])}
+            />
         </Container>
     );
 };
