@@ -1,11 +1,10 @@
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import styled from 'styled-components/native';
 
 import { Album } from '../../../types/music';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
-import { MusicStackParamsList } from '../routing.params';
 
 export const AlbumWrapper = styled.TouchableOpacity`
     margin-top: ${(props) => props.theme.spacer * 2};
@@ -37,15 +36,15 @@ export const AlbumYear = styled(RegularText)`
 
 export type AlbumProps = {
     data: Album;
-    navigation: StackNavigationProp<MusicStackParamsList, 'AlbumsScreen'>;
 };
 
 export const AlbumComponent: React.FC<AlbumProps> = (props: AlbumProps) => {
+    const navigation = useNavigation();
     const handlePress = useCallback(() => {
-        props.navigation.navigate('AlbumScreen', {
+        navigation.navigate('AlbumScreen', {
             id: props.data.id,
         });
-    }, [props]);
+    }, [props, navigation]);
 
     return (
         <AlbumWrapper onPress={handlePress}>

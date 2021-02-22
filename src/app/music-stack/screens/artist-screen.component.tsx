@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-import { View, Text, Button } from 'react-native';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LoadingContainer } from '../../ui/container.component';
 import { LOAD_ARTIST } from '../actions';
+import { ArtistComponent } from '../components/artist.component';
 import { MusicStackNavigationProps } from '../routing.params';
 import { getArtist, getIsMusicScreenFetching, getMusicScreenError } from '../selectors';
 
@@ -30,19 +29,6 @@ export const ArtistScreenComponent: React.FC<MusicDataProps> = (props: MusicData
     } else if (isLoading || !artist) {
         return <LoadingContainer />;
     } else {
-        return (
-            <View style={{ paddingVertical: getStatusBarHeight() }}>
-                <Text>Musician screen</Text>
-                <Button
-                    title={'Show albums'}
-                    onPress={() => {
-                        props.navigation.navigate('AlbumsScreen', {
-                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                            albums: artist.albums!,
-                        });
-                    }}
-                />
-            </View>
-        );
+        return <ArtistComponent data={artist} />;
     }
 };

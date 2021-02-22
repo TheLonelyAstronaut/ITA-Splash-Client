@@ -29,7 +29,7 @@ export const AlbumsScreenComponent: React.FC<MusicDataProps> = (props: MusicData
             </BackButtonContainer>
             <FlatList
                 data={props.route.params.albums}
-                renderItem={({ item }) => <AlbumComponent data={item} navigation={props.navigation} />}
+                renderItem={({ item }) => <AlbumComponent data={item} />}
                 keyExtractor={(item) => item.name}
             />
         </AvoidingContainer>
