@@ -71,7 +71,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
             >
                 <BackgroundImage
                     source={
-                        themeKey === ThemesEnum.DARK && ThemesEnum.JAPANESE
+                        themeKey === ThemesEnum.DARK
                             ? require('../../../assets/register-background.png')
                             : require('../../../assets/light-background.jpg')
                     }
@@ -122,7 +122,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                             }, [])}
                             secureTextEntry={true}
                         />
-                        <LinearButton title={I18n.t('auth.signUp')} onPress={handleRegister} />
+                        <LinearButton title={'auth.signUp'} onPress={handleRegister} />
                     </RegisterInputArea>
                 </ScrollView>
             </KeyboardAvoidingView>

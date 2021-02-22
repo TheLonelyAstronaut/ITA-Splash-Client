@@ -1,11 +1,21 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 import { Track } from '../../../types/music';
+import { AddPlaylistItem } from '../../library/components/add-playlist.component';
+import { PlaylistToChooseItem } from '../../library/components/playlist-for-choose.component';
+import { AddPlaylistModal, CrossButton, ModalText, ModalView } from '../../library/screens/library-screen.component';
+import { getLibrary } from '../../library/selectors';
+import { ADD_TO_PLAYLIST } from '../../music-stack/actions';
 import { getCurrentTrack } from '../../player/selectors';
+import I18n from '../../utils/i18n';
+import { LinearButton } from '../linear-gradient-button.component';
 import { RegularText } from '../text.component';
+import { DEVICE_SIZE } from '../themes/themes';
 
 export const TrackContainer = styled.TouchableOpacity`
     width: 100%;
@@ -35,7 +45,7 @@ export const TrackArtist = styled(RegularText)`
     color: ${(props) => props.theme.colors.inputBackground};
     font-size: ${(props) => props.theme.fontSize.extraSmall};
 `;
-export const Dots = styled.TouchableOpacity``;
+export const Plus = styled.TouchableOpacity``;
 export const Icons = styled.View`
     margin-right: ${(props) => props.theme.spacer * 4};
     margin-top: ${(props) => props.theme.spacer * 2};
@@ -44,7 +54,7 @@ export const Icons = styled.View`
 export const Liked = styled.Image`
     width: 10px;
     height: 10px;
-    margin-top: 3px;
+    margin-top: 6px;
     margin-right: ${(props) => props.theme.spacer * 3}px;
 `;
 
@@ -56,6 +66,10 @@ type TrackComponentProps = {
 
 export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackComponentProps) => {
     const currentTrack = useSelector(getCurrentTrack);
+    const theme = useTheme();
+    const dispatch = useDispatch();
+    const data = useSelector(getLibrary);
+    const [visible, setVisible] = useState(false);
     const isPlaying = useMemo(() => props.track.id === currentTrack.id, [props, currentTrack]);
     const handleLongPress = React.useCallback(() => {
         if (props.onLongPress) {
@@ -63,18 +77,51 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
         }
     }, [props]);
 
+    const handleAddToPlaylist = (id: number) => {
+        setVisible(true);
+        dispatch(ADD_TO_PLAYLIST.TRIGGER({ trackId: props.track.id, playlistId: 2 }));
+    };
+
     return (
-        <TrackContainer onPress={() => props.onPress(props.track)} onLongPress={handleLongPress}>
-            <TrackInfoWrapper>
-                <TrackName isPlaying={isPlaying}>{props.track.title}</TrackName>
-                <TrackArtist>{props.track.artist}</TrackArtist>
-            </TrackInfoWrapper>
-            <Icons>
-                {props.track.liked ? <Liked source={require('../../../assets/like-button-color.png')} /> : null}
-                <Dots>
-                    <Icon name={'dots-three-horizontal'} color={'white'} size={15} />
-                </Dots>
-            </Icons>
-        </TrackContainer>
+        <View>
+            <TrackContainer onPress={() => props.onPress(props.track)} onLongPress={handleLongPress}>
+                <TrackInfoWrapper>
+                    <TrackName isPlaying={isPlaying}>{props.track.title}</TrackName>
+                    <TrackArtist>{props.track.artist}</TrackArtist>
+                </TrackInfoWrapper>
+                <Icons>
+                    {props.track.liked ? <Liked source={require('../../../assets/like-button-color.png')} /> : null}
+                    <Plus onPress={() => setVisible(true)}>
+                        <Icon name={'plus'} color={theme.colors.secondary} size={20} />
+                    </Plus>
+                </Icons>
+            </TrackContainer>
+            <AddPlaylistModal
+                animationType={'slide'}
+                transparent={true}
+                visible={visible}
+                onRequestClose={() => {
+                    setVisible(!visible);
+                }}
+            >
+                <ModalView>
+                    <CrossButton onPress={() => setVisible(!visible)}>
+                        <Icon name={'cross'} size={24} color={theme.colors.secondary} />
+                    </CrossButton>
+                    <ModalText>Choose playlist to add</ModalText>
+                    <FlatList
+                        data={data}
+                        renderItem={(item) => (
+                            <PlaylistToChooseItem
+                                name={item.item.data.name}
+                                data={item.item}
+                                onPress={() => handleAddToPlaylist(item.item.data.id)}
+                            />
+                        )}
+                        keyExtractor={(item) => item.data.toString()}
+                    />
+                </ModalView>
+            </AddPlaylistModal>
+        </View>
     );
 };

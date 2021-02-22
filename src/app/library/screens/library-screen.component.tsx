@@ -103,9 +103,7 @@ export const LibraryScreen: React.FC<LibraryScreenParams> = (props: LibraryScree
                 ) : (
                     <FlatList
                         data={data}
-                        renderItem={(item) => (
-                            <PlaylistItem name={item.item.data.name} data={item.item} navigation={props.navigation} />
-                        )}
+                        renderItem={(item) => <PlaylistItem name={item.item.data.name} data={item.item} />}
                         keyExtractor={(item) => item.data.toString()}
                         extraData={extraData}
                         ListHeaderComponent={<AddPlaylistItem onPress={handleModal} />}

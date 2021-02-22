@@ -28,13 +28,6 @@ export const LogoutButton = styled.TouchableOpacity`
     margin-right: ${(props) => props.theme.spacer * 3};
 `;
 
-export const EditProfileButton = styled.TouchableOpacity`
-    align-self: center;
-    width: ${DEVICE_SIZE.width * 0.25};
-    height: 25px;
-    background-color: ${(props) => props.theme.colors.secondary};
-    margin-top: ${(props) => props.theme.spacer * 2};
-`;
 export const EditText = styled(RegularText)`
     color: ${(props) => props.theme.colors.main};
     text-align: center;

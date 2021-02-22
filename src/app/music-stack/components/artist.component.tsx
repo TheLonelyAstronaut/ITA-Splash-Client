@@ -43,6 +43,7 @@ export const AnimatedHeaderWrapper = Animated.createAnimatedComponent(Header);
 export const ArtistName = styled(BoldText)`
     font-size: ${(props) => props.theme.fontSize.extraLarge + 15};
     margin-left: ${(props) => props.theme.spacer * 2};
+    color: white;
 `;
 
 export const MinifiedArtistName = styled(BoldText)`
@@ -65,8 +66,8 @@ export const BackButtonWrapper = styled.View`
     top: ${(props) => props.theme.spacer * 2 + getStatusBarHeight()};
 `;
 
-export const PlayButton = styled.TouchableOpacity`
-    background-color: ${(props) => props.theme.colors.additivePink};
+export const PlayButton = styled.Image`
+    background-color: white;
     height: ${PLAY_BUTTON_SIZE}px;
     width: ${PLAY_BUTTON_SIZE}px;
     border-radius: ${PLAY_BUTTON_SIZE / 2}px;
@@ -85,6 +86,11 @@ export const Popular = styled(BoldText)`
 `;
 
 export const Albums = styled(BoldText)`
+    margin-left: ${(props) => props.theme.spacer * 2};
+    margin-top: ${(props) => props.theme.spacer * 2};
+`;
+
+export const SimilarArtists = styled(BoldText)`
     margin-left: ${(props) => props.theme.spacer * 2};
     margin-top: ${(props) => props.theme.spacer * 2};
 `;
@@ -204,8 +210,9 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                             });
                         }}
                     >
-                        <DiscographyText>Open discography</DiscographyText>
+                        <DiscographyText>Discography</DiscographyText>
                     </DiscographyButton>
+                    <SimilarArtists>Similar artist</SimilarArtists>
                     <ArtistsWrapper>
                         <FlatList
                             data={props.data.similarArtists}
@@ -219,10 +226,10 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
             </Animated.ScrollView>
             <HeaderComponent />
             <AnimatedPlayButton
+                source={require('../../../assets/play-button-color.png')}
                 style={{
                     transform: [{ translateY: playerButtonTranslateY }],
                 }}
-                onPress={() => handleTrackPlay(props.data.popularTracks![0])}
             />
         </Container>
     );

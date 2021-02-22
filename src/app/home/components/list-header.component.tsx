@@ -17,6 +17,7 @@ export const WelcomeText = styled.Text`
     font-size: ${(props) => props.theme.fontSize.welcome};
     font-weight: 700;
     margin-left: ${(props) => props.theme.spacer * 2 + 2};
+    height: 100px;
 `;
 
 export const SettingsIcon = styled.TouchableOpacity`

@@ -14,9 +14,10 @@ import { albums } from '../mocks/albums';
 import { artists } from '../mocks/artists';
 import { home } from '../mocks/home-mock';
 import { library } from '../mocks/library';
+import { playlist } from '../mocks/playlists';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
-import { Artist, Album } from '../types/music';
+import { Artist, Album, Track } from '../types/music';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
@@ -75,6 +76,17 @@ export class GraphQLAPI {
                 password: payload.password,
             });
             return { data: user[0] };
+        }
+    };
+
+    addToPlaylist = async (trackId: string, playlistId: number) => {
+        const track = tracks.find((track) => track.id === trackId);
+        const playlist1 = playlist[playlistId].tracks.find((track) => track.id === trackId);
+        console.log(track, playlist1);
+        if (!playlist1) {
+            playlist[playlistId].tracks.push(track as Track);
+        } else {
+            throw new Error('Something went wrong');
         }
     };
 

@@ -36,4 +36,11 @@ export interface DefaultLocale {
         error: string;
         tryAgain: string;
     };
+    search: {
+        typeToSearch: string;
+        search: string;
+        typeSomething: string;
+        nothingFounded: string;
+        artist: string;
+    };
 }

@@ -36,5 +36,6 @@ export interface Album {
     year: string;
     image: string;
     name: string;
-    artist: string;
+    artistId: Artist | number;
+    artistName: string;
 }

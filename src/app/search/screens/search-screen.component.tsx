@@ -8,6 +8,7 @@ import AnimatedGradientTransition from '../../ui/animated-gradient-transition.co
 import { Container } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
+import I18n from '../../utils/i18n';
 import { SEARCH_ALL } from '../actions';
 import { SearchResultComponent } from '../components/search-result.component';
 import { SearchNavigationProps } from '../routing.params';
@@ -78,9 +79,9 @@ export const SearchScreenComponent: React.FC<SearchScreenProps> = (props: Search
                 ]}
                 style={{ flex: 1 }}
             >
-                <Header>Search</Header>
+                <Header>{I18n.t('search.search')}</Header>
                 <SearchInput
-                    placeholder={'Type to search'}
+                    placeholder={I18n.t('search.typeToSearch')}
                     placeholderTextColor={theme.colors.inputBackground}
                     onChangeText={useCallback(
                         (val) => {
@@ -95,7 +96,9 @@ export const SearchScreenComponent: React.FC<SearchScreenProps> = (props: Search
                         <FlatList<SearchResult>
                             data={results}
                             renderItem={renderItem}
-                            ListEmptyComponent={!results.length ? <EmptyText>Nothing was found</EmptyText> : null}
+                            ListEmptyComponent={
+                                !results.length ? <EmptyText>{I18n.t('search.nothingFounded')}</EmptyText> : null
+                            }
                             keyExtractor={(item, index) => index + Math.random().toString()}
                             ItemSeparatorComponent={Separator}
                         />
@@ -103,7 +106,7 @@ export const SearchScreenComponent: React.FC<SearchScreenProps> = (props: Search
                         <Indicator collapsable={true} />
                     )
                 ) : (
-                    <EmptyText>Type something to search</EmptyText>
+                    <EmptyText>{I18n.t('search.typeSomething')}</EmptyText>
                 )}
             </AnimatedGradientTransition>
         </Container>

@@ -38,6 +38,13 @@ const en: DefaultLocale = {
         error: 'Oops...something went wrong',
         tryAgain: 'Try again',
     },
+    search: {
+        search: 'Search',
+        typeToSearch: 'Type to search',
+        typeSomething: 'Type something to search',
+        nothingFounded: 'Nothing founded',
+        artist: 'Artist',
+    },
 };
 
 const ru: DefaultLocale = {
@@ -77,6 +84,13 @@ const ru: DefaultLocale = {
         newReleases: 'Новые релизы',
         error: 'Ууупс...что-то пошло не так',
         tryAgain: 'Снова',
+    },
+    search: {
+        search: 'Поиск',
+        typeToSearch: 'Введите для поиска',
+        typeSomething: 'Введите что-то для поиска',
+        nothingFounded: 'Ничего не найдено',
+        artist: 'Исполнитель',
     },
 };
 

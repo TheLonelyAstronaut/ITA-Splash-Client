@@ -43,7 +43,7 @@ export const LoginScreen: React.FC<LoginScreenProps> = (props: LoginScreenProps)
             >
                 <BackgroundImage
                     source={
-                        themeKey === ThemesEnum.DARK && ThemesEnum.JAPANESE
+                        themeKey === ThemesEnum.DARK
                             ? require('../../../assets/background.jpg')
                             : require('../../../assets/light-background.jpg')
                     }

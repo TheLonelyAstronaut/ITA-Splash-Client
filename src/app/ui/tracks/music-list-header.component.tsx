@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Fontisto';
 import styled from 'styled-components/native';
 
 import { Album, Playlist } from '../../../types/music';
@@ -67,6 +69,17 @@ export const AlbumYear = styled(RegularText)`
     margin-top: ${(props) => props.theme.spacer * 0.5};
 `;
 
+export const EmptyPlaylistWrapper = styled.View`
+    width: 225px;
+    height: 225px;
+    background-color: ${(props) => props.theme.colors.main};
+`;
+
+export const IconWrapper = styled.View`
+    align-self: center;
+    margin-top: 50px;
+`;
+
 export type MusicListHeaderProps = {
     data: Album | Playlist;
 };
@@ -75,13 +88,31 @@ export const MusicListHeader: React.FC<MusicListHeaderProps> = (props: MusicList
     const isAlbum = (props.data as Album).year;
     const [liked, setLiked] = useState(false);
 
+    const navigation = useNavigation();
+
+    const handlePress = useCallback(() => {
+        navigation.navigate({
+            name: 'ArtistScreen',
+            key: 'ArtistScreen_' + (props.data as Album).artistId + '_' + Math.random().toString(),
+            params: {
+                id: (props.data as Album).artistId,
+            },
+        });
+    }, [props, navigation]);
+
     return (
         <HeaderWrapper>
             <ImageWrapper>
                 {isAlbum ? (
                     <AlbumImage source={{ uri: props.data.image }} />
-                ) : (
+                ) : props.data.tracks.length > 0 ? (
                     <CombinedPlaylistImage data={props.data} />
+                ) : (
+                    <EmptyPlaylistWrapper>
+                        <IconWrapper>
+                            <Icon name={'music-note'} size={120} color={'white'} />
+                        </IconWrapper>
+                    </EmptyPlaylistWrapper>
                 )}
             </ImageWrapper>
             <InfoWrapper>
@@ -100,8 +131,8 @@ export const MusicListHeader: React.FC<MusicListHeaderProps> = (props: MusicList
                     {isAlbum ? (
                         <>
                             <AlbumName>{props.data.name}</AlbumName>
-                            <ArtistWrapper>
-                                <AlbumArtist>{(props.data as Album).artist}</AlbumArtist>
+                            <ArtistWrapper onPress={handlePress}>
+                                <AlbumArtist>{(props.data as Album).artistName}</AlbumArtist>
                             </ArtistWrapper>
                             <AlbumYear>{'Album ' + (props.data as Album).year}</AlbumYear>
                         </>

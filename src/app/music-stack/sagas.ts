@@ -1,9 +1,12 @@
 import { SagaIterator } from 'redux-saga';
-import { call, put, takeLatest, select } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { client } from '../../graphql/api';
+import { LOAD_LIBRARY } from '../library/actions';
+import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
+import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
 
-import { LOAD_ALBUM, LOAD_ARTIST } from './actions';
+import { ADD_TO_PLAYLIST, LOAD_ALBUM, LOAD_ARTIST } from './actions';
 import { getAlbum, getArtist } from './selectors';
 
 export class ExtendedError extends Error {
@@ -38,6 +41,19 @@ export function* loadAlbumSaga(action: ReturnType<typeof LOAD_ALBUM.TRIGGER>): S
     } catch (err) {
         yield put(LOAD_ALBUM.COMPLETED.failed(new ExtendedError(err, action.payload.key)));
     }
+}
+
+export function* addToPlaylist(action: ReturnType<typeof ADD_TO_PLAYLIST.TRIGGER>): SagaIterator {
+    try {
+        const result = yield call(client.addToPlaylist, action.payload.trackId, action.payload.playlistId);
+        yield put(LOAD_LIBRARY.TRIGGER(1));
+    } catch (e) {
+        yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Danger, message: 'Track already in playlist' }));
+    }
+}
+
+export function* listenForAddToPlaylist(): SagaIterator {
+    yield takeLatest(ADD_TO_PLAYLIST.TRIGGER, addToPlaylist);
 }
 
 export function* listenForLoadArtistSaga(): SagaIterator {

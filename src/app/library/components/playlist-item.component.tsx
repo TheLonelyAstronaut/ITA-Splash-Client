@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import Icon from 'react-native-vector-icons/Fontisto';
@@ -22,7 +23,6 @@ import {
 export interface Props {
     name: string;
     data: LibraryData;
-    navigation: StackNavigationProp<LibraryStackParamList, 'PlaylistsScreen'>;
 }
 
 export const CombinedPlaylistImage: React.FC<LibraryData> = (data: LibraryData) => {
@@ -78,8 +78,9 @@ export const PlaylistImageRender: React.FC<LibraryData> = (data: LibraryData) =>
 };
 
 export const PlaylistItem: React.FC<Props> = (props: Props) => {
+    const navigation = useNavigation();
     const handlePress = useCallback(() => {
-        props.navigation.navigate('PlaylistScreen', {
+        navigation.navigate('PlaylistScreen', {
             id: props.data.data.id,
         });
     }, [props]);

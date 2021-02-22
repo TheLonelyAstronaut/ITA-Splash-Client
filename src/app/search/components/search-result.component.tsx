@@ -9,6 +9,7 @@ import { MUSIC_ACTIONS } from '../../player/actions';
 import { Image } from '../../ui/image.component';
 import { RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
+import I18n from '../../utils/i18n';
 import { SearchStackParamList } from '../routing.params';
 import { SearchResultType } from '../search.types';
 
@@ -78,7 +79,7 @@ export const SearchResultComponent: React.FC<Props> = (props: Props) => {
         if (isTrack) {
             return (props.data as Track).artist;
         } else if (isArtist) {
-            return 'Artist';
+            return I18n.t('search.artist');
         } else if (isAlbum) {
             return (props.data as Album).artist;
         }

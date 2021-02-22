@@ -1,13 +1,14 @@
 import React, { useMemo } from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useSelector } from 'react-redux';
+import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 import { Track } from '../../../types/music';
 import { getCurrentTrack } from '../../player/selectors';
 import { Image } from '../image.component';
 import { RegularText } from '../text.component';
-import { Liked, Dots } from '../tracks/track.component';
+import { Liked, Plus } from '../tracks/track.component';
 
 export const TrackContainer = styled.TouchableOpacity`
     width: 80%;
@@ -64,6 +65,7 @@ type TrackComponentProps = {
 
 export const PopularTrackComponent: React.FC<TrackComponentProps> = (props: TrackComponentProps) => {
     const currentTrack = useSelector(getCurrentTrack);
+    const theme = useTheme();
     const isPlaying = useMemo(() => props.track.id === currentTrack.id, [props, currentTrack]);
     const handleLongPress = React.useCallback(() => {
         if (props.onLongPress) {
@@ -80,9 +82,9 @@ export const PopularTrackComponent: React.FC<TrackComponentProps> = (props: Trac
             </TrackInfoWrapper>
             <Icons>
                 {props.track.liked ? <Liked source={require('../../../assets/like-button-color.png')} /> : null}
-                <Dots>
-                    <Icon name={'dots-three-horizontal'} color={'white'} size={15} />
-                </Dots>
+                <Plus>
+                    <Icon name={'plus'} color={theme.colors.secondary} size={20} />
+                </Plus>
             </Icons>
         </TrackContainer>
     );
