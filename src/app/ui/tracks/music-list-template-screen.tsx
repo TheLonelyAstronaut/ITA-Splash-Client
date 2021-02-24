@@ -29,6 +29,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
     const dispatch = useDispatch();
     const theme = useTheme();
     const navigation = useNavigation();
+    const isAlbum = (props.data as Album).year;
 
     const handleTrackPlay = useCallback(
         (item: Track) => {
@@ -59,8 +60,10 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                 <BackButtonWrapper pointerEvents={'box-none'}>
                     <BackButton
                         onPress={useCallback(() => {
-                            navigation.goBack();
-                        }, [navigation])}
+                            {
+                                isAlbum ? navigation.goBack() : navigation.navigate('PlaylistsScreen');
+                            }
+                        }, [isAlbum, navigation])}
                     />
                 </BackButtonWrapper>
             </AnimatedGradientTransition>
