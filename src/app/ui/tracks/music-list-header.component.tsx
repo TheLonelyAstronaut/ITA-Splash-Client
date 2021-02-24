@@ -9,6 +9,8 @@ import { Image } from '../image.component';
 import { BoldText, RegularText } from '../text.component';
 
 import { CombinedPlaylistImage } from './combined-image-component';
+import { useDispatch } from 'react-redux';
+import { MUSIC_ACTIONS } from '../../player/actions';
 
 export const AlbumImage = styled(Image)`
     margin-top: ${(props) => props.theme.spacer * 3};
@@ -19,7 +21,9 @@ export const AlbumImage = styled(Image)`
 export const PlayButton = styled.Image`
     width: 50px;
     height: 50px;
+    border-radius: 50px;
     margin-right: ${(props) => props.theme.spacer * 4};
+    background-color: white;
 `;
 
 export const LikeButton = styled.Image`
@@ -87,6 +91,7 @@ export type MusicListHeaderProps = {
 export const MusicListHeader: React.FC<MusicListHeaderProps> = (props: MusicListHeaderProps) => {
     const isAlbum = (props.data as Album).year;
     const [liked, setLiked] = useState(false);
+    const dispatch = useDispatch();
 
     const navigation = useNavigation();
 
@@ -99,6 +104,10 @@ export const MusicListHeader: React.FC<MusicListHeaderProps> = (props: MusicList
             },
         });
     }, [props, navigation]);
+
+    const handlePlay = useCallback(() => {
+        dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: props.data.tracks[0], queue: props.data.tracks }));
+    }, []);
 
     return (
         <HeaderWrapper>
@@ -140,7 +149,7 @@ export const MusicListHeader: React.FC<MusicListHeaderProps> = (props: MusicList
                         <AlbumName>{props.data.name}</AlbumName>
                     )}
                 </TextWrapper>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handlePlay}>
                     <PlayButton source={require('../../../assets/play-button-color.png')} />
                 </TouchableOpacity>
             </InfoWrapper>

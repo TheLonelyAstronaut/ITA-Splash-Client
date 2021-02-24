@@ -37,7 +37,6 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
         },
         [dispatch, props]
     );
-
     return (
         <Container>
             <AnimatedGradientTransition

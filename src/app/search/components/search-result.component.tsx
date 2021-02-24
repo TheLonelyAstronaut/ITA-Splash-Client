@@ -81,7 +81,7 @@ export const SearchResultComponent: React.FC<Props> = (props: Props) => {
         } else if (isArtist) {
             return I18n.t('search.artist');
         } else if (isAlbum) {
-            return (props.data as Album).artist;
+            return (props.data as Album).artistName;
         }
 
         return '';

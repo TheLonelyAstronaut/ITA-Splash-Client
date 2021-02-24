@@ -71,6 +71,9 @@ export const PlayButton = styled.Image`
     height: ${PLAY_BUTTON_SIZE}px;
     width: ${PLAY_BUTTON_SIZE}px;
     border-radius: ${PLAY_BUTTON_SIZE / 2}px;
+`;
+
+export const PlayButtonWrapper = styled.TouchableOpacity`
     position: absolute;
     right: ${(props) => props.theme.spacer * 4}px;
 `;
@@ -155,7 +158,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
         (item: Track) => {
             dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: item, queue: props.data.popularTracks } as PlayActionPayload));
         },
-        [dispatch, props]
+        [dispatch, props.data.popularTracks]
     );
 
     const HeaderComponent = () => {
@@ -225,12 +228,14 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                 </DataWrapper>
             </Animated.ScrollView>
             <HeaderComponent />
-            <AnimatedPlayButton
-                source={require('../../../assets/play-button-color.png')}
-                style={{
-                    transform: [{ translateY: playerButtonTranslateY }],
-                }}
-            />
+            <PlayButtonWrapper onPress={() => handleTrackPlay(props.data.popularTracks[0])}>
+                <AnimatedPlayButton
+                    style={{
+                        transform: [{ translateY: playerButtonTranslateY }],
+                    }}
+                    source={require('../../../assets/play-button-color.png')}
+                />
+            </PlayButtonWrapper>
         </Container>
     );
 };
