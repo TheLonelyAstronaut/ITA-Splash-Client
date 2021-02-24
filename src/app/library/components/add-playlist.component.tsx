@@ -18,7 +18,7 @@ export interface Props {
 }
 
 export const AddPlaylistName = styled(PlaylistName)`
-    margin-top: ${(props) => props.theme.spacer * 1.5};
+    margin-top: ${(props) => props.theme.spacer * 1.5 + 5};
 `;
 
 export const AddPlaylistItem: React.FC<Props> = (props: Props) => {
@@ -27,7 +27,7 @@ export const AddPlaylistItem: React.FC<Props> = (props: Props) => {
         <PlaylistContainer onPress={props.onPress}>
             <PlaylistIconWrapper>
                 <PlaylistIcon>
-                    <Icon name={'plus'} size={55} color={theme.colors.secondary} />
+                    <Icon name={'plus'} size={55} color={'white'} />
                 </PlaylistIcon>
             </PlaylistIconWrapper>
             <InfoWrapper>

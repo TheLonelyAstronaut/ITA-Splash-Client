@@ -4,33 +4,37 @@ import { Image } from '../../ui/image.component';
 import { RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 
-export const PlaylistContainer = styled.TouchableOpacity`
-    width: ${DEVICE_SIZE.width};
+export type WidthProps = {
+    width?: boolean;
+};
+
+export const PlaylistContainer = styled.TouchableOpacity<WidthProps>`
+    width: ${(props) => (props.width ? DEVICE_SIZE.width : DEVICE_SIZE.width * 0.8)};
     height: ${DEVICE_SIZE.height * 0.09};
-    margin-bottom: ${(props) => props.theme.spacer * 3}px;
+    margin-bottom: ${(props) => props.theme.spacer * 5}px;
     flex-direction: row;
 `;
 
 export const PlaylistImage = styled(Image)`
-    width: 90px;
-    height: 90px;
-    margin-left: ${(props) => props.theme.spacer * 3}px;
+    width: 100px;
+    height: 100px;
 `;
 
 export const PlaylistIconWrapper = styled.View`
-    width: 90px;
-    height: 90px;
-    margin-left: ${(props) => props.theme.spacer * 3}px;
-    background-color: ${(props) => props.theme.colors.main};
+    width: 100px;
+    height: 100px;
+    background-color: #1e1e1e;
     padding: 18px;
 `;
 
 export const PlaylistIcon = styled.View`
     align-self: center;
+    margin-top: 5px;
 `;
 
 export const PlaylistName = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
+    margin-top: 5px;
 `;
 
 export const InfoWrapper = styled.View`
@@ -44,15 +48,14 @@ export const TracksAmount = styled(RegularText)`
 `;
 
 export const CombinedImageContainer = styled.View`
-    width: 90px;
-    height: 90px;
+    width: 100px;
+    height: 100px;
     background-color: white;
-    margin-left: ${(props) => props.theme.spacer * 3}px;
 `;
 
 export const CombinedImage = styled(Image)`
-    width: 45px;
-    height: 45px;
+    width: 50;
+    height: 50px;
 `;
 
 export const Wrapper = styled.View`

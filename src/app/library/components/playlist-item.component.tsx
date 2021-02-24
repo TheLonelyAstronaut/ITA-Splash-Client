@@ -86,7 +86,7 @@ export const PlaylistItem: React.FC<Props> = (props: Props) => {
     }, [props]);
 
     return (
-        <PlaylistContainer onPress={handlePress}>
+        <PlaylistContainer width={true} onPress={handlePress}>
             <PlaylistImageRender type={props.data.type} data={props.data.data} />
             <InfoWrapper>
                 <PlaylistName>

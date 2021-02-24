@@ -107,6 +107,7 @@ export const LibraryScreen: React.FC<LibraryScreenParams> = (props: LibraryScree
                         keyExtractor={(item) => item.data.toString()}
                         extraData={extraData}
                         ListHeaderComponent={<AddPlaylistItem onPress={handleModal} />}
+                        contentContainerStyle={{ marginLeft: theme.spacer * 3 }}
                     />
                 )}
             </AnimatedGradientTransition>

@@ -10,7 +10,7 @@ const Stack = createStackNavigator<LibraryStackParamList>();
 export const LibraryStackComponent: React.FC = () => {
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name={'PlaylistsScreen'} component={LibraryScreen} />
+            <Stack.Screen name={'PlaylistsScreen'} component={LibraryScreen} options={{ gestureEnabled: false }} />
             <Stack.Screen name={'PlaylistScreen'} component={PlaylistScreenComponent} />
         </Stack.Navigator>
     );

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, ScrollView, Text } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { useDispatch } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
@@ -13,6 +13,8 @@ import { Container } from '../container.component';
 
 import { MusicListHeader } from './music-list-header.component';
 import { TrackComponent } from './track.component';
+import { RegularText } from '../text.component';
+import { DEVICE_SIZE } from '../themes/themes';
 
 export const BackButtonWrapper = styled.View`
     position: absolute;
@@ -21,6 +23,24 @@ export const BackButtonWrapper = styled.View`
 
 export type MusicListTemplateScreenProps = {
     data: Album | Playlist;
+};
+
+export const Wrapper = styled.View`
+    padding-vertical: ${(props) => props.theme.widgetHeight + 8};
+`;
+
+export const EmptyText = styled(RegularText)`
+    color: ${(props) => props.theme.colors.secondary};
+    align-self: center;
+    margin-top: ${DEVICE_SIZE.height * 0.2};
+`;
+export const EmptyPlaylistComponent = (data: MusicListTemplateScreenProps) => {
+    return (
+        <Wrapper>
+            <MusicListHeader data={data.data} />
+            <EmptyText>Playlist is empty</EmptyText>
+        </Wrapper>
+    );
 };
 
 export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
@@ -48,14 +68,19 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                     theme.colors.screenBackground,
                 ]}
             >
-                <FlatList
-                    data={props.data.tracks}
-                    showsVerticalScrollIndicator={false}
-                    keyExtractor={(item) => item.id.toString()}
-                    renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
-                    contentContainerStyle={{ paddingVertical: theme.widgetHeight + theme.spacer }}
-                    ListHeaderComponent={<MusicListHeader data={props.data} />}
-                />
+                {props.data.tracks.length > 0 ? (
+                    <FlatList
+                        data={props.data.tracks}
+                        showsVerticalScrollIndicator={false}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
+                        contentContainerStyle={{ paddingVertical: theme.widgetHeight + theme.spacer }}
+                        ListHeaderComponent={<MusicListHeader data={props.data} />}
+                    />
+                ) : (
+                    <EmptyPlaylistComponent data={props.data} />
+                )}
+
                 <BackButtonWrapper pointerEvents={'box-none'}>
                     <BackButton
                         onPress={useCallback(() => {

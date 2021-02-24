@@ -123,6 +123,7 @@ export const PopularTrackComponent: React.FC<TrackComponentProps> = (props: Trac
                             />
                         )}
                         keyExtractor={(item) => item.data.toString()}
+                        directionalLockEnabled={true}
                     />
                 </ModalView>
             </AddPlaylistModal>

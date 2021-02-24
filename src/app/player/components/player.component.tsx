@@ -1,16 +1,17 @@
-import React, { useEffect, useRef } from 'react';
-import { ListRenderItemInfo } from 'react-native';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { ListRenderItemInfo, TouchableOpacity } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 // Add types declaration or move to backend?
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { getColorFromURL } from 'rn-dominant-color';
 import styled, { useTheme } from 'styled-components/native';
 
-import { Track } from '../../../types/music';
+import { Album, Track } from '../../../types/music';
 import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 import { Container } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
@@ -79,10 +80,12 @@ export const Player: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
     const currentQueue = useSelector(getCurrentQueue);
     const theme = useTheme();
+    const navigation = useNavigation();
     const currentState = usePlaybackState();
     const dispatch = useDispatch();
     const _carousel = useRef<Carousel<Track>>();
     const gradient = useSelector(getTrackGradient(currentTrack.id, [theme.colors.main, theme.colors.main]));
+    console.log(currentTrack);
 
     useEffect(() => {
         if (currentQueue) {
@@ -123,6 +126,16 @@ export const Player: React.FC = () => {
 
     const renderItem = React.useCallback((info: ListRenderItemInfo<Track>) => <PlayerArtwork track={info.item} />, []);
 
+    // const handlePress = useCallback(() => {
+    //     navigation.navigate({
+    //         name: 'ArtistScreen',
+    //         key: 'ArtistScreen_' + currentTrack.artist.id + '_' + Math.random().toString(),
+    //         params: {
+    //             id: currentTrack.id,
+    //         },
+    //     });
+    // }, [currentTrack.artist.id, navigation]);
+
     return (
         <AvoidingBackground>
             <AnimatedGradientTransition colors={gradient}>
@@ -139,7 +152,9 @@ export const Player: React.FC = () => {
                     <GestureProvider pointerEvents={'box-none'} />
                     <PlayerControlWrapper>
                         <TrackName>{currentTrack.title}</TrackName>
+                        {/*<TouchableOpacity onPress={handlePress}>*/}
                         <ArtistName>{currentTrack.artist}</ArtistName>
+                        {/*</TouchableOpacity>*/}
                         <TrackProgressSlider />
                         <ButtonWrapper>
                             <SkipControlButton

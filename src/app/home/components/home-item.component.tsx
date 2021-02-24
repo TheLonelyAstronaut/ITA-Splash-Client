@@ -2,11 +2,13 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 import styled from 'styled-components/native';
 
-import { Artist, Playlist, Album } from '../../../types/music';
+import { Album, Artist, Playlist } from '../../../types/music';
 import { Image } from '../../ui/image.component';
 import { RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { HomeParamList } from '../routing.params';
+import { PlaylistImageRender } from '../../library/components/playlist-item.component';
+import { LibraryElementType } from '../../library/library.types';
 
 export type PlaylistProps = {
     data: Playlist | Artist | Album;
@@ -36,6 +38,7 @@ export const PlaylistName = styled(RegularText)`
 export const HomeItemComponent: React.FC<PlaylistProps> = ({ data, navigation }: PlaylistProps) => {
     const isArtist = (data as Artist).popularTracks;
     const isAlbum = (data as Album).year;
+    const isPlaylist = !(data as Album).artistName;
 
     const handlePress = useCallback(() => {
         const transfer = (stack: string, screen: string, params: unknown) => {
@@ -65,7 +68,13 @@ export const HomeItemComponent: React.FC<PlaylistProps> = ({ data, navigation }:
 
     return (
         <Wrapper onPress={handlePress}>
-            {isArtist ? <ArtistImage source={{ uri: data.image }} /> : <PlaylistImage source={{ uri: data.image }} />}
+            {isArtist ? (
+                <ArtistImage source={{ uri: data.image }} />
+            ) : !isPlaylist ? (
+                <PlaylistImage source={{ uri: data.image }} />
+            ) : (
+                <PlaylistImageRender type={LibraryElementType.PLAYLIST} data={data as Playlist} />
+            )}
             <PlaylistName>{data.name}</PlaylistName>
         </Wrapper>
     );

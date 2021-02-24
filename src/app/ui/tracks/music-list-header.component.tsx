@@ -76,7 +76,7 @@ export const AlbumYear = styled(RegularText)`
 export const EmptyPlaylistWrapper = styled.View`
     width: 225px;
     height: 225px;
-    background-color: ${(props) => props.theme.colors.main};
+    background-color: #1e1e1e;
 `;
 
 export const IconWrapper = styled.View`
