@@ -27,7 +27,7 @@ export type Artist = {
     popularTracks: Track[];
     image: string;
     albums?: Album[];
-    similarArtists?: Artist[];
+    similarArtists?: Partial<Artist>[];
 };
 
 export interface Album {

@@ -45,6 +45,15 @@ const en: DefaultLocale = {
         nothingFounded: 'Nothing founded',
         artist: 'Artist',
     },
+    artist: {
+        popularTracks: 'Popular tracks',
+        popularReleases: 'Popular releases',
+        similarArtists: 'Similar artists',
+        discography: 'Discography',
+    },
+    additional: {
+        choosePlaylist: 'Choose playlist to add',
+    },
 };
 
 const ru: DefaultLocale = {
@@ -91,6 +100,15 @@ const ru: DefaultLocale = {
         typeSomething: 'Введите что-то для поиска',
         nothingFounded: 'Ничего не найдено',
         artist: 'Исполнитель',
+    },
+    artist: {
+        popularTracks: 'Популярные треки',
+        popularReleases: 'Популярные релизы',
+        similarArtists: 'Похожие исполнители',
+        discography: 'Дискография',
+    },
+    additional: {
+        choosePlaylist: 'Выберите плейлист для добавления',
     },
 };
 

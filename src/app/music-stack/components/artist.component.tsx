@@ -14,6 +14,7 @@ import { Container } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { PopularTrackComponent } from '../../ui/tracks/popular-track.compoennt';
+import I18n from '../../utils/i18n';
 
 import { AlbumComponent } from './album.component';
 import { SimilarArtistComponent } from './similar-artist.component';
@@ -198,11 +199,11 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                             renderItem={({ item, index }) => (
                                 <PopularTrackComponent index={index} track={item} onPress={handleTrackPlay} />
                             )}
-                            ListHeaderComponent={<Popular>Popular tracks</Popular>}
+                            ListHeaderComponent={<Popular>{I18n.t('artist.popularTracks')}</Popular>}
                         />
                     </PoularTracksWrapper>
                     <AlbumsWrapper>
-                        <Albums>Popular releases</Albums>
+                        <Albums>{I18n.t('artist.popularReleases')}</Albums>
                         <FlatList data={props.data.albums} renderItem={({ item }) => <AlbumComponent data={item} />} />
                     </AlbumsWrapper>
                     <DiscographyButton
@@ -213,9 +214,9 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                             });
                         }}
                     >
-                        <DiscographyText>Discography</DiscographyText>
+                        <DiscographyText>{I18n.t('artist.discography')}</DiscographyText>
                     </DiscographyButton>
-                    <SimilarArtists>Similar artist</SimilarArtists>
+                    <SimilarArtists>{I18n.t('artist.similarArtists')}</SimilarArtists>
                     <ArtistsWrapper>
                         <FlatList
                             data={props.data.similarArtists}

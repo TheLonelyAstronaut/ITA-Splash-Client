@@ -7,7 +7,7 @@ import { Image } from '../../ui/image.component';
 import { BoldText } from '../../ui/text.component';
 
 export type Props = {
-    artist: Artist;
+    artist: Partial<Artist>;
 };
 
 export const Wrapper = styled.TouchableOpacity`

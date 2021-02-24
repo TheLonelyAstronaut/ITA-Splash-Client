@@ -31,7 +31,7 @@ export const AddPlaylistModal = styled.Modal``;
 
 export const ModalView = styled.View`
     flex: 1;
-    margin-top: ${(props) => props.theme.spacer * 5}px;
+    margin-top: ${(props) => props.theme.spacer * 12 - 5}px;
     border-radius: 20px;
     padding: ${(props) => props.theme.spacer * 4}px;
     align-items: center;

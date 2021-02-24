@@ -43,4 +43,13 @@ export interface DefaultLocale {
         nothingFounded: string;
         artist: string;
     };
+    artist: {
+        popularTracks: string;
+        popularReleases: string;
+        similarArtists: string;
+        discography: string;
+    };
+    additional: {
+        choosePlaylist: string;
+    };
 }

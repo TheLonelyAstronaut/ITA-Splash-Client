@@ -1,21 +1,18 @@
 import React, { useMemo, useState } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 import { Track } from '../../../types/music';
-import { AddPlaylistItem } from '../../library/components/add-playlist.component';
 import { PlaylistToChooseItem } from '../../library/components/playlist-for-choose.component';
 import { AddPlaylistModal, CrossButton, ModalText, ModalView } from '../../library/screens/library-screen.component';
 import { getLibrary } from '../../library/selectors';
 import { ADD_TO_PLAYLIST } from '../../music-stack/actions';
 import { getCurrentTrack } from '../../player/selectors';
 import I18n from '../../utils/i18n';
-import { LinearButton } from '../linear-gradient-button.component';
 import { RegularText } from '../text.component';
-import { DEVICE_SIZE } from '../themes/themes';
 
 export const TrackContainer = styled.TouchableOpacity`
     width: 100%;
@@ -79,7 +76,7 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
 
     const handleAddToPlaylist = (id: number) => {
         setVisible(true);
-        dispatch(ADD_TO_PLAYLIST.TRIGGER({ trackId: props.track.id, playlistId: 2 }));
+        dispatch(ADD_TO_PLAYLIST.TRIGGER({ trackId: props.track.id, playlistId: id }));
     };
 
     return (
@@ -108,7 +105,7 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
                     <CrossButton onPress={() => setVisible(!visible)}>
                         <Icon name={'cross'} size={24} color={theme.colors.secondary} />
                     </CrossButton>
-                    <ModalText>Choose playlist to add</ModalText>
+                    <ModalText>{I18n.t('additional.choosePlaylist')}</ModalText>
                     <FlatList
                         data={data}
                         renderItem={(item) => (
