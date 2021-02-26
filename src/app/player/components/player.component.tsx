@@ -19,7 +19,7 @@ import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { Logger } from '../../utils/logger';
 import { ADD_TRACK_GRADIENT, MUSIC_ACTIONS } from '../actions';
 import { ControlActions } from '../player.types';
-import { getCurrentQueue, getCurrentTrack, getTrackGradient } from '../selectors';
+import { getCurrentQueue, getCurrentTrack, getRootTrackState, getTrackGradient } from '../selectors';
 
 import { PlayControlButton, SkipControlButton } from './control-button.component';
 import { PlayerArtwork } from './player-artwork.component';
@@ -79,13 +79,13 @@ export const AvoidingBackground = styled(Container)`
 export const Player: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
     const currentQueue = useSelector(getCurrentQueue);
+    const currentArtist = useSelector(getRootTrackState);
     const theme = useTheme();
     const navigation = useNavigation();
     const currentState = usePlaybackState();
     const dispatch = useDispatch();
     const _carousel = useRef<Carousel<Track>>();
     const gradient = useSelector(getTrackGradient(currentTrack.id, [theme.colors.main, theme.colors.main]));
-    console.log(currentTrack);
 
     useEffect(() => {
         if (currentQueue) {
@@ -126,15 +126,15 @@ export const Player: React.FC = () => {
 
     const renderItem = React.useCallback((info: ListRenderItemInfo<Track>) => <PlayerArtwork track={info.item} />, []);
 
-    // const handlePress = useCallback(() => {
-    //     navigation.navigate({
-    //         name: 'ArtistScreen',
-    //         key: 'ArtistScreen_' + currentTrack.artist + '_' + Math.random().toString(),
-    //         params: {
-    //             id: currentTrack.artist,
-    //         },
-    //     });
-    // }, [currentTrack.artist, navigation]);
+    const handlePress = useCallback(() => {
+        navigation.navigate({
+            name: 'ArtistScreen',
+            key: 'ArtistScreen_' + currentArtist.artistId + '_' + Math.random().toString(),
+            params: {
+                id: currentArtist.artistId,
+            },
+        });
+    }, [currentArtist.artistId, navigation]);
 
     return (
         <AvoidingBackground>
@@ -152,9 +152,9 @@ export const Player: React.FC = () => {
                     <GestureProvider pointerEvents={'box-none'} />
                     <PlayerControlWrapper>
                         <TrackName>{currentTrack.title}</TrackName>
-                        {/*<TouchableOpacity onPress={handlePress}>*/}
-                        <ArtistName>{currentTrack.artist}</ArtistName>
-                        {/*</TouchableOpacity>*/}
+                        <TouchableOpacity onPress={handlePress}>
+                            <ArtistName>{currentTrack.artist}</ArtistName>
+                        </TouchableOpacity>
                         <TrackProgressSlider />
                         <ButtonWrapper>
                             <SkipControlButton

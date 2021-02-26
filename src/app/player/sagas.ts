@@ -6,6 +6,7 @@ import { Track } from '../../types/music';
 
 import { MUSIC_ACTIONS } from './actions';
 import { ControlActions } from './player.types';
+import { artists } from '../../mocks/artists';
 
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
@@ -35,7 +36,10 @@ export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>)
     yield call(RNTrackPlayer.add, [...action.payload.queue]);
     yield call(RNTrackPlayer.skip, action.payload.track.id);
     yield call(RNTrackPlayer.play);
-    yield put(MUSIC_ACTIONS.PLAY.COMPLETED({ track: action.payload.track, queue: action.payload.queue }));
+    const artistId = artists.find((artist) => artist.name === action.payload.track.artist);
+    yield put(
+        MUSIC_ACTIONS.PLAY.COMPLETED({ track: action.payload.track, queue: action.payload.queue, artist: artistId })
+    );
 }
 
 export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRIGGER>): SagaIterator {

@@ -9,6 +9,7 @@ const initialState: TrackState = {
     currentTrack: {} as Track,
     queue: [],
     trackGradient: {},
+    artistId: undefined,
 };
 
 export const trackReducer = createReducer<TrackState>(initialState)
@@ -16,6 +17,7 @@ export const trackReducer = createReducer<TrackState>(initialState)
         ...state,
         currentTrack: action.payload.track,
         queue: action.payload.queue,
+        artistId: action.payload.artist?.id,
     }))
     .handleAction(MUSIC_ACTIONS.SET_CURRENT_TRACK, (state, action) => ({
         ...state,
