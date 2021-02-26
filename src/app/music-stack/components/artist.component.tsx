@@ -8,7 +8,7 @@ import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
 import { Artist, Track } from '../../../types/music';
-import { MUSIC_ACTIONS, PlayActionPayload } from '../../player/actions';
+import { MUSIC_ACTIONS, PlayActionTriggerPayload } from '../../player/actions';
 import { ArtistBackButton } from '../../ui/artist-back-button.component';
 import { Container } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
@@ -152,7 +152,9 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
 
     const handleTrackPlay = useCallback(
         (item: Track) => {
-            dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: item, queue: props.data.popularTracks } as PlayActionPayload));
+            dispatch(
+                MUSIC_ACTIONS.PLAY.TRIGGER({ track: item, queue: props.data.popularTracks } as PlayActionTriggerPayload)
+            );
         },
         [dispatch, props.data.popularTracks]
     );
