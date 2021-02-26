@@ -1,9 +1,14 @@
 import { createAction } from 'typesafe-redux-helpers';
 
 import { LibraryData } from './library.types';
+import { Album, Playlist } from '../../types/music';
 
 export type AddPlaylistPayload = {
     name: string;
+};
+
+export type AddToLikedPayload = {
+    data: Album | Playlist;
 };
 
 export const LOAD_LIBRARY = {
@@ -14,4 +19,12 @@ export const LOAD_LIBRARY = {
 
 export const ADD_PLAYLIST = {
     TRIGGER: createAction('[Add Playlist Trigger]', (payload: AddPlaylistPayload) => payload),
+};
+
+export const ADD_TO_LIKED = {
+    TRIGGER: createAction('[Add To Liked]', (payload: AddToLikedPayload) => payload),
+};
+
+export const REMOVE_FROM_LIKED = {
+    TRIGGER: createAction('[Remove From Liked]', (payload: AddToLikedPayload) => payload),
 };

@@ -58,14 +58,14 @@ export const artists: Artist[] = [
             },
             {
                 id: 3,
-                name: 'Scriptonite',
+                name: 'Скриптонит',
                 image: 'https://m.iguides.ru/upload/iblock/8b3/8b3c6f7dab41bc8590ffc78ff22fa372.jpg',
             },
         ],
     },
     {
         id: 3,
-        name: 'Scriptonite',
+        name: 'Скриптонит',
         popularTracks: tracks,
         image: 'https://m.iguides.ru/upload/iblock/8b3/8b3c6f7dab41bc8590ffc78ff22fa372.jpg',
         albums: [],

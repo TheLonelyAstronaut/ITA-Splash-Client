@@ -2,12 +2,13 @@ import I18n from '../app/utils/i18n';
 import { Playlist } from '../types/music';
 
 import { tracks } from './tracks';
+import { favoriteTracks } from './favorite-tracks';
 
 export const playlist: Playlist[] = [
     {
         id: 0,
         name: I18n.t('library.favoriteTracks'),
-        tracks: tracks,
+        tracks: favoriteTracks,
         image: 'https://wallpapercave.com/wp/wp4354959.jpg',
     },
     {

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
-import { FlatList, ScrollView, Text } from 'react-native';
+import { FlatList } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { useDispatch } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
@@ -15,6 +15,8 @@ import { MusicListHeader } from './music-list-header.component';
 import { TrackComponent } from './track.component';
 import { RegularText } from '../text.component';
 import { DEVICE_SIZE } from '../themes/themes';
+import I18n from '../../utils/i18n';
+import { LibraryElementType } from '../../library/library.types';
 
 export const BackButtonWrapper = styled.View`
     position: absolute;
@@ -23,6 +25,7 @@ export const BackButtonWrapper = styled.View`
 
 export type MusicListTemplateScreenProps = {
     data: Album | Playlist;
+    type?: LibraryElementType;
 };
 
 export const Wrapper = styled.View`
@@ -38,7 +41,7 @@ export const EmptyPlaylistComponent = (data: MusicListTemplateScreenProps) => {
     return (
         <Wrapper>
             <MusicListHeader data={data.data} />
-            <EmptyText>Playlist is empty</EmptyText>
+            <EmptyText>{I18n.t('library.emptyPlaylist')}</EmptyText>
         </Wrapper>
     );
 };
@@ -50,6 +53,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
     const theme = useTheme();
     const navigation = useNavigation();
     const isAlbum = (props.data as Album).year;
+    console.log(props.type);
 
     const handleTrackPlay = useCallback(
         (item: Track) => {
@@ -72,10 +76,10 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                     <FlatList
                         data={props.data.tracks}
                         showsVerticalScrollIndicator={false}
-                        keyExtractor={(item) => item.id.toString()}
+                        keyExtractor={(item) => item.id + ''}
                         renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
                         contentContainerStyle={{ paddingVertical: theme.widgetHeight + theme.spacer }}
-                        ListHeaderComponent={<MusicListHeader data={props.data} />}
+                        ListHeaderComponent={<MusicListHeader data={props.data} type={props.type} />}
                     />
                 ) : (
                     <EmptyPlaylistComponent data={props.data} />

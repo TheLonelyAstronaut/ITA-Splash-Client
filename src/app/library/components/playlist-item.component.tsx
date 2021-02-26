@@ -55,7 +55,7 @@ export const PlaylistImageRender: React.FC<LibraryData> = (data: LibraryData) =>
             </PlaylistIconWrapper>
         );
     }
-    if (data.data.tracks !== undefined && data.data.tracks.length <= 4) {
+    if (data.data.tracks.length <= 4) {
         switch (data.data.tracks.length) {
             case 0:
                 return (
@@ -82,6 +82,7 @@ export const PlaylistItem: React.FC<Props> = (props: Props) => {
     const handlePress = useCallback(() => {
         navigation.navigate('PlaylistScreen', {
             id: props.data.data.id,
+            type: props.data.type,
         });
     }, [props]);
 

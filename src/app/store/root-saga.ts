@@ -4,7 +4,12 @@ import { spawn, call } from 'redux-saga/effects';
 
 import { listenForLoginSaga, listenForLogoutSaga, listenForRegisterSaga } from '../authentication/sagas';
 import { listenForChangePasswordSaga, listenForLoadHomepage } from '../home/sagas';
-import { listenForAddPlaylistSaga, listenForLoadLibrarySaga } from '../library/sagas';
+import {
+    listenForAddPlaylistSaga,
+    listenForAddToLikedSaga,
+    listenForLoadLibrarySaga,
+    listenForRemoveFromLikedSaga,
+} from '../library/sagas';
 import { listenForAddToPlaylist, listenForLoadAlbumSaga, listenForLoadArtistSaga } from '../music-stack/sagas';
 import { listenPlaySaga, listenControlSaga, listenAddToQueueSaga, listenSeekTo } from '../player/sagas';
 import { listenForSearchSaga } from '../search/sagas';
@@ -28,6 +33,8 @@ export function* rootSaga(dispatch: Dispatch): SagaIterator {
     yield spawn(listenForLoadArtistSaga);
     yield spawn(listenForLoadAlbumSaga);
     yield spawn(listenForAddToPlaylist);
+    yield spawn(listenForAddToLikedSaga);
+    yield spawn(listenForRemoveFromLikedSaga);
 
     yield call(initializationSaga, dispatch);
 }

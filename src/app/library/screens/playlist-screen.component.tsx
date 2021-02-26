@@ -29,6 +29,8 @@ export const PlaylistScreenComponent: React.FC<PlaylistScreenParams> = (props: P
     } else if (isLoading || !album) {
         return <LoadingContainer />;
     } else {
-        return <MusicListTemplateScreen data={album} />;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return <MusicListTemplateScreen data={album} type={props.route.params.type} />;
     }
 };

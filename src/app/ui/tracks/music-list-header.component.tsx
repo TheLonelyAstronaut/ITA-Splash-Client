@@ -11,6 +11,8 @@ import { BoldText, RegularText } from '../text.component';
 import { CombinedPlaylistImage } from './combined-image-component';
 import { useDispatch } from 'react-redux';
 import { MUSIC_ACTIONS } from '../../player/actions';
+import { ADD_TO_LIKED, LOAD_LIBRARY, REMOVE_FROM_LIKED } from '../../library/actions';
+import { LibraryElementType } from '../../library/library.types';
 
 export const AlbumImage = styled(Image)`
     margin-top: ${(props) => props.theme.spacer * 3};
@@ -86,11 +88,11 @@ export const IconWrapper = styled.View`
 
 export type MusicListHeaderProps = {
     data: Album | Playlist;
+    type: LibraryElementType;
 };
 
 export const MusicListHeader: React.FC<MusicListHeaderProps> = (props: MusicListHeaderProps) => {
     const isAlbum = (props.data as Album).year;
-    const [liked, setLiked] = useState(false);
     const dispatch = useDispatch();
 
     const navigation = useNavigation();
@@ -109,6 +111,16 @@ export const MusicListHeader: React.FC<MusicListHeaderProps> = (props: MusicList
         dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: props.data.tracks[0], queue: props.data.tracks }));
     }, []);
 
+    const handleLike = useCallback(() => {
+        if (props.data.liked) {
+            dispatch(REMOVE_FROM_LIKED.TRIGGER({ data: props.data }));
+            dispatch(LOAD_LIBRARY.TRIGGER(1));
+        } else {
+            dispatch(ADD_TO_LIKED.TRIGGER({ data: props.data }));
+            dispatch(LOAD_LIBRARY.TRIGGER(1));
+        }
+    }, [dispatch, props.data.liked, props.data]);
+
     return (
         <HeaderWrapper>
             <ImageWrapper>
@@ -125,12 +137,8 @@ export const MusicListHeader: React.FC<MusicListHeaderProps> = (props: MusicList
                 )}
             </ImageWrapper>
             <InfoWrapper>
-                <TouchableOpacity
-                    onPress={useCallback(() => {
-                        setLiked(!liked);
-                    }, [liked])}
-                >
-                    {liked ? (
+                <TouchableOpacity onPress={handleLike}>
+                    {props.data.liked ? (
                         <LikeButton source={require('../../../assets/like-button-color.png')} />
                     ) : (
                         <LikeButton source={require('../../../assets/like-button-blank.png')} />

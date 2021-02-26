@@ -19,11 +19,6 @@ import I18n from '../../utils/i18n';
 import { AlbumComponent } from './album.component';
 import { SimilarArtistComponent } from './similar-artist.component';
 
-export const COVER_HEIGHT = DEVICE_SIZE.height * 0.4;
-export const COVER_WIDTH = DEVICE_SIZE.width;
-export const STATUS_BAR = getStatusBarHeight() + 64; //theme.spacer
-export const PLAY_BUTTON_SIZE = 60;
-
 export type ArtistProps = {
     data: Artist;
 };
@@ -36,7 +31,7 @@ export const Header = styled.SafeAreaView`
     justify-content: center;
     width: 100%;
     background-color: ${(props) => props.theme.colors.main}
-    height: ${STATUS_BAR}px;
+    height: ${(props) => props.theme.statusBar}px;
 `;
 
 export const AnimatedHeaderWrapper = Animated.createAnimatedComponent(Header);
@@ -56,8 +51,8 @@ export const AnimatedArtistName = Animated.createAnimatedComponent(ArtistName);
 export const AnimatedMinifiedArtistName = Animated.createAnimatedComponent(MinifiedArtistName);
 
 export const ArtistImage = styled.Image`
-    width: ${COVER_WIDTH};
-    height: ${COVER_HEIGHT};
+    width: ${(props) => props.theme.coverWidth};
+    height: ${(props) => props.theme.coverHeight};
     position: absolute;
 `;
 
@@ -69,9 +64,9 @@ export const BackButtonWrapper = styled.View`
 
 export const PlayButton = styled.Image`
     background-color: white;
-    height: ${PLAY_BUTTON_SIZE}px;
-    width: ${PLAY_BUTTON_SIZE}px;
-    border-radius: ${PLAY_BUTTON_SIZE / 2}px;
+    height: ${(props) => props.theme.playButtonSize}px;
+    width: ${(props) => props.theme.playButtonSize}px;
+    border-radius: ${(props) => props.theme.playButtonSize / 2}px;
 `;
 
 export const PlayButtonWrapper = styled.TouchableOpacity`
@@ -134,24 +129,24 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
     const scrollValue = useValue(0);
 
     const imageHeight = scrollValue.interpolate({
-        inputRange: [0, COVER_HEIGHT / 2],
-        outputRange: [COVER_HEIGHT, COVER_HEIGHT / 2],
+        inputRange: [0, theme.coverHeight / 2],
+        outputRange: [theme.coverHeight, theme.coverHeight / 2],
     });
 
     const artistOpacity = scrollValue.interpolate({
-        inputRange: [-COVER_HEIGHT / 4, 0, COVER_HEIGHT / 2],
+        inputRange: [-theme.coverHeight / 4, 0, theme.coverHeight / 2],
         outputRange: [0, 1, 0.4],
     });
 
     const headerOpacity = scrollValue.interpolate({
-        inputRange: [0, COVER_HEIGHT - STATUS_BAR - 10],
+        inputRange: [0, theme.coverHeight - theme.statusBar - 10],
         outputRange: [0, 1],
         extrapolate: Extrapolate.CLAMP,
     });
 
     const playerButtonTranslateY = scrollValue.interpolate({
-        inputRange: [0, COVER_HEIGHT - STATUS_BAR - 10],
-        outputRange: [COVER_HEIGHT - PLAY_BUTTON_SIZE / 2 - 20, STATUS_BAR - PLAY_BUTTON_SIZE / 2],
+        inputRange: [0, theme.coverHeight - theme.statusBar - 10],
+        outputRange: [theme.coverHeight - theme.playButtonSize / 2 - 20, theme.statusBar - theme.playButtonSize / 2],
         extrapolateRight: Extrapolate.CLAMP,
     });
 
@@ -179,12 +174,12 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
         <Container>
             <Animated.Image
                 source={{ uri: props.data.image }}
-                style={{ width: COVER_WIDTH, height: imageHeight, position: 'absolute', resizeMode: 'cover' }}
+                style={{ width: theme.coverWidth, height: imageHeight, position: 'absolute', resizeMode: 'cover' }}
             />
             <Animated.ScrollView
                 contentContainerStyle={{
                     paddingBottom: theme.widgetHeight,
-                    paddingTop: COVER_HEIGHT - theme.fontSize.extraLarge - 40,
+                    paddingTop: theme.coverHeight - theme.fontSize.extraLarge - 40,
                 }}
                 showsVerticalScrollIndicator={false}
                 scrollEventThrottle={16}

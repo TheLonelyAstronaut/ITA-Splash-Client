@@ -16,6 +16,7 @@ const en: DefaultLocale = {
         addNewPlaylist: 'Add new playlist',
         comeUpPlaylistName: 'Come up with a playlist name',
         create: 'Create',
+        emptyPlaylist: 'Playlist is empty',
     },
     settings: {
         dark: 'Dark',
@@ -72,6 +73,7 @@ const ru: DefaultLocale = {
         addNewPlaylist: 'Добавить плейлист',
         comeUpPlaylistName: 'Придумайте название плейлиста',
         create: 'Создать',
+        emptyPlaylist: 'Пока что тут пусто',
     },
     settings: {
         dark: 'Темная',

@@ -14,6 +14,7 @@ export interface DefaultLocale {
         tracks: string;
         comeUpPlaylistName: string;
         create: string;
+        emptyPlaylist: string;
     };
     settings: {
         dark: string;

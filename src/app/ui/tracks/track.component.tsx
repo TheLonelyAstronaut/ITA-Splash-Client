@@ -75,8 +75,13 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
     }, [props]);
 
     const handleAddToPlaylist = (id: number) => {
-        setVisible(true);
-        dispatch(ADD_TO_PLAYLIST.TRIGGER({ trackId: props.track.id, playlistId: id }));
+        try {
+            setVisible(true);
+            dispatch(ADD_TO_PLAYLIST.TRIGGER({ trackId: props.track.id, playlistId: id }));
+            setVisible(false);
+        } catch (e) {
+            return null;
+        }
     };
 
     return (

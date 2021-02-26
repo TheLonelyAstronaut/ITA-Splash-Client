@@ -31,6 +31,10 @@ const defaultValues: DefaultTheme = {
     },
     tabBarHeight: 68,
     widgetHeight: 55,
+    coverHeight: DEVICE_SIZE.height * 0.4,
+    coverWidth: DEVICE_SIZE.width,
+    statusBar: getStatusBarHeight() + 64,
+    playButtonSize: 60,
     fontWeight: {
         bold: 800,
         standard: 600,

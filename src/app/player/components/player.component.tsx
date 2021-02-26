@@ -129,12 +129,12 @@ export const Player: React.FC = () => {
     // const handlePress = useCallback(() => {
     //     navigation.navigate({
     //         name: 'ArtistScreen',
-    //         key: 'ArtistScreen_' + currentTrack.artist.id + '_' + Math.random().toString(),
+    //         key: 'ArtistScreen_' + currentTrack.artist + '_' + Math.random().toString(),
     //         params: {
-    //             id: currentTrack.id,
+    //             id: currentTrack.artist,
     //         },
     //     });
-    // }, [currentTrack.artist.id, navigation]);
+    // }, [currentTrack.artist, navigation]);
 
     return (
         <AvoidingBackground>

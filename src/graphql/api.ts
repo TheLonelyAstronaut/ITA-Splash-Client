@@ -17,7 +17,7 @@ import { library } from '../mocks/library';
 import { playlist } from '../mocks/playlists';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
-import { Artist, Album, Track } from '../types/music';
+import { Artist, Album, Track, Playlist } from '../types/music';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
@@ -81,8 +81,11 @@ export class GraphQLAPI {
 
     addToPlaylist = async (trackId: string, playlistId: number) => {
         const track = tracks.find((track) => track.id === trackId);
+        if (playlistId === 0 && track !== undefined) {
+            track.liked = true;
+            playlist[0].liked = true;
+        }
         const playlist1 = playlist[playlistId].tracks.find((track) => track.id === trackId);
-        console.log(track, playlist1);
         if (!playlist1) {
             playlist[playlistId].tracks.push(track as Track);
         } else {
@@ -179,6 +182,22 @@ export class GraphQLAPI {
         } else {
             throw new Error('Invalid artist id');
         }
+    };
+
+    addToLiked = async (data: Album | Playlist): Promise<void> => {
+        const res: Track[] = data.tracks.filter((track) => !track.liked).map((track) => track);
+        res.forEach((track) => (track.liked = true));
+        data.liked = true;
+        library[0].data.liked = true;
+        library[0].data.tracks.push(...res);
+    };
+
+    removeFromLiked = async (data: Album | Playlist): Promise<void> => {
+        const res: Track[] = data.tracks.filter((track) => track.liked).map((track) => track);
+        res.forEach((track) => (track.liked = false));
+        data.liked = false;
+        const likedLength = library[0].data.tracks.length;
+        library[0].data.tracks.splice(likedLength - res.length);
     };
 }
 

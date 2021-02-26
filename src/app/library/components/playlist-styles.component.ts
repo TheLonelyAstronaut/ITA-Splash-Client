@@ -54,7 +54,7 @@ export const CombinedImageContainer = styled.View`
 `;
 
 export const CombinedImage = styled(Image)`
-    width: 50;
+    width: 50px;
     height: 50px;
 `;
 

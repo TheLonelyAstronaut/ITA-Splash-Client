@@ -17,7 +17,6 @@ export const PlaylistContainer = styled.TouchableOpacity`
 
 export const PlaylistImage = styled(Image)`
     margin-top: ${(props) => props.theme.spacer * 3};
-    margin-left: ${(props) => props.theme.spacer * 6 - 4};
     width: 220px;
     height: 220px;
 `;

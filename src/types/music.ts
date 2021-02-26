@@ -19,6 +19,7 @@ export type Playlist = {
     name: string;
     id: number;
     image?: string;
+    liked?: boolean;
 };
 
 export type Artist = {
@@ -38,4 +39,5 @@ export interface Album {
     name: string;
     artistId: Artist | number;
     artistName: string;
+    liked?: boolean;
 }

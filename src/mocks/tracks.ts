@@ -17,7 +17,7 @@ export const tracks: Track[] = [
         artist: 'Post Malone',
         artwork: 'https://wallpapercave.com/wp/wp4354959.jpg',
         artworkType: ArtworkType.IMAGE,
-        liked: true,
+        liked: false,
     },
     {
         id: '2',
@@ -35,7 +35,7 @@ export const tracks: Track[] = [
         artist: 'Queen',
         artwork: 'https://i.pinimg.com/originals/b0/6b/a1/b06ba1e97a5ede25d56cb473c1d54636.jpg',
         artworkType: ArtworkType.IMAGE,
-        liked: true,
+        liked: false,
     },
     {
         id: '4',
@@ -44,6 +44,6 @@ export const tracks: Track[] = [
         artist: 'Скриптонит',
         artwork: 'https://zapoem.com/images/covers/87d2f033.a.13052128-1.jpg',
         artworkType: ArtworkType.IMAGE,
-        liked: true,
+        liked: false,
     },
 ];
