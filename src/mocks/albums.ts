@@ -2,6 +2,7 @@ import { Album } from '../types/music';
 
 import { artists } from './artists';
 import { tracks } from './tracks';
+import { favoriteTracks } from './favorite-tracks';
 
 export const albums: Album[] = [
     {
@@ -15,7 +16,7 @@ export const albums: Album[] = [
     },
     {
         id: 1,
-        tracks: tracks,
+        tracks: favoriteTracks,
         year: '2021',
         image: 'https://i.pinimg.com/originals/b0/6b/a1/b06ba1e97a5ede25d56cb473c1d54636.jpg',
         name: 'Queen',

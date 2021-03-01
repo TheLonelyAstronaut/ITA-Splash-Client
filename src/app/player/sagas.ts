@@ -7,6 +7,8 @@ import { Track } from '../../types/music';
 import { MUSIC_ACTIONS } from './actions';
 import { ControlActions } from './player.types';
 import { artists } from '../../mocks/artists';
+import { getCurrentTrack } from './selectors';
+import { useSelector } from 'react-redux';
 
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
@@ -32,8 +34,10 @@ export function* seekTo(action: ReturnType<typeof MUSIC_ACTIONS.SEEK_TO_POSITION
 }
 
 export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>): SagaIterator {
-    yield call(RNTrackPlayer.reset);
-    yield call(RNTrackPlayer.add, [...action.payload.queue]);
+    console.log(action.payload);
+    if (action.payload.currentQueue !== action.payload.queue || action.payload.currentQueue !== []) {
+        yield call(RNTrackPlayer.add, [...action.payload.queue]);
+    }
     yield call(RNTrackPlayer.skip, action.payload.track.id);
     yield call(RNTrackPlayer.play);
     const artistId = artists.find((artist) => artist.name === action.payload.track.artist);

@@ -20,10 +20,12 @@ export const SwipeableTrackChanger: React.FC<SwipeableTrackChangerProps> = (prop
     const dispatch = useDispatch();
     const queue = useSelector(getCurrentQueue);
     const currentTrack = useSelector(getCurrentTrack);
-    const currentIndex = queue.findIndex((item) => item.id === currentTrack.id);
+    const currentIndex = queue?.findIndex((item) => item.id === currentTrack.id);
     // eslint-disable-next-line
     const initialIndex = useMemo(() => currentIndex, []);
     const _carousel = useRef<Carousel<Track>>();
+
+    console.log(currentTrack);
 
     const changeTrackController = React.useCallback(
         (nextTrack: number) => {
@@ -46,22 +48,26 @@ export const SwipeableTrackChanger: React.FC<SwipeableTrackChangerProps> = (prop
         }
     }, [currentIndex, _carousel]);
 
-    return (
-        <Carousel
-            ref={(ref) => {
-                _carousel.current = ref as Carousel<Track>;
-                props.getRef && props.getRef(ref as Carousel<Track>);
-            }}
-            data={queue}
-            horizontal={true}
-            renderItem={props.renderItem}
-            sliderWidth={props.width}
-            itemWidth={props.width}
-            getItemLayout={(data, index) => ({ length: props.height, offset: props.height * index, index })}
-            initialScrollIndex={initialIndex}
-            firstItem={initialIndex}
-            onSnapToItem={changeTrackController}
-            onScrollToIndexFailed={(info) => alert(info)}
-        />
-    );
+    if (currentIndex === -1) {
+        return null;
+    } else {
+        return (
+            <Carousel
+                ref={(ref) => {
+                    _carousel.current = ref as Carousel<Track>;
+                    props.getRef && props.getRef(ref as Carousel<Track>);
+                }}
+                data={queue}
+                horizontal={true}
+                renderItem={props.renderItem}
+                sliderWidth={props.width}
+                itemWidth={props.width}
+                getItemLayout={(data, index) => ({ length: props.height, offset: props.height * index, index })}
+                initialScrollIndex={currentIndex}
+                firstItem={currentIndex}
+                onSnapToItem={changeTrackController}
+                onScrollToIndexFailed={(info) => alert(info)}
+            />
+        );
+    }
 };

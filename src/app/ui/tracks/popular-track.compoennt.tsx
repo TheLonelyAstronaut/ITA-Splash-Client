@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
@@ -8,13 +8,14 @@ import { Track } from '../../../types/music';
 import { getCurrentTrack } from '../../player/selectors';
 import { Image } from '../image.component';
 import { RegularText } from '../text.component';
-import { Liked, Plus } from '../tracks/track.component';
+import { Liked, LikeWrapper, Plus } from '../tracks/track.component';
 import { ADD_TO_PLAYLIST } from '../../music-stack/actions';
 import { AddPlaylistModal, CrossButton, ModalText, ModalView } from '../../library/screens/library-screen.component';
 import { FlatList } from 'react-native';
 import { PlaylistToChooseItem } from '../../library/components/playlist-for-choose.component';
 import { getLibrary } from '../../library/selectors';
 import I18n from '../../utils/i18n';
+import { ADD_TO_LIKED, LOAD_LIBRARY } from '../../library/actions';
 
 export const TrackContainer = styled.TouchableOpacity`
     width: 80%;
@@ -92,6 +93,11 @@ export const PopularTrackComponent: React.FC<TrackComponentProps> = (props: Trac
         }
     };
 
+    const handleLike = useCallback(() => {
+        dispatch(ADD_TO_LIKED.TRIGGER({ id: props.track.id }));
+        dispatch(LOAD_LIBRARY.TRIGGER(1));
+    }, [dispatch, props.track.id]);
+
     return (
         <TrackContainer onPress={() => props.onPress(props.track)} onLongPress={handleLongPress}>
             <TrackInfoWrapper>
@@ -100,7 +106,15 @@ export const PopularTrackComponent: React.FC<TrackComponentProps> = (props: Trac
                 <TrackName isPlaying={isPlaying}>{props.track.title}</TrackName>
             </TrackInfoWrapper>
             <Icons>
-                {props.track.liked ? <Liked source={require('../../../assets/like-button-color.png')} /> : null}
+                {props.track.liked ? (
+                    <LikeWrapper onPress={handleLike}>
+                        <Liked source={require('../../../assets/like-button-color.png')} />
+                    </LikeWrapper>
+                ) : (
+                    <LikeWrapper onPress={handleLike}>
+                        <Liked source={require('../../../assets/like-button-blank.png')} />
+                    </LikeWrapper>
+                )}
                 <Plus onPress={() => setVisible(true)}>
                     <Icon name={'plus'} color={theme.colors.secondary} size={20} />
                 </Plus>

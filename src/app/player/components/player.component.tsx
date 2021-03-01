@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getColorFromURL } from 'rn-dominant-color';
 import styled, { useTheme } from 'styled-components/native';
 
-import { Album, Track } from '../../../types/music';
+import { Track } from '../../../types/music';
 import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 import { Container } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
@@ -19,12 +19,14 @@ import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { Logger } from '../../utils/logger';
 import { ADD_TRACK_GRADIENT, MUSIC_ACTIONS } from '../actions';
 import { ControlActions } from '../player.types';
-import { getCurrentQueue, getCurrentTrack, getRootTrackState, getTrackGradient } from '../selectors';
+import { getCurrentQueue, getCurrentTrack, getTrackGradient } from '../selectors';
+import Icon from 'react-native-vector-icons/AntDesign';
 
 import { PlayControlButton, SkipControlButton } from './control-button.component';
 import { PlayerArtwork } from './player-artwork.component';
 import { SwipeableTrackChanger } from './swipeable-track-changer.component';
 import { TrackProgressSlider } from './tarck-progress-slider.component';
+import { closePlayer } from '../player.ref';
 
 export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;
@@ -74,6 +76,16 @@ export const ButtonWrapper = styled.View`
 
 export const AvoidingBackground = styled(Container)`
     background-color: ${(props) => props.theme.colors.main};
+`;
+
+export const ChevronButtonWrapper = styled.TouchableOpacity`
+    position: absolute;
+    left: ${(props) => props.theme.spacer * 4};
+    margin-top: ${(props) => props.theme.spacer * 8.5 + 2};
+    width: 25px;
+    height: 25px;
+    background-color: rgba(52, 52, 52, 0.7);
+    border-radius: 20px;
 `;
 
 export const Player: React.FC = () => {
@@ -133,6 +145,7 @@ export const Player: React.FC = () => {
                 id: currentTrack.artistId,
             },
         });
+        closePlayer();
     }, [currentTrack, navigation]);
 
     return (
@@ -148,6 +161,9 @@ export const Player: React.FC = () => {
                     <HeaderWrapper>
                         <HeaderText>{currentTrack.artist}</HeaderText>
                     </HeaderWrapper>
+                    <ChevronButtonWrapper onPress={closePlayer}>
+                        <Icon style={{ alignSelf: 'center', padding: 4 }} name={'down'} color={'white'} size={18} />
+                    </ChevronButtonWrapper>
                     <GestureProvider pointerEvents={'box-none'} />
                     <PlayerControlWrapper>
                         <TrackName>{currentTrack.title}</TrackName>

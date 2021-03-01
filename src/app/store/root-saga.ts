@@ -11,7 +11,13 @@ import {
     listenForLoadAlbumSaga,
     listenForLoadArtistSaga,
 } from '../music-stack/sagas';
-import { listenPlaySaga, listenControlSaga, listenAddToQueueSaga, listenSeekTo } from '../player/sagas';
+import {
+    listenPlaySaga,
+    listenControlSaga,
+    listenAddToQueueSaga,
+    listenSeekTo,
+    listenAddQueueSaga,
+} from '../player/sagas';
 import { listenForSearchSaga } from '../search/sagas';
 import { listenFlashbarSaga } from '../utils/flashbar/sagas';
 import { initializationSaga } from '../utils/initialization-saga';
@@ -35,6 +41,7 @@ export function* rootSaga(dispatch: Dispatch): SagaIterator {
     yield spawn(listenForAddToPlaylist);
     yield spawn(listenForAddToLikedSaga);
     yield spawn(listenForFollowOrUnfollow);
+    yield spawn(listenAddQueueSaga);
 
     yield call(initializationSaga, dispatch);
 }

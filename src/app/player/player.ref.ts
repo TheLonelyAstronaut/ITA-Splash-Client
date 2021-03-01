@@ -15,3 +15,9 @@ export const openPlayer = (): void => {
         playerSheetRef.snapTo({ index: 1 });
     }
 };
+
+export const closePlayer = (): void => {
+    if (playerSheetRef.snapTo) {
+        playerSheetRef.snapTo({ index: 0 });
+    }
+};

@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
 import { SwipeableSheet } from '../../player/components/swipeable-sheet.component';
-import { getCurrentQueue } from '../../player/selectors';
+import { getCurrentQueue, getCurrentTrack } from '../../player/selectors';
 import { generateTabsPreset } from '../../utils/generate-tabs-preset';
 import { DEVICE_SIZE } from '../themes/themes';
 
@@ -30,9 +30,10 @@ export const CustomTabBar: React.FC<BottomTabBarProps> = (props: BottomTabBarPro
     const currentTheme = useTheme();
     const [animatableValue] = React.useState<RNAnimated.Value>(new RNAnimated.Value(DEVICE_SIZE.height));
     const currentQueue = useSelector(getCurrentQueue);
+    const currentTrack = useSelector(getCurrentTrack);
     const safeArea = useSafeAreaInsets();
     const themedTabs = React.useMemo(() => generateTabsPreset(currentTheme), [currentTheme]);
-    const isPlayerVisible = React.useMemo(() => currentQueue.length, [currentQueue]);
+    const isPlayerVisible = React.useMemo(() => currentTrack.id !== undefined, [currentTrack]);
     const minimalPosition = React.useMemo(
         () => currentTheme.tabBarHeight + currentTheme.widgetHeight + safeArea.bottom,
         [safeArea, currentTheme]

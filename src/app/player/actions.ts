@@ -18,6 +18,7 @@ export interface AddToTheQueuePayload {
 export interface PlayActionTriggerPayload {
     track: Track;
     queue: Track[];
+    currentQueue?: Track[];
 }
 
 export interface PlayActionCompletedPayload extends PlayActionTriggerPayload {

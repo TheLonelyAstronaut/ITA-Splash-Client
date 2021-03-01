@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { FlatList } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
 
 import { Album, Playlist, Track } from '../../../types/music';
@@ -22,7 +22,6 @@ import {
     EmptyPlaylistWrapper,
     IconWrapper,
     InfoWrapper,
-    LikeButton,
     EmptyText,
     PlayButtonWrapper,
     BackButtonWrapper,
@@ -34,7 +33,7 @@ import Animated, { Extrapolate, useValue } from 'react-native-reanimated';
 import { CombinedPlaylistImage } from './combined-image-component';
 import Icon from 'react-native-vector-icons/Fontisto';
 import { AnimatedHeaderWrapper } from '../../music-stack/components/artist.component';
-import { ADD_TO_LIKED, LOAD_LIBRARY, REMOVE_FROM_LIKED } from '../../library/actions';
+import { getCurrentQueue } from '../../player/selectors';
 
 export type MusicListTemplateScreenProps = {
     data: Album | Playlist;
@@ -61,10 +60,17 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
     const navigation = useNavigation();
     const isAlbum = (props.data as Album).year;
     const scrollValue = useValue(0);
+    const currentQueue = useSelector(getCurrentQueue);
 
     const handleTrackPlay = useCallback(
         (item: Track) => {
-            dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: item, queue: props.data.tracks } as PlayActionTriggerPayload));
+            dispatch(
+                MUSIC_ACTIONS.PLAY.TRIGGER({
+                    track: item,
+                    queue: props.data.tracks,
+                    currentQueue: currentQueue,
+                } as PlayActionTriggerPayload)
+            );
         },
         [dispatch, props]
     );
@@ -97,18 +103,14 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
     }, [props, navigation]);
 
     const handlePlay = useCallback(() => {
-        dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: props.data.tracks[0], queue: props.data.tracks }));
+        dispatch(
+            MUSIC_ACTIONS.PLAY.TRIGGER({
+                track: props.data.tracks[0],
+                queue: props.data.tracks,
+                currentQueue: currentQueue,
+            })
+        );
     }, []);
-
-    const handleLike = useCallback(() => {
-        if (props.data.liked) {
-            dispatch(REMOVE_FROM_LIKED.TRIGGER({ data: props.data }));
-            dispatch(LOAD_LIBRARY.TRIGGER(1));
-        } else {
-            dispatch(ADD_TO_LIKED.TRIGGER({ data: props.data }));
-            dispatch(LOAD_LIBRARY.TRIGGER(1));
-        }
-    }, [dispatch, props.data.liked, props.data]);
 
     const HeaderComponent = () => {
         return (
@@ -200,14 +202,16 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                     )}
                 </Animated.ScrollView>
                 <HeaderComponent />
-                <PlayButtonWrapper onPress={handlePlay}>
-                    <AnimatedPlayButton
-                        style={{
-                            transform: [{ translateY: playerButtonTranslateY }],
-                        }}
-                        source={require('../../../assets/play-button-color.png')}
-                    />
-                </PlayButtonWrapper>
+                {props.data.tracks.length > 0 ? (
+                    <PlayButtonWrapper onPress={handlePlay}>
+                        <AnimatedPlayButton
+                            style={{
+                                transform: [{ translateY: playerButtonTranslateY }],
+                            }}
+                            source={require('../../../assets/play-button-color.png')}
+                        />
+                    </PlayButtonWrapper>
+                ) : null}
             </AnimatedGradientTransition>
         </Container>
     );

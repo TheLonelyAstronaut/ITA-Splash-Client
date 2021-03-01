@@ -15,6 +15,10 @@ export const AlbumScreenComponent: React.FC<AlbumScreenParams> = (props: AlbumSc
     const isLoading = useSelector(getIsMusicScreenFetching(props.route.key));
     const error = useSelector(getMusicScreenError(props.route.key));
 
+    // useEffect(()=>{
+    //     dispatch(MUSIC_ACTIONS.ADD_QUEUE({newQueue: album?.tracks as Track[], currentQueue: currentQueue}))
+    // },[album?.tracks, dispatch])
+
     useEffect(() => {
         dispatch(
             LOAD_ALBUM.TRIGGER({
