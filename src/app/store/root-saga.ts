@@ -41,7 +41,6 @@ export function* rootSaga(dispatch: Dispatch): SagaIterator {
     yield spawn(listenForAddToPlaylist);
     yield spawn(listenForAddToLikedSaga);
     yield spawn(listenForFollowOrUnfollow);
-    yield spawn(listenAddQueueSaga);
 
     yield call(initializationSaga, dispatch);
 }
