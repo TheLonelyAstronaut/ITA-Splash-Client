@@ -18,6 +18,7 @@ import { playlist } from '../mocks/playlists';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
 import { Artist, Album, Track, Playlist } from '../types/music';
+import { favoriteTracks } from '../mocks/favorite-tracks';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
@@ -186,13 +187,17 @@ export class GraphQLAPI {
 
     addToLiked = async (id: number): Promise<void> => {
         const track = tracks.find((track) => track.id === id.toString()) as Track;
-        const trackIndex = tracks.indexOf(track);
         if (track.liked) {
             track.liked = false;
-            playlist[0].tracks.splice(trackIndex, 2);
+            for (let i = 0; i < playlist[0].tracks.length; i++) {
+                if (playlist[0].tracks[i] === track) {
+                    playlist[0].tracks.splice(i, 1);
+                }
+            }
         } else {
             track.liked = true;
             playlist[0].tracks.push(track);
+            console.log(favoriteTracks);
         }
     };
 
