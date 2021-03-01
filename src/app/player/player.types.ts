@@ -8,7 +8,6 @@ export enum ControlActions {
 
 export interface TrackState {
     currentTrack: Track;
-    artistId: number | undefined;
     queue: Track[];
     trackGradient: Record<string, string[]>;
 }

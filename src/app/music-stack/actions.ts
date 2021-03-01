@@ -38,3 +38,5 @@ export const LOAD_ALBUM = {
 export const ADD_TO_PLAYLIST = {
     TRIGGER: createAction('[Add to playlist Trigger]', (payload: AddToPlaylistType) => payload),
 };
+
+export const FOLLOW_OR_UNFOLLOW = createAction('[Follow or Unfollow]', (payload: number) => payload);

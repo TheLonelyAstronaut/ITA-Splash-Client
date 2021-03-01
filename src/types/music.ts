@@ -8,6 +8,7 @@ export type Track = {
     url: string;
     title: string;
     artist: string;
+    artistId: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     artwork: string;
     artworkType: ArtworkType;
@@ -29,6 +30,7 @@ export type Artist = {
     image: string;
     albums?: Album[];
     similarArtists?: Partial<Artist>[];
+    isFollowed: boolean;
 };
 
 export interface Album {

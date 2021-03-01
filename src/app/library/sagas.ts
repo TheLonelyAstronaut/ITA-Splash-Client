@@ -4,7 +4,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { client } from '../../graphql/api';
 import { Logger } from '../utils/logger';
 
-import { ADD_PLAYLIST, ADD_TO_LIKED, LOAD_LIBRARY, REMOVE_FROM_LIKED } from './actions';
+import { ADD_PLAYLIST, ADD_TO_LIKED, LOAD_LIBRARY } from './actions';
 
 export function* loadLibrarySaga(action: ReturnType<typeof LOAD_LIBRARY.TRIGGER>): SagaIterator {
     try {
@@ -30,24 +30,11 @@ export function* addPlaylistSaga(action: ReturnType<typeof ADD_PLAYLIST.TRIGGER>
 
 export function* addToLiked(action: ReturnType<typeof ADD_TO_LIKED.TRIGGER>): SagaIterator {
     try {
-        yield call(client.addToLiked, action.payload.data);
+        yield call(client.addToLiked, action.payload.id);
     } catch (e) {
         yield call(Logger.error, e);
         yield put(LOAD_LIBRARY.COMPLETED.failed(e));
     }
-}
-
-export function* removeFromLiked(action: ReturnType<typeof REMOVE_FROM_LIKED.TRIGGER>): SagaIterator {
-    try {
-        yield call(client.removeFromLiked, action.payload.data);
-    } catch (e) {
-        yield call(Logger.error, e);
-        yield put(LOAD_LIBRARY.COMPLETED.failed(e));
-    }
-}
-
-export function* listenForRemoveFromLikedSaga(): SagaIterator {
-    yield takeLatest(REMOVE_FROM_LIKED.TRIGGER, removeFromLiked);
 }
 
 export function* listenForAddToLikedSaga(): SagaIterator {

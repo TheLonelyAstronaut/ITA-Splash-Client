@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
-import { FlatList, TouchableOpacity, View } from 'react-native';
+import { FlatList } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { useDispatch } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
@@ -18,19 +18,16 @@ import {
     AnimatedImage,
     AnimatedPlayButton,
     AnimatedPlaylistName,
-    AnimatedText,
     ArtistWrapper,
     EmptyPlaylistWrapper,
     IconWrapper,
     InfoWrapper,
     LikeButton,
-    MusicListHeader,
-    PlayButton,
-    AnimatedWrapper,
+    EmptyText,
+    PlayButtonWrapper,
+    BackButtonWrapper,
 } from './music-list-header.component';
 import { TrackComponent } from './track.component';
-import { RegularText } from '../text.component';
-import { DEVICE_SIZE } from '../themes/themes';
 import I18n from '../../utils/i18n';
 import { LibraryElementType } from '../../library/library.types';
 import Animated, { Extrapolate, useValue } from 'react-native-reanimated';
@@ -38,11 +35,6 @@ import { CombinedPlaylistImage } from './combined-image-component';
 import Icon from 'react-native-vector-icons/Fontisto';
 import { AnimatedHeaderWrapper } from '../../music-stack/components/artist.component';
 import { ADD_TO_LIKED, LOAD_LIBRARY, REMOVE_FROM_LIKED } from '../../library/actions';
-
-export const BackButtonWrapper = styled.View`
-    position: absolute;
-    margin-top: ${getStatusBarHeight()};
-`;
 
 export type MusicListTemplateScreenProps = {
     data: Album | Playlist;
@@ -53,15 +45,9 @@ export const Wrapper = styled.View`
     background-color: ${(props) => props.theme.colors.screenBackground};
 `;
 
-export const EmptyText = styled(RegularText)`
-    color: ${(props) => props.theme.colors.secondary};
-    align-self: center;
-    margin-top: ${DEVICE_SIZE.height * 0.2};
-`;
-export const EmptyPlaylistComponent = (data: MusicListTemplateScreenProps) => {
+export const EmptyPlaylistComponent = () => {
     return (
         <Wrapper>
-            <MusicListHeader data={data.data} />
             <EmptyText>{I18n.t('library.emptyPlaylist')}</EmptyText>
         </Wrapper>
     );
@@ -89,32 +75,15 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
         extrapolate: Extrapolate.CLAMP,
     });
 
-    const HeaderComponent = () => {
-        return (
-            <>
-                <AnimatedHeaderWrapper style={{ opacity: headerOpacity, backgroundColor: theme.colors.additiveBlue }}>
-                    <AnimatedPlaylistName>{props.data.name}</AnimatedPlaylistName>
-                </AnimatedHeaderWrapper>
-                <BackButtonWrapper pointerEvents={'box-none'}>
-                    <BackButton
-                        onPress={useCallback(() => {
-                            {
-                                isAlbum ? navigation.goBack() : navigation.navigate('PlaylistsScreen');
-                            }
-                        }, [isAlbum, navigation])}
-                    />
-                </BackButtonWrapper>
-            </>
-        );
-    };
-
     const imageHeight = scrollValue.interpolate({
-        inputRange: [0, 160],
-        outputRange: [theme.coverHeight, theme.coverHeight / 2],
+        inputRange: [0, theme.coverHeight / 2],
+        outputRange: [1, 0.5],
     });
-    const infoOpacity = scrollValue.interpolate({
-        inputRange: [-80, 0, 160],
-        outputRange: [0, 1, 0.4],
+
+    const playerButtonTranslateY = scrollValue.interpolate({
+        inputRange: [0, 320 - theme.statusBar + 100],
+        outputRange: [320 - theme.playButtonSize / 3 + 50, theme.statusBar - theme.playButtonSize / 2],
+        extrapolateRight: Extrapolate.CLAMP,
     });
 
     const handlePress = useCallback(() => {
@@ -141,11 +110,24 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
         }
     }, [dispatch, props.data.liked, props.data]);
 
-    const playerButtonTranslateY = scrollValue.interpolate({
-        inputRange: [0, theme.coverHeight - theme.statusBar - 10],
-        outputRange: [-25, theme.statusBar - theme.playButtonSize / 2],
-        extrapolateRight: Extrapolate.CLAMP,
-    });
+    const HeaderComponent = () => {
+        return (
+            <>
+                <AnimatedHeaderWrapper style={{ opacity: headerOpacity, backgroundColor: theme.colors.main }}>
+                    <AnimatedPlaylistName>{props.data.name}</AnimatedPlaylistName>
+                </AnimatedHeaderWrapper>
+                <BackButtonWrapper pointerEvents={'box-none'}>
+                    <BackButton
+                        onPress={useCallback(() => {
+                            {
+                                isAlbum ? navigation.goBack() : navigation.navigate('PlaylistsScreen');
+                            }
+                        }, [isAlbum, navigation])}
+                    />
+                </BackButtonWrapper>
+            </>
+        );
+    };
 
     return (
         <Container>
@@ -161,10 +143,11 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                 <AnimatedImage
                     style={{
                         width: 225,
-                        height: imageHeight,
+                        height: 225,
                         position: 'absolute',
                         resizeMode: 'cover',
                         paddingTop: 45,
+                        transform: [{ scale: imageHeight }],
                     }}
                 >
                     {isAlbum ? (
@@ -186,36 +169,21 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                         paddingTop: 320,
                     }}
                 >
-                    <AnimatedWrapper style={{ opacity: infoOpacity }}>
-                        <TouchableOpacity onPress={handleLike}>
-                            {props.data.liked ? (
-                                <LikeButton source={require('../../../assets/like-button-color.png')} />
-                            ) : (
-                                <LikeButton source={require('../../../assets/like-button-blank.png')} />
-                            )}
-                        </TouchableOpacity>
-                        <AnimatedText style={{ opacity: infoOpacity }}>
-                            {isAlbum ? (
-                                <>
-                                    <AnimatedPlaylistName>{props.data.name}</AnimatedPlaylistName>
-                                    <ArtistWrapper onPress={handlePress}>
-                                        <AlbumArtist>{(props.data as Album).artistName}</AlbumArtist>
-                                    </ArtistWrapper>
-                                    <AlbumYear>{'Album ' + (props.data as Album).year}</AlbumYear>
-                                </>
-                            ) : (
+                    <InfoWrapper>
+                        {isAlbum ? (
+                            <>
                                 <AnimatedPlaylistName>{props.data.name}</AnimatedPlaylistName>
-                            )}
-                        </AnimatedText>
-                        <TouchableOpacity onPress={handlePlay}>
-                            <AnimatedPlayButton
-                                style={{
-                                    transform: [{ translateY: playerButtonTranslateY }],
-                                }}
-                                source={require('../../../assets/play-button-color.png')}
-                            />
-                        </TouchableOpacity>
-                    </AnimatedWrapper>
+                                <ArtistWrapper onPress={handlePress}>
+                                    <AlbumArtist>{(props.data as Album).artistName}</AlbumArtist>
+                                </ArtistWrapper>
+                                <AlbumYear>{'Album ' + (props.data as Album).year}</AlbumYear>
+                            </>
+                        ) : (
+                            <AnimatedPlaylistName style={{ paddingBottom: 20, paddingTop: 10 }}>
+                                {props.data.name}
+                            </AnimatedPlaylistName>
+                        )}
+                    </InfoWrapper>
                     {props.data.tracks.length > 0 ? (
                         <FlatList
                             data={props.data.tracks}
@@ -226,13 +194,20 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                                 paddingBottom: theme.widgetHeight + theme.spacer,
                                 backgroundColor: theme.colors.screenBackground,
                             }}
-                            ListHeaderComponent={<MusicListHeader data={props.data} type={props.type} />}
                         />
                     ) : (
-                        <EmptyPlaylistComponent data={props.data} />
+                        <EmptyPlaylistComponent />
                     )}
                 </Animated.ScrollView>
                 <HeaderComponent />
+                <PlayButtonWrapper onPress={handlePlay}>
+                    <AnimatedPlayButton
+                        style={{
+                            transform: [{ translateY: playerButtonTranslateY }],
+                        }}
+                        source={require('../../../assets/play-button-color.png')}
+                    />
+                </PlayButtonWrapper>
             </AnimatedGradientTransition>
         </Container>
     );

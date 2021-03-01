@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import { FlatList } from 'react-native';
 import Animated, { useValue, Extrapolate } from 'react-native-reanimated';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 import styled from 'styled-components/native';
 
@@ -18,6 +18,8 @@ import I18n from '../../utils/i18n';
 
 import { AlbumComponent } from './album.component';
 import { SimilarArtistComponent } from './similar-artist.component';
+import { FOLLOW_OR_UNFOLLOW, LOAD_ARTIST } from '../actions';
+import { getArtist } from '../selectors';
 
 export type ArtistProps = {
     data: Artist;
@@ -80,7 +82,7 @@ export const Popular = styled(BoldText)`
     color: ${(props) => props.theme.colors.secondary};
     font-size: ${(props) => props.theme.fontSize.large};
     margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 4};
+    margin-top: ${(props) => props.theme.spacer * 2};
     margin-bottom: ${(props) => props.theme.spacer * 2};
 `;
 
@@ -118,6 +120,26 @@ export const Separator = styled.View`
     padding: ${(props) => props.theme.spacer * 1.5}px;
 `;
 
+export type FollowButtonProp = {
+    followed: boolean;
+};
+
+export const FollowButton = styled.TouchableOpacity<FollowButtonProp>`
+    width: 100px;
+    height: 40px;
+    border-color: ${(props) => (props.followed ? props.theme.colors.additivePink : props.theme.colors.secondary)};
+    border-width: 1px;
+    border-radius: 10px;
+    margin-left: ${(props) => props.theme.spacer * 2};
+    margin-top: ${(props) => props.theme.spacer * 2};
+`;
+
+export const FollowText = styled(BoldText)`
+    color: white;
+    align-self: center;
+    margin-top: ${(props) => props.theme.spacer};
+`;
+
 export const DataWrapper = styled.View`
     background-color: ${(props) => props.theme.colors.screenBackground};
 `;
@@ -127,6 +149,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
     const navigation = useNavigation();
     const theme = useTheme();
     const scrollValue = useValue(0);
+    const artist = useSelector(getArtist);
 
     const imageHeight = scrollValue.interpolate({
         inputRange: [0, theme.coverHeight / 2],
@@ -159,6 +182,10 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
         [dispatch, props.data.popularTracks]
     );
 
+    const handleFollowOrUnfollow = useCallback(() => {
+        dispatch(FOLLOW_OR_UNFOLLOW(props.data.id));
+    }, [dispatch, props.data.id, artist]);
+
     const HeaderComponent = () => {
         return (
             <>
@@ -190,13 +217,20 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                 <AnimatedArtistName style={{ opacity: artistOpacity }}>{props.data.name}</AnimatedArtistName>
                 <DataWrapper>
                     <PoularTracksWrapper>
+                        <FollowButton followed={props.data.isFollowed} onPress={handleFollowOrUnfollow}>
+                            {props.data.isFollowed ? (
+                                <FollowText>Unfollow</FollowText>
+                            ) : (
+                                <FollowText>Follow</FollowText>
+                            )}
+                        </FollowButton>
+                        <Popular>{I18n.t('artist.popularTracks')}</Popular>
                         <FlatList
                             data={props.data.popularTracks}
                             scrollEnabled={false}
                             renderItem={({ item, index }) => (
                                 <PopularTrackComponent index={index} track={item} onPress={handleTrackPlay} />
                             )}
-                            ListHeaderComponent={<Popular>{I18n.t('artist.popularTracks')}</Popular>}
                         />
                     </PoularTracksWrapper>
                     <AlbumsWrapper>

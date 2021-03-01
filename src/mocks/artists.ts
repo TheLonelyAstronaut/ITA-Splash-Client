@@ -23,6 +23,7 @@ export const artists: Artist[] = [
                 image: 'https://www.udiscovermusic.com/wp-content/uploads/2018/08/GH008-web-optimised-1000.jpg',
             },
         ],
+        isFollowed: true,
     },
     {
         id: 1,
@@ -43,6 +44,7 @@ export const artists: Artist[] = [
                 image: 'https://www.udiscovermusic.com/wp-content/uploads/2018/08/GH008-web-optimised-1000.jpg',
             },
         ],
+        isFollowed: false,
     },
     {
         id: 2,
@@ -62,6 +64,7 @@ export const artists: Artist[] = [
                 image: 'https://m.iguides.ru/upload/iblock/8b3/8b3c6f7dab41bc8590ffc78ff22fa372.jpg',
             },
         ],
+        isFollowed: true,
     },
     {
         id: 3,
@@ -82,5 +85,6 @@ export const artists: Artist[] = [
                     'https://thumbor.forbes.com/thumbor/fit-in/416x416/filters%3Aformat%28jpg%29/https%3A%2F%2Fspecials-images.forbesimg.com%2Fimageserve%2F5ed670179e384f0007b7db8f%2F0x0.jpg%3Fbackground%3D000000%26cropX1%3D1032%26cropX2%3D3642%26cropY1%3D186%26cropY2%3D2795',
             },
         ],
+        isFollowed: false,
     },
 ];

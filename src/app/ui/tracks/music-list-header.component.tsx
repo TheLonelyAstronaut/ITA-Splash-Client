@@ -12,6 +12,8 @@ import { ADD_TO_LIKED, LOAD_LIBRARY, REMOVE_FROM_LIKED } from '../../library/act
 import { LibraryElementType } from '../../library/library.types';
 import Animated, { Extrapolate, useValue } from 'react-native-reanimated';
 import { useTheme } from 'styled-components';
+import { DEVICE_SIZE } from '../themes/themes';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 
 export const AlbumImage = styled.Image`
     margin-top: ${(props) => props.theme.spacer * 3};
@@ -26,15 +28,13 @@ export const PlayButton = styled.Image`
     height: 50px;
     border-radius: 50px;
     background-color: white;
-    position: absolute;
-    right: ${(props) => props.theme.spacer * 4}px;
 `;
 
 export const LikeButton = styled.Image`
     width: 25px;
     height: 25px;
     margin-left: ${(props) => props.theme.spacer * 1.6};
-    margin-right: ${(props) => props.theme.spacer * 2.5};
+    margin-right: ${(props) => props.theme.spacer * 10};
 `;
 
 export const ImageWrapper = styled.View`
@@ -48,11 +48,10 @@ export const TextWrapper = styled.View`
 `;
 
 export const InfoWrapper = styled.View`
-    flex-direction: row;
-    justify-content: space-between;
-    margin-left: 20px;
-    align-items: center;
     margin-top: ${(props) => props.theme.spacer * 4};
+    align-self: center;
+    background-color: ${(props) => props.theme.colors.screenBackground};
+    width: ${DEVICE_SIZE.width};
 `;
 
 export const AlbumName = styled(BoldText)`
@@ -91,6 +90,22 @@ export const IconWrapper = styled.View`
     margin-top: 50px;
 `;
 
+export const EmptyText = styled(RegularText)`
+    color: ${(props) => props.theme.colors.secondary};
+    align-self: center;
+    margin-top: ${DEVICE_SIZE.height * 0.2};
+`;
+
+export const PlayButtonWrapper = styled.TouchableOpacity`
+    position: absolute;
+    right: ${(props) => props.theme.spacer * 4}px;
+`;
+
+export const BackButtonWrapper = styled.View`
+    position: absolute;
+    margin-top: ${getStatusBarHeight()};
+`;
+
 export const Wrapper = styled.View``;
 
 export const AnimatedPlaylistName = Animated.createAnimatedComponent(AlbumName);
@@ -102,68 +117,4 @@ export const AnimatedWrapper = Animated.createAnimatedComponent(InfoWrapper);
 export type MusicListHeaderProps = {
     data: Album | Playlist;
     type?: LibraryElementType;
-};
-
-export const MusicListHeader: React.FC<MusicListHeaderProps> = (props: MusicListHeaderProps) => {
-    const isAlbum = (props.data as Album).year;
-    const dispatch = useDispatch();
-    const scrollValue = useValue(0);
-    const theme = useTheme();
-
-    const navigation = useNavigation();
-
-    const handlePress = useCallback(() => {
-        navigation.navigate({
-            name: 'ArtistScreen',
-            key: 'ArtistScreen_' + (props.data as Album).artistId + '_' + Math.random().toString(),
-            params: {
-                id: (props.data as Album).artistId,
-            },
-        });
-    }, [props, navigation]);
-
-    const playerButtonTranslateY = scrollValue.interpolate({
-        inputRange: [0, theme.coverHeight - theme.statusBar - 10],
-        outputRange: [-25, theme.statusBar - theme.playButtonSize / 2],
-        extrapolateRight: Extrapolate.CLAMP,
-    });
-
-    const infoOpacity = scrollValue.interpolate({
-        inputRange: [-80, 0, 160],
-        outputRange: [0, 1, 0.4],
-    });
-
-    const handlePlay = useCallback(() => {
-        dispatch(MUSIC_ACTIONS.PLAY.TRIGGER({ track: props.data.tracks[0], queue: props.data.tracks }));
-    }, []);
-
-    const handleLike = useCallback(() => {
-        if (props.data.liked) {
-            dispatch(REMOVE_FROM_LIKED.TRIGGER({ data: props.data }));
-            dispatch(LOAD_LIBRARY.TRIGGER(1));
-        } else {
-            dispatch(ADD_TO_LIKED.TRIGGER({ data: props.data }));
-            dispatch(LOAD_LIBRARY.TRIGGER(1));
-        }
-    }, [dispatch, props.data.liked, props.data]);
-
-    return (
-        <HeaderWrapper>
-            {/*<InfoWrapper>*/}
-            {/*    /!*<TouchableOpacity onPress={handleLike}>*!/*/}
-            {/*    /!*    {props.data.liked ? (*!/*/}
-            {/*    /!*        <LikeButton source={require('../../../assets/like-button-color.png')} />*!/*/}
-            {/*    /!*    ) : (*!/*/}
-            {/*    /!*        <LikeButton source={require('../../../assets/like-button-blank.png')} />*!/*/}
-            {/*    /!*    )}*!/*/}
-            {/*    /!*</TouchableOpacity>*!/*/}
-            {/*    */}
-            {/*    /!*<TouchableOpacity onPress={handlePlay}>*!/*/}
-            {/*    /!*    <AnimatedPlayButton style={{*!/*/}
-            {/*    /!*        transform: [{ translateY: playerButtonTranslateY }],*!/*/}
-            {/*    /!*    }} source={require('../../../assets/play-button-color.png')} />*!/*/}
-            {/*    /!*</TouchableOpacity>*!/*/}
-            {/*</InfoWrapper>*/}
-        </HeaderWrapper>
-    );
 };

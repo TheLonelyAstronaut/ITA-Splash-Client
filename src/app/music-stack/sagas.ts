@@ -6,7 +6,7 @@ import { LOAD_LIBRARY } from '../library/actions';
 import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
 import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
 
-import { ADD_TO_PLAYLIST, LOAD_ALBUM, LOAD_ARTIST } from './actions';
+import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST } from './actions';
 import { getAlbum, getArtist } from './selectors';
 
 export class ExtendedError extends Error {
@@ -51,6 +51,14 @@ export function* addToPlaylist(action: ReturnType<typeof ADD_TO_PLAYLIST.TRIGGER
     } catch (e) {
         yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Danger, message: 'Track already in playlist' }));
     }
+}
+
+export function* followOrUnfollowSaga(action: ReturnType<typeof FOLLOW_OR_UNFOLLOW>): SagaIterator {
+    yield call(client.followOrUnfollow, action.payload);
+}
+
+export function* listenForFollowOrUnfollow(): SagaIterator {
+    yield takeLatest(FOLLOW_OR_UNFOLLOW, followOrUnfollowSaga);
 }
 
 export function* listenForAddToPlaylist(): SagaIterator {

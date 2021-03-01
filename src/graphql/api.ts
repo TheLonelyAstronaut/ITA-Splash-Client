@@ -184,20 +184,23 @@ export class GraphQLAPI {
         }
     };
 
-    addToLiked = async (data: Album | Playlist): Promise<void> => {
-        const res: Track[] = data.tracks.filter((track) => !track.liked).map((track) => track);
-        res.forEach((track) => (track.liked = true));
-        data.liked = true;
-        library[0].data.liked = true;
-        library[0].data.tracks.push(...res);
+    addToLiked = async (id: number): Promise<void> => {
+        const track = tracks.find((track) => track.id === id.toString()) as Track;
+        const trackIndex = tracks.indexOf(track);
+        if (track.liked) {
+            track.liked = false;
+            playlist[0].tracks.splice(trackIndex, 2);
+        } else {
+            track.liked = true;
+            playlist[0].tracks.push(track);
+        }
     };
 
-    removeFromLiked = async (data: Album | Playlist): Promise<void> => {
-        const res: Track[] = data.tracks.filter((track) => track.liked).map((track) => track);
-        res.forEach((track) => (track.liked = false));
-        data.liked = false;
-        const likedLength = library[0].data.tracks.length;
-        library[0].data.tracks.splice(likedLength - res.length);
+    followOrUnfollow = async (id: number): Promise<void> => {
+        const artist = artists.find((artist) => artist.id === id) as Artist;
+        if (artist.isFollowed) {
+            artist.isFollowed = false;
+        } else artist.isFollowed = true;
     };
 }
 

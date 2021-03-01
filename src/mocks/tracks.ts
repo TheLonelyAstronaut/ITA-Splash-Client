@@ -9,6 +9,7 @@ export const tracks: Track[] = [
         artwork: 'https://profilepicture7.com/img/img_dongman/4/-1390993833.jpg',
         artworkType: ArtworkType.IMAGE,
         liked: false,
+        artistId: 0,
     },
     {
         id: '1',
@@ -18,6 +19,7 @@ export const tracks: Track[] = [
         artwork: 'https://wallpapercave.com/wp/wp4354959.jpg',
         artworkType: ArtworkType.IMAGE,
         liked: false,
+        artistId: 0,
     },
     {
         id: '2',
@@ -27,6 +29,7 @@ export const tracks: Track[] = [
         artwork: 'https://images.genius.com/9c8508d3056b146aee2ad72d5f0606e7.926x926x1.jpg',
         artworkType: ArtworkType.IMAGE,
         liked: false,
+        artistId: 1,
     },
     {
         id: '3',
@@ -36,6 +39,7 @@ export const tracks: Track[] = [
         artwork: 'https://i.pinimg.com/originals/b0/6b/a1/b06ba1e97a5ede25d56cb473c1d54636.jpg',
         artworkType: ArtworkType.IMAGE,
         liked: false,
+        artistId: 2,
     },
     {
         id: '4',
@@ -45,6 +49,7 @@ export const tracks: Track[] = [
         artwork: 'https://zapoem.com/images/covers/87d2f033.a.13052128-1.jpg',
         artworkType: ArtworkType.IMAGE,
         liked: false,
+        artistId: 3,
     },
     {
         id: '0',
@@ -54,6 +59,7 @@ export const tracks: Track[] = [
         artwork: 'https://profilepicture7.com/img/img_dongman/4/-1390993833.jpg',
         artworkType: ArtworkType.IMAGE,
         liked: false,
+        artistId: 0,
     },
     {
         id: '1',
@@ -63,6 +69,7 @@ export const tracks: Track[] = [
         artwork: 'https://wallpapercave.com/wp/wp4354959.jpg',
         artworkType: ArtworkType.IMAGE,
         liked: false,
+        artistId: 0,
     },
     {
         id: '2',
@@ -72,6 +79,7 @@ export const tracks: Track[] = [
         artwork: 'https://images.genius.com/9c8508d3056b146aee2ad72d5f0606e7.926x926x1.jpg',
         artworkType: ArtworkType.IMAGE,
         liked: false,
+        artistId: 1,
     },
     {
         id: '3',
@@ -81,6 +89,7 @@ export const tracks: Track[] = [
         artwork: 'https://i.pinimg.com/originals/b0/6b/a1/b06ba1e97a5ede25d56cb473c1d54636.jpg',
         artworkType: ArtworkType.IMAGE,
         liked: false,
+        artistId: 2,
     },
     {
         id: '4',
@@ -90,5 +99,6 @@ export const tracks: Track[] = [
         artwork: 'https://zapoem.com/images/covers/87d2f033.a.13052128-1.jpg',
         artworkType: ArtworkType.IMAGE,
         liked: false,
+        artistId: 3,
     },
 ];

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { ADD_TO_PLAYLIST } from '../../music-stack/actions';
 import { getCurrentTrack } from '../../player/selectors';
 import I18n from '../../utils/i18n';
 import { RegularText } from '../text.component';
+import { ADD_TO_LIKED, LOAD_LIBRARY } from '../../library/actions';
 
 export const TrackContainer = styled.TouchableOpacity`
     width: 100%;
@@ -49,11 +50,13 @@ export const Icons = styled.View`
     flex-direction: row;
 `;
 export const Liked = styled.Image`
-    width: 10px;
-    height: 10px;
-    margin-top: 6px;
+    width: 13px;
+    height: 13px;
+    margin-top: 4px;
     margin-right: ${(props) => props.theme.spacer * 3}px;
 `;
+
+export const LikeWrapper = styled.TouchableOpacity``;
 
 type TrackComponentProps = {
     track: Track;
@@ -74,15 +77,23 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
         }
     }, [props]);
 
-    const handleAddToPlaylist = (id: number) => {
-        try {
-            setVisible(true);
-            dispatch(ADD_TO_PLAYLIST.TRIGGER({ trackId: props.track.id, playlistId: id }));
-            setVisible(false);
-        } catch (e) {
-            return null;
-        }
-    };
+    const handleAddToPlaylist = useCallback(
+        (id: number) => {
+            try {
+                setVisible(true);
+                dispatch(ADD_TO_PLAYLIST.TRIGGER({ trackId: props.track.id, playlistId: id }));
+                setVisible(false);
+            } catch (e) {
+                return null;
+            }
+        },
+        [dispatch, props.track.id]
+    );
+
+    const handleLike = useCallback(() => {
+        dispatch(ADD_TO_LIKED.TRIGGER({ id: props.track.id }));
+        dispatch(LOAD_LIBRARY.TRIGGER(1));
+    }, [dispatch, props.track.id]);
 
     return (
         <View>
@@ -92,7 +103,15 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
                     <TrackArtist>{props.track.artist}</TrackArtist>
                 </TrackInfoWrapper>
                 <Icons>
-                    {props.track.liked ? <Liked source={require('../../../assets/like-button-color.png')} /> : null}
+                    {props.track.liked ? (
+                        <LikeWrapper onPress={handleLike}>
+                            <Liked source={require('../../../assets/like-button-color.png')} />
+                        </LikeWrapper>
+                    ) : (
+                        <LikeWrapper onPress={handleLike}>
+                            <Liked source={require('../../../assets/like-button-blank.png')} />
+                        </LikeWrapper>
+                    )}
                     <Plus onPress={() => setVisible(true)}>
                         <Icon name={'plus'} color={theme.colors.secondary} size={20} />
                     </Plus>

@@ -79,7 +79,6 @@ export const AvoidingBackground = styled(Container)`
 export const Player: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
     const currentQueue = useSelector(getCurrentQueue);
-    const currentArtist = useSelector(getRootTrackState);
     const theme = useTheme();
     const navigation = useNavigation();
     const currentState = usePlaybackState();
@@ -129,12 +128,12 @@ export const Player: React.FC = () => {
     const handlePress = useCallback(() => {
         navigation.navigate({
             name: 'ArtistScreen',
-            key: 'ArtistScreen_' + currentArtist.artistId + '_' + Math.random().toString(),
+            key: 'ArtistScreen_' + currentTrack.artistId + '_' + Math.random().toString(),
             params: {
-                id: currentArtist.artistId,
+                id: currentTrack.artistId,
             },
         });
-    }, [currentArtist.artistId, navigation]);
+    }, [currentTrack, navigation]);
 
     return (
         <AvoidingBackground>
