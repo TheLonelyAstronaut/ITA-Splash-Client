@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getColorFromURL } from 'rn-dominant-color';
 import styled, { useTheme } from 'styled-components/native';
 
-import { Track } from '../../../types/music';
+import { Artist, Track } from '../../../types/music';
 import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 import { Container } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
@@ -137,16 +137,23 @@ export const Player: React.FC = () => {
 
     const renderItem = React.useCallback((info: ListRenderItemInfo<Track>) => <PlayerArtwork track={info.item} />, []);
 
+    const transfer = (stack: string, screen: string, params: unknown) => {
+        // Strange RN navigation behavior
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        navigation.navigate(stack, {
+            screen,
+            params,
+        });
+    };
+
     const handlePress = useCallback(() => {
-        navigation.navigate({
-            name: 'ArtistScreen',
+        transfer('HomeMusicStack', 'ArtistScreen', {
+            id: currentTrack.artistId,
             key: 'ArtistScreen_' + currentTrack.artistId + '_' + Math.random().toString(),
-            params: {
-                id: currentTrack.artistId,
-            },
         });
         closePlayer();
-    }, [currentTrack, navigation]);
+    }, [currentTrack.artistId, transfer]);
 
     return (
         <AvoidingBackground>
