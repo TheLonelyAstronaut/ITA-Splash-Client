@@ -1,8 +1,10 @@
+import { EventRegister } from 'react-native-event-listeners';
 import RNTrackPlayer, { State, Track as RNTrack } from 'react-native-track-player';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLeading, takeLatest } from 'redux-saga/effects';
 
 import { Track } from '../../types/music';
+import { PLAYER_SKIP_TO_TRIGGERED_BY_USER } from '../utils/events';
 
 import { MUSIC_ACTIONS } from './actions';
 import { ControlActions } from './player.types';
@@ -67,6 +69,7 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
         }
         case ControlActions.SKIP_TO_PREVIOUS: {
             if (!action.payload.forceSkip) {
+                yield call(EventRegister.emit, PLAYER_SKIP_TO_TRIGGERED_BY_USER);
                 yield call(RNTrackPlayer.seekTo, 0);
             } else {
                 yield call(RNTrackPlayer.skipToPrevious);

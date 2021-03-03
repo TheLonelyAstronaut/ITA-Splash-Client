@@ -1,6 +1,6 @@
 import React from 'react';
 import { ListRenderItemInfo, Pressable } from 'react-native';
-import { State, usePlaybackState, useProgress } from 'react-native-track-player';
+import { State, usePlaybackState } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components/native';
@@ -74,16 +74,16 @@ export const Widget: React.FC = () => {
     const dispatch = useDispatch();
     const currentState = usePlaybackState();
     const trackInfoWidth = React.useMemo(() => DEVICE_SIZE.width - theme.widget.iconSize - theme.widgetHeight, [theme]);
-    const { position, duration } = useProgress();
+    //const { position, duration } = useProgress();
     const imageDimension = React.useMemo(() => theme.widgetHeight - theme.separator.borderWidth, [theme]);
 
-    const progress = React.useMemo(() => {
+    /*const progress = React.useMemo(() => {
         if (position && duration) {
             return (position / duration) * DEVICE_SIZE.width;
         } else {
             return 0;
         }
-    }, [position, duration]);
+    }, [position, duration]);*/
 
     const handlePlayPausePress = React.useCallback(() => {
         dispatch(MUSIC_ACTIONS.CONTROL.TRIGGER({ action: ControlActions.PAUSE_RESUME }));
@@ -118,9 +118,14 @@ export const Widget: React.FC = () => {
                     />
                 </PlayButton>
             </TrackControl>
-            <ProgressLineWrapper>
-                <ProgressLine width={progress} />
-            </ProgressLineWrapper>
+            {
+                //If u want to see 100000 fps - uncomment
+                /*
+                <ProgressLineWrapper>
+                    <ProgressLine width={progress} />
+                </ProgressLineWrapper>
+                 */
+            }
         </WidgetWrapper>
     );
 };
