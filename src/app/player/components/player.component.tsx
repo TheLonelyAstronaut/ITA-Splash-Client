@@ -16,6 +16,7 @@ import AnimatedGradientTransition from '../../ui/animated-gradient-transition.co
 import { Container } from '../../ui/container.component';
 import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
+import { PLAYER_SKIP_TO_TRIGGERED_BY_USER } from '../../utils/events';
 import { Logger } from '../../utils/logger';
 import { ADD_TRACK_GRADIENT, MUSIC_ACTIONS } from '../actions';
 import { ControlActions } from '../player.types';
@@ -25,8 +26,11 @@ import Icon from 'react-native-vector-icons/AntDesign';
 import { PlayControlButton, SkipControlButton } from './control-button.component';
 import { PlayerArtwork } from './player-artwork.component';
 import { SwipeableTrackChanger } from './swipeable-track-changer.component';
-import { TrackProgressSlider } from './tarck-progress-slider.component';
+import { TrackProgressSlider } from './track-progress-slider.component';
 import { closePlayer } from '../player.ref';
+
+export const TRACK_SLIDER_WIDTH = DEVICE_SIZE.width * 0.85;
+export const TRACK_SLIDER_HEIGHT = 8;
 
 export const InfoWrapper = styled.View`
     height: ${DEVICE_SIZE.height}px;
@@ -177,7 +181,11 @@ export const Player: React.FC = () => {
                         <TouchableOpacity onPress={handlePress}>
                             <ArtistName>{currentTrack.artist}</ArtistName>
                         </TouchableOpacity>
-                        <TrackProgressSlider />
+                        <TrackProgressSlider
+                            width={TRACK_SLIDER_WIDTH}
+                            height={TRACK_SLIDER_HEIGHT}
+                            listenerEvent={PLAYER_SKIP_TO_TRIGGERED_BY_USER}
+                        />
                         <ButtonWrapper>
                             <SkipControlButton
                                 onPress={handlePreviousTrackPress}
