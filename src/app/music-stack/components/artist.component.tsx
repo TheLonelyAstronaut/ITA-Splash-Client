@@ -168,8 +168,12 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
     });
 
     const playerButtonTranslateY = scrollValue.interpolate({
-        inputRange: [0, theme.coverHeight - theme.statusBar - 10],
-        outputRange: [theme.coverHeight - theme.playButtonSize / 2 - 20, theme.statusBar - theme.playButtonSize / 2],
+        inputRange: [-10, 0, theme.coverHeight - theme.statusBar - 10],
+        outputRange: [
+            theme.coverHeight - theme.playButtonSize / 2 - 10,
+            theme.coverHeight - theme.playButtonSize / 2 - 20,
+            theme.statusBar - theme.playButtonSize / 2,
+        ],
         extrapolateRight: Extrapolate.CLAMP,
     });
 

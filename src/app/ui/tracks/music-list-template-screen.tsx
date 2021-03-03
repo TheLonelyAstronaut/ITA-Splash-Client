@@ -89,8 +89,12 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
     });
 
     const playerButtonTranslateY = scrollValue.interpolate({
-        inputRange: [0, 320 - theme.statusBar + 100],
-        outputRange: [320 - theme.playButtonSize / 3 + 50, theme.statusBar - theme.playButtonSize / 2],
+        inputRange: [-10, 0, 320 - theme.statusBar + 100],
+        outputRange: [
+            380 - theme.playButtonSize / 3,
+            370 - theme.playButtonSize / 3,
+            theme.statusBar - theme.playButtonSize / 2,
+        ],
         extrapolateRight: Extrapolate.CLAMP,
     });
 
