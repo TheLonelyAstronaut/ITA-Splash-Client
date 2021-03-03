@@ -25,8 +25,6 @@ export const SwipeableTrackChanger: React.FC<SwipeableTrackChangerProps> = (prop
     const initialIndex = useMemo(() => currentIndex, []);
     const _carousel = useRef<Carousel<Track>>();
 
-    console.log(currentTrack);
-
     const changeTrackController = React.useCallback(
         (nextTrack: number) => {
             if (nextTrack > currentIndex) {
@@ -63,8 +61,8 @@ export const SwipeableTrackChanger: React.FC<SwipeableTrackChangerProps> = (prop
                 sliderWidth={props.width}
                 itemWidth={props.width}
                 getItemLayout={(data, index) => ({ length: props.height, offset: props.height * index, index })}
-                initialScrollIndex={currentIndex}
-                firstItem={currentIndex}
+                initialScrollIndex={initialIndex}
+                firstItem={initialIndex}
                 onSnapToItem={changeTrackController}
                 onScrollToIndexFailed={(info) => alert(info)}
             />

@@ -44,6 +44,8 @@ export const Wrapper = styled.View`
     background-color: ${(props) => props.theme.colors.screenBackground};
 `;
 
+export const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
+
 export const EmptyPlaylistComponent = () => {
     return (
         <Wrapper>
@@ -72,7 +74,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                 } as PlayActionTriggerPayload)
             );
         },
-        [dispatch, props]
+        [currentQueue, dispatch, props.data.tracks]
     );
 
     const headerOpacity = scrollValue.interpolate({
@@ -110,7 +112,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                 currentQueue: currentQueue,
             })
         );
-    }, []);
+    }, [currentQueue, dispatch, props.data.tracks]);
 
     const HeaderComponent = () => {
         return (
@@ -164,43 +166,40 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                         </EmptyPlaylistWrapper>
                     )}
                 </AnimatedImage>
-                <Animated.ScrollView
-                    scrollEventThrottle={16}
-                    onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollValue } } }])}
-                    contentContainerStyle={{
-                        paddingTop: 320,
-                    }}
-                >
-                    <InfoWrapper>
-                        {isAlbum ? (
-                            <>
-                                <AnimatedPlaylistName>{props.data.name}</AnimatedPlaylistName>
-                                <ArtistWrapper onPress={handlePress}>
-                                    <AlbumArtist>{(props.data as Album).artistName}</AlbumArtist>
-                                </ArtistWrapper>
-                                <AlbumYear>{'Album ' + (props.data as Album).year}</AlbumYear>
-                            </>
-                        ) : (
-                            <AnimatedPlaylistName style={{ paddingBottom: 20, paddingTop: 10 }}>
-                                {props.data.name}
-                            </AnimatedPlaylistName>
+                {props.data.tracks.length > 0 ? (
+                    <AnimatedFlatList
+                        data={props.data.tracks}
+                        scrollEventThrottle={16}
+                        showsVerticalScrollIndicator={false}
+                        keyExtractor={(item) => item.id + ''}
+                        onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollValue } } }])}
+                        ListHeaderComponent={() => (
+                            <InfoWrapper>
+                                {isAlbum ? (
+                                    <>
+                                        <AnimatedPlaylistName>{props.data.name}</AnimatedPlaylistName>
+                                        <ArtistWrapper onPress={handlePress}>
+                                            <AlbumArtist>{(props.data as Album).artistName}</AlbumArtist>
+                                        </ArtistWrapper>
+                                        <AlbumYear>{'Album ' + (props.data as Album).year}</AlbumYear>
+                                    </>
+                                ) : (
+                                    <AnimatedPlaylistName style={{ paddingBottom: 20, paddingTop: 10 }}>
+                                        {props.data.name}
+                                    </AnimatedPlaylistName>
+                                )}
+                            </InfoWrapper>
                         )}
-                    </InfoWrapper>
-                    {props.data.tracks.length > 0 ? (
-                        <FlatList
-                            data={props.data.tracks}
-                            showsVerticalScrollIndicator={false}
-                            keyExtractor={(item) => item.id + ''}
-                            renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
-                            contentContainerStyle={{
-                                paddingBottom: theme.widgetHeight + theme.spacer,
-                                backgroundColor: theme.colors.screenBackground,
-                            }}
-                        />
-                    ) : (
-                        <EmptyPlaylistComponent />
-                    )}
-                </Animated.ScrollView>
+                        renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
+                        contentContainerStyle={{
+                            paddingBottom: theme.widgetHeight + theme.spacer,
+                            backgroundColor: theme.colors.screenBackground,
+                            marginTop: 320,
+                        }}
+                    />
+                ) : (
+                    <EmptyPlaylistComponent />
+                )}
                 <HeaderComponent />
                 {props.data.tracks.length > 0 ? (
                     <PlayButtonWrapper onPress={handlePlay}>

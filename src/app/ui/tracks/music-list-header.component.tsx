@@ -48,7 +48,7 @@ export const TextWrapper = styled.View`
 `;
 
 export const InfoWrapper = styled.View`
-    margin-top: ${(props) => props.theme.spacer * 4};
+    margin-top: ${(props) => props.theme.spacer * 2};
     align-self: center;
     background-color: ${(props) => props.theme.colors.screenBackground};
     width: ${DEVICE_SIZE.width};

@@ -22,7 +22,7 @@ export function* initializationSaga(dispatch: Dispatch): SagaIterator {
         notificationCapabilities: CAPABILITIES_ARRAY,
     });
 
-    yield call(RNTrackPlayer.addEventListener, Event.PlaybackTrackChanged, async () => {
+    yield call(RNTrackPlayer.addEventListener, Event.PlaybackTrackChanged, async (data) => {
         const currentTrackID = await RNTrackPlayer.getCurrentTrack();
         const currentTrack = (await RNTrackPlayer.getTrack(currentTrackID)) as Track;
 

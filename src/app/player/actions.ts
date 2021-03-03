@@ -21,6 +21,11 @@ export interface PlayActionTriggerPayload {
     currentQueue?: Track[];
 }
 
+export interface SetCurrentTrackPayload {
+    track: Track[];
+    skipPlaying?: boolean;
+}
+
 export interface PlayActionCompletedPayload extends PlayActionTriggerPayload {
     artist: Artist | undefined;
 }

@@ -33,7 +33,10 @@ export const CustomTabBar: React.FC<BottomTabBarProps> = (props: BottomTabBarPro
     const currentTrack = useSelector(getCurrentTrack);
     const safeArea = useSafeAreaInsets();
     const themedTabs = React.useMemo(() => generateTabsPreset(currentTheme), [currentTheme]);
-    const isPlayerVisible = React.useMemo(() => currentTrack.id !== undefined, [currentTrack]);
+    const isPlayerVisible = React.useMemo(() => currentTrack.id !== undefined && currentQueue.length, [
+        currentTrack,
+        currentQueue,
+    ]);
     const minimalPosition = React.useMemo(
         () => currentTheme.tabBarHeight + currentTheme.widgetHeight + safeArea.bottom,
         [safeArea, currentTheme]

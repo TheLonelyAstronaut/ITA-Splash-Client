@@ -1,7 +1,7 @@
 import { EventRegister } from 'react-native-event-listeners';
 import RNTrackPlayer, { State, Track as RNTrack } from 'react-native-track-player';
 import { SagaIterator } from 'redux-saga';
-import { call, put, takeLeading, takeLatest } from 'redux-saga/effects';
+import { call, put, takeLeading, takeLatest, delay } from 'redux-saga/effects';
 
 import { Track } from '../../types/music';
 import { PLAYER_SKIP_TO_TRIGGERED_BY_USER } from '../utils/events';
@@ -11,6 +11,7 @@ import { ControlActions } from './player.types';
 import { artists } from '../../mocks/artists';
 import { getCurrentTrack } from './selectors';
 import { useSelector } from 'react-redux';
+import { tracks } from '../../mocks/tracks';
 
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
@@ -36,13 +37,41 @@ export function* seekTo(action: ReturnType<typeof MUSIC_ACTIONS.SEEK_TO_POSITION
 }
 
 export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>): SagaIterator {
-    console.log(action.payload);
-    if (action.payload.currentQueue !== action.payload.queue || action.payload.currentQueue !== []) {
-        yield call(RNTrackPlayer.add, [...action.payload.queue]);
+    let isQueuesEqual = true;
+
+    if (action.payload.queue.length === action.payload.currentQueue?.length) {
+        action.payload.queue.forEach((track, index) => {
+            if (track.id !== action.payload.currentQueue![index].id) {
+                isQueuesEqual = false;
+            }
+        });
+    } else {
+        isQueuesEqual = false;
     }
-    yield call(RNTrackPlayer.skip, action.payload.track.id);
+
+    if (!isQueuesEqual) {
+        const trackQueueIndex = action.payload.queue.findIndex((track) => track.id === action.payload.track.id);
+        const splittedFirstQueue = action.payload.queue.slice(0, trackQueueIndex);
+        const splittedSecondQueue = action.payload.queue.slice(trackQueueIndex + 1, action.payload.queue.length);
+
+        yield call(RNTrackPlayer.add, action.payload.track);
+
+        if (splittedSecondQueue.length) {
+            yield call(RNTrackPlayer.add, splittedSecondQueue);
+        }
+
+        if (splittedFirstQueue.length) {
+            yield call(RNTrackPlayer.add, splittedFirstQueue, action.payload.track.id);
+        }
+    } else {
+        yield call(RNTrackPlayer.skip, action.payload.track.id);
+        //yield call(RNTrackPlayer.play);
+    }
+
     yield call(RNTrackPlayer.play);
+
     const artistId = artists.find((artist) => artist.name === action.payload.track.artist);
+
     yield put(
         MUSIC_ACTIONS.PLAY.COMPLETED({ track: action.payload.track, queue: action.payload.queue, artist: artistId })
     );
@@ -55,6 +84,8 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
     if (!currentTrack) {
         return;
     }
+
+    console.log(queue);
 
     switch (action.payload.action) {
         case ControlActions.PAUSE_RESUME: {
