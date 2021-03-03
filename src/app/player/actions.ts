@@ -27,7 +27,7 @@ export interface SetCurrentTrackPayload {
 }
 
 export interface PlayActionCompletedPayload extends PlayActionTriggerPayload {
-    artist: Artist | undefined;
+    artist?: Artist;
 }
 
 export interface SeekToPayload {

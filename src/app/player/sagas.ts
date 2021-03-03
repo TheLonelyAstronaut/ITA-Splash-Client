@@ -50,10 +50,13 @@ export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>)
     }
 
     if (!isQueuesEqual) {
+        yield put(MUSIC_ACTIONS.PLAY.COMPLETED({ track: action.payload.track, queue: [] }));
+
         const trackQueueIndex = action.payload.queue.findIndex((track) => track.id === action.payload.track.id);
         const splittedFirstQueue = action.payload.queue.slice(0, trackQueueIndex);
         const splittedSecondQueue = action.payload.queue.slice(trackQueueIndex + 1, action.payload.queue.length);
 
+        yield call(RNTrackPlayer.reset);
         yield call(RNTrackPlayer.add, action.payload.track);
 
         if (splittedSecondQueue.length) {
