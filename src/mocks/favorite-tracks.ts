@@ -1,3 +1,3 @@
-import { ArtworkType, Track } from '../types/music';
+import { Track } from '../types/music';
 
 export const favoriteTracks: Track[] = [];

@@ -2,29 +2,22 @@ import React, { useCallback } from 'react';
 import { FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useTheme } from 'styled-components';
-import styled from 'styled-components/native';
 
-import { AvoidingContainer } from '../../ui/container.component';
+import { AvoidingContainer } from '../../ui/styled/container.styled';
 import { AlbumComponent } from '../components/album.component';
-import { MusicStackNavigationProps } from '../routing.params';
+import { BackButtonContainer } from '../components/styled/albums-screen.styled';
+import { AlbumsScreenParams } from '../routing.params';
 
-export const BackButtonContainer = styled.TouchableOpacity`
-    margin-left: ${(props) => props.theme.spacer * 3}px;
-    margin-top: ${(props) => props.theme.spacer * 2}px;
-`;
-
-export type MusicDataProps = MusicStackNavigationProps<'AlbumsScreen'>;
-
-export const AlbumsScreenComponent: React.FC<MusicDataProps> = (props: MusicDataProps) => {
+export const AlbumsScreenComponent: React.FC<AlbumsScreenParams> = (props: AlbumsScreenParams) => {
     const theme = useTheme();
+
+    const handleBackPress = useCallback(() => {
+        props.navigation.goBack();
+    }, [props.navigation]);
 
     return (
         <AvoidingContainer>
-            <BackButtonContainer
-                onPress={useCallback(() => {
-                    props.navigation.goBack();
-                }, [props.navigation])}
-            >
+            <BackButtonContainer onPress={handleBackPress}>
                 <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
             </BackButtonContainer>
             <FlatList

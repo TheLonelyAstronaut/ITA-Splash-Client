@@ -6,10 +6,10 @@ import { Logger } from '../utils/logger';
 
 import { ADD_PLAYLIST, ADD_TO_LIKED, LOAD_LIBRARY } from './actions';
 
-export function* loadLibrarySaga(action: ReturnType<typeof LOAD_LIBRARY.TRIGGER>): SagaIterator {
+export function* loadLibrarySaga(): SagaIterator {
     try {
         yield put(LOAD_LIBRARY.STARTED());
-        const result = yield call(client.getLibrary, action.payload);
+        const result = yield call(client.getLibrary);
         yield put(LOAD_LIBRARY.COMPLETED(result));
     } catch (error) {
         yield call(Logger.error, error);

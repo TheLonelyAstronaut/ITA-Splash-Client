@@ -3,60 +3,31 @@ import { FlatList, View } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
-import styled from 'styled-components/native';
 
 import { Track } from '../../../types/music';
+import { ADD_TO_LIKED, LOAD_LIBRARY } from '../../library/actions';
 import { PlaylistToChooseItem } from '../../library/components/playlist-for-choose.component';
-import { AddPlaylistModal, CrossButton, ModalText, ModalView } from '../../library/screens/library-screen.component';
+import {
+    AddPlaylistModal,
+    CrossButton,
+    ModalText,
+    ModalView,
+} from '../../library/components/styled/library-screen.styled';
 import { getLibrary } from '../../library/selectors';
 import { ADD_TO_PLAYLIST } from '../../music-stack/actions';
 import { getCurrentTrack } from '../../player/selectors';
 import I18n from '../../utils/i18n';
-import { RegularText } from '../text.component';
-import { ADD_TO_LIKED, LOAD_LIBRARY } from '../../library/actions';
 
-export const TrackContainer = styled.TouchableOpacity`
-    width: 100%;
-    height: 60px;
-    margin-top: 10px;
-    flex-direction: row;
-    justify-content: space-between;
-`;
-
-// export const TrackImage = styled.Image`
-//   width: 45px;
-//   height: 45px;
-// `
-
-export type Props = {
-    isPlaying: boolean;
-};
-export const TrackInfoWrapper = styled.View`
-    margin-left: ${(props) => props.theme.spacer * 4};
-    margin-top: ${(props) => props.theme.spacer * 1.6};
-`;
-export const TrackName = styled(RegularText)<Props>`
-    color: ${(props) => (props.isPlaying ? props.theme.colors.additivePink : props.theme.colors.secondary)};
-    font-size: ${(props) => props.theme.fontSize.medium};
-`;
-export const TrackArtist = styled(RegularText)`
-    color: ${(props) => props.theme.colors.inputBackground};
-    font-size: ${(props) => props.theme.fontSize.extraSmall};
-`;
-export const Plus = styled.TouchableOpacity``;
-export const Icons = styled.View`
-    margin-right: ${(props) => props.theme.spacer * 4};
-    margin-top: ${(props) => props.theme.spacer * 2};
-    flex-direction: row;
-`;
-export const Liked = styled.Image`
-    width: 13px;
-    height: 13px;
-    margin-top: 4px;
-    margin-right: ${(props) => props.theme.spacer * 3}px;
-`;
-
-export const LikeWrapper = styled.TouchableOpacity``;
+import {
+    Icons,
+    Liked,
+    LikeWrapper,
+    Plus,
+    TrackArtist,
+    TrackContainer,
+    TrackInfoWrapper,
+    TrackName,
+} from './styled/track.styled';
 
 type TrackComponentProps = {
     track: Track;
@@ -71,6 +42,7 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
     const data = useSelector(getLibrary);
     const [visible, setVisible] = useState(false);
     const isPlaying = useMemo(() => props.track.id === currentTrack.id, [props, currentTrack]);
+
     const handleLongPress = React.useCallback(() => {
         if (props.onLongPress) {
             props.onLongPress(props.track);
@@ -90,14 +62,18 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
         [dispatch, props.track.id]
     );
 
+    const handleTrackPress = useCallback(() => props.onPress(props.track), [props]);
+
     const handleLike = useCallback(() => {
-        dispatch(ADD_TO_LIKED.TRIGGER({ id: props.track.id }));
-        dispatch(LOAD_LIBRARY.TRIGGER(1));
+        dispatch(ADD_TO_LIKED.TRIGGER({ id: parseInt(props.track.id) }));
+        dispatch(LOAD_LIBRARY.TRIGGER());
     }, [dispatch, props.track.id]);
+
+    const handleChangeModalVisibility = useCallback(() => setVisible(!visible), [visible]);
 
     return (
         <View>
-            <TrackContainer onPress={() => props.onPress(props.track)} onLongPress={handleLongPress}>
+            <TrackContainer onPress={handleTrackPress} onLongPress={handleLongPress}>
                 <TrackInfoWrapper>
                     <TrackName isPlaying={isPlaying}>{props.track.title}</TrackName>
                     <TrackArtist>{props.track.artist}</TrackArtist>
@@ -112,7 +88,7 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
                             <Liked source={require('../../../assets/like-button-blank.png')} />
                         </LikeWrapper>
                     )}
-                    <Plus onPress={() => setVisible(true)}>
+                    <Plus onPress={handleChangeModalVisibility}>
                         <Icon name={'plus'} color={theme.colors.secondary} size={20} />
                     </Plus>
                 </Icons>
@@ -126,7 +102,7 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
                 }}
             >
                 <ModalView>
-                    <CrossButton onPress={() => setVisible(!visible)}>
+                    <CrossButton onPress={handleChangeModalVisibility}>
                         <Icon name={'cross'} size={24} color={theme.colors.secondary} />
                     </CrossButton>
                     <ModalText>{I18n.t('additional.choosePlaylist')}</ModalText>

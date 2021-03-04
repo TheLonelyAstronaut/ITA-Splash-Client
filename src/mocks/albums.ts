@@ -1,8 +1,7 @@
 import { Album } from '../types/music';
 
-import { artists } from './artists';
-import { tracks } from './tracks';
 import { favoriteTracks } from './favorite-tracks';
+import { tracks } from './tracks';
 
 export const albums: Album[] = [
     {

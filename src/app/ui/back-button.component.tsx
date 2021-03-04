@@ -1,12 +1,8 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useTheme } from 'styled-components';
-import styled from 'styled-components/native';
 
-export const BackButtonContainer = styled.TouchableOpacity`
-    margin-top: ${(props) => props.theme.spacer * 2 + 2};
-    margin-left: ${(props) => props.theme.spacer * 2};
-`;
+import { BackButtonContainer } from './styled/back-button.styled';
 
 export type Props = {
     onPress: () => void;

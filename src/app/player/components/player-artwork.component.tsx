@@ -1,19 +1,14 @@
 import { BlurView } from '@react-native-community/blur';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import styled, { useTheme } from 'styled-components/native';
+import { useTheme } from 'styled-components/native';
 
 import { ArtworkType, Track } from '../../../types/music';
 import { Image } from '../../ui/image.component';
 import { getTheme } from '../../ui/themes/selectors';
 import { DEVICE_SIZE, ThemesEnum } from '../../ui/themes/themes';
 
-export const InfoWrapper = styled.View`
-    height: ${DEVICE_SIZE.height}px;
-    width: ${DEVICE_SIZE.width}px;
-    background-color: transparent;
-    align-items: center;
-`;
+import { InfoWrapper } from './styled/player-artwork.styled';
 
 export type PlayerArtworkProps = {
     track: Track;

@@ -7,11 +7,11 @@ export type AddPlaylistPayload = {
 };
 
 export type AddToLikedPayload = {
-    id: string;
+    id: number;
 };
 
 export const LOAD_LIBRARY = {
-    TRIGGER: createAction('[Load Library Trigger]', (payload: number) => payload),
+    TRIGGER: createAction('[Load Library Trigger]'),
     STARTED: createAction('[Load Library Started]', (payload) => payload),
     COMPLETED: createAction('[Load Library Completed]', (payload: LibraryData[]) => payload),
 };

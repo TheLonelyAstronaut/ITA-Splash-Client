@@ -3,23 +3,20 @@ import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import styled, { useTheme } from 'styled-components';
 
-import { AvoidingContainer } from '../../ui/container.component';
+import { AvoidingContainer } from '../../ui/styled/container.styled';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
 import { ThemesEnum } from '../../ui/themes/theme.types';
 import I18n from '../../utils/i18n';
+import { BackButton } from '../components/styled/settings-screen.styled';
 import { ThemeItemComponent } from '../components/theme-changer-item.component';
-import { HomeNavigationProps } from '../routing.params';
-
-import { BackButton } from './settings-screen.component';
+import { ThemeChangeScreenProps } from '../routing.params';
 
 export const Back = styled(BackButton)`
     margin-top: ${(props) => props.theme.spacer * 2};
 `;
 
-export type SettingsScreenProps = HomeNavigationProps<'SettingsScreen'>;
-
-export const ThemeChangeScreenComponent: React.FC<SettingsScreenProps> = (props: SettingsScreenProps) => {
+export const ThemeChangeScreenComponent: React.FC<ThemeChangeScreenProps> = (props: ThemeChangeScreenProps) => {
     const themeKey = useSelector(getTheme);
     const dispatch = useDispatch();
     const theme = useTheme();
@@ -32,13 +29,13 @@ export const ThemeChangeScreenComponent: React.FC<SettingsScreenProps> = (props:
         dispatch(CHANGE_THEME({ theme: ThemesEnum.DARK }));
     }, [dispatch]);
 
+    const handleBackPress = useCallback(() => {
+        props.navigation.goBack();
+    }, [props.navigation]);
+
     return (
         <AvoidingContainer>
-            <Back
-                onPress={useCallback(() => {
-                    props.navigation.goBack();
-                }, [props.navigation])}
-            >
+            <Back onPress={handleBackPress}>
                 <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
             </Back>
             <ThemeItemComponent

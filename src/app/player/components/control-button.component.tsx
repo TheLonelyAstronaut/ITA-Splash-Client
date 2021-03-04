@@ -1,18 +1,15 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
-import styled, { useTheme } from 'styled-components/native';
+import { useTheme } from 'styled-components/native';
+
+import { ControlButtonWrapper } from './styled/control-button.styled';
 
 export type ControlButtonProps = {
     onPress: () => void;
     iconName: string;
     iconSize: number;
 };
-
-export const ControlButtonWrapper = styled(TouchableOpacity)`
-    margin-horizontal: ${(props) => props.theme.spacer * 6}px;
-    margin-top: ${(props) => props.theme.spacer * 2.2}px;
-`;
 
 export const PlayControlButton: React.FC<ControlButtonProps> = (props: ControlButtonProps) => {
     const theme = useTheme();

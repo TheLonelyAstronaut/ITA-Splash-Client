@@ -2,27 +2,14 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { BackHandler, StatusBar, Animated as RNAnimated } from 'react-native';
 import Interactable, { ISnapEvent } from 'react-native-interactable';
 import { Extrapolate } from 'react-native-reanimated';
-import styled, { useTheme } from 'styled-components/native';
+import { useTheme } from 'styled-components/native';
 
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { setPlayerSheetRef } from '../player.ref';
 
 import { Player } from './player.component';
+import { AnimatedPlayerWrapper, AnimatedWidgetWrapper, SheetWrapper } from './styled/swipeable-sheet.styled';
 import { Widget } from './widget.component';
-
-export const SheetWrapper = styled.View``;
-
-export const AnimatedPlayerWrapper = RNAnimated.createAnimatedComponent(styled.View`
-    background-color: transparent;
-    height: ${DEVICE_SIZE.height}px;
-    width: ${DEVICE_SIZE.width}px;
-`);
-
-export const AnimatedWidgetWrapper = RNAnimated.createAnimatedComponent(styled.View`
-    height: ${(props) => props.theme.widgetHeight}px;
-    position: absolute;
-    width: ${DEVICE_SIZE.width}px;
-`);
 
 export type Props = {
     paddingBottom: number;
@@ -33,10 +20,11 @@ export const SwipeableSheet: React.FC<Props> = (props: Props) => {
     const [wasInitialized, setWasInitialized] = React.useState(false);
     const [currentState, setCurrentState] = React.useState(0);
     const [unusedAnimatedValue] = React.useState(new RNAnimated.Value(0));
-
+    const [bottomBorder, setBottomBorder] = React.useState(DEVICE_SIZE.height);
     const theme = useTheme();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const bottomSheetRef = useRef<any>();
+
     const snapPoints = useMemo(
         () =>
             wasInitialized
@@ -45,12 +33,23 @@ export const SwipeableSheet: React.FC<Props> = (props: Props) => {
         [props.paddingBottom, wasInitialized]
     );
 
-    const [bottomBorder, setBottomBorder] = React.useState(DEVICE_SIZE.height);
-
     const minimalPosition = React.useMemo(() => DEVICE_SIZE.height - props.paddingBottom - theme.tabBarHeight, [
         props.paddingBottom,
         theme,
     ]);
+
+    useEffect(() => {
+        const sub = BackHandler.addEventListener('hardwareBackPress', () => {
+            if (currentState) {
+                bottomSheetRef.current?.snapTo({ index: 0 });
+                return true;
+            }
+
+            return false;
+        });
+
+        return () => sub.remove();
+    }, [bottomSheetRef, currentState]);
 
     const handleSheetChanges = useCallback(
         (event: ISnapEvent) => {
@@ -78,18 +77,14 @@ export const SwipeableSheet: React.FC<Props> = (props: Props) => {
         [bottomBorder]
     );
 
-    useEffect(() => {
-        const sub = BackHandler.addEventListener('hardwareBackPress', () => {
-            if (currentState) {
-                bottomSheetRef.current?.snapTo({ index: 0 });
-                return true;
-            }
-
-            return false;
-        });
-
-        return () => sub.remove();
-    }, [bottomSheetRef, currentState]);
+    const handleGetRef = useCallback(
+        (ref) => {
+            bottomSheetRef.current = ref;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            setPlayerSheetRef(ref as any);
+        },
+        [bottomSheetRef]
+    );
 
     const widgetOpacity = props.animatableValue.interpolate({
         inputRange: [minimalPosition - theme.widgetHeight, minimalPosition],
@@ -107,11 +102,7 @@ export const SwipeableSheet: React.FC<Props> = (props: Props) => {
     return (
         <SheetWrapper pointerEvents={'box-none'}>
             <Interactable.View
-                ref={(ref) => {
-                    bottomSheetRef.current = ref;
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    setPlayerSheetRef(ref as any);
-                }}
+                ref={handleGetRef}
                 onLayout={React.useCallback(() => bottomSheetRef.current?.snapTo({ index: 1 }), [])}
                 verticalOnly={true}
                 snapPoints={snapPoints}

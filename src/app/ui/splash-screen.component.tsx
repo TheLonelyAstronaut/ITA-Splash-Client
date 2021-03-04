@@ -2,22 +2,11 @@ import React, { useState } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import Animated, { Easing, useValue } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
-import styled from 'styled-components/native';
 
 import { Image } from './image.component';
+import { AnimatedSplashScreenWrapper } from './styled/splash-screen.styled';
 import { getTheme } from './themes/selectors';
-import { darkTheme, DEVICE_SIZE, themesCollection, ThemesEnum } from './themes/themes';
-
-export const SplashScreenWrapper = styled.View`
-    width: ${DEVICE_SIZE.width}px;
-    height: ${DEVICE_SIZE.height}px;
-    background-color: ${darkTheme.colors.screenBackground};
-    position: absolute;
-    justify-content: center;
-    align-items: center;
-`;
-
-export const AnimatedSplashScreenWrapper = Animated.createAnimatedComponent(SplashScreenWrapper);
+import { themesCollection, ThemesEnum } from './themes/themes';
 
 const defaultColor = themesCollection[ThemesEnum.DARK]?.colors.screenBackground as string;
 const lightThemeColor = themesCollection[ThemesEnum.LIGHT]?.colors.screenBackground as string;

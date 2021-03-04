@@ -12,3 +12,6 @@ export type LibraryStackNavigationProps<T extends keyof LibraryStackParamList> =
     navigation: StackNavigationProp<LibraryStackParamList, T>;
     route: RouteProp<LibraryStackParamList, T>;
 };
+
+export type LibraryScreenParams = LibraryStackNavigationProps<'PlaylistsScreen'>;
+export type PlaylistScreenParams = LibraryStackNavigationProps<'PlaylistScreen'>;

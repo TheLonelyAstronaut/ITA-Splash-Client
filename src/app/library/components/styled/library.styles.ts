@@ -1,8 +1,8 @@
 import styled from 'styled-components/native';
 
-import { Image } from '../../ui/image.component';
-import { RegularText } from '../../ui/text.component';
-import { DEVICE_SIZE } from '../../ui/themes/themes';
+import { Image } from '../../../ui/image.component';
+import { RegularText } from '../../../ui/styled/text.styled';
+import { DEVICE_SIZE } from '../../../ui/themes/themes';
 
 export type WidthProps = {
     width?: boolean;

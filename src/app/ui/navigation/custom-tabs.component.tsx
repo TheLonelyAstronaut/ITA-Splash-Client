@@ -5,26 +5,14 @@ import { Animated as RNAnimated } from 'react-native';
 import { Extrapolate } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useSelector } from 'react-redux';
-import styled, { useTheme } from 'styled-components/native';
+import { useTheme } from 'styled-components/native';
 
 import { SwipeableSheet } from '../../player/components/swipeable-sheet.component';
 import { getCurrentQueue, getCurrentTrack } from '../../player/selectors';
 import { generateTabsPreset } from '../../utils/generate-tabs-preset';
 import { DEVICE_SIZE } from '../themes/themes';
 
-export const TabBarWrapper = styled.View`
-    background-color: ${(props) => props.theme.colors.main};
-`;
-
-export const AnimatableTabBarWrapper = RNAnimated.createAnimatedComponent(TabBarWrapper);
-
-export const TabBarSafeWrapper = styled.SafeAreaView``;
-
-export const SheetWrapper = styled.View`
-    position: absolute;
-    height: ${DEVICE_SIZE.height}px;
-    width: ${DEVICE_SIZE.width}px;
-`;
+import { AnimatableTabBarWrapper, SheetWrapper, TabBarSafeWrapper } from './styled/navigation.styled';
 
 export const CustomTabBar: React.FC<BottomTabBarProps> = (props: BottomTabBarProps) => {
     const currentTheme = useTheme();
@@ -32,11 +20,14 @@ export const CustomTabBar: React.FC<BottomTabBarProps> = (props: BottomTabBarPro
     const currentQueue = useSelector(getCurrentQueue);
     const currentTrack = useSelector(getCurrentTrack);
     const safeArea = useSafeAreaInsets();
+
     const themedTabs = React.useMemo(() => generateTabsPreset(currentTheme), [currentTheme]);
+
     const isPlayerVisible = React.useMemo(() => currentTrack.id !== undefined && currentQueue.length, [
         currentTrack,
         currentQueue,
     ]);
+
     const minimalPosition = React.useMemo(
         () => currentTheme.tabBarHeight + currentTheme.widgetHeight + safeArea.bottom,
         [safeArea, currentTheme]

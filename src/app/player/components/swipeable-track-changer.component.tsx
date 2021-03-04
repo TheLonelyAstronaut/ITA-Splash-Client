@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { ListRenderItemInfo } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,6 +25,12 @@ export const SwipeableTrackChanger: React.FC<SwipeableTrackChangerProps> = (prop
     const initialIndex = useMemo(() => currentIndex, []);
     const _carousel = useRef<Carousel<Track>>();
 
+    useEffect(() => {
+        if (currentIndex != _carousel?.current?.currentIndex && currentIndex != -1) {
+            _carousel?.current?.snapToItem(currentIndex);
+        }
+    }, [currentIndex, _carousel]);
+
     const changeTrackController = React.useCallback(
         (nextTrack: number) => {
             if (nextTrack > currentIndex) {
@@ -40,31 +46,34 @@ export const SwipeableTrackChanger: React.FC<SwipeableTrackChangerProps> = (prop
         [currentIndex, dispatch, props]
     );
 
-    useEffect(() => {
-        if (currentIndex != _carousel?.current?.currentIndex && currentIndex != -1) {
-            _carousel?.current?.snapToItem(currentIndex);
-        }
-    }, [currentIndex, _carousel]);
+    const getItemLayout = useCallback(
+        (data, index) => ({ length: props.height, offset: props.height * index, index }),
+        [props.height]
+    );
+
+    const handleGetRef = useCallback(
+        (ref) => {
+            _carousel.current = ref as Carousel<Track>;
+            props.getRef && props.getRef(ref as Carousel<Track>);
+        },
+        [props]
+    );
 
     if (currentIndex === -1) {
         return null;
     } else {
         return (
             <Carousel
-                ref={(ref) => {
-                    _carousel.current = ref as Carousel<Track>;
-                    props.getRef && props.getRef(ref as Carousel<Track>);
-                }}
+                ref={handleGetRef}
                 data={queue}
                 horizontal={true}
                 renderItem={props.renderItem}
                 sliderWidth={props.width}
                 itemWidth={props.width}
-                getItemLayout={(data, index) => ({ length: props.height, offset: props.height * index, index })}
+                getItemLayout={getItemLayout}
                 initialScrollIndex={initialIndex}
                 firstItem={initialIndex}
                 onSnapToItem={changeTrackController}
-                onScrollToIndexFailed={(info) => alert(info)}
             />
         );
     }

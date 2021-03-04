@@ -1,23 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Container, LoadingContainer } from '../../ui/container.component';
-import { MusicListTemplateScreen } from '../../ui/tracks/music-list-template-screen';
+import { Container, LoadingContainer } from '../../ui/styled/container.styled';
+import { MusicListTemplateScreen } from '../../ui/tracks/music-list-template-screen.component';
 import { LOAD_ALBUM } from '../actions';
-import { MusicStackNavigationProps } from '../routing.params';
+import { AlbumScreenParams } from '../routing.params';
 import { getAlbum, getIsMusicScreenFetching, getMusicScreenError } from '../selectors';
-
-export type AlbumScreenParams = MusicStackNavigationProps<'AlbumScreen'>;
 
 export const AlbumScreenComponent: React.FC<AlbumScreenParams> = (props: AlbumScreenParams) => {
     const dispatch = useDispatch();
     const album = useSelector(getAlbum(props.route.params.id));
     const isLoading = useSelector(getIsMusicScreenFetching(props.route.key));
     const error = useSelector(getMusicScreenError(props.route.key));
-
-    // useEffect(()=>{
-    //     dispatch(MUSIC_ACTIONS.ADD_QUEUE({newQueue: album?.tracks as Track[], currentQueue: currentQueue}))
-    // },[album?.tracks, dispatch])
 
     useEffect(() => {
         dispatch(

@@ -9,7 +9,6 @@ export type Track = {
     title: string;
     artist: string;
     artistId: number;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     artwork: string;
     artworkType: ArtworkType;
     liked: boolean;
@@ -26,8 +25,8 @@ export type Playlist = {
 export type Artist = {
     id: number;
     name: string;
-    popularTracks: Track[];
     image: string;
+    popularTracks?: Track[];
     albums?: Album[];
     similarArtists?: Partial<Artist>[];
     isFollowed: boolean;

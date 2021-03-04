@@ -2,154 +2,72 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { FlatList } from 'react-native';
 import Animated, { useValue, Extrapolate } from 'react-native-reanimated';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
-import styled from 'styled-components/native';
 
-import { Artist, Track } from '../../../types/music';
+import { Album, Artist, Track } from '../../../types/music';
 import { MUSIC_ACTIONS, PlayActionTriggerPayload } from '../../player/actions';
-import { ArtistBackButton } from '../../ui/artist-back-button.component';
-import { Container } from '../../ui/container.component';
-import { BoldText, RegularText } from '../../ui/text.component';
-import { DEVICE_SIZE } from '../../ui/themes/themes';
-import { PopularTrackComponent } from '../../ui/tracks/popular-track.compoennt';
+import { Container } from '../../ui/styled/container.styled';
+import { PopularTrackComponent } from '../../ui/tracks/popular-track.component';
 import I18n from '../../utils/i18n';
+import { FOLLOW_OR_UNFOLLOW } from '../actions';
 
 import { AlbumComponent } from './album.component';
+import { ArtistBackButton } from './artist-back-button.component';
 import { SimilarArtistComponent } from './similar-artist.component';
-import { FOLLOW_OR_UNFOLLOW, LOAD_ARTIST } from '../actions';
-import { getArtist } from '../selectors';
+import {
+    Albums,
+    AlbumsWrapper,
+    AnimatedArtistName,
+    AnimatedHeaderWrapper,
+    AnimatedMinifiedArtistName,
+    AnimatedPlayButton,
+    ArtistsWrapper,
+    BackButtonWrapper,
+    DataWrapper,
+    DiscographyButton,
+    DiscographyText,
+    FollowButton,
+    FollowText,
+    PlayButtonWrapper,
+    Popular,
+    PoularTracksWrapper,
+    Separator,
+    SimilarArtists,
+} from './styled/artist.styled';
 
 export type ArtistProps = {
     data: Artist;
 };
-
-export const Header = styled.SafeAreaView`
-    padding-vertical: ${(props) => props.theme.spacer}px;
-    position: absolute;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background-color: ${(props) => props.theme.colors.main}
-    height: ${(props) => props.theme.statusBar}px;
-`;
-
-export const AnimatedHeaderWrapper = Animated.createAnimatedComponent(Header);
-
-export const ArtistName = styled(BoldText)`
-    font-size: ${(props) => props.theme.fontSize.extraLarge + 15};
-    margin-left: ${(props) => props.theme.spacer * 2};
-    color: white;
-`;
-
-export const MinifiedArtistName = styled(BoldText)`
-    align-self: center;
-`;
-
-export const AnimatedArtistName = Animated.createAnimatedComponent(ArtistName);
-
-export const AnimatedMinifiedArtistName = Animated.createAnimatedComponent(MinifiedArtistName);
-
-export const ArtistImage = styled.Image`
-    width: ${(props) => props.theme.coverWidth};
-    height: ${(props) => props.theme.coverHeight};
-    position: absolute;
-`;
-
-export const BackButtonWrapper = styled.View`
-    position: absolute;
-    left: 0;
-    top: ${(props) => props.theme.spacer * 2 + getStatusBarHeight()};
-`;
-
-export const PlayButton = styled.Image`
-    background-color: white;
-    height: ${(props) => props.theme.playButtonSize}px;
-    width: ${(props) => props.theme.playButtonSize}px;
-    border-radius: ${(props) => props.theme.playButtonSize / 2}px;
-`;
-
-export const PlayButtonWrapper = styled.TouchableOpacity`
-    position: absolute;
-    right: ${(props) => props.theme.spacer * 4}px;
-`;
-
-export const AnimatedPlayButton = Animated.createAnimatedComponent(PlayButton);
-
-export const Popular = styled(BoldText)`
-    color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.large};
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 2};
-    margin-bottom: ${(props) => props.theme.spacer * 2};
-`;
-
-export const Albums = styled(BoldText)`
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 2};
-`;
-
-export const SimilarArtists = styled(BoldText)`
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 2};
-`;
-
-export const DiscographyButton = styled.TouchableOpacity`
-    border-width: 1px;
-    border-color: ${(props) => props.theme.colors.additivePink};
-    width: ${DEVICE_SIZE.width * 0.38};
-    border-radius: 50px;
-    align-self: center;
-    margin-top: ${(props) => props.theme.spacer * 2};
-    padding: ${(props) => props.theme.spacer / 2}px;
-`;
-
-export const DiscographyText = styled(RegularText)`
-    align-self: center;
-`;
-
-export const PoularTracksWrapper = styled.View``;
-
-export const AlbumsWrapper = styled.View``;
-
-export const ArtistsWrapper = styled.View``;
-
-export const Separator = styled.View`
-    padding: ${(props) => props.theme.spacer * 1.5}px;
-`;
-
-export type FollowButtonProp = {
-    followed: boolean;
-};
-
-export const FollowButton = styled.TouchableOpacity<FollowButtonProp>`
-    width: 100px;
-    height: 40px;
-    border-color: ${(props) => (props.followed ? props.theme.colors.additivePink : props.theme.colors.secondary)};
-    border-width: 1px;
-    border-radius: 10px;
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 2};
-`;
-
-export const FollowText = styled(BoldText)`
-    color: white;
-    align-self: center;
-    margin-top: ${(props) => props.theme.spacer};
-`;
-
-export const DataWrapper = styled.View`
-    background-color: ${(props) => props.theme.colors.screenBackground};
-`;
 
 export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
     const theme = useTheme();
     const scrollValue = useValue(0);
-    const artist = useSelector(getArtist);
+
+    const handleTrackPlay = useCallback(
+        (item: Track) => {
+            dispatch(
+                MUSIC_ACTIONS.PLAY.TRIGGER({ track: item, queue: props.data.popularTracks } as PlayActionTriggerPayload)
+            );
+        },
+        [dispatch, props.data.popularTracks]
+    );
+
+    const handlePlayPopular = useCallback(() => {
+        handleTrackPlay((props.data.popularTracks as Track[])[0]);
+    }, [handleTrackPlay, props.data.popularTracks]);
+
+    const handleFollowOrUnfollow = useCallback(() => {
+        dispatch(FOLLOW_OR_UNFOLLOW(props.data.id));
+    }, [dispatch, props.data.id]);
+
+    const handleDiscographyPress = useCallback(() => {
+        navigation.navigate('AlbumsScreen', {
+            albums: props.data.albums as Album[],
+        });
+    }, [navigation, props.data.albums]);
 
     const imageHeight = scrollValue.interpolate({
         inputRange: [0, theme.coverHeight / 2],
@@ -177,20 +95,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
         extrapolateRight: Extrapolate.CLAMP,
     });
 
-    const handleTrackPlay = useCallback(
-        (item: Track) => {
-            dispatch(
-                MUSIC_ACTIONS.PLAY.TRIGGER({ track: item, queue: props.data.popularTracks } as PlayActionTriggerPayload)
-            );
-        },
-        [dispatch, props.data.popularTracks]
-    );
-
-    const handleFollowOrUnfollow = useCallback(() => {
-        dispatch(FOLLOW_OR_UNFOLLOW(props.data.id));
-    }, [dispatch, props.data.id, artist]);
-
-    const HeaderComponent = () => {
+    const HeaderComponent = useCallback(() => {
         return (
             <>
                 <AnimatedHeaderWrapper style={{ opacity: headerOpacity }}>
@@ -201,7 +106,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                 </BackButtonWrapper>
             </>
         );
-    };
+    }, [headerOpacity, navigation, props.data.name]);
 
     return (
         <Container>
@@ -241,14 +146,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                         <Albums>{I18n.t('artist.popularReleases')}</Albums>
                         <FlatList data={props.data.albums} renderItem={({ item }) => <AlbumComponent data={item} />} />
                     </AlbumsWrapper>
-                    <DiscographyButton
-                        onPress={() => {
-                            navigation.navigate('AlbumsScreen', {
-                                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                                albums: props.data.albums!,
-                            });
-                        }}
-                    >
+                    <DiscographyButton onPress={handleDiscographyPress}>
                         <DiscographyText>{I18n.t('artist.discography')}</DiscographyText>
                     </DiscographyButton>
                     <SimilarArtists>{I18n.t('artist.similarArtists')}</SimilarArtists>
@@ -264,7 +162,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                 </DataWrapper>
             </Animated.ScrollView>
             <HeaderComponent />
-            <PlayButtonWrapper onPress={() => handleTrackPlay(props.data.popularTracks[0])}>
+            <PlayButtonWrapper onPress={handlePlayPopular}>
                 <AnimatedPlayButton
                     style={{
                         transform: [{ translateY: playerButtonTranslateY }],

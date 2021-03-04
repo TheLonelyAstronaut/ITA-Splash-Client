@@ -1,19 +1,11 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useCallback } from 'react';
+import Animated from 'react-native-reanimated';
+import { getStatusBarHeight } from 'react-native-status-bar-height';
 import styled from 'styled-components/native';
 
-import { Album, Playlist } from '../../../types/music';
-import { Image } from '../image.component';
-import { BoldText, RegularText } from '../text.component';
-
-import { useDispatch } from 'react-redux';
-import { MUSIC_ACTIONS } from '../../player/actions';
-import { ADD_TO_LIKED, LOAD_LIBRARY, REMOVE_FROM_LIKED } from '../../library/actions';
-import { LibraryElementType } from '../../library/library.types';
-import Animated, { Extrapolate, useValue } from 'react-native-reanimated';
-import { useTheme } from 'styled-components';
-import { DEVICE_SIZE } from '../themes/themes';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
+import { Album, Playlist } from '../../../../types/music';
+import { LibraryElementType } from '../../../library/library.types';
+import { BoldText, RegularText } from '../../styled/text.styled';
+import { DEVICE_SIZE } from '../../themes/themes';
 
 export const AlbumImage = styled.Image`
     margin-top: ${(props) => props.theme.spacer * 3};
@@ -114,6 +106,7 @@ export const AnimatedImage = Animated.createAnimatedComponent(ImageWrapper);
 export const AnimatedPlayButton = Animated.createAnimatedComponent(PlayButton);
 export const AnimatedText = Animated.createAnimatedComponent(TextWrapper);
 export const AnimatedWrapper = Animated.createAnimatedComponent(InfoWrapper);
+
 export type MusicListHeaderProps = {
     data: Album | Playlist;
     type?: LibraryElementType;

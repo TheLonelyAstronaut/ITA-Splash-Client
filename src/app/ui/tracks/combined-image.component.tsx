@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 
 import { Playlist, Album } from '../../../types/music';
 import { Image } from '../image.component';
-import { RegularText } from '../text.component';
+import { RegularText } from '../styled/text.styled';
 import { DEVICE_SIZE } from '../themes/themes';
 
 export const PlaylistContainer = styled.TouchableOpacity`

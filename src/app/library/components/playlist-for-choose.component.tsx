@@ -4,7 +4,7 @@ import I18n from '../../utils/i18n';
 import { LibraryData, LibraryElementType } from '../library.types';
 
 import { PlaylistImageRender } from './playlist-item.component';
-import { PlaylistContainer, InfoWrapper, PlaylistName, TracksAmount } from './playlist-styles.component';
+import { PlaylistContainer, InfoWrapper, PlaylistName, TracksAmount } from './styled/library.styles';
 
 export interface Props {
     name: string;

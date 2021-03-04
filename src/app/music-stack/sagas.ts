@@ -46,7 +46,7 @@ export function* loadAlbumSaga(action: ReturnType<typeof LOAD_ALBUM.TRIGGER>): S
 export function* addToPlaylist(action: ReturnType<typeof ADD_TO_PLAYLIST.TRIGGER>): SagaIterator {
     try {
         yield call(client.addToPlaylist, action.payload.trackId, action.payload.playlistId);
-        yield put(LOAD_LIBRARY.TRIGGER(1));
+        yield put(LOAD_LIBRARY.TRIGGER());
         yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Success, message: 'Track successfully added' }));
     } catch (e) {
         yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Danger, message: 'Track already in playlist' }));

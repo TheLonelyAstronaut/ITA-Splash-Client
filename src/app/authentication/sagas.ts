@@ -51,7 +51,3 @@ export function* listenForLoginSaga(): SagaIterator {
 export function* listenForRegisterSaga(): SagaIterator {
     yield takeLatest(REGISTER.TRIGGER, registerSaga);
 }
-
-// export function* listenForThemeSaga(): SagaIterator {
-//     yield put(CHANGE_THEME)
-// }
