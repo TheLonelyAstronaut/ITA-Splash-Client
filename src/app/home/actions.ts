@@ -13,7 +13,7 @@ export const CHANGE_PASSWORD = {
 };
 
 export const LOAD_HOME_DATA = {
-    TRIGGER: createAction('[Load Home Data Trigger]', (payload: number) => payload),
+    TRIGGER: createAction('[Load Home Data Trigger]'),
     STARTED: createAction('[Load Home Data Started]', (payload) => payload),
     COMPLETED: createAction('[Load Home Data Completed]', (payload: HomepageData[]) => payload),
 };

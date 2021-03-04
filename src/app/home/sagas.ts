@@ -20,10 +20,10 @@ export function* changePasswordSaga(action: ReturnType<typeof CHANGE_PASSWORD.TR
     }
 }
 
-export function* loadHomePageSaga(action: ReturnType<typeof LOAD_HOME_DATA.TRIGGER>): SagaIterator {
+export function* loadHomePageSaga(): SagaIterator {
     try {
         yield put(LOAD_HOME_DATA.STARTED());
-        const result = yield call(client.getHomepageData, action.payload);
+        const result = yield call(client.getHomepageData);
         yield put(LOAD_HOME_DATA.COMPLETED(result));
     } catch (err) {
         const error = new Error(err);

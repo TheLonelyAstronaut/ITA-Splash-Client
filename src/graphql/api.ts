@@ -12,11 +12,13 @@ import { LibraryData, LibraryElementType } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
 import { albums } from '../mocks/albums';
 import { artists } from '../mocks/artists';
+import { favoriteTracks } from '../mocks/favorite-tracks';
 import { home } from '../mocks/home-mock';
 import { library } from '../mocks/library';
+import { playlist } from '../mocks/playlists';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
-import { Artist, Album } from '../types/music';
+import { Artist, Album, Track } from '../types/music';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
@@ -43,7 +45,7 @@ export class GraphQLAPI {
             return {
                 headers: {
                     ...headers,
-                    authorization: token,
+                    Authorization: `Bearer ${token}`,
                 },
             };
         });
@@ -78,13 +80,23 @@ export class GraphQLAPI {
         }
     };
 
+    addToPlaylist = async (trackId: string, playlistId: number): Promise<void> => {
+        const track = tracks.find((track) => track.id === trackId);
+        if (playlistId === 0 && track !== undefined) {
+            track.liked = true;
+            playlist[0].liked = true;
+        }
+        const playlist1 = playlist[playlistId].tracks.find((track) => track.id === trackId);
+        if (!playlist1) {
+            playlist[playlistId].tracks.push(track as Track);
+        } else {
+            throw new Error('Something went wrong');
+        }
+    };
+
     logout = (): void => {
         console.log('logout');
     };
-
-    // getPLaylistById = (id: number): Playlist[] => {
-    //     return playlist;
-    // };
 
     search = async (name: string): Promise<SearchResult[]> => {
         console.log(name);
@@ -96,21 +108,21 @@ export class GraphQLAPI {
         const albums1 = albums.filter((album) => album.name.includes(name) && name !== '');
         const result: SearchResult[] = [];
 
-        artists1.map((item) => {
+        artists1.forEach((item) => {
             result.push({
                 type: SearchResultType.ARTIST,
                 data: item,
             });
         });
 
-        tracks1.map((item) => {
+        tracks1.forEach((item) => {
             result.push({
                 type: SearchResultType.TRACK,
                 data: item,
             });
         });
 
-        albums1.map((item) => {
+        albums1.forEach((item) => {
             result.push({
                 type: SearchResultType.ALBUM,
                 data: item,
@@ -124,7 +136,7 @@ export class GraphQLAPI {
         }
     };
 
-    getLibrary = async (id: number): Promise<LibraryData[]> => {
+    getLibrary = async (): Promise<LibraryData[]> => {
         return library;
     };
 
@@ -145,7 +157,7 @@ export class GraphQLAPI {
         }
     };
 
-    getHomepageData = async (id: number): Promise<HomepageData[]> => {
+    getHomepageData = async (): Promise<HomepageData[]> => {
         return home;
     };
 
@@ -167,6 +179,27 @@ export class GraphQLAPI {
         } else {
             throw new Error('Invalid artist id');
         }
+    };
+
+    addToLiked = async (id: number): Promise<void> => {
+        const track = tracks.find((track) => track.id === id.toString()) as Track;
+        if (track.liked) {
+            track.liked = false;
+            for (let i = 0; i < playlist[0].tracks.length; i++) {
+                if (playlist[0].tracks[i] === track) {
+                    playlist[0].tracks.splice(i, 1);
+                }
+            }
+        } else {
+            track.liked = true;
+            playlist[0].tracks.push(track);
+            console.log(favoriteTracks);
+        }
+    };
+
+    followOrUnfollow = async (id: number): Promise<void> => {
+        const artist = artists.find((artist) => artist.id === id) as Artist;
+        artist.isFollowed = !artist.isFollowed;
     };
 }
 

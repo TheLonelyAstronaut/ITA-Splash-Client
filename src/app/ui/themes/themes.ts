@@ -1,4 +1,4 @@
-import { Dimensions, Platform, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import { DefaultTheme } from 'styled-components/native';
 
@@ -31,6 +31,10 @@ const defaultValues: DefaultTheme = {
     },
     tabBarHeight: 68,
     widgetHeight: 55,
+    coverHeight: DEVICE_SIZE.height * 0.4,
+    coverWidth: DEVICE_SIZE.width,
+    statusBar: getStatusBarHeight() + 64,
+    playButtonSize: 60,
     fontWeight: {
         bold: 800,
         standard: 600,
@@ -93,32 +97,9 @@ const lightTheme: DefaultTheme = {
     },
 };
 
-const japaneseDarkTheme: DefaultTheme = {
-    ...defaultValues,
-    fontFamily: {
-        regular: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
-        medium: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
-        bold: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
-        extraBold: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
-        black: Platform.OS === 'ios' ? 'Electroharmonix' : 'electroharmonix',
-    },
-    logoFont: Platform.OS === 'ios' ? 'Press Start 2P' : 'PressStart2P-Regular',
-    colors: {
-        main: '#1E1E1E',
-        secondary: '#fff',
-        additivePink: '#FF4BF8',
-        additiveBlue: '#2B63FF',
-        screenBackground: '#000000',
-        sliderColor: '#757b80',
-        inputBackground: '#C4C4C4',
-        contrast: '#ff073a',
-    },
-};
-
 const themesCollection: Partial<Record<ThemesEnum, DefaultTheme>> = {
     [ThemesEnum.LIGHT]: lightTheme,
     [ThemesEnum.DARK]: darkTheme,
-    [ThemesEnum.JAPANESE]: japaneseDarkTheme,
 };
 
-export { darkTheme, lightTheme, japaneseDarkTheme, themesCollection, ThemesEnum };
+export { darkTheme, lightTheme, themesCollection, ThemesEnum };

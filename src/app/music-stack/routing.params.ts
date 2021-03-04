@@ -19,3 +19,7 @@ export type MusicStackNavigationProps<T extends keyof MusicStackParamsList> = {
     navigation: StackNavigationProp<MusicStackParamsList, T>;
     route: RouteProp<MusicStackParamsList, T>;
 };
+
+export type AlbumScreenParams = MusicStackNavigationProps<'AlbumScreen'>;
+export type AlbumsScreenParams = MusicStackNavigationProps<'AlbumsScreen'>;
+export type ArtistScreenParams = MusicStackNavigationProps<'ArtistScreen'>;

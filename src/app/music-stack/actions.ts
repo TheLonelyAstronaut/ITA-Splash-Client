@@ -18,6 +18,11 @@ export type LoadAlbumCompletedType = LoadDataStartedType & {
     album: Album;
 };
 
+export type AddToPlaylistType = {
+    trackId: string;
+    playlistId: number;
+};
+
 export const LOAD_ARTIST = {
     TRIGGER: createAction('[Load Artist Trigger]', (payload: LoadDataTriggerType) => payload),
     STARTED: createAction('[Load Artist Started]', (payload: LoadDataStartedType) => payload),
@@ -29,3 +34,9 @@ export const LOAD_ALBUM = {
     STARTED: createAction('[Load Album Started]', (payload: LoadDataStartedType) => payload),
     COMPLETED: createAction('[Load Album Completed]', (payload: LoadAlbumCompletedType) => payload),
 };
+
+export const ADD_TO_PLAYLIST = {
+    TRIGGER: createAction('[Add to playlist Trigger]', (payload: AddToPlaylistType) => payload),
+};
+
+export const FOLLOW_OR_UNFOLLOW = createAction('[Follow or Unfollow]', (payload: number) => payload);

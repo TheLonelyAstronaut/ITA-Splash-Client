@@ -1,54 +1,23 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components/native';
 
 import { Album, Artist, Track } from '../../../types/music';
 import { MusicStackParamsList } from '../../music-stack/routing.params';
 import { MUSIC_ACTIONS } from '../../player/actions';
-import { Image } from '../../ui/image.component';
-import { RegularText } from '../../ui/text.component';
-import { DEVICE_SIZE } from '../../ui/themes/themes';
+import I18n from '../../utils/i18n';
 import { SearchStackParamList } from '../routing.params';
 import { SearchResultType } from '../search.types';
 
-export const Container = styled.TouchableOpacity`
-    width: ${DEVICE_SIZE.width};
-    height: ${(props) => props.theme.searchItem.height}px;
-    margin-bottom: ${(props) => props.theme.spacer};
-`;
-
-export const Wrapper = styled.View`
-    flex-direction: row;
-`;
-
-export const InfoWrapper = styled.View`
-    margin-left: ${(props) => props.theme.spacer * 1.5};
-    margin-top: ${(props) => props.theme.spacer * 1.5};
-`;
-
-export const TrackName = styled(RegularText)`
-    color: ${(props) => props.theme.colors.secondary};
-    margin-bottom: ${(props) => props.theme.spacer / 2};
-`;
-
-export const ArtistText = styled(RegularText)`
-    color: ${(props) => props.theme.colors.inputBackground};
-    font-size: ${(props) => props.theme.fontSize.extraSmall};
-`;
-
-export const TrackImage = styled(Image)`
-    width: ${(props) => props.theme.searchItem.searchImage}px;
-    height: ${(props) => props.theme.searchItem.searchImage}px;
-    margin-left: ${(props) => props.theme.spacer * 5};
-`;
-
-export const ArtistImage = styled(Image)`
-    width: ${(props) => props.theme.searchItem.searchImage}px;
-    height: ${(props) => props.theme.searchItem.searchImage}px;
-    border-radius: 100px;
-    margin-left: ${(props) => props.theme.spacer * 5};
-`;
+import {
+    ArtistImage,
+    ArtistText,
+    Container,
+    InfoWrapper,
+    TrackImage,
+    TrackName,
+    Wrapper,
+} from './styled/search-result.styled';
 
 export type Props = {
     data: Album | Artist | Track;
@@ -78,9 +47,9 @@ export const SearchResultComponent: React.FC<Props> = (props: Props) => {
         if (isTrack) {
             return (props.data as Track).artist;
         } else if (isArtist) {
-            return 'Artist';
+            return I18n.t('search.artist');
         } else if (isAlbum) {
-            return (props.data as Album).artist;
+            return (props.data as Album).artistName;
         }
 
         return '';

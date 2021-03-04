@@ -1,7 +1,10 @@
-import React from 'react';
 import styled from 'styled-components/native';
 
-import { DEVICE_SIZE } from '../../ui/themes/themes';
+import { DEVICE_SIZE } from '../../../ui/themes/themes';
+
+export type Props = {
+    valid?: boolean;
+};
 
 export const Title = styled.Text`
     color: ${(props) => props.theme.colors.secondary};
@@ -28,10 +31,6 @@ export const InputArea = styled.View`
     padding-horizontal: ${(props) => props.theme.spacer * 3}px;
     padding-top: ${(props) => props.theme.spacer * 4}px;
 `;
-
-export type Props = {
-    valid?: boolean;
-};
 
 export const Input = styled.TextInput<Props>`
     height: 45px;
@@ -83,16 +82,6 @@ export const RawInputText = styled.Text`
     padding-vertical: 5px;
 `;
 
-const TextWrapper = styled.View`
+export const TextWrapper = styled.View`
     flex-direction: row;
 `;
-
-export type InputTextProps = {
-    children: React.ReactNode;
-};
-
-export const InputText: React.FC<InputTextProps> = (props: InputTextProps) => (
-    <TextWrapper>
-        <RawInputText>{props.children}</RawInputText>
-    </TextWrapper>
-);

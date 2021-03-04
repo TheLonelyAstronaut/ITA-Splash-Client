@@ -18,6 +18,10 @@ declare module 'styled-components' {
         };
         tabBarHeight: number;
         widgetHeight: number;
+        coverHeight: number;
+        coverWidth: number;
+        statusBar: number;
+        playButtonSize: number;
         fontFamily: {
             regular: string;
             medium: string;

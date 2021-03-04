@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Container, LoadingContainer } from '../../ui/container.component';
-import { MusicListTemplateScreen } from '../../ui/tracks/music-list-template-screen';
+import { Container, LoadingContainer } from '../../ui/styled/container.styled';
+import { MusicListTemplateScreen } from '../../ui/tracks/music-list-template-screen.component';
 import { LOAD_ALBUM } from '../actions';
-import { MusicStackNavigationProps } from '../routing.params';
+import { AlbumScreenParams } from '../routing.params';
 import { getAlbum, getIsMusicScreenFetching, getMusicScreenError } from '../selectors';
-
-export type AlbumScreenParams = MusicStackNavigationProps<'AlbumScreen'>;
 
 export const AlbumScreenComponent: React.FC<AlbumScreenParams> = (props: AlbumScreenParams) => {
     const dispatch = useDispatch();

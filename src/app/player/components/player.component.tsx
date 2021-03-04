@@ -1,88 +1,50 @@
-import React, { useEffect, useRef } from 'react';
-import { ListRenderItemInfo } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef } from 'react';
+import { ListRenderItemInfo, TouchableOpacity } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import { getStatusBarHeight } from 'react-native-status-bar-height';
 import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
+import Icon from 'react-native-vector-icons/AntDesign';
 import { useDispatch, useSelector } from 'react-redux';
 // Add types declaration or move to backend?
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { getColorFromURL } from 'rn-dominant-color';
-import styled, { useTheme } from 'styled-components/native';
+import { useTheme } from 'styled-components/native';
 
 import { Track } from '../../../types/music';
 import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
-import { Container } from '../../ui/container.component';
-import { BoldText, RegularText } from '../../ui/text.component';
 import { DEVICE_SIZE } from '../../ui/themes/themes';
 import { PLAYER_SKIP_TO_TRIGGERED_BY_USER } from '../../utils/events';
 import { Logger } from '../../utils/logger';
 import { ADD_TRACK_GRADIENT, MUSIC_ACTIONS } from '../actions';
+import { closePlayer } from '../player.ref';
 import { ControlActions } from '../player.types';
 import { getCurrentQueue, getCurrentTrack, getTrackGradient } from '../selectors';
 
 import { PlayControlButton, SkipControlButton } from './control-button.component';
 import { PlayerArtwork } from './player-artwork.component';
+import {
+    ArtistName,
+    AvoidingBackground,
+    ButtonWrapper,
+    ChevronButtonWrapper,
+    GestureProvider,
+    HeaderText,
+    HeaderWrapper,
+    InfoWrapper,
+    PlayerControlWrapper,
+    TRACK_SLIDER_HEIGHT,
+    TRACK_SLIDER_WIDTH,
+    TrackName,
+} from './styled/player.styled';
 import { SwipeableTrackChanger } from './swipeable-track-changer.component';
 import { TrackProgressSlider } from './track-progress-slider.component';
-
-export const TRACK_SLIDER_WIDTH = DEVICE_SIZE.width * 0.85;
-export const TRACK_SLIDER_HEIGHT = 8;
-
-export const InfoWrapper = styled.View`
-    height: ${DEVICE_SIZE.height}px;
-    width: ${DEVICE_SIZE.width}px;
-    position: absolute;
-    flex: 1;
-`;
-
-export const HeaderWrapper = styled.View`
-    height: ${(props) => props.theme.player.headerHeight}px;
-    margin-top: ${getStatusBarHeight()}px;
-    align-items: center;
-    justify-content: center;
-`;
-
-export const GestureProvider = styled.View`
-    flex: 2;
-`;
-
-export const PlayerControlWrapper = styled.View`
-    height: ${(props) => props.theme.player.playerControlHeight}px;
-    padding-horizontal: ${(props) => props.theme.player.marginHorizontal}px;
-    margin-vertical: ${(props) => props.theme.player.marginVertical}px;
-`;
-
-export const HeaderText = styled(RegularText)`
-    font-size: ${(props) => props.theme.fontSize.small - 1}px;
-    font-weight: 700;
-`;
-
-export const TrackName = styled(BoldText)`
-    font-size: ${(props) => props.theme.fontSize.extraLarge}px;
-`;
-
-export const ArtistName = styled(RegularText)`
-    line-height: 24px;
-    font-size: ${(props) => props.theme.fontSize.medium - 1}px;
-    opacity: 0.6;
-    font-weight: 700;
-`;
-
-export const ButtonWrapper = styled.View`
-    flex-direction: row;
-    justify-content: center;
-    margin-top: ${(props) => props.theme.player.marginVertical * 3}px;
-`;
-
-export const AvoidingBackground = styled(Container)`
-    background-color: ${(props) => props.theme.colors.main};
-`;
 
 export const Player: React.FC = () => {
     const currentTrack = useSelector(getCurrentTrack);
     const currentQueue = useSelector(getCurrentQueue);
     const theme = useTheme();
+    const navigation = useNavigation();
     const currentState = usePlaybackState();
     const dispatch = useDispatch();
     const _carousel = useRef<Carousel<Track>>();
@@ -127,6 +89,27 @@ export const Player: React.FC = () => {
 
     const renderItem = React.useCallback((info: ListRenderItemInfo<Track>) => <PlayerArtwork track={info.item} />, []);
 
+    const transfer = useCallback(
+        (stack: string, screen: string, params: unknown) => {
+            // Strange RN navigation behavior
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            navigation.navigate(stack, {
+                screen,
+                params,
+            });
+        },
+        [navigation]
+    );
+
+    const handlePress = useCallback(() => {
+        transfer('HomeMusicStack', 'ArtistScreen', {
+            id: currentTrack.artistId,
+            key: 'ArtistScreen_' + currentTrack.artistId + '_' + Math.random().toString(),
+        });
+        closePlayer();
+    }, [currentTrack.artistId, transfer]);
+
     return (
         <AvoidingBackground>
             <AnimatedGradientTransition colors={gradient}>
@@ -140,10 +123,15 @@ export const Player: React.FC = () => {
                     <HeaderWrapper>
                         <HeaderText>{currentTrack.artist}</HeaderText>
                     </HeaderWrapper>
+                    <ChevronButtonWrapper onPress={closePlayer}>
+                        <Icon style={{ alignSelf: 'center', padding: 4 }} name={'down'} color={'white'} size={18} />
+                    </ChevronButtonWrapper>
                     <GestureProvider pointerEvents={'box-none'} />
                     <PlayerControlWrapper>
                         <TrackName>{currentTrack.title}</TrackName>
-                        <ArtistName>{currentTrack.artist}</ArtistName>
+                        <TouchableOpacity onPress={handlePress}>
+                            <ArtistName>{currentTrack.artist}</ArtistName>
+                        </TouchableOpacity>
                         <TrackProgressSlider
                             width={TRACK_SLIDER_WIDTH}
                             height={TRACK_SLIDER_HEIGHT}

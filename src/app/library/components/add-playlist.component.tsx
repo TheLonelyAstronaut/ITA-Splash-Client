@@ -10,14 +10,14 @@ import {
     PlaylistIcon,
     InfoWrapper,
     PlaylistName,
-} from './playlist-styles.component';
+} from './styled/library.styles';
 
 export interface Props {
     onPress?: () => void;
 }
 
 export const AddPlaylistName = styled(PlaylistName)`
-    margin-top: ${(props) => props.theme.spacer * 1.5};
+    margin-top: ${(props) => props.theme.spacer * 1.5 + 5};
 `;
 
 export const AddPlaylistItem: React.FC<Props> = (props: Props) => {

@@ -2,34 +2,16 @@ import React, { useCallback, useState } from 'react';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
-import styled from 'styled-components/native';
 
-import { Input, ValidationInput } from '../../authentication/components/styled.component';
-import { AvoidingContainer } from '../../ui/container.component';
+import { Input, ValidationInput } from '../../authentication/components/styled/authentication.styled';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
-import { RegularText } from '../../ui/text.component';
+import { AvoidingContainer } from '../../ui/styled/container.styled';
 import I18n from '../../utils/i18n';
 import { CHANGE_PASSWORD } from '../actions';
-import { HomeNavigationProps } from '../routing.params';
+import { BackButtonContainer, InputText, InputWrapper } from '../components/styled/password-change-screen.styled';
+import { PasswordChangeProps } from '../routing.params';
 
-export const InputWrapper = styled.View`
-    margin-top: ${(props) => props.theme.spacer};
-`;
-export const InputText = styled(RegularText)`
-    color: ${(props) => props.theme.colors.secondary};
-    margin-left: ${(props) => props.theme.spacer * 7.5};
-    margin-top: ${(props) => props.theme.spacer * 4};
-    margin-bottom: -10px;
-`;
-
-export const BackButtonContainer = styled.TouchableOpacity`
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 2};
-`;
-
-export type SettingsScreenProps = HomeNavigationProps<'PasswordChangeScreen'>;
-
-export const PasswordChangeScreenComponent: React.FC<SettingsScreenProps> = (props: SettingsScreenProps) => {
+export const PasswordChangeScreenComponent: React.FC<PasswordChangeProps> = (props: PasswordChangeProps) => {
     const theme = useTheme();
     const [currentPass, setCurrentPass] = useState('');
     const [newPass, setNewPass] = useState('');
@@ -41,39 +23,35 @@ export const PasswordChangeScreenComponent: React.FC<SettingsScreenProps> = (pro
         dispatch(CHANGE_PASSWORD.TRIGGER({ currentPass: currentPass, newPass: newPass, repeatNewPass: repeatPass }));
     }, [dispatch, currentPass, newPass, repeatPass]);
 
+    const handleBackPress = useCallback(() => {
+        props.navigation.goBack();
+    }, [props.navigation]);
+
+    const handleCurrentPasswordChange = useCallback((val) => {
+        setCurrentPass(val);
+    }, []);
+
+    const handleNewPasswordChange = useCallback((val) => {
+        setNewPass(val);
+    }, []);
+
+    const handleRepeatNewPasswordChange = useCallback((val) => {
+        setMatch(true);
+        setRepeatPass(val);
+    }, []);
+
     return (
         <AvoidingContainer>
-            <BackButtonContainer
-                onPress={useCallback(() => {
-                    props.navigation.goBack();
-                }, [props.navigation])}
-            >
+            <BackButtonContainer onPress={handleBackPress}>
                 <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
             </BackButtonContainer>
             <InputWrapper>
                 <InputText>{I18n.t('settings.currentPassword')}</InputText>
-                <Input
-                    onChangeText={useCallback((val) => {
-                        setCurrentPass(val);
-                    }, [])}
-                    secureTextEntry={true}
-                />
+                <Input onChangeText={handleCurrentPasswordChange} secureTextEntry={true} />
                 <InputText>{I18n.t('settings.newPassword')}</InputText>
-                <Input
-                    onChangeText={useCallback((val) => {
-                        setNewPass(val);
-                    }, [])}
-                    secureTextEntry={true}
-                />
+                <Input onChangeText={handleNewPasswordChange} secureTextEntry={true} />
                 <InputText>{I18n.t('settings.repeatNewPassword')}</InputText>
-                <ValidationInput
-                    valid={match}
-                    onChangeText={useCallback((val) => {
-                        setMatch(true);
-                        setRepeatPass(val);
-                    }, [])}
-                    secureTextEntry={true}
-                />
+                <ValidationInput valid={match} onChangeText={handleRepeatNewPasswordChange} secureTextEntry={true} />
                 <LinearButton title={'settings.saveChanges'} onPress={handleSaveChanges} />
             </InputWrapper>
         </AvoidingContainer>

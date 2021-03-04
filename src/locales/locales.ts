@@ -16,6 +16,7 @@ const en: DefaultLocale = {
         addNewPlaylist: 'Add new playlist',
         comeUpPlaylistName: 'Come up with a playlist name',
         create: 'Create',
+        emptyPlaylist: 'Playlist is empty',
     },
     settings: {
         dark: 'Dark',
@@ -38,6 +39,22 @@ const en: DefaultLocale = {
         error: 'Oops...something went wrong',
         tryAgain: 'Try again',
     },
+    search: {
+        search: 'Search',
+        typeToSearch: 'Type to search',
+        typeSomething: 'Type something to search',
+        nothingFounded: 'Nothing founded',
+        artist: 'Artist',
+    },
+    artist: {
+        popularTracks: 'Popular tracks',
+        popularReleases: 'Popular releases',
+        similarArtists: 'Similar artists',
+        discography: 'Discography',
+    },
+    additional: {
+        choosePlaylist: 'Choose playlist to add',
+    },
 };
 
 const ru: DefaultLocale = {
@@ -56,6 +73,7 @@ const ru: DefaultLocale = {
         addNewPlaylist: 'Добавить плейлист',
         comeUpPlaylistName: 'Придумайте название плейлиста',
         create: 'Создать',
+        emptyPlaylist: 'Пока что тут пусто',
     },
     settings: {
         dark: 'Темная',
@@ -77,6 +95,22 @@ const ru: DefaultLocale = {
         newReleases: 'Новые релизы',
         error: 'Ууупс...что-то пошло не так',
         tryAgain: 'Снова',
+    },
+    search: {
+        search: 'Поиск',
+        typeToSearch: 'Введите для поиска',
+        typeSomething: 'Введите что-то для поиска',
+        nothingFounded: 'Ничего не найдено',
+        artist: 'Исполнитель',
+    },
+    artist: {
+        popularTracks: 'Популярные треки',
+        popularReleases: 'Популярные релизы',
+        similarArtists: 'Похожие исполнители',
+        discography: 'Дискография',
+    },
+    additional: {
+        choosePlaylist: 'Выберите плейлист для добавления',
     },
 };
 

@@ -8,7 +8,7 @@ export type Track = {
     url: string;
     title: string;
     artist: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    artistId: number;
     artwork: string;
     artworkType: ArtworkType;
     liked: boolean;
@@ -19,15 +19,17 @@ export type Playlist = {
     name: string;
     id: number;
     image?: string;
+    liked?: boolean;
 };
 
 export type Artist = {
     id: number;
     name: string;
-    popularTracks?: Track[];
     image: string;
+    popularTracks?: Track[];
     albums?: Album[];
-    similarArtists?: Artist[];
+    similarArtists?: Partial<Artist>[];
+    isFollowed: boolean;
 };
 
 export interface Album {
@@ -36,5 +38,7 @@ export interface Album {
     year: string;
     image: string;
     name: string;
-    artist: string;
+    artistId: Artist | number;
+    artistName: string;
+    liked?: boolean;
 }

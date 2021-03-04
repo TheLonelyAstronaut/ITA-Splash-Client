@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-redux-helpers';
 
-import { Track } from '../../types/music';
+import { Artist, Track } from '../../types/music';
 
 import { ControlActions } from './player.types';
 
@@ -15,9 +15,19 @@ export interface AddToTheQueuePayload {
     insertBeforeTrack: string | undefined;
 }
 
-export interface PlayActionPayload {
+export interface PlayActionTriggerPayload {
     track: Track;
     queue: Track[];
+    currentQueue?: Track[];
+}
+
+export interface SetCurrentTrackPayload {
+    track: Track[];
+    skipPlaying?: boolean;
+}
+
+export interface PlayActionCompletedPayload extends PlayActionTriggerPayload {
+    artist?: Artist;
 }
 
 export interface SeekToPayload {
@@ -31,8 +41,8 @@ export interface AddGradientPayload {
 
 export const MUSIC_ACTIONS = {
     PLAY: {
-        TRIGGER: createAction('[Music Actions Play Triggered]', (payload: PlayActionPayload) => payload),
-        COMPLETED: createAction('[Music Actions Play Completed]', (payload: PlayActionPayload) => payload),
+        TRIGGER: createAction('[Music Actions Play Triggered]', (payload: PlayActionTriggerPayload) => payload),
+        COMPLETED: createAction('[Music Actions Play Completed]', (payload: PlayActionCompletedPayload) => payload),
     },
     ADD_TO_THE_QUEUE: {
         TRIGGER: createAction('[Add To The Queue Triggered]', (payload: Track) => payload),

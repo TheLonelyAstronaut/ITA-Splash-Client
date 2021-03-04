@@ -1,21 +1,22 @@
 import React, { useCallback } from 'react';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 
-import { AvoidingContainer } from '../../ui/container.component';
+import { AvoidingContainer } from '../../ui/styled/container.styled';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
 import { ThemesEnum } from '../../ui/themes/theme.types';
 import I18n from '../../utils/i18n';
+import { BackButton } from '../components/styled/settings-screen.styled';
 import { ThemeItemComponent } from '../components/theme-changer-item.component';
-import { HomeNavigationProps } from '../routing.params';
+import { ThemeChangeScreenProps } from '../routing.params';
 
-import { BackButton } from './settings-screen.component';
+export const Back = styled(BackButton)`
+    margin-top: ${(props) => props.theme.spacer * 2};
+`;
 
-export type SettingsScreenProps = HomeNavigationProps<'SettingsScreen'>;
-
-export const ThemeChangeScreenComponent: React.FC<SettingsScreenProps> = (props: SettingsScreenProps) => {
+export const ThemeChangeScreenComponent: React.FC<ThemeChangeScreenProps> = (props: ThemeChangeScreenProps) => {
     const themeKey = useSelector(getTheme);
     const dispatch = useDispatch();
     const theme = useTheme();
@@ -28,19 +29,15 @@ export const ThemeChangeScreenComponent: React.FC<SettingsScreenProps> = (props:
         dispatch(CHANGE_THEME({ theme: ThemesEnum.DARK }));
     }, [dispatch]);
 
-    const changeToJapanese = useCallback(() => {
-        dispatch(CHANGE_THEME({ theme: ThemesEnum.JAPANESE }));
-    }, [dispatch]);
+    const handleBackPress = useCallback(() => {
+        props.navigation.goBack();
+    }, [props.navigation]);
 
     return (
         <AvoidingContainer>
-            <BackButton
-                onPress={useCallback(() => {
-                    props.navigation.goBack();
-                }, [props.navigation])}
-            >
+            <Back onPress={handleBackPress}>
                 <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
-            </BackButton>
+            </Back>
             <ThemeItemComponent
                 title={I18n.t('settings.dark')}
                 onPress={changeToDark}
@@ -50,11 +47,6 @@ export const ThemeChangeScreenComponent: React.FC<SettingsScreenProps> = (props:
                 title={I18n.t('settings.light')}
                 onPress={changeToLight}
                 selected={themeKey === ThemesEnum.LIGHT}
-            />
-            <ThemeItemComponent
-                title={I18n.t('settings.japanese')}
-                onPress={changeToJapanese}
-                selected={themeKey === ThemesEnum.JAPANESE}
             />
         </AvoidingContainer>
     );

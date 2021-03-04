@@ -5,6 +5,22 @@ import NativeLinearGradient, { LinearGradientProps } from 'react-native-linear-g
 
 type AnimatedInterpolation = Animated.AnimatedInterpolation;
 
+type AnimationProps = {
+    toValue: number;
+    duration: number;
+    easing: EasingFunction;
+};
+
+type AnimatedGradientTransitionProps = LinearGradientProps & {
+    animation: AnimationProps;
+};
+
+type AnimatedGradientTransitionState = {
+    colors: (string | number)[];
+    prevColors: (string | number)[];
+    animatedColors: Animated.Value[];
+};
+
 class LinearGradient extends React.Component<LinearGradientProps> {
     // Generate back the colors array with all transformed props
     _generateColorsArray(props: LinearGradientProps) {
@@ -34,22 +50,6 @@ class LinearGradient extends React.Component<LinearGradientProps> {
 }
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
-
-type AnimationProps = {
-    toValue: number;
-    duration: number;
-    easing: EasingFunction;
-};
-
-type AnimatedGradientTransitionProps = LinearGradientProps & {
-    animation: AnimationProps;
-};
-
-type AnimatedGradientTransitionState = {
-    colors: (string | number)[];
-    prevColors: (string | number)[];
-    animatedColors: Animated.Value[];
-};
 
 class AnimatedGradientTransition extends Component<AnimatedGradientTransitionProps, AnimatedGradientTransitionState> {
     static defaultProps = {

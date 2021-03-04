@@ -80,7 +80,7 @@ export const authenticationReducer = persistReducer(
     {
         key: 'authentication',
         version: 1,
-        whitelist: ['token'],
+        whitelist: ['token', 'email'],
         storage: AsyncStorage,
         debug: true,
         migrate: createMigrate(migrations, { debug: true }),

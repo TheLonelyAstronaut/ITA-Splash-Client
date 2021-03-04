@@ -4,12 +4,12 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import { client } from '../../graphql/api';
 import { Logger } from '../utils/logger';
 
-import { ADD_PLAYLIST, LOAD_LIBRARY } from './actions';
+import { ADD_PLAYLIST, ADD_TO_LIKED, LOAD_LIBRARY } from './actions';
 
-export function* loadLibrarySaga(action: ReturnType<typeof LOAD_LIBRARY.TRIGGER>): SagaIterator {
+export function* loadLibrarySaga(): SagaIterator {
     try {
         yield put(LOAD_LIBRARY.STARTED());
-        const result = yield call(client.getLibrary, action.payload);
+        const result = yield call(client.getLibrary);
         yield put(LOAD_LIBRARY.COMPLETED(result));
     } catch (error) {
         yield call(Logger.error, error);
@@ -26,6 +26,19 @@ export function* addPlaylistSaga(action: ReturnType<typeof ADD_PLAYLIST.TRIGGER>
         yield call(Logger.error, error);
         yield put(LOAD_LIBRARY.COMPLETED.failed(error));
     }
+}
+
+export function* addToLiked(action: ReturnType<typeof ADD_TO_LIKED.TRIGGER>): SagaIterator {
+    try {
+        yield call(client.addToLiked, action.payload.id);
+    } catch (e) {
+        yield call(Logger.error, e);
+        yield put(LOAD_LIBRARY.COMPLETED.failed(e));
+    }
+}
+
+export function* listenForAddToLikedSaga(): SagaIterator {
+    yield takeLatest(ADD_TO_LIKED.TRIGGER, addToLiked);
 }
 
 export function* listenForAddPlaylistSaga(): SagaIterator {

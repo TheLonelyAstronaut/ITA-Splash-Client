@@ -26,7 +26,7 @@ export const App: React.FC = () => {
                     <SplashScreen />
                 </ConnectedThemeProvider>
             </Provider>
-            <FlashMessage position={'bottom'} />
+            <FlashMessage position={'top'} />
         </PersistGate>
     );
 };

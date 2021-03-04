@@ -1,47 +1,15 @@
-import Slider from '@react-native-community/slider';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { EventRegister } from 'react-native-event-listeners';
 import { State, usePlaybackState, useProgress } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
-import styled from 'styled-components/native';
 
 import { SizeProp, TrackSlider } from '../../ui/animated-slider.component';
-import { RegularText } from '../../ui/text.component';
 import { PLAYER_SKIP_TO_TRIGGERED_BY_USER } from '../../utils/events';
+import { formatTime } from '../../utils/mappers/time.formatter';
 import { MUSIC_ACTIONS } from '../actions';
 
-export const TrackProgress = styled(Slider)`
-    height: ${(props) => props.theme.sliderHeight}px;
-`;
-
-export const TimerView = styled.View`
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: ${(props) => props.theme.spacer}px;
-`;
-
-export const Timer = styled(RegularText)`
-    color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.extraSmall}px;
-    opacity: 0.6;
-    font-weight: 700;
-`;
-
-export const TrackSliderWrapper = styled.View<{ disableMargin?: boolean }>`
-    margin-vertical: ${(props) => (props.disableMargin ? 0 : props.theme.spacer * 2)}px;
-`;
-
-const formatTime = (secs) => {
-    const minutes = Math.floor(secs / 60);
-    let seconds: string | number = Math.ceil(secs - minutes * 60);
-
-    if (seconds < 10) seconds = `0${seconds}`;
-    if (seconds == 60) {
-        seconds = '00';
-        return `${minutes + 1}:${seconds}`;
-    } else return `${minutes}:${seconds}`;
-};
+import { Timer, TimerView, TrackSliderWrapper } from './styled/track-progress-slider.styled';
 
 export type TrackProgressSliderProps = SizeProp & {
     disableTouches?: boolean;

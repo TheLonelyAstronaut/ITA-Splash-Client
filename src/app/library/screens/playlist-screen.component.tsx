@@ -2,12 +2,10 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { LOAD_ALBUM } from '../../music-stack/actions';
-import { Container, LoadingContainer } from '../../ui/container.component';
-import { MusicListTemplateScreen } from '../../ui/tracks/music-list-template-screen';
-import { LibraryStackNavigationProps } from '../routing.params';
+import { Container, LoadingContainer } from '../../ui/styled/container.styled';
+import { MusicListTemplateScreen } from '../../ui/tracks/music-list-template-screen.component';
+import { PlaylistScreenParams } from '../routing.params';
 import { getErrorLibrary, getIsFetchingLibrary, getPlaylist } from '../selectors';
-
-export type PlaylistScreenParams = LibraryStackNavigationProps<'PlaylistScreen'>;
 
 export const PlaylistScreenComponent: React.FC<PlaylistScreenParams> = (props: PlaylistScreenParams) => {
     const dispatch = useDispatch();
@@ -29,6 +27,6 @@ export const PlaylistScreenComponent: React.FC<PlaylistScreenParams> = (props: P
     } else if (isLoading || !album) {
         return <LoadingContainer />;
     } else {
-        return <MusicListTemplateScreen data={album} />;
+        return <MusicListTemplateScreen data={album} type={props.route.params.id as number} />;
     }
 };

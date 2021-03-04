@@ -1,10 +1,9 @@
-import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import Icon from 'react-native-vector-icons/Fontisto';
 
 import I18n from '../../utils/i18n';
 import { LibraryData, LibraryElementType } from '../library.types';
-import { LibraryStackParamList } from '../routing.params';
 
 import {
     PlaylistContainer,
@@ -17,12 +16,11 @@ import {
     CombinedImageContainer,
     CombinedImage,
     TracksAmount,
-} from './playlist-styles.component';
+} from './styled/library.styles';
 
 export interface Props {
     name: string;
     data: LibraryData;
-    navigation: StackNavigationProp<LibraryStackParamList, 'PlaylistsScreen'>;
 }
 
 export const CombinedPlaylistImage: React.FC<LibraryData> = (data: LibraryData) => {
@@ -30,12 +28,12 @@ export const CombinedPlaylistImage: React.FC<LibraryData> = (data: LibraryData) 
         return (
             <CombinedImageContainer>
                 <Wrapper>
-                    <CombinedImage source={{ uri: `${data.data.tracks[0].artwork}` }} />
-                    <CombinedImage source={{ uri: `${data.data.tracks[1].artwork}` }} />
+                    <CombinedImage source={{ uri: data.data.tracks[0].artwork }} />
+                    <CombinedImage source={{ uri: data.data.tracks[1].artwork }} />
                 </Wrapper>
                 <Wrapper>
-                    <CombinedImage source={{ uri: `${data.data.tracks[2].artwork}` }} />
-                    <CombinedImage source={{ uri: `${data.data.tracks[3].artwork}` }} />
+                    <CombinedImage source={{ uri: data.data.tracks[2].artwork }} />
+                    <CombinedImage source={{ uri: data.data.tracks[3].artwork }} />
                 </Wrapper>
             </CombinedImageContainer>
         );
@@ -55,7 +53,7 @@ export const PlaylistImageRender: React.FC<LibraryData> = (data: LibraryData) =>
             </PlaylistIconWrapper>
         );
     }
-    if (data.data.tracks !== undefined && data.data.tracks.length <= 4) {
+    if (data.data.tracks.length <= 4) {
         switch (data.data.tracks.length) {
             case 0:
                 return (
@@ -78,14 +76,17 @@ export const PlaylistImageRender: React.FC<LibraryData> = (data: LibraryData) =>
 };
 
 export const PlaylistItem: React.FC<Props> = (props: Props) => {
+    const navigation = useNavigation();
+
     const handlePress = useCallback(() => {
-        props.navigation.navigate('PlaylistScreen', {
+        navigation.navigate('PlaylistScreen', {
             id: props.data.data.id,
+            type: props.data.type,
         });
-    }, [props]);
+    }, [navigation, props.data.data.id, props.data.type]);
 
     return (
-        <PlaylistContainer onPress={handlePress}>
+        <PlaylistContainer width={true} onPress={handlePress}>
             <PlaylistImageRender type={props.data.type} data={props.data.data} />
             <InfoWrapper>
                 <PlaylistName>

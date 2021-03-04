@@ -2,46 +2,24 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
-import styled, { DefaultTheme } from 'styled-components/native';
+import { DefaultTheme } from 'styled-components/native';
 
 import { users } from '../../../mocks/users';
-import { Container } from '../../ui/container.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
+import { Container } from '../../ui/styled/container.styled';
 import { getTheme } from '../../ui/themes/selectors';
-import { DEVICE_SIZE, themesCollection, ThemesEnum } from '../../ui/themes/themes';
+import { themesCollection, ThemesEnum } from '../../ui/themes/themes';
 import I18n from '../../utils/i18n';
 import { validateEmail } from '../../utils/validators';
 import { REGISTER } from '../actions';
+import { BackgroundImage, Input, Title, ValidationInput } from '../components/styled/authentication.styled';
 import {
-    BackgroundImage,
-    Input,
-    Title,
-    ValidationInput,
-    LogoContainer as BaseLogoContainer,
-} from '../components/styled.component';
+    BackButtonContainer,
+    LogoContainer,
+    LogoWrapper,
+    RegisterInputArea,
+} from '../components/styled/register.styled';
 import { AuthNavigationProps } from '../routing.params';
-
-export const RegisterInputArea = styled.View`
-    width: ${DEVICE_SIZE.width * 0.83}px;
-    align-self: center;
-    margin-top: 40%;
-    padding-horizontal: ${(props) => props.theme.spacer * 3}px;
-`;
-
-export const LogoContainer = styled(BaseLogoContainer)`
-    background-color: ${(props) => props.theme.colors.main};
-    margin-top: 0%;
-    margin-left: 0%;
-`;
-
-export const BackButtonContainer = styled.TouchableOpacity``;
-
-export const LogoWrapper = styled.View`
-    flex-direction: row;
-    justify-content: space-between;
-    padding-horizontal: ${DEVICE_SIZE.width * 0.14}px;
-    margin-top: 20%;
-`;
 
 export type RegisterScreenProps = AuthNavigationProps<'Register'>;
 
@@ -62,6 +40,27 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
         }
     }, [dispatch, email, password, repeatPassword, name]);
 
+    const handleBackPress = useCallback(() => {
+        props.navigation.goBack();
+    }, [props.navigation]);
+
+    const handleNameChange = useCallback((val) => {
+        setName(val);
+    }, []);
+
+    const handleEmailChange = useCallback((val) => {
+        setEmail(val);
+        setValidation(validateEmail(val));
+    }, []);
+
+    const handlePasswordChange = useCallback((val) => {
+        setPassword(val);
+    }, []);
+
+    const handleRepeatPasswordChange = useCallback((val) => {
+        setRepeatPassword(val);
+    }, []);
+
     return (
         <Container>
             <KeyboardAvoidingView
@@ -71,18 +70,14 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
             >
                 <BackgroundImage
                     source={
-                        themeKey === ThemesEnum.DARK && ThemesEnum.JAPANESE
+                        themeKey === ThemesEnum.DARK
                             ? require('../../../assets/register-background.png')
                             : require('../../../assets/light-background.jpg')
                     }
                 />
                 <ScrollView bounces={false} showsVerticalScrollIndicator={false}>
                     <LogoWrapper>
-                        <BackButtonContainer
-                            onPress={useCallback(() => {
-                                props.navigation.goBack();
-                            }, [props.navigation])}
-                        >
+                        <BackButtonContainer onPress={handleBackPress}>
                             <Icon name={'chevron-back'} color={theme.colors.secondary} size={36} />
                         </BackButtonContainer>
                         <LogoContainer>
@@ -93,36 +88,27 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
                         <Input
                             placeholder={I18n.t('auth.name')}
                             placeholderTextColor={theme.colors.inputBackground}
-                            onChangeText={useCallback((val) => {
-                                setName(val);
-                            }, [])}
+                            onChangeText={handleNameChange}
                         />
                         <ValidationInput
                             placeholder={I18n.t('auth.email')}
                             placeholderTextColor={theme.colors.inputBackground}
                             valid={validation}
-                            onChangeText={useCallback((val) => {
-                                setEmail(val);
-                                setValidation(validateEmail(val));
-                            }, [])}
+                            onChangeText={handleEmailChange}
                         />
                         <Input
                             placeholder={I18n.t('auth.password')}
                             placeholderTextColor={theme.colors.inputBackground}
-                            onChangeText={useCallback((val) => {
-                                setPassword(val);
-                            }, [])}
+                            onChangeText={handlePasswordChange}
                             secureTextEntry={true}
                         />
                         <Input
                             placeholder={I18n.t('auth.repeatPassword')}
                             placeholderTextColor={theme.colors.inputBackground}
-                            onChangeText={useCallback((val) => {
-                                setRepeatPassword(val);
-                            }, [])}
+                            onChangeText={handleRepeatPasswordChange}
                             secureTextEntry={true}
                         />
-                        <LinearButton title={I18n.t('auth.signUp')} onPress={handleRegister} />
+                        <LinearButton title={'auth.signUp'} onPress={handleRegister} />
                     </RegisterInputArea>
                 </ScrollView>
             </KeyboardAvoidingView>

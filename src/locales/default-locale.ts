@@ -14,6 +14,7 @@ export interface DefaultLocale {
         tracks: string;
         comeUpPlaylistName: string;
         create: string;
+        emptyPlaylist: string;
     };
     settings: {
         dark: string;
@@ -35,5 +36,21 @@ export interface DefaultLocale {
         newReleases: string;
         error: string;
         tryAgain: string;
+    };
+    search: {
+        typeToSearch: string;
+        search: string;
+        typeSomething: string;
+        nothingFounded: string;
+        artist: string;
+    };
+    artist: {
+        popularTracks: string;
+        popularReleases: string;
+        similarArtists: string;
+        discography: string;
+    };
+    additional: {
+        choosePlaylist: string;
     };
 }

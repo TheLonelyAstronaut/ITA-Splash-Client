@@ -10,3 +10,5 @@ export type SearchNavigationProps<T extends keyof SearchStackParamList> = {
     navigation: StackNavigationProp<SearchStackParamList, T>;
     route: RouteProp<SearchStackParamList, T>;
 };
+
+export type SearchScreenProps = SearchNavigationProps<'SearchScreen'>;
