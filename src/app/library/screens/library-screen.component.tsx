@@ -87,7 +87,7 @@ export const LibraryScreen: React.FC<LibraryScreenParams> = () => {
                     <FlatList
                         data={data}
                         renderItem={(item) => <PlaylistItem name={item.item.data.name} data={item.item} />}
-                        keyExtractor={(item) => item.data.toString()}
+                        keyExtractor={(item) => item.data.id.toString()}
                         extraData={extraData}
                         ListHeaderComponent={<AddPlaylistItem onPress={handleModal} />}
                         contentContainerStyle={{ marginLeft: theme.spacer * 3 }}

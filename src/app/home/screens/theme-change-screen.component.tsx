@@ -13,7 +13,7 @@ import { ThemeItemComponent } from '../components/theme-changer-item.component';
 import { ThemeChangeScreenProps } from '../routing.params';
 
 export const Back = styled(BackButton)`
-    margin-top: ${(props) => props.theme.spacer * 2};
+    margin-top: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const ThemeChangeScreenComponent: React.FC<ThemeChangeScreenProps> = (props: ThemeChangeScreenProps) => {

@@ -8,15 +8,15 @@ import { RegularText } from '../styled/text.styled';
 import { DEVICE_SIZE } from '../themes/themes';
 
 export const PlaylistContainer = styled.TouchableOpacity`
-    width: ${DEVICE_SIZE.width};
-    height: ${DEVICE_SIZE.height * 0.09};
+    width: ${DEVICE_SIZE.width}px;
+    height: ${DEVICE_SIZE.height * 0.09}px;
     background-color: ${(props) => props.theme.colors.screenBackground};
     margin-bottom: ${(props) => props.theme.spacer * 3}px;
     flex-direction: row;
 `;
 
 export const PlaylistImage = styled(Image)`
-    margin-top: ${(props) => props.theme.spacer * 3};
+    margin-top: ${(props) => props.theme.spacer * 3}px;
     width: 220px;
     height: 220px;
 `;
@@ -37,17 +37,17 @@ export const PlaylistName = styled(RegularText)`
 `;
 
 export const InfoWrapper = styled.View`
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 3};
+    margin-left: ${(props) => props.theme.spacer * 2}px;
+    margin-top: ${(props) => props.theme.spacer * 3}px;
 `;
 
 export const TracksAmount = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.small};
+    font-size: ${(props) => props.theme.fontSize.small}px;
 `;
 
 export const CombinedImageContainer = styled.View`
-    margin-top: ${(props) => props.theme.spacer * 3};
+    margin-top: ${(props) => props.theme.spacer * 3}px;
     width: 220px;
     height: 220px;
 `;

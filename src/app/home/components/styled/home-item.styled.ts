@@ -5,7 +5,7 @@ import { RegularText } from '../../../ui/styled/text.styled';
 
 export const Wrapper = styled.TouchableOpacity`
     width: 100px;
-    margin-left: ${(props) => props.theme.spacer * 3};
+    margin-left: ${(props) => props.theme.spacer * 3}px;
 `;
 
 export const PlaylistImage = styled(Image)`
@@ -21,6 +21,6 @@ export const ArtistImage = styled(PlaylistImage)`
 export const PlaylistName = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
     text-align: center;
-    font-size: ${(props) => props.theme.fontSize.small};
-    margin-top: ${(props) => props.theme.spacer};
+    font-size: ${(props) => props.theme.fontSize.small}px;
+    margin-top: ${(props) => props.theme.spacer}px;
 `;

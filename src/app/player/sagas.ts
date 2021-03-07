@@ -84,7 +84,7 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
         return;
     }
 
-    console.log(queue);
+    //console.log(queue);
 
     switch (action.payload.action) {
         case ControlActions.PAUSE_RESUME: {

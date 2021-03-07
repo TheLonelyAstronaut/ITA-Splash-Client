@@ -15,25 +15,25 @@ export type Props = {
 };
 
 export const TrackInfoWrapper = styled.View`
-    margin-left: ${(props) => props.theme.spacer * 4};
-    margin-top: ${(props) => props.theme.spacer * 1.6};
+    margin-left: ${(props) => props.theme.spacer * 4}px;
+    margin-top: ${(props) => props.theme.spacer * 1.6}px;
 `;
 
 export const TrackName = styled(RegularText)<Props>`
     color: ${(props) => (props.isPlaying ? props.theme.colors.additivePink : props.theme.colors.secondary)};
-    font-size: ${(props) => props.theme.fontSize.medium};
+    font-size: ${(props) => props.theme.fontSize.medium}px;
 `;
 
 export const TrackArtist = styled(RegularText)`
     color: ${(props) => props.theme.colors.inputBackground};
-    font-size: ${(props) => props.theme.fontSize.extraSmall};
+    font-size: ${(props) => props.theme.fontSize.extraSmall}px;
 `;
 
 export const Plus = styled.TouchableOpacity``;
 
 export const Icons = styled.View`
-    margin-right: ${(props) => props.theme.spacer * 4};
-    margin-top: ${(props) => props.theme.spacer * 2};
+    margin-right: ${(props) => props.theme.spacer * 4}px;
+    margin-top: ${(props) => props.theme.spacer * 2}px;
     flex-direction: row;
 `;
 

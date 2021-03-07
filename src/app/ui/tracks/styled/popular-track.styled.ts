@@ -23,23 +23,23 @@ export const TrackInfoWrapper = styled.View`
 
 export const TrackName = styled(RegularText)<Props>`
     color: ${(props) => (props.isPlaying ? props.theme.colors.additivePink : props.theme.colors.secondary)};
-    font-size: ${(props) => props.theme.fontSize.medium};
-    margin-top: ${(props) => props.theme.spacer * 2 - 5};
-    margin-left: ${(props) => props.theme.spacer * 2};
+    font-size: ${(props) => props.theme.fontSize.medium}px;
+    margin-top: ${(props) => props.theme.spacer * 2 - 5}px;
+    margin-left: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const Icons = styled.View`
-    margin-right: ${(props) => props.theme.spacer};
-    margin-top: ${(props) => props.theme.spacer * 2 - 5};
+    margin-right: ${(props) => props.theme.spacer}px;
+    margin-top: ${(props) => props.theme.spacer * 2 - 5}px;
     flex-direction: row;
 `;
 
 export const TrackImage = styled(Image)`
     height: 45px;
     width: 45px;
-    margin-left: ${(props) => props.theme.spacer * 2};
+    margin-left: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const Index = styled(RegularText)`
-    margin-top: ${(props) => props.theme.spacer * 2 - 5};
+    margin-top: ${(props) => props.theme.spacer * 2 - 5}px;
 `;

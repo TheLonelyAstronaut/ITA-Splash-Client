@@ -121,17 +121,22 @@ export const Player: React.FC = () => {
                 />
                 <InfoWrapper pointerEvents={'box-none'}>
                     <HeaderWrapper>
+                        <ChevronButtonWrapper onPress={closePlayer}>
+                            <Icon style={{ alignSelf: 'center', padding: 4 }} name={'down'} color={'white'} size={18} />
+                        </ChevronButtonWrapper>
                         <HeaderText>{currentTrack.artist}</HeaderText>
                     </HeaderWrapper>
-                    <ChevronButtonWrapper onPress={closePlayer}>
-                        <Icon style={{ alignSelf: 'center', padding: 4 }} name={'down'} color={'white'} size={18} />
-                    </ChevronButtonWrapper>
                     <GestureProvider pointerEvents={'box-none'} />
                     <PlayerControlWrapper>
                         <TrackName>{currentTrack.title}</TrackName>
                         <TouchableOpacity onPress={handlePress}>
                             <ArtistName>{currentTrack.artist}</ArtistName>
                         </TouchableOpacity>
+                        <TrackProgressSlider
+                            width={TRACK_SLIDER_WIDTH}
+                            height={TRACK_SLIDER_HEIGHT}
+                            listenerEvent={PLAYER_SKIP_TO_TRIGGERED_BY_USER}
+                        />
                         <ButtonWrapper>
                             <SkipControlButton
                                 onPress={handlePreviousTrackPress}

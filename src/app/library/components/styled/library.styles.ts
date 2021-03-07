@@ -9,7 +9,7 @@ export type WidthProps = {
 };
 
 export const PlaylistContainer = styled.TouchableOpacity<WidthProps>`
-    width: ${(props) => (props.width ? DEVICE_SIZE.width : DEVICE_SIZE.width * 0.8)};
+    width: ${(props) => (props.width ? DEVICE_SIZE.width : DEVICE_SIZE.width * 0.8)}px;
     margin-bottom: ${(props) => props.theme.spacer * 2}px;
     flex-direction: row;
 `;
@@ -37,13 +37,13 @@ export const PlaylistName = styled(RegularText)`
 `;
 
 export const InfoWrapper = styled.View`
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 3};
+    margin-left: ${(props) => props.theme.spacer * 2}px;
+    margin-top: ${(props) => props.theme.spacer * 3}px;
 `;
 
 export const TracksAmount = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.small};
+    font-size: ${(props) => props.theme.fontSize.small}px;
 `;
 
 export const CombinedImageContainer = styled.View`

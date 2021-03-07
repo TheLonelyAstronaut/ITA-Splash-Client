@@ -1,6 +1,6 @@
 import React from 'react';
 import { PanGestureHandler, PanGestureHandlerStateChangeEvent, State } from 'react-native-gesture-handler';
-import Animated, { Extrapolate, Easing, call } from 'react-native-reanimated';
+import { Animated, Easing } from 'react-native';
 
 import { GestureHandlerWrapper, PlayedStateWrapper, SliderWrapper } from './styled/animated-slider.styled';
 
@@ -20,19 +20,20 @@ export type TrackSliderProps = SizeProp & {
 };
 
 export type TrackSliderState = {
-    progressPointer: Animated.BackwardCompatibleWrapper | null;
+    progressPointer: Animated.CompositeAnimation | null;
     durationLeft: number;
 };
 
 export class TrackSlider extends React.Component<TrackSliderProps, TrackSliderState> {
     private panValue = new Animated.Value(0);
+
     private translateX = this.panValue.interpolate({
         inputRange: [0, this.props.width],
         outputRange: [0, this.props.width],
-        extrapolate: Extrapolate.CLAMP,
+        extrapolate: 'clamp',
     });
-    private onPanGestureEvent = Animated.event([{ nativeEvent: { x: this.panValue } }]);
-    private currentAnimatedValue = 0;
+
+    private onPanGestureEvent = Animated.event([{ nativeEvent: { x: this.panValue } }], { useNativeDriver: false });
 
     constructor(props: TrackSliderProps) {
         super(props);
@@ -66,14 +67,15 @@ export class TrackSlider extends React.Component<TrackSliderProps, TrackSliderSt
             this.panValue.setValue(0);
         }
 
-        const progress: Animated.BackwardCompatibleWrapper = Animated.timing(this.panValue, {
+        const progress: Animated.CompositeAnimation = Animated.timing(this.panValue, {
             toValue: this.props.width,
             duration: duration * 1000,
             easing: Easing.linear,
+            useNativeDriver: false,
         });
 
         this.setState({ progressPointer: progress }, () => {
-            this.state.progressPointer?.start();
+            progress.start();
         });
     };
 
@@ -108,9 +110,6 @@ export class TrackSlider extends React.Component<TrackSliderProps, TrackSliderSt
                 minDeltaX={0}
             >
                 <SliderWrapper height={this.props.height} width={this.props.width}>
-                    <Animated.Code>
-                        {() => call([this.panValue], (panValue) => (this.currentAnimatedValue = panValue[0]))}
-                    </Animated.Code>
                     <PlayedStateWrapper
                         style={{
                             width: this.translateX,

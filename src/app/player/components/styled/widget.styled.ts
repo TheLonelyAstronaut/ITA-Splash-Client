@@ -14,7 +14,7 @@ export const TrackControl = styled.View`
     width: ${DEVICE_SIZE.width}px;
     height: ${(props) => props.theme.widgetHeight - props.theme.separator.borderWidth}px;
     background-color: ${(props) => props.theme.colors.main};
-    border-bottom-width: ${(props) => props.theme.separator.borderWidth};
+    border-bottom-width: ${(props) => props.theme.separator.borderWidth}px;
     flex-direction: row;
 `;
 
@@ -47,7 +47,7 @@ export const ProgressLineWrapper = styled.View`
     height: ${(props) => props.theme.widget.progressHeight}px;
     position: absolute;
     margin-top: -${(props) => props.theme.widget.progressHeight}px;
-    width: ${DEVICE_SIZE.width};
+    width: ${DEVICE_SIZE.width}px;
 `;
 
 export const ProgressLine = styled.View<{ width: number }>`

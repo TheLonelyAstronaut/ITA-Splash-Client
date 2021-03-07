@@ -134,17 +134,22 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                             )}
                         </FollowButton>
                         <Popular>{I18n.t('artist.popularTracks')}</Popular>
-                        <FlatList
-                            data={props.data.popularTracks}
-                            scrollEnabled={false}
-                            renderItem={({ item, index }) => (
-                                <PopularTrackComponent index={index} track={item} onPress={handleTrackPlay} />
-                            )}
-                        />
+                        {props.data.popularTracks?.map((track, index) =>
+                            index < 5 ? (
+                                <PopularTrackComponent
+                                    index={index}
+                                    key={track.id.toString()}
+                                    track={track}
+                                    onPress={handleTrackPlay}
+                                />
+                            ) : null
+                        )}
                     </PoularTracksWrapper>
                     <AlbumsWrapper>
                         <Albums>{I18n.t('artist.popularReleases')}</Albums>
-                        <FlatList data={props.data.albums} renderItem={({ item }) => <AlbumComponent data={item} />} />
+                        {props.data.albums?.map((album, index) =>
+                            index < 3 ? <AlbumComponent key={album.id.toString()} data={album} /> : null
+                        )}
                     </AlbumsWrapper>
                     <DiscographyButton onPress={handleDiscographyPress}>
                         <DiscographyText>{I18n.t('artist.discography')}</DiscographyText>
@@ -155,6 +160,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                             data={props.data.similarArtists}
                             renderItem={({ item }) => <SimilarArtistComponent artist={item} />}
                             horizontal={true}
+                            keyExtractor={(artist) => artist.id!.toString()}
                             ItemSeparatorComponent={Separator}
                             contentContainerStyle={{ marginLeft: theme.spacer * 3 }}
                         />
