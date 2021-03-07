@@ -2,7 +2,6 @@ import styled from 'styled-components/native';
 
 import { Image } from '../../../ui/image.component';
 import { RegularText } from '../../../ui/styled/text.styled';
-import { DEVICE_SIZE } from '../../../ui/themes/themes';
 
 export const Wrapper = styled.TouchableOpacity`
     width: 90px;

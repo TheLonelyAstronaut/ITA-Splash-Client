@@ -10,7 +10,6 @@ import { ThemesEnum } from '../../ui/themes/themes';
 import I18n from '../../utils/i18n';
 import { validateEmail } from '../../utils/validators';
 import { LOGIN } from '../actions';
-import analytics from '@react-native-firebase/app';
 import {
     BackgroundImage,
     Input,
