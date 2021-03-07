@@ -10,8 +10,7 @@ export type WidthProps = {
 
 export const PlaylistContainer = styled.TouchableOpacity<WidthProps>`
     width: ${(props) => (props.width ? DEVICE_SIZE.width : DEVICE_SIZE.width * 0.8)};
-    height: ${DEVICE_SIZE.height * 0.09};
-    margin-bottom: ${(props) => props.theme.spacer * 5}px;
+    margin-bottom: ${(props) => props.theme.spacer * 2}px;
     flex-direction: row;
 `;
 

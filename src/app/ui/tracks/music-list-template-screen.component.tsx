@@ -27,6 +27,7 @@ import {
     IconWrapper,
     InfoWrapper,
     PlayButtonWrapper,
+    HeaderWrapper,
     BackButtonWrapper,
 } from './styled/music-list-header.styled';
 import { AnimatedFlatList, EmptyPlaylistComponent } from './styled/music-list-temlate-screen.styled';
@@ -69,15 +70,18 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
     const imageHeight = scrollValue.interpolate({
         inputRange: [0, theme.coverHeight / 2],
         outputRange: [1, 0.5],
+        extrapolateRight: Extrapolate.CLAMP,
+    });
+
+    const imagePadding = scrollValue.interpolate({
+        inputRange: [0, theme.coverHeight / 2],
+        outputRange: [60, 240],
+        extrapolateRight: Extrapolate.CLAMP,
     });
 
     const playerButtonTranslateY = scrollValue.interpolate({
-        inputRange: [-10, 0, 320 - theme.statusBar + 100],
-        outputRange: [
-            380 - theme.playButtonSize / 3,
-            370 - theme.playButtonSize / 3,
-            theme.statusBar - theme.playButtonSize / 2,
-        ],
+        inputRange: [0, 330 - theme.statusBar + theme.playButtonSize / 2],
+        outputRange: [360 - theme.playButtonSize / 2, theme.statusBar - theme.playButtonSize / 2],
         extrapolateRight: Extrapolate.CLAMP,
     });
 
@@ -122,45 +126,45 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
 
     return (
         <Container>
-            <AnimatedGradientTransition
-                colors={[
-                    theme.colors.additiveBlue,
-                    theme.colors.screenBackground,
-                    theme.colors.screenBackground,
-                    theme.colors.screenBackground,
-                    theme.colors.screenBackground,
-                ]}
-            >
-                <AnimatedImage
-                    style={{
-                        width: 225,
-                        height: 225,
-                        position: 'absolute',
-                        resizeMode: 'cover',
-                        paddingTop: 45,
-                        transform: [{ scale: imageHeight }],
-                    }}
-                >
-                    {isAlbum ? (
-                        <AlbumImage source={{ uri: props.data.image }} />
-                    ) : props.data.tracks.length > 0 ? (
-                        <CombinedPlaylistImage data={props.data} />
-                    ) : (
-                        <EmptyPlaylistWrapper>
-                            <IconWrapper>
-                                <Icon name={'music-note'} size={120} color={'white'} />
-                            </IconWrapper>
-                        </EmptyPlaylistWrapper>
-                    )}
-                </AnimatedImage>
-                <AnimatedFlatList
-                    data={props.data.tracks}
-                    scrollEventThrottle={16}
-                    showsVerticalScrollIndicator={false}
-                    ListEmptyComponent={EmptyPlaylistComponent}
-                    keyExtractor={(item) => item.id + ''}
-                    onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollValue } } }])}
-                    ListHeaderComponent={() => (
+            <AnimatedFlatList
+                data={props.data.tracks}
+                scrollEventThrottle={16}
+                showsVerticalScrollIndicator={false}
+                ListEmptyComponent={EmptyPlaylistComponent}
+                keyExtractor={(item) => item.id + ''}
+                onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollValue } } }])}
+                ListHeaderComponent={() => (
+                    <AnimatedGradientTransition
+                        colors={[
+                            theme.colors.additiveBlue,
+                            theme.colors.screenBackground,
+                            theme.colors.screenBackground,
+                            theme.colors.screenBackground,
+                            theme.colors.screenBackground,
+                        ]}
+                        style={{ paddingTop: 320 }}
+                    >
+                        <AnimatedImage
+                            style={{
+                                width: 225,
+                                height: 225,
+                                position: 'absolute',
+                                resizeMode: 'cover',
+                                transform: [{ scale: imageHeight }, { translateY: imagePadding }],
+                            }}
+                        >
+                            {isAlbum ? (
+                                <AlbumImage source={{ uri: props.data.image }} />
+                            ) : props.data.tracks.length > 0 ? (
+                                <CombinedPlaylistImage data={props.data} />
+                            ) : (
+                                <EmptyPlaylistWrapper>
+                                    <IconWrapper>
+                                        <Icon name={'music-note'} size={120} color={'white'} />
+                                    </IconWrapper>
+                                </EmptyPlaylistWrapper>
+                            )}
+                        </AnimatedImage>
                         <InfoWrapper>
                             {isAlbum ? (
                                 <>
@@ -176,26 +180,25 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                                 </AnimatedPlaylistName>
                             )}
                         </InfoWrapper>
-                    )}
-                    renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
-                    contentContainerStyle={{
-                        paddingBottom: theme.widgetHeight + theme.spacer,
-                        backgroundColor: theme.colors.screenBackground,
-                        marginTop: 320,
-                    }}
-                />
-                <HeaderComponent />
-                {props.data.tracks.length > 0 ? (
-                    <PlayButtonWrapper onPress={handlePlay}>
-                        <AnimatedPlayButton
-                            style={{
-                                transform: [{ translateY: playerButtonTranslateY }],
-                            }}
-                            source={require('../../../assets/play-button-color.png')}
-                        />
-                    </PlayButtonWrapper>
-                ) : null}
-            </AnimatedGradientTransition>
+                    </AnimatedGradientTransition>
+                )}
+                renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
+                contentContainerStyle={{
+                    paddingBottom: theme.widgetHeight + theme.spacer,
+                    backgroundColor: theme.colors.screenBackground,
+                }}
+            />
+            <HeaderComponent />
+            {props.data.tracks.length > 0 ? (
+                <PlayButtonWrapper onPress={handlePlay}>
+                    <AnimatedPlayButton
+                        style={{
+                            transform: [{ translateY: playerButtonTranslateY }],
+                        }}
+                        source={require('../../../assets/play-button-color.png')}
+                    />
+                </PlayButtonWrapper>
+            ) : null}
         </Container>
     );
 };

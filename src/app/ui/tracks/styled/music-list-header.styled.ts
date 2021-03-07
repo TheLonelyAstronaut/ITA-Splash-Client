@@ -33,7 +33,9 @@ export const ImageWrapper = styled.View`
     align-self: center;
 `;
 
-export const HeaderWrapper = styled.View``;
+export const HeaderWrapper = styled.View`
+    margin-top: 320px;
+`;
 
 export const TextWrapper = styled.View`
     padding-right: 80px;

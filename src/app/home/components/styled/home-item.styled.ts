@@ -5,8 +5,7 @@ import { RegularText } from '../../../ui/styled/text.styled';
 import { DEVICE_SIZE } from '../../../ui/themes/themes';
 
 export const Wrapper = styled.TouchableOpacity`
-    height: ${DEVICE_SIZE.height * 0.16};
-    width: ${DEVICE_SIZE.width * 0.22};
+    width: 90px;
     margin-left: ${(props) => props.theme.spacer * 3};
 `;
 
