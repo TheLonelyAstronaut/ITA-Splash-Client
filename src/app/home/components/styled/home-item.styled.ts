@@ -4,7 +4,7 @@ import { Image } from '../../../ui/image.component';
 import { RegularText } from '../../../ui/styled/text.styled';
 
 export const Wrapper = styled.TouchableOpacity`
-    width: 90px;
+    width: 100px;
     margin-left: ${(props) => props.theme.spacer * 3};
 `;
 

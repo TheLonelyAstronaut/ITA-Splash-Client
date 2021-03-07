@@ -31,7 +31,7 @@ import {
 } from '../styled/music-list-header.styled';
 import { AnimatedFlatList, EmptyPlaylistComponent } from '../styled/music-list-temlate-screen.styled';
 import { TrackComponent } from '../track.component';
-import { MusicListTemplateScreenProps } from './music-list-template-screen.component';
+import { MusicListTemplateScreenProps } from './music-list-template-screen.component1';
 
 export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
     props: MusicListTemplateScreenProps

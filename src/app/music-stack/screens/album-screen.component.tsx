@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Container, LoadingContainer } from '../../ui/styled/container.styled';
+// Metro should pick up platform specific version
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { MusicListTemplateScreen } from '../../ui/tracks/music-list-tempalte/music-list-template-screen.component';
 import { LOAD_ALBUM } from '../actions';
 import { AlbumScreenParams } from '../routing.params';
