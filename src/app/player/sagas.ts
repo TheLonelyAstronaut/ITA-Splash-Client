@@ -8,6 +8,7 @@ import { tracks } from '../../mocks/tracks';
 import { Track } from '../../types/music';
 import { PLAYER_SKIP_TO_TRIGGERED_BY_USER } from '../utils/events';
 import { firebase } from '../utils/firebase';
+import { Logger } from '../utils/logger';
 
 import { MUSIC_ACTIONS } from './actions';
 import { ControlActions } from './player.types';
@@ -88,8 +89,6 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
         return;
     }
 
-    //console.log(queue);
-
     switch (action.payload.action) {
         case ControlActions.PAUSE_RESUME: {
             const state = yield call(RNTrackPlayer.getState);
@@ -107,8 +106,10 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
                 yield call(RNTrackPlayer.skipToNext);
                 try {
                     yield call(firebase.trackStarted, tracks[currentTrack]);
-                } catch (e) {
-                    console.log(e);
+                } catch (err) {
+                    const error = new Error(err);
+
+                    yield call(Logger.error, error);
                 }
             }
             break;
@@ -122,8 +123,10 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
             }
             try {
                 yield call(firebase.trackStarted, tracks[currentTrack - 1]);
-            } catch (e) {
-                console.log(e);
+            } catch (err) {
+                const error = new Error(err);
+
+                yield call(Logger.error, error);
             }
             break;
         }

@@ -1,4 +1,3 @@
-import crashlytics from '@react-native-firebase/crashlytics';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
@@ -33,7 +32,6 @@ export function* loadHomePageSaga(): SagaIterator {
 
         yield call(Logger.error, error);
         yield put(LOAD_HOME_DATA.COMPLETED.failed(error));
-        crashlytics().recordError(err);
     }
 }
 

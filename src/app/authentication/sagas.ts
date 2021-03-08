@@ -1,4 +1,3 @@
-import crashlytics from '@react-native-firebase/crashlytics';
 import RNTrackPlayer from 'react-native-track-player';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
@@ -29,7 +28,6 @@ export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>): Saga
 
         yield call(Logger.error, error);
         yield put(REGISTER.COMPLETED.failed(error));
-        crashlytics().recordError(err);
     }
 }
 
@@ -47,7 +45,6 @@ export function* loginSaga(action: ReturnType<typeof LOGIN.TRIGGER>): SagaIterat
         yield put(
             SHOW_FLASHBAR({ type: FlashbarEnum.Danger, message: 'Incorrect user data', description: 'Try again' })
         );
-        crashlytics().recordError(err);
     }
 }
 
