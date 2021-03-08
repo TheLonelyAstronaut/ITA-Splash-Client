@@ -1,3 +1,4 @@
+import crashlytics from '@react-native-firebase/crashlytics';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
@@ -14,6 +15,7 @@ export function* loadLibrarySaga(): SagaIterator {
     } catch (error) {
         yield call(Logger.error, error);
         yield put(LOAD_LIBRARY.COMPLETED.failed(error));
+        crashlytics().recordError(error);
     }
 }
 
@@ -25,6 +27,7 @@ export function* addPlaylistSaga(action: ReturnType<typeof ADD_PLAYLIST.TRIGGER>
     } catch (error) {
         yield call(Logger.error, error);
         yield put(LOAD_LIBRARY.COMPLETED.failed(error));
+        crashlytics().recordError(error);
     }
 }
 
@@ -34,6 +37,7 @@ export function* addToLiked(action: ReturnType<typeof ADD_TO_LIKED.TRIGGER>): Sa
     } catch (e) {
         yield call(Logger.error, e);
         yield put(LOAD_LIBRARY.COMPLETED.failed(e));
+        crashlytics().recordError(e);
     }
 }
 

@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
 import Icon from 'react-native-vector-icons/dist/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { DefaultTheme } from 'styled-components/native';
 
-import { users } from '../../../mocks/users';
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { Container } from '../../ui/styled/container.styled';
 import { getTheme } from '../../ui/themes/selectors';
@@ -36,7 +36,8 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = (props: RegisterScr
     const handleRegister = useCallback(() => {
         if (password === repeatPassword) {
             dispatch(REGISTER.TRIGGER({ email: email, username: name, password: password }));
-            //console.log(users);
+        } else {
+            showMessage({ type: 'danger', message: 'Passwords dont match', description: 'Try again' });
         }
     }, [dispatch, email, password, repeatPassword, name]);
 

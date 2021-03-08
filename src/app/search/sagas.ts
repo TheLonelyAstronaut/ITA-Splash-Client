@@ -1,3 +1,4 @@
+import crashlytics from '@react-native-firebase/crashlytics';
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
@@ -12,6 +13,7 @@ export function* searchSaga(action: ReturnType<typeof SEARCH_ALL.TRIGGER>): Saga
         yield put(SEARCH_ALL.COMPLETED({ text: action.payload, result: result }));
     } catch (e) {
         yield put(SEARCH_ALL.COMPLETED({ text: action.payload, result: [] }));
+        crashlytics().recordError(e);
     }
 }
 

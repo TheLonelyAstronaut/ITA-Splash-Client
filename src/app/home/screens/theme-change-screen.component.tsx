@@ -7,6 +7,7 @@ import { AvoidingContainer } from '../../ui/styled/container.styled';
 import { CHANGE_THEME } from '../../ui/themes/actions';
 import { getTheme } from '../../ui/themes/selectors';
 import { ThemesEnum } from '../../ui/themes/theme.types';
+import { firebase } from '../../utils/firebase';
 import I18n from '../../utils/i18n';
 import { BackButton } from '../components/styled/settings-screen.styled';
 import { ThemeItemComponent } from '../components/theme-changer-item.component';
@@ -23,10 +24,12 @@ export const ThemeChangeScreenComponent: React.FC<ThemeChangeScreenProps> = (pro
 
     const changeToLight = useCallback(() => {
         dispatch(CHANGE_THEME({ theme: ThemesEnum.LIGHT }));
+        firebase.themeChanges(ThemesEnum.LIGHT);
     }, [dispatch]);
 
     const changeToDark = useCallback(() => {
         dispatch(CHANGE_THEME({ theme: ThemesEnum.DARK }));
+        firebase.themeChanges(ThemesEnum.DARK);
     }, [dispatch]);
 
     const handleBackPress = useCallback(() => {

@@ -4,15 +4,16 @@ import { setContext } from '@apollo/client/link/context';
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved
 import { SERVER_ADDRESS } from '@env';
+import { showMessage } from 'react-native-flash-message';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
 import { HomepageData } from '../app/home/home.types';
 import { AddPlaylistPayload } from '../app/library/actions';
 import { LibraryData, LibraryElementType } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
+import { firebase } from '../app/utils/firebase';
 import { albums } from '../mocks/albums';
 import { artists } from '../mocks/artists';
-import { favoriteTracks } from '../mocks/favorite-tracks';
 import { home } from '../mocks/home-mock';
 import { library } from '../mocks/library';
 import { playlist } from '../mocks/playlists';
@@ -53,14 +54,14 @@ export class GraphQLAPI {
         this.client.setLink(authLink.concat(httpLink));
     };
 
-    login = async (payload: LoginPayload): Promise<AuthCompletedPayload> => {
+    login = async (payload: LoginPayload): Promise<AuthCompletedPayload | void> => {
         const user = users.filter((user) => user.email === payload.email && user.password === payload.password);
 
         if (user.length > 0) {
             this.setAuthToken(user[0].token);
             return { data: user[0] };
         } else {
-            throw new Error('invalid input');
+            showMessage({ type: 'danger', message: 'No user with this login', description: 'Try again' });
         }
     };
 
@@ -68,6 +69,11 @@ export class GraphQLAPI {
         const user = users.filter((user) => user.email === payload.email);
 
         if (user.length > 0) {
+            showMessage({
+                type: 'danger',
+                message: 'User with same email already exists',
+                description: 'Try to login',
+            });
             throw new Error('user already exists');
         } else {
             users.push({
@@ -193,13 +199,13 @@ export class GraphQLAPI {
         } else {
             track.liked = true;
             playlist[0].tracks.push(track);
-            console.log(favoriteTracks);
         }
     };
 
     followOrUnfollow = async (id: number): Promise<void> => {
         const artist = artists.find((artist) => artist.id === id) as Artist;
         artist.isFollowed = !artist.isFollowed;
+        await firebase.follow(artist);
     };
 }
 

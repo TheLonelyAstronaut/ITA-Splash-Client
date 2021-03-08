@@ -5,15 +5,13 @@ import Icon from 'react-native-vector-icons/Fontisto';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components/native';
 
-import { Album, Playlist, Track } from '../../../../types/music';
-import { LibraryElementType } from '../../../library/library.types';
+import { Album, Track } from '../../../../types/music';
 import { AnimatedHeaderWrapper } from '../../../music-stack/components/styled/artist.styled';
 import { MUSIC_ACTIONS, PlayActionTriggerPayload } from '../../../player/actions';
 import { getCurrentQueue } from '../../../player/selectors';
 import AnimatedGradientTransition from '../../animated-gradient-transition.component';
 import { BackButton } from '../../back-button.component';
 import { Container } from '../../styled/container.styled';
-
 import { CombinedPlaylistImage } from '../combined-image.component';
 import {
     AlbumArtist,
@@ -31,7 +29,8 @@ import {
 } from '../styled/music-list-header.styled';
 import { AnimatedFlatList, EmptyPlaylistComponent } from '../styled/music-list-temlate-screen.styled';
 import { TrackComponent } from '../track.component';
-import { MusicListTemplateScreenProps } from './music-list-template-screen.component1';
+
+import { MusicListTemplateScreenProps } from './music-list-template-screen.component.ios';
 
 export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
     props: MusicListTemplateScreenProps

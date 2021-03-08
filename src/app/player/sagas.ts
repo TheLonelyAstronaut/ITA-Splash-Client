@@ -4,8 +4,10 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, takeLeading, takeLatest } from 'redux-saga/effects';
 
 import { artists } from '../../mocks/artists';
+import { tracks } from '../../mocks/tracks';
 import { Track } from '../../types/music';
 import { PLAYER_SKIP_TO_TRIGGERED_BY_USER } from '../utils/events';
+import { firebase } from '../utils/firebase';
 
 import { MUSIC_ACTIONS } from './actions';
 import { ControlActions } from './player.types';
@@ -65,9 +67,11 @@ export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>)
         }
     } else {
         yield call(RNTrackPlayer.skip, action.payload.track.id);
+        yield call(firebase.trackStarted, action.payload.track);
     }
 
     yield call(RNTrackPlayer.play);
+    yield call(firebase.trackStarted, action.payload.track);
 
     const artistId = artists.find((artist) => artist.name === action.payload.track.artist);
 
@@ -101,8 +105,12 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
         case ControlActions.SKIP_TO_NEXT: {
             if (currentTrack !== queue[queue.length - 1].id) {
                 yield call(RNTrackPlayer.skipToNext);
+                try {
+                    yield call(firebase.trackStarted, tracks[currentTrack]);
+                } catch (e) {
+                    console.log(e);
+                }
             }
-
             break;
         }
         case ControlActions.SKIP_TO_PREVIOUS: {
@@ -111,6 +119,11 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
                 yield call(RNTrackPlayer.seekTo, 0);
             } else {
                 yield call(RNTrackPlayer.skipToPrevious);
+            }
+            try {
+                yield call(firebase.trackStarted, tracks[currentTrack - 1]);
+            } catch (e) {
+                console.log(e);
             }
             break;
         }

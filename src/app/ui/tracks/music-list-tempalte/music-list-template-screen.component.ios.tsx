@@ -13,7 +13,6 @@ import { getCurrentQueue } from '../../../player/selectors';
 import AnimatedGradientTransition from '../../animated-gradient-transition.component';
 import { BackButton } from '../../back-button.component';
 import { Container } from '../../styled/container.styled';
-
 import { CombinedPlaylistImage } from '../combined-image.component';
 import {
     AlbumArtist,

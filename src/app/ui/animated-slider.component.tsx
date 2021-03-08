@@ -1,6 +1,6 @@
 import React from 'react';
-import { PanGestureHandler, PanGestureHandlerStateChangeEvent, State } from 'react-native-gesture-handler';
 import { Animated, Easing } from 'react-native';
+import { PanGestureHandler, PanGestureHandlerStateChangeEvent, State } from 'react-native-gesture-handler';
 
 import { GestureHandlerWrapper, PlayedStateWrapper, SliderWrapper } from './styled/animated-slider.styled';
 

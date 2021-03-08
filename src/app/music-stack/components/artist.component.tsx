@@ -160,6 +160,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                             data={props.data.similarArtists}
                             renderItem={({ item }) => <SimilarArtistComponent artist={item} />}
                             horizontal={true}
+                            //eslint-disable-next-line
                             keyExtractor={(artist) => artist.id!.toString()}
                             ItemSeparatorComponent={Separator}
                             contentContainerStyle={{ marginLeft: theme.spacer * 3 }}
