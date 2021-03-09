@@ -14,9 +14,9 @@ import {
 import { listenPlaySaga, listenControlSaga, listenAddToQueueSaga, listenSeekTo } from '../player/sagas';
 import { listenForSearchSaga } from '../search/sagas';
 import { listenFlashbarSaga } from '../utils/flashbar/sagas';
-import { initializationSaga } from '../utils/initialization-saga';
+import { listenForInitializationSaga } from '../utils/initialization-saga';
 
-export function* rootSaga(dispatch: Dispatch): SagaIterator {
+export function* rootSaga(): SagaIterator {
     yield spawn(listenForLoginSaga);
     yield spawn(listenPlaySaga);
     yield spawn(listenControlSaga);
@@ -35,6 +35,5 @@ export function* rootSaga(dispatch: Dispatch): SagaIterator {
     yield spawn(listenForAddToPlaylist);
     yield spawn(listenForAddToLikedSaga);
     yield spawn(listenForFollowOrUnfollow);
-
-    yield call(initializationSaga, dispatch);
+    yield spawn(listenForInitializationSaga);
 }

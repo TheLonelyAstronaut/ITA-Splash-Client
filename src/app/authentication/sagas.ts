@@ -23,6 +23,13 @@ export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>): Saga
 
         yield call(Logger.error, error);
         yield put(REGISTER.COMPLETED.failed(error));
+        yield put(
+            SHOW_FLASHBAR({
+                type: FlashbarEnum.Danger,
+                message: 'User with same email already exists',
+                description: 'Try to login',
+            })
+        );
     }
 }
 

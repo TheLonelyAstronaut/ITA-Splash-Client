@@ -1,31 +1,37 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, ApolloQueryResult, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
-import { SERVER_ADDRESS } from '@env';
+import Config from 'react-native-config';
+import { showMessage } from 'react-native-flash-message';
 
-import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
+import { AuthCompletedPayload, LoginPayload, RegisterPayload, User } from '../app/authentication/authentication.types';
 import { HomepageData } from '../app/home/home.types';
 import { AddPlaylistPayload } from '../app/library/actions';
 import { LibraryData, LibraryElementType } from '../app/library/library.types';
 import { SearchResult, SearchResultType } from '../app/search/search.types';
+import { firebase } from '../app/utils/firebase';
 import { albums } from '../mocks/albums';
 import { artists } from '../mocks/artists';
-import { favoriteTracks } from '../mocks/favorite-tracks';
 import { home } from '../mocks/home-mock';
 import { library } from '../mocks/library';
 import { playlist } from '../mocks/playlists';
 import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
 import { Artist, Album, Track } from '../types/music';
+import { loginMutation } from './mutations/login.mutation';
+import messaging from '@react-native-firebase/messaging';
+import { registerMutation } from './mutations/register.mutation';
+import { LoginInput, LoginResponse, RegisterInput, RegisterResponse } from './types/auth.types';
+import { getCurrentUser } from './queries/get-current-user.query';
+import { UserOutput } from './types/user.types';
+import { fromUserOutput } from './mappers/to-user.mapper';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
 
     constructor() {
+        console.log(Config.SERVER_ADDRESS);
         this.client = new ApolloClient({
-            uri: SERVER_ADDRESS,
+            uri: Config.SERVER_ADDRESS,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -36,7 +42,7 @@ export class GraphQLAPI {
 
     setAuthToken = (token: string | undefined): void => {
         const httpLink = createHttpLink({
-            uri: SERVER_ADDRESS,
+            uri: Config.SERVER_ADDRESS,
         });
 
         const authLink = setContext((_, { headers }) => {
@@ -53,30 +59,51 @@ export class GraphQLAPI {
         this.client.setLink(authLink.concat(httpLink));
     };
 
-    login = async (payload: LoginPayload): Promise<AuthCompletedPayload> => {
-        const user = users.filter((user) => user.email === payload.email && user.password === payload.password);
+    getCurrentUser = async (token: string): Promise<User> => {
+        const user = await this.client.query<UserOutput>({
+            query: getCurrentUser,
+        });
 
-        if (user.length > 0) {
-            this.setAuthToken(user[0].token);
-            return { data: user[0] };
+        return fromUserOutput(user.data, token);
+    };
+
+    login = async (payload: LoginPayload): Promise<AuthCompletedPayload | void> => {
+        const result = await this.client.mutate<LoginResponse, LoginInput>({
+            mutation: loginMutation,
+            variables: {
+                data: {
+                    email: payload.email,
+                    password: payload.password,
+                    FCMToken: await messaging().getToken(),
+                },
+            },
+        });
+        if (result.data?.login.accessToken) {
+            this.setAuthToken(result.data?.login.accessToken);
+            return { data: await this.getCurrentUser(result.data?.login.accessToken) };
         } else {
-            throw new Error('invalid input');
+            throw new Error('no access token found');
         }
     };
 
     register = async (payload: RegisterPayload): Promise<AuthCompletedPayload> => {
-        const user = users.filter((user) => user.email === payload.email);
-
-        if (user.length > 0) {
-            throw new Error('user already exists');
+        const result = await this.client.mutate<RegisterResponse, RegisterInput>({
+            mutation: registerMutation,
+            variables: {
+                data: {
+                    email: payload.email,
+                    password: payload.password,
+                    username: payload.username,
+                    FCMToken: await messaging().getToken(),
+                },
+            },
+        });
+        console.log(result);
+        if (result.data?.register.accessToken) {
+            this.setAuthToken(result.data?.register.accessToken);
+            return { data: await this.getCurrentUser(result.data?.register.accessToken) };
         } else {
-            users.push({
-                token: Math.random().toString(),
-                username: payload.username,
-                email: payload.email,
-                password: payload.password,
-            });
-            return { data: user[0] };
+            throw new Error('no access token found');
         }
     };
 
@@ -150,11 +177,11 @@ export class GraphQLAPI {
     };
 
     changePassword = async (currentPass: string, newPass: string): Promise<void> => {
-        if (currentPass === users[0].password) {
-            users[0].password = newPass;
-        } else {
-            throw new Error('Incorrect password');
-        }
+        // if (currentPass === users[0].password) {
+        //     users[0].password = newPass;
+        // } else {
+        //     throw new Error('Incorrect password');
+        // }
     };
 
     getHomepageData = async (): Promise<HomepageData[]> => {
@@ -193,13 +220,15 @@ export class GraphQLAPI {
         } else {
             track.liked = true;
             playlist[0].tracks.push(track);
-            console.log(favoriteTracks);
         }
     };
 
-    followOrUnfollow = async (id: number): Promise<void> => {
+    followOrUnfollow = async (id: number): Promise<Artist> => {
         const artist = artists.find((artist) => artist.id === id) as Artist;
-        artist.isFollowed = !artist.isFollowed;
+        const index = artists.findIndex((artist) => artist.id === id);
+        artists[index] = { ...artist, isFollowed: !artist.isFollowed };
+        await firebase.follow(artist);
+        return artist;
     };
 }
 

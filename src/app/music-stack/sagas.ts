@@ -54,6 +54,9 @@ export function* addToPlaylist(action: ReturnType<typeof ADD_TO_PLAYLIST.TRIGGER
 }
 
 export function* followOrUnfollowSaga(action: ReturnType<typeof FOLLOW_OR_UNFOLLOW>): SagaIterator {
+    const artist = yield select(getArtist(action.payload));
+    const newArtist = { ...artist, isFollowed: !artist.isFollowed };
+    yield put(LOAD_ARTIST.COMPLETED({ key: '', artist: newArtist }));
     yield call(client.followOrUnfollow, action.payload);
 }
 

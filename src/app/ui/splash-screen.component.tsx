@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RNBootSplash from 'react-native-bootsplash';
 import Animated, { Easing, useValue } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import { Image } from './image.component';
 import { AnimatedSplashScreenWrapper } from './styled/splash-screen.styled';
 import { getTheme } from './themes/selectors';
 import { themesCollection, ThemesEnum } from './themes/themes';
+import { setSplashScreenControlCallback } from './splash-screen.ref';
 
 const defaultColor = themesCollection[ThemesEnum.DARK]?.colors.screenBackground as string;
 const lightThemeColor = themesCollection[ThemesEnum.LIGHT]?.colors.screenBackground as string;
@@ -46,6 +47,10 @@ export const SplashScreen: React.FC = () => {
         }
     }, [currentTheme, opacity, backgroundState]);
 
+    useEffect(() => {
+        setSplashScreenControlCallback(onLoadEnd);
+    }, [onLoadEnd]);
+
     return (
         <React.Fragment>
             {isMounted && (
@@ -57,7 +62,6 @@ export const SplashScreen: React.FC = () => {
                 >
                     <Image
                         source={require('../../assets/logo.png')}
-                        onLoadEnd={onLoadEnd}
                         style={{
                             width: 200,
                             height: 200,
