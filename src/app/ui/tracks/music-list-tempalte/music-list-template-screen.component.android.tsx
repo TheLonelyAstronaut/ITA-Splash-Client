@@ -148,7 +148,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                             }}
                         >
                             {isAlbum ? (
-                                <AlbumImage source={{ uri: props.data.image }} />
+                                <AlbumImage source={{ uri: (props.data as Album).image }} />
                             ) : props.data.tracks.length > 0 ? (
                                 <CombinedPlaylistImage data={props.data} />
                             ) : (

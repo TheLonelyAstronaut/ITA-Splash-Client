@@ -4,10 +4,10 @@ import Animated, { Easing, useValue } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
 
 import { Image } from './image.component';
+import { setSplashScreenControlCallback } from './splash-screen.ref';
 import { AnimatedSplashScreenWrapper } from './styled/splash-screen.styled';
 import { getTheme } from './themes/selectors';
 import { themesCollection, ThemesEnum } from './themes/themes';
-import { setSplashScreenControlCallback } from './splash-screen.ref';
 
 const defaultColor = themesCollection[ThemesEnum.DARK]?.colors.screenBackground as string;
 const lightThemeColor = themesCollection[ThemesEnum.LIGHT]?.colors.screenBackground as string;

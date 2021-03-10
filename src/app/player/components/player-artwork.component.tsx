@@ -17,49 +17,19 @@ export type PlayerArtworkProps = {
 export const PlayerArtwork: React.FC<PlayerArtworkProps> = (props: PlayerArtworkProps) => {
     const theme = useTheme();
     const themeEnum = useSelector(getTheme);
-    const artworkType = props.track.artworkType;
     const blurType = React.useMemo(() => (themeEnum === ThemesEnum.DARK ? 'normal' : 'light'), [themeEnum]);
 
     const getArtwork = React.useCallback((): React.ReactNode => {
-        if (artworkType == ArtworkType.IMAGE) {
-            return (
-                <Image
-                    source={{ uri: props.track.artwork }}
-                    style={{
-                        width: theme.player.artworkSize,
-                        height: theme.player.artworkSize,
-                        marginTop: theme.player.artworkMarginTop,
-                    }}
-                />
-            );
-        } else {
-            return (
-                <Image
-                    source={{ uri: props.track.artwork }}
-                    style={{
-                        width: DEVICE_SIZE.width,
-                        height: DEVICE_SIZE.height,
-                    }}
-                />
-            );
-        }
-    }, [theme, artworkType, props.track]);
+        return (
+            <Image
+                source={{ uri: props.track.artwork }}
+                style={{
+                    width: DEVICE_SIZE.width,
+                    height: DEVICE_SIZE.height,
+                }}
+            />
+        );
+    }, [theme, props.track]);
 
-    return (
-        <InfoWrapper>
-            <InfoWrapper>{getArtwork()}</InfoWrapper>
-            {artworkType === ArtworkType.VIDEO && (
-                <BlurView
-                    style={{
-                        width: DEVICE_SIZE.width,
-                        height: DEVICE_SIZE.height,
-                        position: 'absolute',
-                    }}
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    blurType={blurType as any}
-                    blurAmount={5}
-                />
-            )}
-        </InfoWrapper>
-    );
+    return <InfoWrapper>{getArtwork()}</InfoWrapper>;
 };

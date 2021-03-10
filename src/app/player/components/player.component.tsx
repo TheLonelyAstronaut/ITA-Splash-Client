@@ -104,11 +104,11 @@ export const Player: React.FC = () => {
 
     const handlePress = useCallback(() => {
         transfer('HomeMusicStack', 'ArtistScreen', {
-            id: currentTrack.artistId,
-            key: 'ArtistScreen_' + currentTrack.artistId + '_' + Math.random().toString(),
+            id: currentTrack.artistID,
+            key: 'ArtistScreen_' + currentTrack.artistID + '_' + Math.random().toString(),
         });
         closePlayer();
-    }, [currentTrack.artistId, transfer]);
+    }, [currentTrack.artistID, transfer]);
 
     return (
         <AvoidingBackground>

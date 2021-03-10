@@ -2,16 +2,17 @@ import RNTrackPlayer, { Capability, Event } from 'react-native-track-player';
 import { Dispatch } from 'redux';
 import { SagaIterator } from 'redux-saga';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { createAction } from 'typesafe-redux-helpers';
 
+import { client } from '../../graphql/api';
+import { getCurrentUser } from '../../graphql/queries/get-current-user.query';
 import { Track } from '../../types/music';
+import { LOGIN, LOGOUT } from '../authentication/actions';
+import { getAccessToken } from '../authentication/selectors';
 import { MUSIC_ACTIONS } from '../player/actions';
 import { closeSplashScreen } from '../ui/splash-screen.ref';
-import { createAction } from 'typesafe-redux-helpers';
-import { getAccessToken } from '../authentication/selectors';
-import { client } from '../../graphql/api';
+
 import { Logger } from './logger';
-import { getCurrentUser } from '../../graphql/queries/get-current-user.query';
-import { LOGIN, LOGOUT } from '../authentication/actions';
 
 export const INITIALIZATION = createAction('[Initialization]', (payload: Dispatch) => payload);
 

@@ -1,8 +1,7 @@
 import { ApolloClient, ApolloQueryResult, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-
+import messaging from '@react-native-firebase/messaging';
 import Config from 'react-native-config';
-
 import { showMessage } from 'react-native-flash-message';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload, User } from '../app/authentication/authentication.types';
@@ -17,14 +16,18 @@ import { home } from '../mocks/home-mock';
 import { library } from '../mocks/library';
 import { playlist } from '../mocks/playlists';
 import { tracks } from '../mocks/tracks';
-import { users } from '../mocks/users';
-import { Artist, Album, Track } from '../types/music';
+import { Artist, Album, Track, Playlist } from '../types/music';
+
+import { fromPlaylistOutput } from './mappers/to-playlist';
+import { fromTrackOutput } from './mappers/to-track.mapper';
+import { fromUserOutput } from './mappers/to-user.mapper';
+import { addOrRemoveFromPlaylistMutation } from './mutations/add-or-remove-from-playlist.mutation';
 import { loginMutation } from './mutations/login.mutation';
 import { registerMutation } from './mutations/register.mutation';
-import { LoginInput, LoginResponse, RegisterInput, RegisterResponse } from './types/auth.types';
 import { getCurrentUser } from './queries/get-current-user.query';
+import { LoginInput, LoginResponse, RegisterInput, RegisterResponse } from './types/auth.types';
+import { AddOrRemoveInput, PlaylistOutput } from './types/music-data.types';
 import { UserOutput } from './types/user.types';
-import { fromUserOutput } from './mappers/to-user.mapper';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
@@ -75,11 +78,11 @@ export class GraphQLAPI {
                 data: {
                     email: payload.email,
                     password: payload.password,
-                    // FCMToken: await messaging().getToken(),
-                    FCMToken: '123',
+                    FCMToken: await messaging().getToken(),
                 },
             },
         });
+        console.log(result);
         if (result.data?.login.accessToken) {
             this.setAuthToken(result.data?.login.accessToken);
             return { data: await this.getCurrentUser(result.data?.login.accessToken) };
@@ -96,8 +99,7 @@ export class GraphQLAPI {
                     email: payload.email,
                     password: payload.password,
                     username: payload.username,
-                    // FCMToken: await messaging().getToken(),
-                    FCMToken: '123',
+                    FCMToken: await messaging().getToken(),
                 },
             },
         });
@@ -110,17 +112,18 @@ export class GraphQLAPI {
         }
     };
 
-    addToPlaylist = async (trackId: string, playlistId: number): Promise<void> => {
-        const track = tracks.find((track) => track.id === trackId);
-        if (playlistId === 0 && track !== undefined) {
-            track.liked = true;
-            playlist[0].liked = true;
-        }
-        const playlist1 = playlist[playlistId].tracks.find((track) => track.id === trackId);
-        if (!playlist1) {
-            playlist[playlistId].tracks.push(track as Track);
+    addToPlaylist = async (trackId: string, playlistId: number): Promise<Playlist> => {
+        const result = await this.client.mutate<PlaylistOutput, AddOrRemoveInput>({
+            mutation: addOrRemoveFromPlaylistMutation,
+            variables: {
+                playlistID: playlistId,
+                trackID: Number(trackId),
+            },
+        });
+        if (result.data?.id) {
+            return fromPlaylistOutput(result.data);
         } else {
-            throw new Error('Something went wrong');
+            throw new Error('track not founded');
         }
     };
 

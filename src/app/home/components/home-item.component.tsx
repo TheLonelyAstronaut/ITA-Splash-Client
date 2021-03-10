@@ -47,9 +47,9 @@ export const HomeItemComponent: React.FC<PlaylistProps> = ({ data, navigation }:
     return (
         <Wrapper onPress={handlePress}>
             {isArtist ? (
-                <ArtistImage source={{ uri: data.image }} />
+                <ArtistImage source={{ uri: (data as Artist).image }} />
             ) : !isPlaylist ? (
-                <PlaylistImage source={{ uri: data.image }} />
+                <PlaylistImage source={{ uri: (data as Album).image }} />
             ) : (
                 <PlaylistImageRender type={LibraryElementType.PLAYLIST} data={data as Playlist} />
             )}

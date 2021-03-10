@@ -8,17 +8,16 @@ export type Track = {
     url: string;
     title: string;
     artist: string;
-    artistId: number;
+    artistID: number;
     artwork: string;
-    artworkType: ArtworkType;
     liked: boolean;
+    albumID: number;
 };
 
 export type Playlist = {
     tracks: Track[];
     name: string;
     id: number;
-    image?: string;
     liked?: boolean;
 };
 
