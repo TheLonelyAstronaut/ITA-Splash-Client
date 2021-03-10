@@ -18,3 +18,20 @@ export type PlaylistOutput = {
     liked: boolean;
     tracks: TrackOutput[];
 };
+
+export type AlbumOutput = {
+    name: string;
+    id: number;
+    artwork: string;
+    tracks: TrackOutput[];
+};
+
+export type CreatePlaylistInput = {
+    name: string;
+};
+
+export type AlbumAndPlaylistInput = {
+    data: {
+        id: number;
+    };
+};

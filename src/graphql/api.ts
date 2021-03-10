@@ -18,15 +18,31 @@ import { playlist } from '../mocks/playlists';
 import { tracks } from '../mocks/tracks';
 import { Artist, Album, Track, Playlist } from '../types/music';
 
-import { fromPlaylistOutput } from './mappers/to-playlist';
+import { fromAlbumOutput } from './mappers/to-album.mapper';
+import { fromArtistOutput } from './mappers/to-artist.mapper';
+import { fromPlaylistOutput } from './mappers/to-playlist.mapper';
+import { fromSearchOutput } from './mappers/to-search-result.mapper';
 import { fromTrackOutput } from './mappers/to-track.mapper';
 import { fromUserOutput } from './mappers/to-user.mapper';
 import { addOrRemoveFromPlaylistMutation } from './mutations/add-or-remove-from-playlist.mutation';
+import { createPlaylistMutation } from './mutations/create-playlist.mutation';
 import { loginMutation } from './mutations/login.mutation';
 import { registerMutation } from './mutations/register.mutation';
+import { getAlbumQuery } from './queries/get-album.query';
+import { getArtistQuery } from './queries/get-artist.query';
 import { getCurrentUser } from './queries/get-current-user.query';
+import { getPlaylistQuery } from './queries/get-playlist.query';
+import { searchQuery } from './queries/search.query';
+import { ArtistOutput, GetArtistInput } from './types/artist.types';
 import { LoginInput, LoginResponse, RegisterInput, RegisterResponse } from './types/auth.types';
-import { AddOrRemoveInput, PlaylistOutput } from './types/music-data.types';
+import {
+    AddOrRemoveInput,
+    AlbumAndPlaylistInput,
+    AlbumOutput,
+    CreatePlaylistInput,
+    PlaylistOutput,
+} from './types/music-data.types';
+import { SearchInput, SearchOutput } from './types/search.types';
 import { UserOutput } from './types/user.types';
 
 export class GraphQLAPI {
@@ -123,7 +139,7 @@ export class GraphQLAPI {
         if (result.data?.id) {
             return fromPlaylistOutput(result.data);
         } else {
-            throw new Error('track not founded');
+            throw new Error('playlist not founded');
         }
     };
 
@@ -132,40 +148,18 @@ export class GraphQLAPI {
     };
 
     search = async (name: string): Promise<SearchResult[]> => {
-        console.log(name);
-
-        const artists1 = artists.filter((artist) => artist.name.includes(name) && name !== '');
-        const tracks1 = tracks.filter(
-            (track) => track.artist.includes(name) || (track.title.includes(name) && name !== '')
-        );
-        const albums1 = albums.filter((album) => album.name.includes(name) && name !== '');
-        const result: SearchResult[] = [];
-
-        artists1.forEach((item) => {
-            result.push({
-                type: SearchResultType.ARTIST,
-                data: item,
-            });
+        const result = await this.client.query<SearchOutput, SearchInput>({
+            query: searchQuery,
+            variables: {
+                data: {
+                    query: name,
+                },
+            },
         });
-
-        tracks1.forEach((item) => {
-            result.push({
-                type: SearchResultType.TRACK,
-                data: item,
-            });
-        });
-
-        albums1.forEach((item) => {
-            result.push({
-                type: SearchResultType.ALBUM,
-                data: item,
-            });
-        });
-
-        if (result.length > 0) {
-            return result;
+        if (result.data) {
+            return fromSearchOutput(result.data);
         } else {
-            return [];
+            throw new Error('nothing founded');
         }
     };
 
@@ -173,13 +167,18 @@ export class GraphQLAPI {
         return library;
     };
 
-    addPlaylist = async (action: AddPlaylistPayload): Promise<LibraryData[]> => {
-        library.push({
-            data: { name: action.name, id: library.length, tracks: [] },
-            type: LibraryElementType.PLAYLIST,
+    addPlaylist = async (action: AddPlaylistPayload): Promise<Playlist> => {
+        const result = await this.client.mutate<PlaylistOutput, CreatePlaylistInput>({
+            mutation: createPlaylistMutation,
+            variables: {
+                name: action.name,
+            },
         });
-
-        return library;
+        if (result.data?.id) {
+            return fromPlaylistOutput(result.data);
+        } else {
+            throw new Error('playlist not founded');
+        }
     };
 
     changePassword = async (currentPass: string, newPass: string): Promise<void> => {
@@ -195,22 +194,50 @@ export class GraphQLAPI {
     };
 
     getArtist = async (id: number): Promise<Artist> => {
-        const artist = artists.find((artist) => artist.id === id);
-
-        if (artist) {
-            return artist;
+        const result = await this.client.query<ArtistOutput, GetArtistInput>({
+            query: getArtistQuery,
+            variables: {
+                data: {
+                    id: id,
+                },
+            },
+        });
+        if (result.data) {
+            return fromArtistOutput(result.data);
         } else {
-            throw new Error('Invalid artist id');
+            throw new Error('artist not founded');
         }
     };
 
     getAlbum = async (id: number): Promise<Album> => {
-        const album = albums.find((album) => album.id === id);
-
-        if (album) {
-            return album;
+        const result = await this.client.query<AlbumOutput, AlbumAndPlaylistInput>({
+            query: getAlbumQuery,
+            variables: {
+                data: {
+                    id: id,
+                },
+            },
+        });
+        if (result.data) {
+            return fromAlbumOutput(result.data);
         } else {
-            throw new Error('Invalid artist id');
+            throw new Error('album not founded');
+        }
+    };
+
+    getPlaylist = async (id: number): Promise<Playlist> => {
+        const result = await this.client.query<PlaylistOutput, AlbumAndPlaylistInput>({
+            query: getPlaylistQuery,
+            variables: {
+                data: {
+                    id: id,
+                },
+            },
+        });
+        if (result.data) {
+            return fromPlaylistOutput(result.data);
+        } else {
+            throw new Error('playlist not founded');
         }
     };
 
