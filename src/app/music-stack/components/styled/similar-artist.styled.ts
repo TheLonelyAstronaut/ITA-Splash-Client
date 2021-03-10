@@ -4,7 +4,7 @@ import { Image } from '../../../ui/image.component';
 import { BoldText } from '../../../ui/styled/text.styled';
 
 export const Wrapper = styled.TouchableOpacity`
-    padding-vertical: ${(props) => props.theme.spacer * 3};
+    padding-vertical: ${(props) => props.theme.spacer * 3}px;
 `;
 
 export const ArtistImage = styled(Image)`
@@ -15,5 +15,5 @@ export const ArtistImage = styled(Image)`
 
 export const ArtistName = styled(BoldText)`
     text-align: center;
-    padding-top: ${(props) => props.theme.spacer};
+    padding-top: ${(props) => props.theme.spacer}px;
 `;

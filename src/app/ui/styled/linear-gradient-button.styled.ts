@@ -15,7 +15,7 @@ export const SingInText = styled.Text`
 export const TouchableWrapper = styled(TouchableOpacity)`
     margin-top: ${(props) => props.theme.spacer * 3}px;
     height: 45px;
-    width: ${DEVICE_SIZE.width * 0.7};
+    width: ${DEVICE_SIZE.width * 0.7}px;
     align-self: center;
 `;
 

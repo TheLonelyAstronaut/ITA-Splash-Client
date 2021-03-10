@@ -1,4 +1,5 @@
-import React from 'react';
+import analytics from '@react-native-firebase/analytics';
+import React, { useEffect } from 'react';
 import { LogBox } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
 import { Provider } from 'react-redux';
@@ -13,6 +14,10 @@ LogBox.ignoreAllLogs(true);
 
 export const App: React.FC = () => {
     const store = useStore();
+
+    useEffect(() => {
+        analytics().logEvent('app_started');
+    }, []);
 
     if (!store) {
         return null;

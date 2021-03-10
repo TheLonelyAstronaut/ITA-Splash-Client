@@ -60,8 +60,7 @@ export const AvoidingBackground = styled(Container)`
 
 export const ChevronButtonWrapper = styled.TouchableOpacity`
     position: absolute;
-    left: ${(props) => props.theme.spacer * 4};
-    margin-top: ${(props) => props.theme.spacer * 8.5 + 2};
+    left: ${(props) => props.theme.spacer * 4}px;
     width: 25px;
     height: 25px;
     background-color: rgba(52, 52, 52, 0.7);

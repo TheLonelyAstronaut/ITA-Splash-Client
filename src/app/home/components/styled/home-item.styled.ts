@@ -2,12 +2,10 @@ import styled from 'styled-components/native';
 
 import { Image } from '../../../ui/image.component';
 import { RegularText } from '../../../ui/styled/text.styled';
-import { DEVICE_SIZE } from '../../../ui/themes/themes';
 
 export const Wrapper = styled.TouchableOpacity`
-    height: ${DEVICE_SIZE.height * 0.16};
-    width: ${DEVICE_SIZE.width * 0.22};
-    margin-left: ${(props) => props.theme.spacer * 3};
+    width: 100px;
+    margin-left: ${(props) => props.theme.spacer * 3}px;
 `;
 
 export const PlaylistImage = styled(Image)`
@@ -23,6 +21,6 @@ export const ArtistImage = styled(PlaylistImage)`
 export const PlaylistName = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
     text-align: center;
-    font-size: ${(props) => props.theme.fontSize.small};
-    margin-top: ${(props) => props.theme.spacer};
+    font-size: ${(props) => props.theme.fontSize.small}px;
+    margin-top: ${(props) => props.theme.spacer}px;
 `;

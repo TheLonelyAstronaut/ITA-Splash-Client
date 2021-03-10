@@ -2,6 +2,7 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, takeLatest } from 'redux-saga/effects';
 
 import { client } from '../../graphql/api';
+import { firebase } from '../utils/firebase';
 import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
 import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
 import { Logger } from '../utils/logger';
@@ -15,6 +16,7 @@ export function* changePasswordSaga(action: ReturnType<typeof CHANGE_PASSWORD.TR
         action.payload.newPass !== ''
     ) {
         yield call(client.changePassword, action.payload.currentPass, action.payload.newPass);
+        firebase.passwordChanged();
     } else {
         yield call(SHOW_FLASHBAR, { description: 'Something went wrong', type: FlashbarEnum.Danger, message: 'Ooops' });
     }
