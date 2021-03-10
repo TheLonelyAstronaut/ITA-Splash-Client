@@ -1,4 +1,4 @@
-import Animated from 'react-native-reanimated';
+import { Animated } from 'react-native';
 import styled from 'styled-components/native';
 
 import { SizeProp } from '../animated-slider.component';

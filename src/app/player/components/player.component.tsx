@@ -121,11 +121,11 @@ export const Player: React.FC = () => {
                 />
                 <InfoWrapper pointerEvents={'box-none'}>
                     <HeaderWrapper>
+                        <ChevronButtonWrapper onPress={closePlayer}>
+                            <Icon style={{ alignSelf: 'center', padding: 4 }} name={'down'} color={'white'} size={18} />
+                        </ChevronButtonWrapper>
                         <HeaderText>{currentTrack.artist}</HeaderText>
                     </HeaderWrapper>
-                    <ChevronButtonWrapper onPress={closePlayer}>
-                        <Icon style={{ alignSelf: 'center', padding: 4 }} name={'down'} color={'white'} size={18} />
-                    </ChevronButtonWrapper>
                     <GestureProvider pointerEvents={'box-none'} />
                     <PlayerControlWrapper>
                         <TrackName>{currentTrack.title}</TrackName>

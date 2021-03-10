@@ -6,10 +6,10 @@ import { DEVICE_SIZE } from '../../../ui/themes/themes';
 
 export const HeaderText = styled(BoldText)`
     color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.extraLarge};
-    margin-left: ${(props) => props.theme.spacer * 3};
-    margin-top: ${(props) => props.theme.spacer * 3};
-    margin-bottom: ${(props) => props.theme.spacer * 3};
+    font-size: ${(props) => props.theme.fontSize.extraLarge}px;
+    margin-left: ${(props) => props.theme.spacer * 3}px;
+    margin-top: ${(props) => props.theme.spacer * 3}px;
+    margin-bottom: ${(props) => props.theme.spacer * 3}px;
 `;
 
 export const AddPlaylistModal = styled.Modal``;
@@ -25,15 +25,15 @@ export const ModalView = styled.View`
 `;
 
 export const ModalText = styled(RegularText)`
-    margin-top: ${(props) => props.theme.spacer * 2};
-    font-size: ${(props) => props.theme.fontSize.large};
-    margin-bottom: ${(props) => props.theme.spacer * 2};
+    margin-top: ${(props) => props.theme.spacer * 2}px;
+    font-size: ${(props) => props.theme.fontSize.large}px;
+    margin-bottom: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const PlaylistInput = styled(Input)`
-    margin-top: ${(props) => props.theme.spacer * 2};
-    font-size: ${(props) => props.theme.fontSize.large};
-    margin-bottom: ${(props) => props.theme.spacer * 2};
+    margin-top: ${(props) => props.theme.spacer * 2}px;
+    font-size: ${(props) => props.theme.fontSize.large}px;
+    margin-bottom: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const CrossButton = styled.TouchableOpacity`

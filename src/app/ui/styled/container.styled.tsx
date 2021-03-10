@@ -10,12 +10,12 @@ export const Container = styled.View`
 
 export const AvoidingContainer = styled(Container)`
     background-color: ${(props) => props.theme.colors.screenBackground};
-    padding-top: ${getStatusBarHeight()};
+    padding-top: ${getStatusBarHeight()}px;
     flex: 1;
 `;
 
 const LoadingContainerWrapper = styled(Container)`
-    padding-top: ${getStatusBarHeight()};
+    padding-top: ${getStatusBarHeight()}px;
     justify-content: center;
     align-items: center;
 `;

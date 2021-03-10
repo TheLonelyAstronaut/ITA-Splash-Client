@@ -1,4 +1,3 @@
-import analytics from '@react-native-firebase/analytics';
 import React, { useEffect } from 'react';
 import { LogBox } from 'react-native';
 import FlashMessage from 'react-native-flash-message';

@@ -42,7 +42,7 @@ export const Input = styled.TextInput<Props>`
     background-color: ${(props) => props.theme.colors.main};
     border-color: ${(props) => props.theme.colors.additivePink};
     color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.medium};
+    font-size: ${(props) => props.theme.fontSize.medium}px;
     font-weight: 600;
 `;
 
@@ -66,9 +66,10 @@ export const SignUpText = styled.Text`
     margin-top: ${(props) => props.theme.spacer * 2.5}px;
     font-weight: 600;
 `;
+
 export const BackgroundImage = styled.ImageBackground`
-    width: ${DEVICE_SIZE.width};
-    height: ${DEVICE_SIZE.height + 2};
+    width: ${DEVICE_SIZE.width}px;
+    height: ${DEVICE_SIZE.height + 2}px;
     position: absolute;
 `;
 

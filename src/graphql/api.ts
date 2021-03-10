@@ -1,6 +1,8 @@
 import { ApolloClient, ApolloQueryResult, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+
 import Config from 'react-native-config';
+
 import { showMessage } from 'react-native-flash-message';
 
 import { AuthCompletedPayload, LoginPayload, RegisterPayload, User } from '../app/authentication/authentication.types';
@@ -18,7 +20,6 @@ import { tracks } from '../mocks/tracks';
 import { users } from '../mocks/users';
 import { Artist, Album, Track } from '../types/music';
 import { loginMutation } from './mutations/login.mutation';
-import messaging from '@react-native-firebase/messaging';
 import { registerMutation } from './mutations/register.mutation';
 import { LoginInput, LoginResponse, RegisterInput, RegisterResponse } from './types/auth.types';
 import { getCurrentUser } from './queries/get-current-user.query';
@@ -74,7 +75,8 @@ export class GraphQLAPI {
                 data: {
                     email: payload.email,
                     password: payload.password,
-                    FCMToken: await messaging().getToken(),
+                    // FCMToken: await messaging().getToken(),
+                    FCMToken: '123',
                 },
             },
         });
@@ -94,7 +96,8 @@ export class GraphQLAPI {
                     email: payload.email,
                     password: payload.password,
                     username: payload.username,
-                    FCMToken: await messaging().getToken(),
+                    // FCMToken: await messaging().getToken(),
+                    FCMToken: '123',
                 },
             },
         });

@@ -13,8 +13,6 @@ export const RegisterInputArea = styled.View`
 
 export const LogoContainer = styled(BaseLogoContainer)`
     background-color: ${(props) => props.theme.colors.main};
-    margin-top: 0%;
-    margin-left: 0%;
 `;
 
 export const BackButtonContainer = styled.TouchableOpacity``;

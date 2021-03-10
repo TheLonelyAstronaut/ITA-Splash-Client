@@ -19,8 +19,8 @@ export const Header = styled.SafeAreaView`
 export const AnimatedHeaderWrapper = Animated.createAnimatedComponent(Header);
 
 export const ArtistName = styled(BoldText)`
-    font-size: ${(props) => props.theme.fontSize.extraLarge + 15};
-    margin-left: ${(props) => props.theme.spacer * 2};
+    font-size: ${(props) => props.theme.fontSize.extraLarge + 15}px;
+    margin-left: ${(props) => props.theme.spacer * 2}px;
     color: white;
 `;
 
@@ -33,15 +33,15 @@ export const AnimatedArtistName = Animated.createAnimatedComponent(ArtistName);
 export const AnimatedMinifiedArtistName = Animated.createAnimatedComponent(MinifiedArtistName);
 
 export const ArtistImage = styled.Image`
-    width: ${(props) => props.theme.coverWidth};
-    height: ${(props) => props.theme.coverHeight};
+    width: ${(props) => props.theme.coverWidth}px;
+    height: ${(props) => props.theme.coverHeight}px;
     position: absolute;
 `;
 
 export const BackButtonWrapper = styled.View`
     position: absolute;
     left: 0;
-    top: ${(props) => props.theme.spacer * 2 + getStatusBarHeight()};
+    top: ${(props) => props.theme.spacer * 2 + getStatusBarHeight()}px;
 `;
 
 export const PlayButton = styled.Image`
@@ -60,29 +60,29 @@ export const AnimatedPlayButton = Animated.createAnimatedComponent(PlayButton);
 
 export const Popular = styled(BoldText)`
     color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.large};
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 2};
-    margin-bottom: ${(props) => props.theme.spacer * 2};
+    font-size: ${(props) => props.theme.fontSize.large}px;
+    margin-left: ${(props) => props.theme.spacer * 2}px;
+    margin-top: ${(props) => props.theme.spacer * 2}px;
+    margin-bottom: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const Albums = styled(BoldText)`
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 2};
+    margin-left: ${(props) => props.theme.spacer * 2}px;
+    margin-top: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const SimilarArtists = styled(BoldText)`
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 2};
+    margin-left: ${(props) => props.theme.spacer * 2}px;
+    margin-top: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const DiscographyButton = styled.TouchableOpacity`
     border-width: 1px;
     border-color: ${(props) => props.theme.colors.additivePink};
-    width: ${DEVICE_SIZE.width * 0.38};
+    width: ${DEVICE_SIZE.width * 0.38}px;
     border-radius: 50px;
     align-self: center;
-    margin-top: ${(props) => props.theme.spacer * 2};
+    margin-top: ${(props) => props.theme.spacer * 2}px;
     padding: ${(props) => props.theme.spacer / 2}px;
 `;
 
@@ -110,14 +110,14 @@ export const FollowButton = styled.TouchableOpacity<FollowButtonProp>`
     border-color: ${(props) => (props.followed ? props.theme.colors.additivePink : props.theme.colors.secondary)};
     border-width: 1px;
     border-radius: 10px;
-    margin-left: ${(props) => props.theme.spacer * 2};
-    margin-top: ${(props) => props.theme.spacer * 2};
+    margin-left: ${(props) => props.theme.spacer * 2}px;
+    margin-top: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const FollowText = styled(BoldText)`
     color: white;
     align-self: center;
-    margin-top: ${(props) => props.theme.spacer};
+    margin-top: ${(props) => props.theme.spacer}px;
 `;
 
 export const DataWrapper = styled.View`

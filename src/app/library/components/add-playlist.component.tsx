@@ -17,7 +17,7 @@ export interface Props {
 }
 
 export const AddPlaylistName = styled(PlaylistName)`
-    margin-top: ${(props) => props.theme.spacer * 1.5 + 5};
+    margin-top: ${(props) => props.theme.spacer * 1.5 + 5}px;
 `;
 
 export const AddPlaylistItem: React.FC<Props> = (props: Props) => {

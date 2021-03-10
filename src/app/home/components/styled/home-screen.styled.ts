@@ -3,10 +3,10 @@ import styled from 'styled-components/native';
 import { RegularText } from '../../../ui/styled/text.styled';
 
 export const SectionTitle = styled(RegularText)`
-    margin-left: ${(props) => props.theme.spacer * 2 + 2};
-    margin-top: ${(props) => props.theme.spacer * 5};
-    margin-bottom: ${(props) => props.theme.spacer * 2};
-    font-size: ${(props) => props.theme.fontSize.extraLarge};
+    margin-left: ${(props) => props.theme.spacer * 2 + 2}px;
+    margin-top: ${(props) => props.theme.spacer * 5}px;
+    margin-bottom: ${(props) => props.theme.spacer * 2}px;
+    font-size: ${(props) => props.theme.fontSize.extraLarge}px;
     font-weight: 700;
 `;
 
@@ -21,20 +21,20 @@ export const ErrorWrapper = styled.View`
 
 export const ErrorText = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.medium};
+    font-size: ${(props) => props.theme.fontSize.medium}px;
 `;
 
 export const TryAgainButton = styled.TouchableOpacity`
     width: 90px;
     height: 25px;
     background-color: ${(props) => props.theme.colors.additivePink};
-    margin-left: ${(props) => props.theme.spacer * 8};
-    margin-top: ${(props) => props.theme.spacer * 2};
+    margin-left: ${(props) => props.theme.spacer * 8}px;
+    margin-top: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const TryAgainText = styled(RegularText)`
     color: ${(props) => props.theme.colors.secondary};
-    font-size: ${(props) => props.theme.fontSize.small};
+    font-size: ${(props) => props.theme.fontSize.small}px;
     align-self: center;
-    margin-top: ${(props) => props.theme.spacer * 0.4};
+    margin-top: ${(props) => props.theme.spacer * 0.4}px;
 `;

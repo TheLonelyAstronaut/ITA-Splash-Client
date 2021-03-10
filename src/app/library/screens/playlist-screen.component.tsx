@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { LOAD_ALBUM } from '../../music-stack/actions';
 import { Container, LoadingContainer } from '../../ui/styled/container.styled';
-import { MusicListTemplateScreen } from '../../ui/tracks/music-list-template-screen.component';
+// Metro should pick up platform specific version
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import { MusicListTemplateScreen } from '../../ui/tracks/music-list-tempalte/music-list-template-screen.component';
 import { PlaylistScreenParams } from '../routing.params';
 import { getErrorLibrary, getIsFetchingLibrary, getPlaylist } from '../selectors';
 
