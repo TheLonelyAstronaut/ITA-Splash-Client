@@ -28,13 +28,16 @@ import { addOrRemoveFromPlaylistMutation } from './mutations/add-or-remove-from-
 import { createPlaylistMutation } from './mutations/create-playlist.mutation';
 import { loginMutation } from './mutations/login.mutation';
 import { registerMutation } from './mutations/register.mutation';
+import { subscribeMutation } from './mutations/subscribe.mutation';
 import { getAlbumQuery } from './queries/get-album.query';
 import { getArtistQuery } from './queries/get-artist.query';
 import { getCurrentUser } from './queries/get-current-user.query';
+import { getHomepageMutation } from './queries/get-homepage';
 import { getPlaylistQuery } from './queries/get-playlist.query';
 import { searchQuery } from './queries/search.query';
 import { ArtistOutput, GetArtistInput } from './types/artist.types';
 import { LoginInput, LoginResponse, RegisterInput, RegisterResponse } from './types/auth.types';
+import { HomepageDataOutput } from './types/home.types';
 import {
     AddOrRemoveInput,
     AlbumAndPlaylistInput,
@@ -191,9 +194,29 @@ export class GraphQLAPI {
 
     getHomepageData = async (): Promise<HomepageData[]> => {
         return home;
+        //     const result = await this.client.query<HomepageDataOutput>({
+        //         query: getHomepageMutation,
+        //     });
+        //
+        // })
+    };
+
+    subscribe = async (id: number): Promise<number[]> => {
+        const result = await this.client.mutate<number[], { data: number }>({
+            mutation: subscribeMutation,
+            variables: {
+                data: id,
+            },
+        });
+        if (result.data) {
+            return result.data;
+        } else {
+            throw new Error('nothing founded');
+        }
     };
 
     getArtist = async (id: number): Promise<Artist> => {
+        console.log(id);
         const result = await this.client.query<ArtistOutput, GetArtistInput>({
             query: getArtistQuery,
             variables: {
@@ -202,6 +225,7 @@ export class GraphQLAPI {
                 },
             },
         });
+
         if (result.data) {
             return fromArtistOutput(result.data);
         } else {

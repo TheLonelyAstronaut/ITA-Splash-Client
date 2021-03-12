@@ -1,6 +1,6 @@
 import { createSelector, Selector } from 'reselect';
 
-import { Artist, Album } from '../../types/music';
+import { Artist, Album, Playlist } from '../../types/music';
 import { ApplicationState } from '../store/application-state.types';
 
 import { MusicStackState } from './reducers';
@@ -22,3 +22,6 @@ export const getArtist = (id: number): Selector<ApplicationState, Artist | undef
 
 export const getAlbum = (id: number): Selector<ApplicationState, Album | undefined> =>
     createSelector(getRootMusicStackState, (state) => state.data.albums.get(id));
+
+export const getPlaylist = (id: number): Selector<ApplicationState, Playlist | undefined> =>
+    createSelector(getRootMusicStackState, (state) => state.data.playlists.get(id));

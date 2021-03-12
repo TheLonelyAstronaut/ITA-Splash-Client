@@ -8,8 +8,8 @@ import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
 import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
 import { Logger } from '../utils/logger';
 
-import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST } from './actions';
-import { getAlbum, getArtist } from './selectors';
+import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST, LOAD_PLAYLIST } from './actions';
+import { getAlbum, getArtist, getPlaylist } from './selectors';
 
 export class ExtendedError extends Error {
     constructor(error: Error, public readonly key: string) {
@@ -53,6 +53,23 @@ export function* loadAlbumSaga(action: ReturnType<typeof LOAD_ALBUM.TRIGGER>): S
     }
 }
 
+export function* loadPlaylistSaga(action: ReturnType<typeof LOAD_PLAYLIST.TRIGGER>): SagaIterator {
+    try {
+        let playlist = yield select(getPlaylist(action.payload.id));
+
+        if (!playlist) {
+            yield put(LOAD_PLAYLIST.STARTED({ key: action.payload.key }));
+            playlist = yield call(client.getPlaylist, action.payload.id);
+            yield put(LOAD_PLAYLIST.COMPLETED({ key: action.payload.key, playlist }));
+        }
+    } catch (err) {
+        const error = new Error(err);
+
+        yield call(Logger.error, error);
+        yield put(LOAD_PLAYLIST.COMPLETED.failed(new ExtendedError(err, action.payload.key)));
+    }
+}
+
 export function* addToPlaylist(action: ReturnType<typeof ADD_TO_PLAYLIST.TRIGGER>): SagaIterator {
     try {
         yield call(client.addToPlaylist, action.payload.trackId, action.payload.playlistId);
@@ -71,6 +88,10 @@ export function* followOrUnfollowSaga(action: ReturnType<typeof FOLLOW_OR_UNFOLL
     const newArtist = { ...artist, isFollowed: !artist.isFollowed };
     yield put(LOAD_ARTIST.COMPLETED({ key: '', artist: newArtist }));
     yield call(client.followOrUnfollow, action.payload);
+}
+
+export function* listenForLoadPlaylistSaga(): SagaIterator {
+    yield takeLatest(LOAD_PLAYLIST.TRIGGER, loadPlaylistSaga);
 }
 
 export function* listenForFollowOrUnfollow(): SagaIterator {

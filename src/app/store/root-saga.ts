@@ -10,6 +10,7 @@ import {
     listenForFollowOrUnfollow,
     listenForLoadAlbumSaga,
     listenForLoadArtistSaga,
+    listenForLoadPlaylistSaga,
 } from '../music-stack/sagas';
 import { listenPlaySaga, listenControlSaga, listenAddToQueueSaga, listenSeekTo } from '../player/sagas';
 import { listenForSearchSaga } from '../search/sagas';
@@ -35,5 +36,6 @@ export function* rootSaga(): SagaIterator {
     yield spawn(listenForAddToPlaylist);
     yield spawn(listenForAddToLikedSaga);
     yield spawn(listenForFollowOrUnfollow);
+    yield spawn(listenForLoadPlaylistSaga);
     yield spawn(listenForInitializationSaga);
 }
