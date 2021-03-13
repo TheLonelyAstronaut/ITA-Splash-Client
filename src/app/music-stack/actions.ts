@@ -39,14 +39,11 @@ export const LOAD_ALBUM = {
     COMPLETED: createAction('[Load Album Completed]', (payload: LoadAlbumCompletedType) => payload),
 };
 
-export const LOAD_PLAYLIST = {
-    TRIGGER: createAction('[Load Playlist Trigger]', (payload: LoadDataTriggerType) => payload),
-    STARTED: createAction('[Load Playlist Started]', (payload: LoadDataStartedType) => payload),
-    COMPLETED: createAction('[Load Playlist Completed]', (payload: LoadPlaylistCompleted) => payload),
-};
-
 export const ADD_TO_PLAYLIST = {
     TRIGGER: createAction('[Add to playlist Trigger]', (payload: AddToPlaylistType) => payload),
 };
 
-export const FOLLOW_OR_UNFOLLOW = createAction('[Follow or Unfollow]', (payload: number) => payload);
+export const FOLLOW_OR_UNFOLLOW = {
+    TRIGGER: createAction('[Follow or Unfollow trigger]', (payload: number) => payload),
+    COMPLETED: createAction('[Follow or unfollow completed]', (payload: number[]) => payload),
+};

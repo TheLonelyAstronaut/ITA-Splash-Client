@@ -8,10 +8,13 @@ export const TrackFragment = gql`
         albumID
         artistID
         url
+        artistName
+        liked
     }
 `;
 
 export const PlaylistFragment = gql`
+    ${TrackFragment}
     fragment PlaylistFragment on PlaylistOutput {
         id
         liked
@@ -23,10 +26,13 @@ export const PlaylistFragment = gql`
 `;
 
 export const AlbumFragment = gql`
+    ${TrackFragment}
     fragment AlbumFragment on AlbumOutput {
         id
         name
         artwork
+        artistID
+        artistName
         tracks {
             ...TrackFragment
         }
@@ -34,6 +40,7 @@ export const AlbumFragment = gql`
 `;
 
 export const ArtistFragment = gql`
+    ${AlbumFragment}
     fragment ArtistFragment on ArtistOutput {
         id
         image

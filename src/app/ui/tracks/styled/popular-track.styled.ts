@@ -26,6 +26,7 @@ export const TrackName = styled(RegularText)<Props>`
     font-size: ${(props) => props.theme.fontSize.medium}px;
     margin-top: ${(props) => props.theme.spacer * 2 - 5}px;
     margin-left: ${(props) => props.theme.spacer * 2}px;
+    width: 55%;
 `;
 
 export const Icons = styled.View`

@@ -1,17 +1,19 @@
+import { Playlist } from '../../types/music';
+
 export interface User {
     id: number;
     email: string;
     username: string;
-    token: string;
     profileImg?: unknown;
+    subscriptions: number[];
+    playlists: Playlist[];
 }
 
 export interface AuthenticationState {
     isFetching: boolean;
     error?: Error;
-    username?: string;
-    token?: string;
-    email?: string;
+    token: string;
+    data: User;
 }
 
 export interface LoginPayload {
@@ -26,5 +28,6 @@ export interface RegisterPayload {
 }
 
 export interface AuthCompletedPayload {
+    token: string;
     data: User;
 }

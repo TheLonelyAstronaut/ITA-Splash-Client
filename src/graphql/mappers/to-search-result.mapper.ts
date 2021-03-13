@@ -8,19 +8,19 @@ import { fromTrackOutput } from './to-track.mapper';
 export const fromSearchOutput = (data: SearchOutput): SearchResult[] => {
     const resultArray: SearchResult[] = [];
 
-    data.albums.forEach((album) => {
+    data.findByQuery.albums.forEach((album) => {
         resultArray.push({
             type: SearchResultType.ALBUM,
             data: fromAlbumOutput(album),
         });
     });
-    data.artists.forEach((artist) => {
+    data.findByQuery.artists.forEach((artist) => {
         resultArray.push({
             type: SearchResultType.ARTIST,
             data: fromArtistOutput(artist),
         });
     });
-    data.tracks.forEach((track) => {
+    data.findByQuery.tracks.forEach((track) => {
         resultArray.push({
             type: SearchResultType.TRACK,
             data: fromTrackOutput(track),

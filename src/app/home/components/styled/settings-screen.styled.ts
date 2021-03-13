@@ -4,7 +4,6 @@ import { RegularText } from '../../../ui/styled/text.styled';
 import { DEVICE_SIZE } from '../../../ui/themes/themes';
 
 export const HeaderButtonsWrapper = styled.View`
-    margin-top: ${(props) => props.theme.spacer * 2}px;
     flex-direction: row;
     justify-content: space-between;
 `;
@@ -15,6 +14,7 @@ export const BackButton = styled.TouchableOpacity`
 
 export const LogoutButton = styled.TouchableOpacity`
     margin-right: ${(props) => props.theme.spacer * 3}px;
+    margin-top: ${(props) => props.theme.spacer * 2}px;
 `;
 
 export const EditText = styled(RegularText)`

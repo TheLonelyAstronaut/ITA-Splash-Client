@@ -11,7 +11,6 @@ export const fromAlbumOutput = (output: AlbumOutput): Album => {
         }),
         year: '2020',
         image: output.artwork,
-        artistId: 1,
-        artistName: 'Post Malone',
+        artistId: output.artistID,
     };
 };

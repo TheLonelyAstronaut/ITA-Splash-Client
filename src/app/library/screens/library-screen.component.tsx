@@ -9,7 +9,7 @@ import AnimatedGradientTransition from '../../ui/animated-gradient-transition.co
 import { LinearButton } from '../../ui/linear-gradient-button.component';
 import { Container } from '../../ui/styled/container.styled';
 import I18n from '../../utils/i18n';
-import { ADD_PLAYLIST, LOAD_LIBRARY } from '../actions';
+import { ADD_PLAYLIST } from '../actions';
 import { AddPlaylistItem } from '../components/add-playlist.component';
 import { PlaylistItem } from '../components/playlist-item.component';
 import {
@@ -32,10 +32,6 @@ export const LibraryScreen: React.FC<LibraryScreenParams> = () => {
     const isFetching = useSelector(getIsFetchingLibrary);
     const extraData = useSelector(getRootLibraryState);
     const data = useSelector(getLibrary);
-
-    useEffect(() => {
-        dispatch(LOAD_LIBRARY.TRIGGER());
-    }, [dispatch]);
 
     const handleAddPlaylist = useCallback(
         (name: string) => {
@@ -86,8 +82,8 @@ export const LibraryScreen: React.FC<LibraryScreenParams> = () => {
                 ) : (
                     <FlatList
                         data={data}
-                        renderItem={(item) => <PlaylistItem name={item.item.data.name} data={item.item} />}
-                        keyExtractor={(item) => item.data.id.toString()}
+                        renderItem={(item) => <PlaylistItem name={item.item.name} data={item.item} />}
+                        keyExtractor={(item) => item.id.toString()}
                         extraData={extraData}
                         ListHeaderComponent={<AddPlaylistItem onPress={handleModal} />}
                         contentContainerStyle={{ marginLeft: theme.spacer * 3 }}

@@ -6,7 +6,7 @@ import { fromTrackOutput } from './to-track.mapper';
 export const fromPlaylistOutput = (output: PlaylistOutput): Playlist => {
     return {
         ...output,
-        tracks: output.tracks.map((track) => {
+        tracks: output.tracks?.map((track) => {
             return fromTrackOutput(track);
         }),
     };

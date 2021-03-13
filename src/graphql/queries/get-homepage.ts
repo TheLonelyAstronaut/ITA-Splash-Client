@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const getHomepageMutation = gql`
+export const getHomepageQuery = gql`
     query getHomepage {
         getHomepage {
             title

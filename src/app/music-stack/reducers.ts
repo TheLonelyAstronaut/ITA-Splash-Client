@@ -1,9 +1,9 @@
 import { createReducer } from 'typesafe-redux-helpers';
 
-import { Album, Artist, Playlist } from '../../types/music';
+import { Album, Artist } from '../../types/music';
 import ExtendedMap from '../utils/extended-map';
 
-import { LOAD_ALBUM, LOAD_ARTIST, LOAD_PLAYLIST } from './actions';
+import { LOAD_ALBUM, LOAD_ARTIST } from './actions';
 import { ExtendedError } from './sagas';
 
 export interface MusicStackState {
@@ -12,7 +12,6 @@ export interface MusicStackState {
     data: {
         artists: ExtendedMap<number, Artist>;
         albums: ExtendedMap<number, Album>;
-        playlists: ExtendedMap<number, Playlist>;
     };
 }
 
@@ -22,22 +21,11 @@ export const initialState: MusicStackState = {
     data: {
         albums: new ExtendedMap<number, Album>(),
         artists: new ExtendedMap<number, Artist>(),
-        playlists: new ExtendedMap<number, Playlist>(),
     },
 };
 
 export const musicStackStateReducer = createReducer<MusicStackState>(initialState)
     .handleAction(LOAD_ARTIST.STARTED, (state, action) => ({
-        ...state,
-        isFetching: state.isFetching.insert(action.payload.key, true).copy(),
-        error: state.error.insert(action.payload.key, undefined).copy(),
-    }))
-    .handleAction(LOAD_ALBUM.STARTED, (state, action) => ({
-        ...state,
-        isFetching: state.isFetching.insert(action.payload.key, true).copy(),
-        error: state.error.insert(action.payload.key, undefined).copy(),
-    }))
-    .handleAction(LOAD_PLAYLIST.STARTED, (state, action) => ({
         ...state,
         isFetching: state.isFetching.insert(action.payload.key, true).copy(),
         error: state.error.insert(action.payload.key, undefined).copy(),
@@ -50,7 +38,6 @@ export const musicStackStateReducer = createReducer<MusicStackState>(initialStat
             data: {
                 artists: state.data.artists.insert(action.payload.artist.id, action.payload.artist).copy(),
                 albums: state.data.albums,
-                playlists: state.data.playlists,
             },
         }),
         (state, action) => ({
@@ -67,24 +54,6 @@ export const musicStackStateReducer = createReducer<MusicStackState>(initialStat
             data: {
                 albums: state.data.albums.insert(action.payload.album.id, action.payload.album).copy(),
                 artists: state.data.artists,
-                playlists: state.data.playlists,
-            },
-        }),
-        (state, action) => ({
-            ...state,
-            isFetching: state.isFetching.insert((action.payload as ExtendedError).key, false).copy(),
-            error: state.error.insert((action.payload as ExtendedError).key, undefined).copy(),
-        })
-    )
-    .handleAction(
-        LOAD_PLAYLIST.COMPLETED,
-        (state, action) => ({
-            isFetching: state.isFetching.insert(action.payload.key, false).copy(),
-            error: state.error.insert(action.payload.key, undefined).copy(),
-            data: {
-                playlists: state.data.playlists.insert(action.payload.playlist.id, action.payload.playlist).copy(),
-                artists: state.data.artists,
-                albums: state.data.albums,
             },
         }),
         (state, action) => ({

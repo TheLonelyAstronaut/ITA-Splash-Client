@@ -4,12 +4,16 @@ export type ArtistOutput = {
     name: string;
     image: string;
     id: number;
-    similarArtists: ArtistOutput[];
-    albums: AlbumOutput[];
+    similarArtists?: ArtistOutput[];
+    albums?: AlbumOutput[];
+};
+
+export type GetArtistOutput = {
+    getArtist: ArtistOutput;
 };
 
 export type GetArtistInput = {
-    data: {
+    getArtistData: {
         id: number;
     };
 };

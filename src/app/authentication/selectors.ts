@@ -24,17 +24,22 @@ export const getAuthenticationError: Selector<ApplicationState, Error | undefine
     (auth) => auth.error
 );
 
-export const getUsername: Selector<ApplicationState, string | undefined> = createSelector(
+export const getUsername: Selector<ApplicationState, string> = createSelector(
     getRootAuthenticationState,
-    (auth) => auth.username
+    (auth) => auth.data.username
 );
 
-export const getEmail: Selector<ApplicationState, string | undefined> = createSelector(
+export const getEmail: Selector<ApplicationState, string> = createSelector(
     getRootAuthenticationState,
-    (auth) => auth.email
+    (auth) => auth.data.email
 );
 
-export const getAccessToken: Selector<ApplicationState, string | undefined> = createSelector(
+export const getAccessToken: Selector<ApplicationState, string> = createSelector(
     getRootAuthenticationState,
     (auth) => auth.token
+);
+
+export const getSubscriptions: Selector<ApplicationState, number[]> = createSelector(
+    getRootAuthenticationState,
+    (auth) => auth.data.subscriptions
 );

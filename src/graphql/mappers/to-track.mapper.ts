@@ -4,8 +4,7 @@ import { TrackOutput } from '../types/music-data.types';
 export const fromTrackOutput = (output: TrackOutput): Track => {
     return {
         ...output,
-        liked: true,
-        artist: 'test',
+        artist: output.artistName,
         id: output.id.toString(),
     };
 };

@@ -5,7 +5,6 @@ import { call, put, select, takeLatest } from 'redux-saga/effects';
 import { createAction } from 'typesafe-redux-helpers';
 
 import { client } from '../../graphql/api';
-import { getCurrentUser } from '../../graphql/queries/get-current-user.query';
 import { Track } from '../../types/music';
 import { LOGIN, LOGOUT } from '../authentication/actions';
 import { getAccessToken } from '../authentication/selectors';
@@ -44,7 +43,7 @@ export function* initializationSaga(action: ReturnType<typeof INITIALIZATION>): 
             yield call(client.setAuthToken, token);
             const user = yield call(client.getCurrentUser, token);
             console.log(user);
-            yield put(LOGIN.COMPLETED({ data: user }));
+            yield put(LOGIN.COMPLETED({ data: user, token: token }));
         } catch (err) {
             Logger.error(err);
             yield put(LOGOUT.COMPLETED());

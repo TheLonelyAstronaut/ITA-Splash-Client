@@ -2,14 +2,14 @@ import { SagaIterator } from 'redux-saga';
 import { call, put, select, takeLatest } from 'redux-saga/effects';
 
 import { client } from '../../graphql/api';
-import { LOAD_LIBRARY } from '../library/actions';
+import { ADD_PLAYLIST, LOAD_LIBRARY } from '../library/actions';
 import { firebase } from '../utils/firebase';
 import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
 import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
 import { Logger } from '../utils/logger';
 
-import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST, LOAD_PLAYLIST } from './actions';
-import { getAlbum, getArtist, getPlaylist } from './selectors';
+import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST } from './actions';
+import { getAlbum, getArtist } from './selectors';
 
 export class ExtendedError extends Error {
     constructor(error: Error, public readonly key: string) {
@@ -53,27 +53,13 @@ export function* loadAlbumSaga(action: ReturnType<typeof LOAD_ALBUM.TRIGGER>): S
     }
 }
 
-export function* loadPlaylistSaga(action: ReturnType<typeof LOAD_PLAYLIST.TRIGGER>): SagaIterator {
-    try {
-        let playlist = yield select(getPlaylist(action.payload.id));
-
-        if (!playlist) {
-            yield put(LOAD_PLAYLIST.STARTED({ key: action.payload.key }));
-            playlist = yield call(client.getPlaylist, action.payload.id);
-            yield put(LOAD_PLAYLIST.COMPLETED({ key: action.payload.key, playlist }));
-        }
-    } catch (err) {
-        const error = new Error(err);
-
-        yield call(Logger.error, error);
-        yield put(LOAD_PLAYLIST.COMPLETED.failed(new ExtendedError(err, action.payload.key)));
-    }
-}
-
 export function* addToPlaylist(action: ReturnType<typeof ADD_TO_PLAYLIST.TRIGGER>): SagaIterator {
     try {
-        yield call(client.addToPlaylist, action.payload.trackId, action.payload.playlistId);
         yield put(LOAD_LIBRARY.TRIGGER());
+        const result = yield call(client.addToPlaylist, action.payload.trackId, action.payload.playlistId);
+        console.log(result);
+        yield put(LOAD_LIBRARY.COMPLETED(result));
+        yield put(ADD_PLAYLIST.COMPLETED(result));
         yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Success, message: 'Track successfully added' }));
     } catch (err) {
         const error = new Error(err);
@@ -83,19 +69,18 @@ export function* addToPlaylist(action: ReturnType<typeof ADD_TO_PLAYLIST.TRIGGER
     }
 }
 
-export function* followOrUnfollowSaga(action: ReturnType<typeof FOLLOW_OR_UNFOLLOW>): SagaIterator {
-    const artist = yield select(getArtist(action.payload));
-    const newArtist = { ...artist, isFollowed: !artist.isFollowed };
-    yield put(LOAD_ARTIST.COMPLETED({ key: '', artist: newArtist }));
-    yield call(client.followOrUnfollow, action.payload);
-}
-
-export function* listenForLoadPlaylistSaga(): SagaIterator {
-    yield takeLatest(LOAD_PLAYLIST.TRIGGER, loadPlaylistSaga);
+export function* followOrUnfollowSaga(action: ReturnType<typeof FOLLOW_OR_UNFOLLOW.TRIGGER>): SagaIterator {
+    try {
+        const result = yield call(client.subscribe, action.payload);
+        yield put(FOLLOW_OR_UNFOLLOW.COMPLETED(result));
+    } catch (error) {
+        yield call(Logger.error, error);
+        yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Danger, message: 'Error happened' }));
+    }
 }
 
 export function* listenForFollowOrUnfollow(): SagaIterator {
-    yield takeLatest(FOLLOW_OR_UNFOLLOW, followOrUnfollowSaga);
+    yield takeLatest(FOLLOW_OR_UNFOLLOW.TRIGGER, followOrUnfollowSaga);
 }
 
 export function* listenForAddToPlaylist(): SagaIterator {

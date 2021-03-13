@@ -24,8 +24,9 @@ export const PlayerArtwork: React.FC<PlayerArtworkProps> = (props: PlayerArtwork
             <Image
                 source={{ uri: props.track.artwork }}
                 style={{
-                    width: DEVICE_SIZE.width,
-                    height: DEVICE_SIZE.height,
+                    width: theme.player.artworkSize,
+                    height: theme.player.artworkSize,
+                    marginTop: theme.player.artworkMarginTop,
                 }}
             />
         );

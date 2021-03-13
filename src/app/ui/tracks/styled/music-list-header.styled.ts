@@ -3,11 +3,11 @@ import { getStatusBarHeight } from 'react-native-status-bar-height';
 import styled from 'styled-components/native';
 
 import { Album, Playlist } from '../../../../types/music';
-import { LibraryElementType } from '../../../library/library.types';
+import { Image } from '../../image.component';
 import { BoldText, RegularText } from '../../styled/text.styled';
 import { DEVICE_SIZE } from '../../themes/themes';
 
-export const AlbumImage = styled.Image`
+export const AlbumImage = styled(Image)`
     margin-top: ${(props) => props.theme.spacer * 3}px;
     width: 225px;
     height: 225px;
@@ -34,7 +34,7 @@ export const ImageWrapper = styled.View`
 `;
 
 export const HeaderWrapper = styled.View`
-    margin-top: 320px;
+    padding-top: 320px;
 `;
 
 export const TextWrapper = styled.View`
@@ -52,6 +52,8 @@ export const AlbumName = styled(BoldText)`
     color: ${(props) => props.theme.colors.secondary};
     font-size: ${(props) => props.theme.fontSize.large}px;
     align-self: center;
+    width: 55%;
+    text-align: center;
 `;
 
 export const ArtistWrapper = styled.TouchableOpacity`
@@ -111,5 +113,4 @@ export const AnimatedWrapper = Animated.createAnimatedComponent(InfoWrapper);
 
 export type MusicListHeaderProps = {
     data: Album | Playlist;
-    type?: LibraryElementType;
 };

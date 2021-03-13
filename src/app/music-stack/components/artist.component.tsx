@@ -2,11 +2,14 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useCallback } from 'react';
 import { FlatList } from 'react-native';
 import Animated, { useValue, Extrapolate } from 'react-native-reanimated';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { Album, Artist, Track } from '../../../types/music';
+import { LOAD_HOME_DATA } from '../../home/actions';
+import { getIsSubscribed } from '../../library/selectors';
 import { MUSIC_ACTIONS, PlayActionTriggerPayload } from '../../player/actions';
+import { Image } from '../../ui/image.component';
 import { Container } from '../../ui/styled/container.styled';
 import { PopularTrackComponent } from '../../ui/tracks/popular-track.component';
 import I18n from '../../utils/i18n';
@@ -36,6 +39,8 @@ import {
     SimilarArtists,
 } from './styled/artist.styled';
 
+export const AnimatedImage = Animated.createAnimatedComponent(Image);
+
 export type ArtistProps = {
     data: Artist;
 };
@@ -45,6 +50,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
     const navigation = useNavigation();
     const theme = useTheme();
     const scrollValue = useValue(0);
+    const isSubscribed = useSelector(getIsSubscribed(props.data.id));
 
     const handleTrackPlay = useCallback(
         (item: Track) => {
@@ -60,7 +66,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
     }, [handleTrackPlay, props.data.popularTracks]);
 
     const handleFollowOrUnfollow = useCallback(() => {
-        dispatch(FOLLOW_OR_UNFOLLOW(props.data.id));
+        dispatch(FOLLOW_OR_UNFOLLOW.TRIGGER(props.data.id));
     }, [dispatch, props.data.id]);
 
     const handleDiscographyPress = useCallback(() => {
@@ -86,10 +92,10 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
     });
 
     const playerButtonTranslateY = scrollValue.interpolate({
-        inputRange: [-10, 0, theme.coverHeight - theme.statusBar - 10],
+        inputRange: [-10, 0, theme.coverHeight - theme.statusBar + 20],
         outputRange: [
-            theme.coverHeight - theme.playButtonSize / 2 - 10,
-            theme.coverHeight - theme.playButtonSize / 2 - 20,
+            theme.coverHeight - theme.playButtonSize / 2 + 30,
+            theme.coverHeight - theme.playButtonSize / 2 + 20,
             theme.statusBar - theme.playButtonSize / 2,
         ],
         extrapolateRight: Extrapolate.CLAMP,
@@ -110,7 +116,7 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
 
     return (
         <Container>
-            <Animated.Image
+            <AnimatedImage
                 source={{ uri: props.data.image }}
                 style={{ width: theme.coverWidth, height: imageHeight, position: 'absolute', resizeMode: 'cover' }}
             />
@@ -126,12 +132,8 @@ export const ArtistComponent: React.FC<ArtistProps> = (props: ArtistProps) => {
                 <AnimatedArtistName style={{ opacity: artistOpacity }}>{props.data.name}</AnimatedArtistName>
                 <DataWrapper>
                     <PoularTracksWrapper>
-                        <FollowButton followed={props.data.isFollowed} onPress={handleFollowOrUnfollow}>
-                            {props.data.isFollowed ? (
-                                <FollowText>Unfollow</FollowText>
-                            ) : (
-                                <FollowText>Follow</FollowText>
-                            )}
+                        <FollowButton followed={isSubscribed} onPress={handleFollowOrUnfollow}>
+                            {isSubscribed ? <FollowText>Unfollow</FollowText> : <FollowText>Follow</FollowText>}
                         </FollowButton>
                         <Popular>{I18n.t('artist.popularTracks')}</Popular>
                         {props.data.popularTracks?.map((track, index) =>
