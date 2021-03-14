@@ -81,13 +81,19 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
     };
 
     const renderItem = (item: RenderType) => {
-        return (
-            <PlaylistToChooseItem
-                name={item.item.name}
-                data={item.item}
-                onPress={() => handleAddToPlaylist(item.item.id)}
-            />
-        );
+        const exist = item.item.tracks.find((value) => {
+            return value.id === props.track.id;
+        });
+        console.log(exist);
+        if (!exist) {
+            return (
+                <PlaylistToChooseItem
+                    name={item.item.name}
+                    data={item.item}
+                    onPress={() => handleAddToPlaylist(item.item.id)}
+                />
+            );
+        } else return null;
     };
 
     return (
