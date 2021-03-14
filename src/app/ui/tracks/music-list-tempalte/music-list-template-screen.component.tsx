@@ -9,7 +9,6 @@ import { Album, Playlist, Track } from '../../../../types/music';
 import { AnimatedHeaderWrapper } from '../../../music-stack/components/styled/artist.styled';
 import { MUSIC_ACTIONS, PlayActionTriggerPayload } from '../../../player/actions';
 import { getCurrentQueue } from '../../../player/selectors';
-import AnimatedGradientTransition from '../../animated-gradient-transition.component';
 import { BackButton } from '../../back-button.component';
 import { Container } from '../../styled/container.styled';
 import { CombinedPlaylistImage } from '../combined-image.component';
@@ -30,6 +29,7 @@ import {
 } from '../styled/music-list-header.styled';
 import { AnimatedFlatList, EmptyPlaylistComponent } from '../styled/music-list-temlate-screen.styled';
 import { TrackComponent } from '../track.component';
+import I18n from '../../../utils/i18n';
 
 export type MusicListTemplateScreenProps = {
     data: Album | Playlist;
@@ -160,7 +160,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                                     <ArtistWrapper onPress={handlePress}>
                                         <AlbumArtist>{(props.data as Album).artistName}</AlbumArtist>
                                     </ArtistWrapper>
-                                    <AlbumYear>{'Album ' + (props.data as Album).year}</AlbumYear>
+                                    <AlbumYear>{I18n.t('additional.album') + (props.data as Album).year}</AlbumYear>
                                 </>
                             ) : (
                                 <AnimatedPlaylistName style={{ paddingBottom: 20, paddingTop: 10 }}>

@@ -6,6 +6,7 @@ import { firebase } from '../utils/firebase';
 import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
 import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
 import { Logger } from '../utils/logger';
+import I18n from '../utils/i18n';
 
 import { LOAD_HOME_DATA, CHANGE_PASSWORD } from './actions';
 
@@ -18,7 +19,11 @@ export function* changePasswordSaga(action: ReturnType<typeof CHANGE_PASSWORD.TR
         yield call(client.changePassword, action.payload.currentPass, action.payload.newPass);
         firebase.passwordChanged();
     } else {
-        yield call(SHOW_FLASHBAR, { description: 'Something went wrong', type: FlashbarEnum.Danger, message: 'Ooops' });
+        yield call(SHOW_FLASHBAR, {
+            description: I18n.t('flashbar.somethingWentWrong'),
+            type: FlashbarEnum.Danger,
+            message: I18n.t('flashbar.tryAgain'),
+        });
     }
 }
 

@@ -7,6 +7,7 @@ import { firebase } from '../utils/firebase';
 import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
 import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
 import { Logger } from '../utils/logger';
+import I18n from '../utils/i18n';
 
 import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST } from './actions';
 import { getAlbum, getArtist } from './selectors';
@@ -27,11 +28,9 @@ export function* loadArtistSaga(action: ReturnType<typeof LOAD_ARTIST.TRIGGER>):
             artist = yield call(client.getArtist, action.payload.id);
             yield put(LOAD_ARTIST.COMPLETED({ key: action.payload.key, artist }));
         }
-    } catch (err) {
-        const error = new Error(err);
-
+    } catch (error) {
         yield call(Logger.error, error);
-        yield put(LOAD_ARTIST.COMPLETED.failed(new ExtendedError(err, action.payload.key)));
+        yield put(LOAD_ARTIST.COMPLETED.failed(new ExtendedError(error, action.payload.key)));
     }
 }
 
@@ -45,11 +44,9 @@ export function* loadAlbumSaga(action: ReturnType<typeof LOAD_ALBUM.TRIGGER>): S
             album = yield call(client.getAlbum, action.payload.id);
             yield put(LOAD_ALBUM.COMPLETED({ key: action.payload.key, album }));
         }
-    } catch (err) {
-        const error = new Error(err);
-
+    } catch (error) {
         yield call(Logger.error, error);
-        yield put(LOAD_ALBUM.COMPLETED.failed(new ExtendedError(err, action.payload.key)));
+        yield put(LOAD_ALBUM.COMPLETED.failed(new ExtendedError(error, action.payload.key)));
     }
 }
 
@@ -60,12 +57,9 @@ export function* addToPlaylist(action: ReturnType<typeof ADD_TO_PLAYLIST.TRIGGER
         console.log(result);
         yield put(LOAD_LIBRARY.COMPLETED(result));
         yield put(ADD_PLAYLIST.COMPLETED(result));
-        yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Success, message: 'Track successfully added' }));
-    } catch (err) {
-        const error = new Error(err);
-
+        yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Success, message: I18n.t('flashbar.successfullyAdded') }));
+    } catch (error) {
         yield call(Logger.error, error);
-        yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Danger, message: 'Track already in playlist' }));
     }
 }
 
@@ -75,7 +69,7 @@ export function* followOrUnfollowSaga(action: ReturnType<typeof FOLLOW_OR_UNFOLL
         yield put(FOLLOW_OR_UNFOLLOW.COMPLETED(result));
     } catch (error) {
         yield call(Logger.error, error);
-        yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Danger, message: 'Error happened' }));
+        yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Danger, message: I18n.t('flashbar.errorHappened') }));
     }
 }
 

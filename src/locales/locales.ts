@@ -54,6 +54,16 @@ const en: DefaultLocale = {
     },
     additional: {
         choosePlaylist: 'Choose playlist to add',
+        album: 'Album ',
+    },
+    flashbar: {
+        userExits: 'User with same email already exists',
+        tryLogin: 'Try to login',
+        incorrectData: 'Incorrect user data',
+        tryAgain: 'Try again',
+        somethingWentWrong: 'Something went wrong',
+        errorHappened: 'Error happened',
+        successfullyAdded: 'Track successfully added',
     },
 };
 
@@ -111,6 +121,16 @@ const ru: DefaultLocale = {
     },
     additional: {
         choosePlaylist: 'Выберите плейлист для добавления',
+        album: 'Альбом ',
+    },
+    flashbar: {
+        userExits: 'Пользователь с такой почтой уже существует',
+        tryLogin: 'Попробуйте войти',
+        incorrectData: 'Неправильные данные',
+        tryAgain: 'Попробуйте снова',
+        somethingWentWrong: 'Что-то пошло не так',
+        errorHappened: 'Произошла ошибка',
+        successfullyAdded: 'Трек добавлен',
     },
 };
 

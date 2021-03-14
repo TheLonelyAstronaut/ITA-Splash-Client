@@ -52,5 +52,15 @@ export interface DefaultLocale {
     };
     additional: {
         choosePlaylist: string;
+        album: string;
+    };
+    flashbar: {
+        userExits: string;
+        tryLogin: string;
+        incorrectData: string;
+        tryAgain: string;
+        somethingWentWrong: string;
+        successfullyAdded: string;
+        errorHappened: string;
     };
 }
