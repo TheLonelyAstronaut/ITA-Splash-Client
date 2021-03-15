@@ -1,7 +1,7 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 
-import { Album, Artist, Playlist } from '../../../types/music';
+import { Playlist } from '../../../types/music';
 import { PlaylistImageRender } from '../../library/components/playlist-item.component';
 import { AlbumPreview, ArtistPreview, PlaylistPreview } from '../home.types';
 import { HomeParamList } from '../routing.params';
@@ -20,9 +20,6 @@ export const HomeItemComponent: React.FC<PlaylistProps> = ({ data, navigation }:
     const isAlbum = data?.hasOwnProperty('artwork');
     // eslint-disable-next-line no-prototype-builtins
     const isPlaylist = data?.hasOwnProperty('liked');
-    // console.log('artist',isArtist)
-    // console.log('album',isAlbum)
-    // console.log('playlist', isPlaylist)
 
     const handlePress = useCallback(() => {
         const transfer = (stack: string, screen: string, params: unknown) => {

@@ -15,7 +15,7 @@ import { Logger } from './logger';
 
 export const INITIALIZATION = createAction('[Initialization]', (payload: Dispatch) => payload);
 
-const CAPABILITIES_ARRAY: Capability[] = [
+export const CAPABILITIES_ARRAY: Capability[] = [
     Capability.Play,
     Capability.Pause,
     Capability.SkipToNext,

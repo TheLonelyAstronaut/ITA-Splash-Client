@@ -30,6 +30,14 @@ export type CombinedImageProps = {
 export type PlaylistImageProps = CombinedImageProps;
 
 export const CombinedPlaylistImage = (data: CombinedImageProps) => {
+    if (
+        data.data.tracks[0].artwork === data.data.tracks[1].artwork ||
+        data.data.tracks[0].artwork === data.data.tracks[2].artwork ||
+        data.data.tracks[0].artwork === data.data.tracks[3].artwork ||
+        data.data.tracks[0].artwork === data.data.tracks[4].artwork
+    ) {
+        return <PlaylistImage source={{ uri: data.data.tracks[0].artwork }} />;
+    }
     if (data.data.tracks !== undefined) {
         return (
             <CombinedImageContainer>
@@ -59,7 +67,7 @@ export const PlaylistImageRender = (data: PlaylistImageProps) => {
             </PlaylistIconWrapper>
         );
     }
-    if (data.data.tracks.length <= 4) {
+    if (data.data.tracks.length < 4) {
         switch (data.data.tracks.length) {
             case 0:
                 return (
@@ -73,8 +81,6 @@ export const PlaylistImageRender = (data: PlaylistImageProps) => {
             case 2:
             case 3:
                 return <PlaylistImage source={{ uri: data.data.tracks[0].artwork }} />;
-            case 4:
-                return <CombinedPlaylistImage data={data.data} />;
         }
     } else return <CombinedPlaylistImage data={data.data} />;
 

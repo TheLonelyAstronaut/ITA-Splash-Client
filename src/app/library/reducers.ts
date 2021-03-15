@@ -1,7 +1,5 @@
 import { createReducer } from 'typesafe-redux-helpers';
 
-import { library } from '../../mocks/library';
-
 import { LOAD_LIBRARY } from './actions';
 import { LibraryData } from './library.types';
 
@@ -14,7 +12,7 @@ export type LibraryParams = {
 export const initialState: LibraryParams = {
     isFetching: false,
     error: undefined,
-    data: library,
+    data: [],
 };
 
 export const libraryReducer = createReducer<LibraryParams>(initialState)

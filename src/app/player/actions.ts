@@ -26,10 +26,6 @@ export interface SetCurrentTrackPayload {
     skipPlaying?: boolean;
 }
 
-export interface PlayActionCompletedPayload extends PlayActionTriggerPayload {
-    artist?: Artist;
-}
-
 export interface SeekToPayload {
     position: number;
 }
@@ -42,7 +38,7 @@ export interface AddGradientPayload {
 export const MUSIC_ACTIONS = {
     PLAY: {
         TRIGGER: createAction('[Music Actions Play Triggered]', (payload: PlayActionTriggerPayload) => payload),
-        COMPLETED: createAction('[Music Actions Play Completed]', (payload: PlayActionCompletedPayload) => payload),
+        COMPLETED: createAction('[Music Actions Play Completed]', (payload: PlayActionTriggerPayload) => payload),
     },
     ADD_TO_THE_QUEUE: {
         TRIGGER: createAction('[Add To The Queue Triggered]', (payload: Track) => payload),

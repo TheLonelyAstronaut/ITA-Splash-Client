@@ -6,14 +6,7 @@ import Config from 'react-native-config';
 import { AuthCompletedPayload, LoginPayload, RegisterPayload, User } from '../app/authentication/authentication.types';
 import { HomepageData } from '../app/home/home.types';
 import { AddPlaylistPayload } from '../app/library/actions';
-import { LibraryData } from '../app/library/library.types';
 import { SearchResult } from '../app/search/search.types';
-import { firebase } from '../app/utils/firebase';
-import { artists } from '../mocks/artists';
-import { home } from '../mocks/home-mock';
-import { library } from '../mocks/library';
-import { playlist } from '../mocks/playlists';
-import { tracks } from '../mocks/tracks';
 import { Artist, Album, Playlist } from '../types/music';
 
 import { fromAlbumOutput } from './mappers/to-album.mapper';
@@ -21,7 +14,6 @@ import { fromArtistOutput } from './mappers/to-artist.mapper';
 import { fromHomepageOutput } from './mappers/to-homepage.mapper';
 import { fromPlaylistOutput } from './mappers/to-playlist.mapper';
 import { fromSearchOutput } from './mappers/to-search-result.mapper';
-import { fromTrackOutput } from './mappers/to-track.mapper';
 import { fromUserOutput } from './mappers/to-user.mapper';
 import { addOrRemoveFromPlaylistMutation } from './mutations/add-or-remove-from-playlist.mutation';
 import { createPlaylistMutation } from './mutations/create-playlist.mutation';
@@ -55,7 +47,6 @@ export class GraphQLAPI {
     private client: ApolloClient<unknown>;
 
     constructor() {
-        console.log(Config.SERVER_ADDRESS);
         this.client = new ApolloClient({
             uri: Config.SERVER_ADDRESS,
             headers: {

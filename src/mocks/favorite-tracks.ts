@@ -1,3 +1,3 @@
-import { Track } from '../types/music';
-
-export const favoriteTracks: Track[] = [];
+// import { Track } from '../types/music';
+//
+// export const favoriteTracks: Track[] = [];
