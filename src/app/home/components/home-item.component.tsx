@@ -41,7 +41,7 @@ export const HomeItemComponent: React.FC<PlaylistProps> = ({ data, navigation }:
                 id: (data as AlbumPreview).id,
             });
         } else {
-            transfer('Library', 'PlaylistScreen', {
+            transfer('Home', 'PlaylistScreen', {
                 id: (data as PlaylistPreview).id,
             });
         }

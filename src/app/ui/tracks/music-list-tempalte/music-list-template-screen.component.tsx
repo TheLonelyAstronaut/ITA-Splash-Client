@@ -102,10 +102,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
         );
     }, [currentQueue, dispatch, props.data.tracks]);
 
-    const handleBackPress = useCallback(
-        () => (isAlbum ? navigation.goBack() : navigation.navigate('PlaylistsScreen')),
-        [isAlbum, navigation]
-    );
+    const handleBackPress = useCallback(() => navigation.goBack(), [navigation]);
 
     const HeaderComponent = useCallback(
         () => (
