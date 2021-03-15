@@ -199,7 +199,11 @@ export class GraphQLAPI {
             query: getHomepageQuery,
         });
         result.data.getHomepage.forEach((item) => {
-            home.push(fromHomepageOutput(item));
+            if (item.data.length === 0) {
+                return null;
+            } else {
+                home.push(fromHomepageOutput(item));
+            }
         });
         return home;
     };
