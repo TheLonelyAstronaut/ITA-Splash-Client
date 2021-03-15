@@ -2,14 +2,12 @@ import RNTrackPlayer, { Event } from 'react-native-track-player';
 import { expectSaga, ExpectApi } from 'redux-saga-test-plan';
 import { call, select } from 'redux-saga-test-plan/matchers';
 
-import { tracks } from '../../../__mocks__/data/tracks';
 import { users } from '../../../__mocks__/data/users';
 import { LOGIN } from '../../../src/app/authentication/actions';
 import { User } from '../../../src/app/authentication/authentication.types';
 import { getAccessToken } from '../../../src/app/authentication/selectors';
 import { INITIALIZATION, initializationSaga } from '../../../src/app/utils/initialization-saga';
 import { client } from '../../../src/graphql/api';
-import * as RNTrackPlayerMock from '../../../__mocks__/react-native-track-player';
 
 jest.mock('react-native-track-player', () => ({
     Capability: {
