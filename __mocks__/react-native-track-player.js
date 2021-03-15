@@ -15,3 +15,32 @@ export const Capability = {
     Dislike: 13,
     Bookmark: 14,
 };
+
+export const Event = {
+    PlaybackState: 'playback-state',
+    PlaybackError: 'playback-error',
+    PlaybackQueueEnded: 'playback-queue-ended',
+    PlaybackTrackChanged: 'playback-track-changed',
+    RemotePlay: 'remote-play',
+    RemotePlayId: 'remote-play-id',
+    RemotePlaySearch: 'remote-play-search',
+    RemotePause: 'remote-pause',
+    RemoteStop: 'remote-stop',
+    RemoteSkip: 'remote-skip',
+    RemoteNext: 'remote-next',
+    RemotePrevious: 'remote-previous',
+    RemoteJumpForward: 'remote-jump-forward',
+    RemoteJumpBackward: 'remote-jump-backward',
+    RemoteSeek: 'remote-seek',
+    RemoteSetRating: 'remote-set-rating',
+    RemoteDuck: 'remote-duck',
+    RemoteLike: 'remote-like',
+    RemoteDislike: 'remote-dislike',
+    RemoteBookmark: 'remote-bookmark',
+};
+
+export const setupPlayer = jest.fn();
+
+export const updateOptions = jest.fn();
+
+export const addEventListener = jest.fn();

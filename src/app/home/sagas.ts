@@ -5,8 +5,8 @@ import { client } from '../../graphql/api';
 import { firebase } from '../utils/firebase';
 import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
 import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
-import { Logger } from '../utils/logger';
 import I18n from '../utils/i18n';
+import { Logger } from '../utils/logger';
 
 import { LOAD_HOME_DATA, CHANGE_PASSWORD } from './actions';
 

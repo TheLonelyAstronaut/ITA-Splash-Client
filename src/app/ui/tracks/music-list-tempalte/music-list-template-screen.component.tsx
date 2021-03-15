@@ -9,6 +9,7 @@ import { Album, Playlist, Track } from '../../../../types/music';
 import { AnimatedHeaderWrapper } from '../../../music-stack/components/styled/artist.styled';
 import { MUSIC_ACTIONS, PlayActionTriggerPayload } from '../../../player/actions';
 import { getCurrentQueue } from '../../../player/selectors';
+import I18n from '../../../utils/i18n';
 import { BackButton } from '../../back-button.component';
 import { Container } from '../../styled/container.styled';
 import { CombinedPlaylistImage } from '../combined-image.component';
@@ -29,7 +30,6 @@ import {
 } from '../styled/music-list-header.styled';
 import { AnimatedFlatList, EmptyPlaylistComponent } from '../styled/music-list-temlate-screen.styled';
 import { TrackComponent } from '../track.component';
-import I18n from '../../../utils/i18n';
 
 export type MusicListTemplateScreenProps = {
     data: Album | Playlist;

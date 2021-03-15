@@ -1,42 +1,39 @@
-jest.mock('react-native-track-player');
-import * as MockTrackPlayer from '../../../__mocks__/react-native-track-player';
-import { expectSaga, testSaga, ExpectApi } from 'redux-saga-test-plan';
-import { call, select, put } from 'redux-saga-test-plan/matchers';
-import { throwError } from 'redux-saga-test-plan/providers';
-
-import { LOGIN, LOGOUT } from '../../../src/app/authentication/actions';
-import { getAccessToken } from '../../../src/app/authentication/selectors';
-import { MUSIC_ACTIONS } from '../../../src/app/player/actions';
-import { INITIALIZATION, initializationSaga } from '../../../src/app/utils/initialization-saga';
 import RNTrackPlayer, { Event } from 'react-native-track-player';
-import { tracks } from '../../../src/mocks/tracks';
+import { expectSaga, ExpectApi } from 'redux-saga-test-plan';
+import { call, select } from 'redux-saga-test-plan/matchers';
+
+import { tracks } from '../../../__mocks__/data/tracks';
+import { users } from '../../../__mocks__/data/users';
+import { LOGIN } from '../../../src/app/authentication/actions';
+import { User } from '../../../src/app/authentication/authentication.types';
+import { getAccessToken } from '../../../src/app/authentication/selectors';
+import { INITIALIZATION, initializationSaga } from '../../../src/app/utils/initialization-saga';
+import { client } from '../../../src/graphql/api';
+import * as RNTrackPlayerMock from '../../../__mocks__/react-native-track-player';
+
+jest.mock('react-native-track-player', () => ({
+    Capability: {
+        Play: 0,
+        Pause: 3,
+        SkipToNext: 7,
+        SkipToPrevious: 8,
+    },
+    Event: {
+        PlaybackTrackChanged: 'playback-track-changed',
+    },
+    setupPlayer: jest.fn(),
+    updateOptions: jest.fn(),
+    addEventListener: jest.fn(),
+}));
 
 describe('Initialization Saga', () => {
     let saga: ExpectApi;
     const mockDispatch = jest.fn();
-
-    const currentTrack = tracks[0];
+    const mockUser: User = users[0];
+    // const currentTrack = tracks[0];
+    const token = 'test_token';
 
     beforeEach(() => {
-        ((RNTrackPlayer as unknown) as jest.Mock).mockImplementation(() => ({
-            Capability: {
-                Play: 0,
-                PlayFromId: 1,
-                PlayFromSearch: 2,
-                Pause: 3,
-                Stop: 4,
-                SeekTo: 5,
-                Skip: 6,
-                SkipToNext: 7,
-                SkipToPrevious: 8,
-                JumpForward: 9,
-                JumpBackward: 10,
-                SetRating: 11,
-                Like: 12,
-                Dislike: 13,
-                Bookmark: 14,
-            },
-        }));
         saga = expectSaga(initializationSaga, INITIALIZATION(mockDispatch)).provide([
             [call.fn(RNTrackPlayer.setupPlayer), undefined],
             [
@@ -47,13 +44,15 @@ describe('Initialization Saga', () => {
                     compactCapabilities: undefined,
                     notificationCapabilities: undefined,
                 },
-            ][
-                // eslint-disable-next-line no-unexpected-multiline
-                (call.fn(RNTrackPlayer.addEventListener), Event.PlaybackTrackChanged)
             ],
+            [call.fn(RNTrackPlayer.addEventListener), Event.PlaybackTrackChanged],
+            [select(getAccessToken), token],
+            [call.fn(client.setAuthToken), undefined],
+            [call.fn(client.getCurrentUser), mockUser],
         ]);
     });
-    it('should set current track', async () => {
-        await saga.put(MUSIC_ACTIONS.SET_CURRENT_TRACK(currentTrack)).run(false);
+
+    it('should update user object if token is valid', async () => {
+        await saga.put(LOGIN.COMPLETED({ data: mockUser, token })).run(false);
     });
 });

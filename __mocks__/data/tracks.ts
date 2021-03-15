@@ -1,4 +1,4 @@
-import { ArtworkType, Track } from '../types/music';
+import { ArtworkType, Track } from '../../src/types/music';
 
 export const tracks: Track[] = [
     {

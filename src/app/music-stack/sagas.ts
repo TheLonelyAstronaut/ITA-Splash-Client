@@ -6,8 +6,8 @@ import { ADD_PLAYLIST, LOAD_LIBRARY } from '../library/actions';
 import { firebase } from '../utils/firebase';
 import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
 import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
-import { Logger } from '../utils/logger';
 import I18n from '../utils/i18n';
+import { Logger } from '../utils/logger';
 
 import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST } from './actions';
 import { getAlbum, getArtist } from './selectors';
