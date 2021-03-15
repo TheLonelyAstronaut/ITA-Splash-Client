@@ -24,9 +24,7 @@ export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>): Saga
         const result = yield call(client.register, action.payload);
         yield put(REGISTER.COMPLETED(result));
         yield call(firebase.register, result);
-    } catch (err) {
-        const error = new Error(err);
-
+    } catch (error) {
         yield call(Logger.error, error);
         yield put(REGISTER.COMPLETED.failed(error));
         yield put(
@@ -46,8 +44,7 @@ export function* loginSaga(action: ReturnType<typeof LOGIN.TRIGGER>): SagaIterat
         const result = yield call(client.login, action.payload);
         yield put(LOGIN.COMPLETED(result));
         yield call(firebase.login, result);
-    } catch (err) {
-        const error = new Error(err);
+    } catch (error) {
         yield call(Logger.error, error);
         yield put(LOGIN.COMPLETED.failed(error));
         yield put(

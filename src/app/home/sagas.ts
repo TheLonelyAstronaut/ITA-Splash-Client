@@ -12,18 +12,23 @@ import { LOAD_HOME_DATA, CHANGE_PASSWORD } from './actions';
 
 export function* changePasswordSaga(action: ReturnType<typeof CHANGE_PASSWORD.TRIGGER>): SagaIterator {
     if (
-        action.payload.currentPass === action.payload.repeatNewPass &&
+        action.payload.newPass === action.payload.repeatNewPass &&
         action.payload.currentPass !== '' &&
         action.payload.newPass !== ''
     ) {
-        yield call(client.changePassword, action.payload.currentPass, action.payload.newPass);
-        firebase.passwordChanged();
-    } else {
-        yield call(SHOW_FLASHBAR, {
-            description: I18n.t('flashbar.somethingWentWrong'),
-            type: FlashbarEnum.Danger,
-            message: I18n.t('flashbar.tryAgain'),
-        });
+        try {
+            yield call(client.changePassword, action.payload.currentPass, action.payload.newPass);
+            firebase.passwordChanged();
+        } catch (error) {
+            yield call(Logger.error, error);
+            yield put(
+                SHOW_FLASHBAR({
+                    description: I18n.t('flashbar.somethingWentWrong'),
+                    type: FlashbarEnum.Danger,
+                    message: I18n.t('flashbar.tryAgain'),
+                })
+            );
+        }
     }
 }
 
@@ -32,9 +37,7 @@ export function* loadHomePageSaga(): SagaIterator {
         yield put(LOAD_HOME_DATA.STARTED());
         const result = yield call(client.getHomepageData);
         yield put(LOAD_HOME_DATA.COMPLETED(result));
-    } catch (err) {
-        const error = new Error(err);
-
+    } catch (error) {
         yield call(Logger.error, error);
         yield put(LOAD_HOME_DATA.COMPLETED.failed(error));
     }

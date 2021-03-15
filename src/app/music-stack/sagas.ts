@@ -10,7 +10,9 @@ import I18n from '../utils/i18n';
 import { Logger } from '../utils/logger';
 
 import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST } from './actions';
-import { getAlbum, getArtist } from './selectors';
+import { getAlbum, getAlbumsState, getArtistsState } from './selectors';
+import { getArtistFromMap } from '../utils/get-artists';
+import { getAlbumsFromMap } from '../utils/get-albums';
 
 export class ExtendedError extends Error {
     constructor(error: Error, public readonly key: string) {
@@ -20,7 +22,8 @@ export class ExtendedError extends Error {
 
 export function* loadArtistSaga(action: ReturnType<typeof LOAD_ARTIST.TRIGGER>): SagaIterator {
     try {
-        let artist = yield select(getArtist(action.payload.id));
+        const artists = yield select(getArtistsState);
+        let artist = yield call(getArtistFromMap, artists, action.payload.id);
         yield call(firebase.artistOpened, artist);
 
         if (!artist) {
@@ -36,7 +39,8 @@ export function* loadArtistSaga(action: ReturnType<typeof LOAD_ARTIST.TRIGGER>):
 
 export function* loadAlbumSaga(action: ReturnType<typeof LOAD_ALBUM.TRIGGER>): SagaIterator {
     try {
-        let album = yield select(getAlbum(action.payload.id));
+        const albums = yield select(getAlbumsState);
+        let album = yield call(getAlbumsFromMap, albums, action.payload.id);
         yield call(firebase.albumOpened, album);
 
         if (!album) {
@@ -52,10 +56,7 @@ export function* loadAlbumSaga(action: ReturnType<typeof LOAD_ALBUM.TRIGGER>): S
 
 export function* addToPlaylist(action: ReturnType<typeof ADD_TO_PLAYLIST.TRIGGER>): SagaIterator {
     try {
-        yield put(LOAD_LIBRARY.TRIGGER());
         const result = yield call(client.addToPlaylist, action.payload.trackId, action.payload.playlistId);
-        console.log(result);
-        yield put(LOAD_LIBRARY.COMPLETED(result));
         yield put(ADD_PLAYLIST.COMPLETED(result));
         yield put(SHOW_FLASHBAR({ type: FlashbarEnum.Success, message: I18n.t('flashbar.successfullyAdded') }));
     } catch (error) {

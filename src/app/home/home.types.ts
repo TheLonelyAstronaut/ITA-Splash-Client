@@ -20,7 +20,7 @@ export type PlaylistPreview = {
 
 export type RenderDataProp = (ArtistPreview | AlbumPreview | PlaylistPreview | null)[];
 
-export interface HomepageData {
+export type HomepageData = {
     title: string;
     data: RenderDataProp[];
-}
+};

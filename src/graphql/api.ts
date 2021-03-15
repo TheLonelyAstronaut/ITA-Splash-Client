@@ -176,7 +176,6 @@ export class GraphQLAPI {
                 },
             },
         });
-        console.log(result);
         if (result.data?.createPlaylist.id) {
             return fromPlaylistOutput(result.data.createPlaylist);
         } else {
@@ -184,12 +183,13 @@ export class GraphQLAPI {
         }
     };
 
-    changePassword = async (currentPass: string, newPass: string): Promise<void> => {
+    changePassword = async (currentPass: string, newPass: string): Promise<{}> => {
         // if (currentPass === users[0].password) {
         //     users[0].password = newPass;
         // } else {
         //     throw new Error('Incorrect password');
         // }
+        return { currentPass: currentPass, newPass: newPass };
     };
 
     getHomepageData = async (): Promise<HomepageData[]> => {
@@ -198,7 +198,6 @@ export class GraphQLAPI {
         const result = await this.client.query<HomepageDataOutput>({
             query: getHomepageQuery,
         });
-        console.log(result);
         result.data.getHomepage.forEach((item) => {
             home.push(fromHomepageOutput(item));
         });
@@ -238,7 +237,6 @@ export class GraphQLAPI {
     };
 
     getAlbum = async (id: number): Promise<Album> => {
-        console.log(id);
         const result = await this.client.query<GetAlbumOutput, AlbumInput>({
             query: getAlbumQuery,
             variables: {

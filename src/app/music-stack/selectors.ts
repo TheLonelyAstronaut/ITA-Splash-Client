@@ -5,6 +5,7 @@ import { ApplicationState } from '../store/application-state.types';
 
 import { MusicStackState } from './reducers';
 import { ExtendedError } from './sagas';
+import ExtendedMap from '../utils/extended-map';
 
 export const getRootMusicStackState: Selector<ApplicationState, MusicStackState> = createSelector(
     (state) => state.music,
@@ -22,3 +23,13 @@ export const getArtist = (id: number): Selector<ApplicationState, Artist | undef
 
 export const getAlbum = (id: number): Selector<ApplicationState, Album | undefined> =>
     createSelector(getRootMusicStackState, (state) => state.data.albums.get(id));
+
+export const getArtistsState: Selector<ApplicationState, ExtendedMap<number, Artist>> = createSelector(
+    getRootMusicStackState,
+    (state) => state.data.artists
+);
+
+export const getAlbumsState: Selector<ApplicationState, ExtendedMap<number, Album>> = createSelector(
+    getRootMusicStackState,
+    (state) => state.data.albums
+);
