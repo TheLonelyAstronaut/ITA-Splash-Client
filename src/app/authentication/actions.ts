@@ -15,6 +15,6 @@ export const REGISTER = {
 };
 
 export const LOGOUT = {
-    TRIGGER: createAction('[Logout] Trigger'),
+    TRIGGER: createAction('[Logout] Trigger', (payload) => payload),
     COMPLETED: createAction('[Logout] Completed'),
 };
