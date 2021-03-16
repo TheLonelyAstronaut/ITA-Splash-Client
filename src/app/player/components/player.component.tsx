@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { ListRenderItemInfo, TouchableOpacity } from 'react-native';
+import { ListRenderItemInfo, Platform, TouchableOpacity } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -57,7 +57,10 @@ export const Player: React.FC = () => {
                     getColorFromURL(item.artwork).then((colors) => {
                         dispatch(
                             ADD_TRACK_GRADIENT({
-                                gradient: [colors.primary, theme.colors.main],
+                                gradient:
+                                    Platform.OS === 'ios'
+                                        ? [colors.secondary, colors.background]
+                                        : [colors.primary, theme.colors.main],
                                 track: item.id,
                             })
                         );
