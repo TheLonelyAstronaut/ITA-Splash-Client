@@ -12,7 +12,7 @@ import { Logger } from '../utils/logger';
 import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST } from './actions';
 import { getAlbum, getAlbumsState, getArtistsState } from './selectors';
 import { getArtistFromMap } from '../utils/get-artists';
-import { getAlbumsFromMap } from '../utils/get-albums';
+import { getAlbumsFromMap } from '../utils/mappers/get-albums';
 
 export class ExtendedError extends Error {
     constructor(error: Error, public readonly key: string) {

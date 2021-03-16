@@ -17,7 +17,7 @@ import { client } from '../../../src/graphql/api';
 import { Logger } from '../../../src/app/utils/logger';
 import { getArtistFromMap } from '../../../src/app/utils/get-artists';
 import { firebase } from '../../../src/app/utils/firebase';
-import { getAlbumsFromMap } from '../../../src/app/utils/get-albums';
+import { getAlbumsFromMap } from '../../../src/app/utils/mappers/get-albums';
 import { ADD_PLAYLIST } from '../../../src/app/library/actions';
 import { SHOW_FLASHBAR } from '../../../src/app/utils/flashbar/actions';
 import { FlashbarEnum } from '../../../src/app/utils/flashbar/flashbar.types';

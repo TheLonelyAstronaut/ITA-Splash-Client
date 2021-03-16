@@ -4,7 +4,7 @@ import { Album, Artist, Track } from '../../types/music';
 import { User } from '../authentication/authentication.types';
 import { ThemesEnum } from '../ui/themes/theme.types';
 
-export class FirebaseAPI {
+export class AnalyticsAPI {
     login = async (user: User): Promise<void> => {
         await analytics().logEvent('login', user);
     };
@@ -46,4 +46,4 @@ export class FirebaseAPI {
     };
 }
 
-export const firebase = new FirebaseAPI();
+export const firebase = new AnalyticsAPI();
