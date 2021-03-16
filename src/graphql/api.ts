@@ -85,13 +85,17 @@ export class GraphQLAPI {
     };
 
     login = async (payload: LoginPayload): Promise<AuthCompletedPayload | void> => {
+        const FCMToken = await messaging().getToken();
+
+        console.log(FCMToken);
+
         const result = await this.client.mutate<LoginResponse, LoginInput>({
             mutation: loginMutation,
             variables: {
                 data: {
                     email: payload.email,
                     password: payload.password,
-                    FCMToken: await messaging().getToken(),
+                    FCMToken,
                 },
             },
         });

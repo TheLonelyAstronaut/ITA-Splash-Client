@@ -7,7 +7,9 @@ import { Image } from './image.component';
 import { setSplashScreenControlCallback } from './splash-screen.ref';
 import { AnimatedSplashScreenWrapper } from './styled/splash-screen.styled';
 import { getTheme } from './themes/selectors';
-import { themesCollection, ThemesEnum } from './themes/themes';
+import { darkTheme, lightTheme, themesCollection, ThemesEnum } from './themes/themes';
+import { Platform, StatusBar } from 'react-native';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 const defaultColor = themesCollection[ThemesEnum.DARK]?.colors.screenBackground as string;
 const lightThemeColor = themesCollection[ThemesEnum.LIGHT]?.colors.screenBackground as string;
@@ -34,6 +36,16 @@ export const SplashScreen: React.FC = () => {
             }).start(() => {
                 setIsMounted(false);
             });
+
+            if (Platform.OS === 'android') {
+                if (currentTheme === ThemesEnum.DARK) {
+                    StatusBar.setBackgroundColor(darkTheme.colors.screenBackground, true);
+                    changeNavigationBarColor(darkTheme.colors.main, false, true);
+                } else {
+                    StatusBar.setBackgroundColor(lightTheme.colors.screenBackground, true);
+                    changeNavigationBarColor(lightTheme.colors.main, true, true);
+                }
+            }
         };
 
         if (currentTheme === ThemesEnum.LIGHT) {
