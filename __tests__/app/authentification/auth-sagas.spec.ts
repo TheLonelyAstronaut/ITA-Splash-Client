@@ -9,6 +9,11 @@ import { firebase } from '../../../src/app/utils/firebase';
 import { Logger } from '../../../src/app/utils/logger';
 import { throwError } from 'redux-saga-test-plan/providers';
 
+jest.mock('react-native-track-player', () => ({
+    stop: jest.fn(),
+    reset: jest.fn(),
+}));
+
 describe('Auth sagas', () => {
     describe('Login saga', () => {
         let saga: ExpectApi;

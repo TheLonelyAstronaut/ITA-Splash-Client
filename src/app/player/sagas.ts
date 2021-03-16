@@ -14,20 +14,36 @@ import { ControlActions } from './player.types';
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
     const currentTrack = yield call(RNTrackPlayer.getCurrentTrack);
+    console.log(currentTrack);
 
-    const nextTrackIndex = currentQueue.findIndex((track) => track.id === currentTrack) + 1;
+    let nextTrackIndex: number = currentQueue.findIndex((track) => track.id === currentTrack) + 1;
+    if (nextTrackIndex === 0) {
+        nextTrackIndex += 1;
+    }
     const nextTrackID: string | undefined = currentQueue[nextTrackIndex]?.id;
     const subIndex: number = currentQueue.filter((track) => track.id.split('_')[0] === action.payload.id).length;
 
     const modifiedTrack: Track = { ...action.payload, id: `${action.payload.id}_${subIndex}` };
+    console.log(modifiedTrack);
+    if (subIndex === 0) {
+        yield call(RNTrackPlayer.add, action.payload, nextTrackID);
 
-    yield call(RNTrackPlayer.add, modifiedTrack, nextTrackID);
-    yield put(
-        MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED({
-            track: modifiedTrack,
-            insertBeforeTrack: nextTrackID,
-        })
-    );
+        yield put(
+            MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED({
+                track: action.payload,
+                insertBeforeTrack: nextTrackID,
+            })
+        );
+    } else {
+        yield call(RNTrackPlayer.add, modifiedTrack, nextTrackID);
+
+        yield put(
+            MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED({
+                track: modifiedTrack,
+                insertBeforeTrack: nextTrackID,
+            })
+        );
+    }
 }
 
 export function* seekTo(action: ReturnType<typeof MUSIC_ACTIONS.SEEK_TO_POSITION>): SagaIterator {
