@@ -14,7 +14,6 @@ import { ControlActions } from './player.types';
 export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_THE_QUEUE.TRIGGER>): SagaIterator {
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
     const currentTrack = yield call(RNTrackPlayer.getCurrentTrack);
-    console.log(currentTrack);
 
     let nextTrackIndex: number = currentQueue.findIndex((track) => track.id === currentTrack) + 1;
     if (nextTrackIndex === 0) {
@@ -24,7 +23,6 @@ export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_T
     const subIndex: number = currentQueue.filter((track) => track.id.split('_')[0] === action.payload.id).length;
 
     const modifiedTrack: Track = { ...action.payload, id: `${action.payload.id}_${subIndex}` };
-    console.log(modifiedTrack);
     if (subIndex === 0) {
         yield call(RNTrackPlayer.add, action.payload, nextTrackID);
 
@@ -52,7 +50,7 @@ export function* seekTo(action: ReturnType<typeof MUSIC_ACTIONS.SEEK_TO_POSITION
 
 export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>): SagaIterator {
     let isQueuesEqual = true;
-
+    console.log(action.payload);
     if (action.payload.queue.length === action.payload.currentQueue?.length) {
         action.payload.queue.forEach((track, index) => {
             if (track.id !== action.payload.currentQueue?.[index].id) {
@@ -64,6 +62,7 @@ export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>)
     }
 
     if (!isQueuesEqual) {
+        console.log('here');
         yield put(MUSIC_ACTIONS.PLAY.COMPLETED({ track: action.payload.track, queue: [] }));
 
         const trackQueueIndex = action.payload.queue.findIndex((track) => track.id === action.payload.track.id);

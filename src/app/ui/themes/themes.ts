@@ -6,7 +6,7 @@ import { ThemesEnum } from './theme.types';
 
 export const DEVICE_SIZE = Dimensions.get('window');
 
-const defaultValues: DefaultTheme = {
+export const defaultValues: DefaultTheme = {
     fontSize: {
         extraLarge: 24,
         large: 18,

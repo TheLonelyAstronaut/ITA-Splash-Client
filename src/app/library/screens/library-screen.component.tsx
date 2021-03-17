@@ -3,7 +3,7 @@ import { FlatList } from 'react-native';
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from 'styled-components';
+import { useTheme } from 'styled-components/native';
 
 import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 import { LinearButton } from '../../ui/linear-gradient-button.component';

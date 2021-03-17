@@ -1,9 +1,8 @@
-import { expectSaga, testSaga, ExpectApi } from 'redux-saga-test-plan';
+import { expectSaga, ExpectApi } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
-import { addToQueueSaga, playSaga, seekTo } from '../../../src/app/player/sagas';
+import { addToQueueSaga, seekTo } from '../../../src/app/player/sagas';
 import { MUSIC_ACTIONS } from '../../../src/app/player/actions';
 import { tracks } from '../../../__mocks__/data/tracks';
-import { Track } from '../../../src/types/music';
 import RNTrackPlayer from 'react-native-track-player';
 
 jest.mock('react-native-track-player', () => ({
@@ -13,6 +12,8 @@ jest.mock('react-native-track-player', () => ({
     add: jest.fn(),
     getCurrentTrack: jest.fn(),
     seekTo: jest.fn(),
+    skip: jest.fn(),
+    play: jest.fn(),
 }));
 
 describe('Player sagas', () => {
@@ -57,17 +58,4 @@ describe('Player sagas', () => {
             await saga.call(RNTrackPlayer.seekTo, 1).run(false);
         });
     });
-    // describe('play saga',()=>{
-    //     let saga: ExpectApi;
-    //     const data= {
-    //         track: {} as Track,
-    //         queue: [] as Track[]
-    //     }
-    //
-    //     beforeEach(()=>{
-    //         saga = expectSaga(playSaga, MUSIC_ACTIONS.PLAY.TRIGGER(data)).provide([
-    //
-    //         ])
-    //     })
-    // })
 });
