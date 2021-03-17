@@ -1,20 +1,18 @@
 import { expectSaga, testSaga, ExpectApi } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
+import { throwError } from 'redux-saga-test-plan/providers';
+
+import { CHANGE_PASSWORD, LOAD_HOME_DATA } from '../../../src/app/home/actions';
+import { HomepageData } from '../../../src/app/home/home.types';
 import {
     changePasswordSaga,
     listenForChangePasswordSaga,
     listenForLoadHomepage,
     loadHomePageSaga,
 } from '../../../src/app/home/sagas';
-import { CHANGE_PASSWORD, LOAD_HOME_DATA } from '../../../src/app/home/actions';
-import { client } from '../../../src/graphql/api';
-import { Logger } from '../../../src/app/utils/logger';
-import { throwError } from 'redux-saga-test-plan/providers';
-import { HomepageData } from '../../../src/app/home/home.types';
-import { SHOW_FLASHBAR } from '../../../src/app/utils/flashbar/actions';
-import I18n from '../../../src/app/utils/i18n';
-import { FlashbarEnum } from '../../../src/app/utils/flashbar/flashbar.types';
 import { firebase } from '../../../src/app/utils/firebase';
+import { Logger } from '../../../src/app/utils/logger';
+import { client } from '../../../src/graphql/api';
 describe('Home sagas', () => {
     describe('Change password saga', () => {
         let saga: ExpectApi;

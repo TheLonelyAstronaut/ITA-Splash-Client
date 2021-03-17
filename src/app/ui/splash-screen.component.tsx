@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { Platform, StatusBar } from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Animated, { Easing, useValue } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
 
@@ -8,8 +10,6 @@ import { setSplashScreenControlCallback } from './splash-screen.ref';
 import { AnimatedSplashScreenWrapper } from './styled/splash-screen.styled';
 import { getTheme } from './themes/selectors';
 import { darkTheme, lightTheme, themesCollection, ThemesEnum } from './themes/themes';
-import { Platform, StatusBar } from 'react-native';
-import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 const defaultColor = themesCollection[ThemesEnum.DARK]?.colors.screenBackground as string;
 const lightThemeColor = themesCollection[ThemesEnum.LIGHT]?.colors.screenBackground as string;

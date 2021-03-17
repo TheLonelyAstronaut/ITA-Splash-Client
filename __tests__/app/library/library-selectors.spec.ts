@@ -1,4 +1,6 @@
-import { ApplicationState } from '../../../src/app/store/application-state.types';
+import { playlist } from '../../../__mocks__/data/playlists';
+import { AuthenticationState } from '../../../src/app/authentication/authentication.types';
+import { LibraryParams } from '../../../src/app/library/reducers';
 import {
     getErrorLibrary,
     getIsFetchingLibrary,
@@ -8,9 +10,7 @@ import {
     getPlaylist,
     getRootLibraryState,
 } from '../../../src/app/library/selectors';
-import { playlist } from '../../../__mocks__/data/playlists';
-import { LibraryParams } from '../../../src/app/library/reducers';
-import { AuthenticationState } from '../../../src/app/authentication/authentication.types';
+import { ApplicationState } from '../../../src/app/store/application-state.types';
 
 describe('Library selectors', () => {
     const state: ApplicationState = {

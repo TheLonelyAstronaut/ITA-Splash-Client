@@ -1,6 +1,6 @@
+import { HomeStateProps } from '../../../src/app/home/reducers';
 import { getError, getHomepageData, getIsFetching, getRootHomepageState } from '../../../src/app/home/selectors';
 import { ApplicationState } from '../../../src/app/store/application-state.types';
-import { HomeStateProps } from '../../../src/app/home/reducers';
 
 describe('Home selectors', () => {
     const state: ApplicationState = {

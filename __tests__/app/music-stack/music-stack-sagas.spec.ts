@@ -1,5 +1,9 @@
 import { ExpectApi, expectSaga, testSaga } from 'redux-saga-test-plan';
 import { call, select } from 'redux-saga-test-plan/matchers';
+import { throwError } from 'redux-saga-test-plan/providers';
+
+import { ADD_PLAYLIST } from '../../../src/app/library/actions';
+import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST } from '../../../src/app/music-stack/actions';
 import {
     addToPlaylist,
     followOrUnfollowSaga,
@@ -10,19 +14,15 @@ import {
     loadAlbumSaga,
     loadArtistSaga,
 } from '../../../src/app/music-stack/sagas';
-import { ADD_TO_PLAYLIST, FOLLOW_OR_UNFOLLOW, LOAD_ALBUM, LOAD_ARTIST } from '../../../src/app/music-stack/actions';
 import { getAlbumsState, getArtist, getArtistsState } from '../../../src/app/music-stack/selectors';
-import { Album, Artist, Playlist } from '../../../src/types/music';
-import { client } from '../../../src/graphql/api';
-import { Logger } from '../../../src/app/utils/logger';
-import { getArtistFromMap } from '../../../src/app/utils/get-artists';
 import { firebase } from '../../../src/app/utils/firebase';
-import { getAlbumsFromMap } from '../../../src/app/utils/mappers/get-albums';
-import { ADD_PLAYLIST } from '../../../src/app/library/actions';
 import { SHOW_FLASHBAR } from '../../../src/app/utils/flashbar/actions';
 import { FlashbarEnum } from '../../../src/app/utils/flashbar/flashbar.types';
-import { throwError } from 'redux-saga-test-plan/providers';
-import { assertWrappingType } from 'graphql';
+import { getArtistFromMap } from '../../../src/app/utils/get-artists';
+import { Logger } from '../../../src/app/utils/logger';
+import { getAlbumsFromMap } from '../../../src/app/utils/mappers/get-albums';
+import { client } from '../../../src/graphql/api';
+import { Album, Artist, Playlist } from '../../../src/types/music';
 
 describe('Music stack sagas', () => {
     describe('Load artist saga', () => {

@@ -1,6 +1,6 @@
 import { SEARCH_ALL, SearchPayload } from '../../../src/app/search/actions';
-import { SearchState } from '../../../src/app/search/search.types';
 import { searchReducer } from '../../../src/app/search/reducers';
+import { SearchState } from '../../../src/app/search/search.types';
 
 describe('Search reducers', () => {
     const before = {

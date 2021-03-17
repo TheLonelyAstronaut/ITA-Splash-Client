@@ -1,13 +1,14 @@
 import RNTrackPlayer from 'react-native-track-player';
-import { expectSaga, testSaga, ExpectApi } from 'redux-saga-test-plan';
+import { expectSaga, ExpectApi } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
-import { loginSaga, logoutSaga, registerSaga } from '../../../src/app/authentication/sagas';
+import { throwError } from 'redux-saga-test-plan/providers';
+
 import { LOGIN, LOGOUT, REGISTER } from '../../../src/app/authentication/actions';
-import { client } from '../../../src/graphql/api';
 import { User } from '../../../src/app/authentication/authentication.types';
+import { loginSaga, logoutSaga, registerSaga } from '../../../src/app/authentication/sagas';
 import { firebase } from '../../../src/app/utils/firebase';
 import { Logger } from '../../../src/app/utils/logger';
-import { throwError } from 'redux-saga-test-plan/providers';
+import { client } from '../../../src/graphql/api';
 
 jest.mock('react-native-track-player', () => ({
     stop: jest.fn(),

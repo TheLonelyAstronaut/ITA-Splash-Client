@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
+import { PlaylistScreenComponent } from '../library/screens/playlist-screen.component';
 import { MusicStackComponent } from '../music-stack/routing';
 
 import { HomeParamList } from './routing.params';
@@ -8,7 +9,6 @@ import { HomeScreenComponent } from './screens/home-screen.component';
 import { PasswordChangeScreenComponent } from './screens/password-change-screen.component';
 import { SettingsScreenComponent } from './screens/settings-screen.component';
 import { ThemeChangeScreenComponent } from './screens/theme-change-screen.component';
-import { PlaylistScreenComponent } from '../library/screens/playlist-screen.component';
 
 const Stack = createStackNavigator<HomeParamList>();
 

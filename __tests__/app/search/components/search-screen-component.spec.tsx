@@ -1,18 +1,20 @@
 import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
-import { MockSelectors } from '../../../../__mocks__/mock-selectors';
-import { getIsFetching, getSearchResults } from '../../../../src/app/search/selectors';
-import { SearchResult, SearchResultType } from '../../../../src/app/search/search.types';
-import { tracks } from '../../../../__mocks__/data/tracks';
+// eslint-disable-next-line no-restricted-imports
 import * as ReactRedux from 'react-redux';
 import * as Theme from 'styled-components/native';
 import { DefaultTheme } from 'styled-components/native';
-import { SearchScreenComponent } from '../../../../src/app/search/screens/search-screen.component';
-import { SearchNavigationProps } from '../../../../src/app/search/routing.params';
-import { darkTheme } from '../../../../src/app/ui/themes/themes';
-import { EmptyText, SearchInput } from '../../../../src/app/search/components/styled/search-screen.styled';
+
+import { tracks } from '../../../../__mocks__/data/tracks';
+import { MockSelectors } from '../../../../__mocks__/mock-selectors';
 import { SearchResultComponent } from '../../../../src/app/search/components/search-result.component';
+import { EmptyText, SearchInput } from '../../../../src/app/search/components/styled/search-screen.styled';
+import { SearchNavigationProps } from '../../../../src/app/search/routing.params';
+import { SearchScreenComponent } from '../../../../src/app/search/screens/search-screen.component';
+import { SearchResult, SearchResultType } from '../../../../src/app/search/search.types';
+import { getIsFetching, getSearchResults } from '../../../../src/app/search/selectors';
+import { darkTheme } from '../../../../src/app/ui/themes/themes';
 
 describe('Search screen', () => {
     let wrapper: ShallowWrapper;
@@ -26,6 +28,7 @@ describe('Search screen', () => {
             data: tracks[0],
         } as unknown) as SearchResult,
     ];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const createTestProps = (props: Record<string, unknown>) =>
         (({
             navigation: {
@@ -39,6 +42,7 @@ describe('Search screen', () => {
         } as unknown) as SearchNavigationProps<'SearchScreen'>);
 
     beforeEach(() => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         selectors = new MockSelectors().mockSelector(getSearchResults, testResults).mockSelector(getIsFetching, false);
 
         mockDispatch = jest.fn();
@@ -64,6 +68,7 @@ describe('Search screen', () => {
 
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const item = shallow(<Renderer item={testResults[0]} index={0} separators={null!} />);
 
             expect(item.is(SearchResultComponent)).toBe(true);

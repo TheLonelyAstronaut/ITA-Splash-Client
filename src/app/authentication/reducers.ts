@@ -17,7 +17,7 @@ const initialState: AuthenticationState = {
 };
 
 const unpersistedReducer = createReducer<AuthenticationState>(initialState)
-    .handleAction(LOGIN.STARTED, (state, action) => ({
+    .handleAction(LOGIN.STARTED, (state) => ({
         error: undefined,
         isFetching: true,
         token: '',

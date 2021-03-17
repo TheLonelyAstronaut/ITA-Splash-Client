@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-redux-helpers';
 
-import { Artist, Track } from '../../types/music';
+import { Track } from '../../types/music';
 
 import { ControlActions } from './player.types';
 

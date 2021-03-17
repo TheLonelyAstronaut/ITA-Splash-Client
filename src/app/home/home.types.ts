@@ -1,5 +1,3 @@
-import { Album, Artist, Playlist } from '../../types/music';
-
 export type ArtistPreview = {
     id: number;
     name: string;

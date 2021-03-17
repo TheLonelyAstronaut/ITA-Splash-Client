@@ -1,6 +1,5 @@
-import { playlist } from '../../../__mocks__/data/playlists';
-import { homeReducer, HomeStateProps } from '../../../src/app/home/reducers';
 import { LOAD_HOME_DATA } from '../../../src/app/home/actions';
+import { homeReducer, HomeStateProps } from '../../../src/app/home/reducers';
 
 describe('Homepage reducers', () => {
     const before = {

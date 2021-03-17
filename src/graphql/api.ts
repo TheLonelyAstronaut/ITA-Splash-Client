@@ -187,6 +187,7 @@ export class GraphQLAPI {
         }
     };
 
+    // eslint-disable-next-line @typescript-eslint/ban-types
     changePassword = async (currentPass: string, newPass: string): Promise<{}> => {
         // if (currentPass === users[0].password) {
         //     users[0].password = newPass;

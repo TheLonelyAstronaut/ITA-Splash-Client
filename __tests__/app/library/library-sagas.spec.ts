@@ -1,13 +1,13 @@
 import '../../../__mocks__/@react-native-firebase/crashlytics';
 import { expectSaga, testSaga, ExpectApi } from 'redux-saga-test-plan';
-import { call, select, put } from 'redux-saga-test-plan/matchers';
-import { addPlaylistSaga, listenForAddPlaylistSaga } from '../../../src/app/library/sagas';
+import { call } from 'redux-saga-test-plan/matchers';
+import { throwError } from 'redux-saga-test-plan/providers';
+
 import { ADD_PLAYLIST } from '../../../src/app/library/actions';
+import { addPlaylistSaga, listenForAddPlaylistSaga } from '../../../src/app/library/sagas';
+import { Logger } from '../../../src/app/utils/logger';
 import { client } from '../../../src/graphql/api';
 import { Playlist } from '../../../src/types/music';
-import { Logger } from '../../../src/app/utils/logger';
-import { throwError } from 'redux-saga-test-plan/providers';
-import { listenForAddToPlaylist } from '../../../src/app/music-stack/sagas';
 
 describe('Library sagas', () => {
     describe('addPlaylistSaga', () => {

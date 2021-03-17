@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { Album, Artist, Track } from '../../../types/music';
-import { LOAD_HOME_DATA } from '../../home/actions';
 import { getIsSubscribed } from '../../library/selectors';
 import { MUSIC_ACTIONS, PlayActionTriggerPayload } from '../../player/actions';
 import { Image } from '../../ui/image.component';

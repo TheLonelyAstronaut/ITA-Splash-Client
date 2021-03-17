@@ -1,17 +1,24 @@
 import { shallow, ShallowWrapper } from 'enzyme';
 import React from 'react';
-import { MockSelectors } from '../../../../__mocks__/mock-selectors';
-import { DefaultTheme } from 'styled-components/native';
-import { darkTheme } from '../../../../src/app/ui/themes/themes';
-import { getIsFetchingLibrary, getLibrary, getRootLibraryState } from '../../../../src/app/library/selectors';
-import { LibraryData } from '../../../../src/app/library/library.types';
+import { FlatList } from 'react-native';
+// eslint-disable-next-line no-restricted-imports
 import * as ReactRedux from 'react-redux';
+import { DefaultTheme } from 'styled-components/native';
 import * as Theme from 'styled-components/native';
+
+import { playlist } from '../../../../__mocks__/data/playlists';
+import { MockSelectors } from '../../../../__mocks__/mock-selectors';
+import {
+    AddPlaylistModal,
+    Indicator,
+    PlaylistInput,
+} from '../../../../src/app/library/components/styled/library-screen.styled';
 import { LibraryStackNavigationProps } from '../../../../src/app/library/routing.params';
 import { LibraryScreen } from '../../../../src/app/library/screens/library-screen.component';
-import { FlatList } from 'react-native';
-import { AddPlaylistModal, Indicator } from '../../../../src/app/library/components/styled/library-screen.styled';
+import { getIsFetchingLibrary, getLibrary, getRootLibraryState } from '../../../../src/app/library/selectors';
+import { darkTheme } from '../../../../src/app/ui/themes/themes';
 import { AddPlaylistItem } from '../../../../src/app/library/components/add-playlist.component';
+import { withHooks } from 'jest-react-hooks-shallow/lib/enable-hooks';
 
 describe('Library screen', () => {
     let wrapper: ShallowWrapper;
@@ -21,9 +28,10 @@ describe('Library screen', () => {
     const testLibrary = {
         isFetching: false,
         error: undefined,
-        data: [] as LibraryData[],
+        data: playlist,
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const createTestProps = (props: Record<string, unknown>) =>
         (({
             navigation: {
@@ -48,26 +56,42 @@ describe('Library screen', () => {
         jest.spyOn(Theme, 'useTheme').mockReturnValue(mockTheme);
 
         const props = createTestProps({});
-        wrapper = shallow(<LibraryScreen {...props} />);
+        withHooks(() => {
+            wrapper = shallow(<LibraryScreen {...props} />);
+        });
     });
 
     describe('FlatList', () => {
         it('should render playlists from user', () => {
             expect(wrapper.find(FlatList).props().data).toBe(testLibrary.data);
         });
-        it('should render playlists from user', () => {
+        it('should render indicator', () => {
             selectors.mockSelector(getIsFetchingLibrary, true);
             expect(wrapper.exists(Indicator)).toBe(false);
         });
+        it('should modal visible be false by initial', function () {
+            const modal = wrapper.find(AddPlaylistModal).props().visible;
 
+            expect(modal).toBe(false);
+        });
         it('should pop up modal', () => {
-            let testFunc: () => void;
             expect(wrapper.find(FlatList).props().data).toBe(testLibrary.data);
+
+            const flatList = wrapper.find(FlatList);
             const item = wrapper.find(FlatList).props().ListHeaderComponent;
-            //wrapper.find(AddPlaylistItem).simulate('click');
-            // expect(wrapper.exists(AddPlaylistItem)).toBe(true)
-            // expect(wrapper.exists(AddPlaylistModal)).toBe(true);
-            expect(item).toBe(<AddPlaylistItem onPress={() => testFunc} />);
+
+            item.props.onPress();
+            wrapper.setProps({ please: 'update' });
+            const modal = wrapper.find(AddPlaylistModal).props().visible;
+
+            expect(item).toBe(flatList.props().ListHeaderComponent);
+            expect(modal).toBe(true);
+        });
+        it('should change text input', function () {
+            withHooks(() => {
+                wrapper = shallow(<AddPlaylistModal />);
+            });
+            expect(wrapper.exists(PlaylistInput)).toBe(true);
         });
     });
 });

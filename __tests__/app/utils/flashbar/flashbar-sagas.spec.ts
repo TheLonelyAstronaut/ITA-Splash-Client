@@ -1,9 +1,10 @@
+import { showMessage } from 'react-native-flash-message';
 import { ExpectApi, expectSaga, testSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
-import { showMessage } from 'react-native-flash-message';
-import { flashbarSaga, listenFlashbarSaga } from '../../../../src/app/utils/flashbar/sagas';
+
 import { SHOW_FLASHBAR } from '../../../../src/app/utils/flashbar/actions';
 import { FlashbarEnum } from '../../../../src/app/utils/flashbar/flashbar.types';
+import { flashbarSaga, listenFlashbarSaga } from '../../../../src/app/utils/flashbar/sagas';
 
 describe('Flashbar sagas', () => {
     describe('flashbar saga', () => {

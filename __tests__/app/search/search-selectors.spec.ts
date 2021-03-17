@@ -1,6 +1,6 @@
-import { ApplicationState } from '../../../src/app/store/application-state.types';
-import { getIsFetching, getRootSearchState, getSearchResults, getSearchText } from '../../../src/app/search/selectors';
 import { SearchState } from '../../../src/app/search/search.types';
+import { getIsFetching, getRootSearchState, getSearchResults, getSearchText } from '../../../src/app/search/selectors';
+import { ApplicationState } from '../../../src/app/store/application-state.types';
 
 describe('Search selectors', () => {
     const state: ApplicationState = {

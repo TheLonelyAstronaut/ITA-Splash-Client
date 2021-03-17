@@ -42,6 +42,7 @@ export const LibraryScreen: React.FC<LibraryScreenParams> = () => {
 
     const handleModal = useCallback(() => {
         setVisible(true);
+        console.log(visible);
     }, []);
 
     const handleChangeModalVisibilityState = useCallback(() => {

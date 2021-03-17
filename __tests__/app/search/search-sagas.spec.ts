@@ -1,11 +1,12 @@
 import { ExpectApi, expectSaga, testSaga } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
-import { listenForSearchSaga, searchSaga } from '../../../src/app/search/sagas';
-import { SEARCH_ALL } from '../../../src/app/search/actions';
-import { client } from '../../../src/graphql/api';
-import { Logger } from '../../../src/app/utils/logger';
-import { SearchResult } from '../../../src/app/search/search.types';
 import { throwError } from 'redux-saga-test-plan/providers';
+
+import { SEARCH_ALL } from '../../../src/app/search/actions';
+import { listenForSearchSaga, searchSaga } from '../../../src/app/search/sagas';
+import { SearchResult } from '../../../src/app/search/search.types';
+import { Logger } from '../../../src/app/utils/logger';
+import { client } from '../../../src/graphql/api';
 
 describe('Search sagas', () => {
     describe('Search saga', () => {

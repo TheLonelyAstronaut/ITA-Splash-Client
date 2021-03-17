@@ -1,11 +1,11 @@
 import { createSelector, Selector } from 'reselect';
 
-import { Artist, Album, Playlist } from '../../types/music';
+import { Artist, Album } from '../../types/music';
 import { ApplicationState } from '../store/application-state.types';
+import ExtendedMap from '../utils/extended-map';
 
 import { MusicStackState } from './reducers';
 import { ExtendedError } from './sagas';
-import ExtendedMap from '../utils/extended-map';
 
 export const getRootMusicStackState: Selector<ApplicationState, MusicStackState> = createSelector(
     (state) => state.music,

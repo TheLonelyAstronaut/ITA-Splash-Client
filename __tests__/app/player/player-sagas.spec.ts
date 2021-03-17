@@ -1,9 +1,10 @@
+import RNTrackPlayer from 'react-native-track-player';
 import { expectSaga, ExpectApi } from 'redux-saga-test-plan';
 import { call } from 'redux-saga-test-plan/matchers';
-import { addToQueueSaga, seekTo } from '../../../src/app/player/sagas';
-import { MUSIC_ACTIONS } from '../../../src/app/player/actions';
+
 import { tracks } from '../../../__mocks__/data/tracks';
-import RNTrackPlayer from 'react-native-track-player';
+import { MUSIC_ACTIONS } from '../../../src/app/player/actions';
+import { addToQueueSaga, seekTo } from '../../../src/app/player/sagas';
 
 jest.mock('react-native-track-player', () => ({
     stop: jest.fn(),

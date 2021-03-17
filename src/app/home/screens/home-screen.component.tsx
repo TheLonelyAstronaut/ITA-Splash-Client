@@ -3,7 +3,6 @@ import { FlatList, ListRenderItemInfo, SectionList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { getSubscriptions } from '../../authentication/selectors';
 import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 import { Container } from '../../ui/styled/container.styled';
 import I18n from '../../utils/i18n';
@@ -28,7 +27,6 @@ export const HomeScreenComponent: React.FC<HomeScreenProps> = (props: HomeScreen
     const data = useSelector(getHomepageData);
     const isFetching = useSelector(getIsFetching);
     const error = useSelector(getError);
-    const forReload = useSelector(getSubscriptions);
 
     const handleReload = useCallback(() => {
         dispatch(LOAD_HOME_DATA.TRIGGER());

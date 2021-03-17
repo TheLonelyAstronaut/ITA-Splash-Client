@@ -9,7 +9,6 @@ import { name as appName } from './app.json';
 import App from './src/app.component';
 import { Logger } from './src/app/utils/logger';
 import { notifications } from './src/app/utils/notification-service';
-import { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 
 notifications.addBackgroundMessageHandler(async (message) => {
     Logger.log(message);

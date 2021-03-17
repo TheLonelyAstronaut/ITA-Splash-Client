@@ -10,6 +10,7 @@ export type CustomImageProps = {
 };
 
 export class Image extends React.Component<CustomImageProps> {
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     render() {
         return (
             <FastImage
