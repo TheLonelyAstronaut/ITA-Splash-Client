@@ -5,6 +5,7 @@ import { BoldText } from '../../../ui/styled/text.styled';
 
 export const Wrapper = styled.TouchableOpacity`
     padding-vertical: ${(props) => props.theme.spacer * 3}px;
+    width: 120px;
 `;
 
 export const ArtistImage = styled(Image)`

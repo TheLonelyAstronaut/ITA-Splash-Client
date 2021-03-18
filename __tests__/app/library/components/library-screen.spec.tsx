@@ -17,7 +17,6 @@ import { LibraryStackNavigationProps } from '../../../../src/app/library/routing
 import { LibraryScreen } from '../../../../src/app/library/screens/library-screen.component';
 import { getIsFetchingLibrary, getLibrary, getRootLibraryState } from '../../../../src/app/library/selectors';
 import { darkTheme } from '../../../../src/app/ui/themes/themes';
-import { AddPlaylistItem } from '../../../../src/app/library/components/add-playlist.component';
 import { withHooks } from 'jest-react-hooks-shallow/lib/enable-hooks';
 
 describe('Library screen', () => {
@@ -86,12 +85,6 @@ describe('Library screen', () => {
 
             expect(item).toBe(flatList.props().ListHeaderComponent);
             expect(modal).toBe(true);
-        });
-        it('should change text input', function () {
-            withHooks(() => {
-                wrapper = shallow(<AddPlaylistModal />);
-            });
-            expect(wrapper.exists(PlaylistInput)).toBe(true);
         });
     });
 });
