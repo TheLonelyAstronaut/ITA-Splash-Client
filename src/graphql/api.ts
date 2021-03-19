@@ -1,32 +1,54 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved
-import { SERVER_ADDRESS } from '@env';
-import { showMessage } from 'react-native-flash-message';
+import messaging from '@react-native-firebase/messaging';
+import Config from 'react-native-config';
 
-import { AuthCompletedPayload, LoginPayload, RegisterPayload } from '../app/authentication/authentication.types';
+import { AuthCompletedPayload, LoginPayload, RegisterPayload, User } from '../app/authentication/authentication.types';
 import { HomepageData } from '../app/home/home.types';
 import { AddPlaylistPayload } from '../app/library/actions';
-import { LibraryData, LibraryElementType } from '../app/library/library.types';
-import { SearchResult, SearchResultType } from '../app/search/search.types';
-import { firebase } from '../app/utils/firebase';
-import { albums } from '../mocks/albums';
-import { artists } from '../mocks/artists';
-import { home } from '../mocks/home-mock';
-import { library } from '../mocks/library';
-import { playlist } from '../mocks/playlists';
-import { tracks } from '../mocks/tracks';
-import { users } from '../mocks/users';
-import { Artist, Album, Track } from '../types/music';
+import { SearchResult } from '../app/search/search.types';
+import { Artist, Album, Playlist } from '../types/music';
+
+import { fromAlbumOutput } from './mappers/to-album.mapper';
+import { fromArtistOutput } from './mappers/to-artist.mapper';
+import { fromHomepageOutput } from './mappers/to-homepage.mapper';
+import { fromPlaylistOutput } from './mappers/to-playlist.mapper';
+import { fromSearchOutput } from './mappers/to-search-result.mapper';
+import { fromUserOutput } from './mappers/to-user.mapper';
+import { addOrRemoveFromPlaylistMutation } from './mutations/add-or-remove-from-playlist.mutation';
+import { createPlaylistMutation } from './mutations/create-playlist.mutation';
+import { loginMutation } from './mutations/login.mutation';
+import { registerMutation } from './mutations/register.mutation';
+import { subscribeMutation } from './mutations/subscribe.mutation';
+import { getAlbumQuery } from './queries/get-album.query';
+import { getArtistQuery } from './queries/get-artist.query';
+import { getCurrentUser } from './queries/get-current-user.query';
+import { getHomepageQuery } from './queries/get-homepage';
+import { getPlaylistQuery } from './queries/get-playlist.query';
+import { searchQuery } from './queries/search.query';
+import { GetArtistInput, GetArtistOutput } from './types/artist.types';
+import { LoginInput, LoginResponse, RegisterInput, RegisterResponse } from './types/auth.types';
+import { HomepageDataOutput } from './types/home.types';
+import {
+    AddOrRemoveInput,
+    AddToPlaylistOutput,
+    AlbumInput,
+    CreatePlaylistInput,
+    CreatePlaylistOutput,
+    GetAlbumOutput,
+    GetPlaylistOutput,
+    PlaylistInput,
+} from './types/music-data.types';
+import { SearchInput, SearchOutput } from './types/search.types';
+import { SubscribeInput, SubscribeOuput } from './types/subscribe.types';
+import { UserOutput } from './types/user.types';
 
 export class GraphQLAPI {
     private client: ApolloClient<unknown>;
 
     constructor() {
         this.client = new ApolloClient({
-            uri: SERVER_ADDRESS,
+            uri: Config.SERVER_ADDRESS,
             headers: {
                 'Content-Type': 'application/json',
                 Accept: 'application/json',
@@ -37,7 +59,7 @@ export class GraphQLAPI {
 
     setAuthToken = (token: string | undefined): void => {
         const httpLink = createHttpLink({
-            uri: SERVER_ADDRESS,
+            uri: Config.SERVER_ADDRESS,
         });
 
         const authLink = setContext((_, { headers }) => {
@@ -54,49 +76,77 @@ export class GraphQLAPI {
         this.client.setLink(authLink.concat(httpLink));
     };
 
-    login = async (payload: LoginPayload): Promise<AuthCompletedPayload | void> => {
-        const user = users.filter((user) => user.email === payload.email && user.password === payload.password);
+    getCurrentUser = async (token: string): Promise<User> => {
+        const user = await this.client.query<UserOutput>({
+            query: getCurrentUser,
+        });
 
-        if (user.length > 0) {
-            this.setAuthToken(user[0].token);
-            return { data: user[0] };
+        return fromUserOutput(user.data, token);
+    };
+
+    login = async (payload: LoginPayload): Promise<AuthCompletedPayload | void> => {
+        const FCMToken = await messaging().getToken();
+
+        console.log(FCMToken);
+
+        const result = await this.client.mutate<LoginResponse, LoginInput>({
+            mutation: loginMutation,
+            variables: {
+                data: {
+                    email: payload.email,
+                    password: payload.password,
+                    FCMToken,
+                },
+            },
+        });
+        if (result.data?.login.accessToken) {
+            this.setAuthToken(result.data?.login.accessToken);
+            return {
+                data: await this.getCurrentUser(result.data?.login.accessToken),
+                token: result.data?.login.accessToken,
+            };
         } else {
-            showMessage({ type: 'danger', message: 'No user with this login', description: 'Try again' });
+            throw new Error('no access token found');
         }
     };
 
     register = async (payload: RegisterPayload): Promise<AuthCompletedPayload> => {
-        const user = users.filter((user) => user.email === payload.email);
-
-        if (user.length > 0) {
-            showMessage({
-                type: 'danger',
-                message: 'User with same email already exists',
-                description: 'Try to login',
-            });
-            throw new Error('user already exists');
+        const result = await this.client.mutate<RegisterResponse, RegisterInput>({
+            mutation: registerMutation,
+            variables: {
+                data: {
+                    email: payload.email,
+                    password: payload.password,
+                    username: payload.username,
+                    FCMToken: await messaging().getToken(),
+                },
+            },
+        });
+        if (result.data?.register.accessToken) {
+            this.setAuthToken(result.data?.register.accessToken);
+            return {
+                data: await this.getCurrentUser(result.data?.register.accessToken),
+                token: result.data?.register.accessToken,
+            };
         } else {
-            users.push({
-                token: Math.random().toString(),
-                username: payload.username,
-                email: payload.email,
-                password: payload.password,
-            });
-            return { data: user[0] };
+            throw new Error('no access token found');
         }
     };
 
-    addToPlaylist = async (trackId: string, playlistId: number): Promise<void> => {
-        const track = tracks.find((track) => track.id === trackId);
-        if (playlistId === 0 && track !== undefined) {
-            track.liked = true;
-            playlist[0].liked = true;
-        }
-        const playlist1 = playlist[playlistId].tracks.find((track) => track.id === trackId);
-        if (!playlist1) {
-            playlist[playlistId].tracks.push(track as Track);
+    addToPlaylist = async (trackId: string, playlistId: number): Promise<Playlist> => {
+        const result = await this.client.mutate<AddToPlaylistOutput, AddOrRemoveInput>({
+            mutation: addOrRemoveFromPlaylistMutation,
+            variables: {
+                addOrRemoveData: {
+                    playlistID: playlistId,
+                    trackID: Number(trackId),
+                },
+            },
+        });
+        if (result.data?.addOrRemoveFromPlaylist.id) {
+            return fromPlaylistOutput(result.data.addOrRemoveFromPlaylist);
         } else {
-            throw new Error('Something went wrong');
+            throw new Error('playlist not founded');
         }
     };
 
@@ -105,108 +155,138 @@ export class GraphQLAPI {
     };
 
     search = async (name: string): Promise<SearchResult[]> => {
-        console.log(name);
-
-        const artists1 = artists.filter((artist) => artist.name.includes(name) && name !== '');
-        const tracks1 = tracks.filter(
-            (track) => track.artist.includes(name) || (track.title.includes(name) && name !== '')
-        );
-        const albums1 = albums.filter((album) => album.name.includes(name) && name !== '');
-        const result: SearchResult[] = [];
-
-        artists1.forEach((item) => {
-            result.push({
-                type: SearchResultType.ARTIST,
-                data: item,
-            });
+        const result = await this.client.query<SearchOutput, SearchInput>({
+            query: searchQuery,
+            variables: {
+                searchQuery: {
+                    query: name,
+                },
+            },
         });
-
-        tracks1.forEach((item) => {
-            result.push({
-                type: SearchResultType.TRACK,
-                data: item,
-            });
-        });
-
-        albums1.forEach((item) => {
-            result.push({
-                type: SearchResultType.ALBUM,
-                data: item,
-            });
-        });
-
-        if (result.length > 0) {
-            return result;
+        if (result.data) {
+            return fromSearchOutput(result.data);
         } else {
-            return [];
+            throw new Error('nothing founded');
         }
     };
 
-    getLibrary = async (): Promise<LibraryData[]> => {
-        return library;
-    };
-
-    addPlaylist = async (action: AddPlaylistPayload): Promise<LibraryData[]> => {
-        library.push({
-            data: { name: action.name, id: library.length, tracks: [] },
-            type: LibraryElementType.PLAYLIST,
+    addPlaylist = async (action: AddPlaylistPayload): Promise<Playlist> => {
+        console.log(action);
+        const result = await this.client.mutate<CreatePlaylistOutput, CreatePlaylistInput>({
+            mutation: createPlaylistMutation,
+            variables: {
+                createPlaylistData: {
+                    name: action.name,
+                },
+            },
         });
-
-        return library;
+        if (result.data?.createPlaylist.id) {
+            return fromPlaylistOutput(result.data.createPlaylist);
+        } else {
+            throw new Error('playlist not founded');
+        }
     };
 
-    changePassword = async (currentPass: string, newPass: string): Promise<void> => {
-        if (currentPass === users[0].password) {
-            users[0].password = newPass;
-        } else {
-            throw new Error('Incorrect password');
-        }
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    changePassword = async (currentPass: string, newPass: string): Promise<{}> => {
+        // if (currentPass === users[0].password) {
+        //     users[0].password = newPass;
+        // } else {
+        //     throw new Error('Incorrect password');
+        // }
+        return { currentPass: currentPass, newPass: newPass };
     };
 
     getHomepageData = async (): Promise<HomepageData[]> => {
+        const home: HomepageData[] = [];
+
+        const result = await this.client.query<HomepageDataOutput>({
+            query: getHomepageQuery,
+        });
+        result.data.getHomepage.forEach((item) => {
+            if (item.data.length === 0) {
+                return null;
+            } else {
+                home.push(fromHomepageOutput(item));
+            }
+        });
         return home;
     };
 
-    getArtist = async (id: number): Promise<Artist> => {
-        const artist = artists.find((artist) => artist.id === id);
-
-        if (artist) {
-            return artist;
+    subscribe = async (id: number): Promise<number[]> => {
+        const result = await this.client.mutate<SubscribeOuput, SubscribeInput>({
+            mutation: subscribeMutation,
+            variables: {
+                artistID: id,
+            },
+        });
+        if (result.data) {
+            return result.data.subscribe;
         } else {
-            throw new Error('Invalid artist id');
+            throw new Error('nothing founded');
+        }
+    };
+
+    getArtist = async (id: number): Promise<Artist> => {
+        console.log(id);
+        const result = await this.client.query<GetArtistOutput, GetArtistInput>({
+            query: getArtistQuery,
+            variables: {
+                getArtistData: {
+                    id: id,
+                },
+            },
+        });
+
+        if (result.data) {
+            return fromArtistOutput(result.data.getArtist);
+        } else {
+            throw new Error('artist not founded');
         }
     };
 
     getAlbum = async (id: number): Promise<Album> => {
-        const album = albums.find((album) => album.id === id);
-
-        if (album) {
-            return album;
+        const result = await this.client.query<GetAlbumOutput, AlbumInput>({
+            query: getAlbumQuery,
+            variables: {
+                albumID: id,
+            },
+        });
+        if (result.data) {
+            return fromAlbumOutput(result.data.getAlbum);
         } else {
-            throw new Error('Invalid artist id');
+            throw new Error('album not founded');
         }
     };
 
-    addToLiked = async (id: number): Promise<void> => {
-        const track = tracks.find((track) => track.id === id.toString()) as Track;
-        if (track.liked) {
-            track.liked = false;
-            for (let i = 0; i < playlist[0].tracks.length; i++) {
-                if (playlist[0].tracks[i] === track) {
-                    playlist[0].tracks.splice(i, 1);
-                }
-            }
+    getPlaylist = async (id: number): Promise<Playlist> => {
+        const result = await this.client.query<GetPlaylistOutput, PlaylistInput>({
+            query: getPlaylistQuery,
+            variables: {
+                playlistID: id,
+            },
+        });
+        if (result.data) {
+            return fromPlaylistOutput(result.data.getPlaylist);
         } else {
-            track.liked = true;
-            playlist[0].tracks.push(track);
+            throw new Error('playlist not founded');
         }
     };
 
-    followOrUnfollow = async (id: number): Promise<void> => {
-        const artist = artists.find((artist) => artist.id === id) as Artist;
-        artist.isFollowed = !artist.isFollowed;
-        await firebase.follow(artist);
-    };
+    // addToLiked = async (id: number): Promise<void> => {
+    //     const track = tracks.find((track) => track.id === id.toString()) as Track;
+    //     if (track.liked) {
+    //         track.liked = false;
+    //         for (let i = 0; i < playlist[0].tracks.length; i++) {
+    //             if (playlist[0].tracks[i] === track) {
+    //                 playlist[0].tracks.splice(i, 1);
+    //             }
+    //         }
+    //     } else {
+    //         track.liked = true;
+    //         playlist[0].tracks.push(track);
+    //     }
+    // };
 }
 
 export const client = new GraphQLAPI();

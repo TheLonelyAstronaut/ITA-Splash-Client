@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Platform, StatusBar } from 'react-native';
 import RNBootSplash from 'react-native-bootsplash';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import Animated, { Easing, useValue } from 'react-native-reanimated';
 import { useSelector } from 'react-redux';
 
 import { Image } from './image.component';
+import { setSplashScreenControlCallback } from './splash-screen.ref';
 import { AnimatedSplashScreenWrapper } from './styled/splash-screen.styled';
 import { getTheme } from './themes/selectors';
-import { themesCollection, ThemesEnum } from './themes/themes';
+import { darkTheme, lightTheme, themesCollection, ThemesEnum } from './themes/themes';
 
 const defaultColor = themesCollection[ThemesEnum.DARK]?.colors.screenBackground as string;
 const lightThemeColor = themesCollection[ThemesEnum.LIGHT]?.colors.screenBackground as string;
@@ -33,6 +36,16 @@ export const SplashScreen: React.FC = () => {
             }).start(() => {
                 setIsMounted(false);
             });
+
+            if (Platform.OS === 'android') {
+                if (currentTheme === ThemesEnum.DARK) {
+                    StatusBar.setBackgroundColor(darkTheme.colors.screenBackground, true);
+                    changeNavigationBarColor(darkTheme.colors.main, false, true);
+                } else {
+                    StatusBar.setBackgroundColor(lightTheme.colors.screenBackground, true);
+                    changeNavigationBarColor(lightTheme.colors.main, true, true);
+                }
+            }
         };
 
         if (currentTheme === ThemesEnum.LIGHT) {
@@ -46,6 +59,10 @@ export const SplashScreen: React.FC = () => {
         }
     }, [currentTheme, opacity, backgroundState]);
 
+    useEffect(() => {
+        setSplashScreenControlCallback(onLoadEnd);
+    }, [onLoadEnd]);
+
     return (
         <React.Fragment>
             {isMounted && (
@@ -57,7 +74,6 @@ export const SplashScreen: React.FC = () => {
                 >
                     <Image
                         source={require('../../assets/logo.png')}
-                        onLoadEnd={onLoadEnd}
                         style={{
                             width: 200,
                             height: 200,

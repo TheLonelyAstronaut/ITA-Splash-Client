@@ -9,11 +9,16 @@ export type CustomImageProps = {
     onLoadEnd?: () => void;
 };
 
-export const Image: React.FC<CustomImageProps> = (props: CustomImageProps) => (
-    <FastImage
-        style={props.style}
-        source={props.source}
-        onLoadEnd={props.onLoadEnd}
-        resizeMode={FastImage.resizeMode.cover}
-    />
-);
+export class Image extends React.Component<CustomImageProps> {
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    render() {
+        return (
+            <FastImage
+                style={this.props.style}
+                source={this.props.source}
+                onLoadEnd={this.props.onLoadEnd}
+                resizeMode={FastImage.resizeMode.cover}
+            />
+        );
+    }
+}

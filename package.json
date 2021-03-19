@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.7",
+    "@babel/plugin-transform-modules-commonjs": "^7.13.8",
     "@expo/vector-icons": "^12.0.2",
     "@gorhom/animated-tabbar": "^2.1.1",
     "@react-native-community/async-storage": "^1.12.1",
@@ -43,13 +44,15 @@
     "@types/react-native-vector-icons": "^6.4.6",
     "@types/styled-components": "^5.1.7",
     "@types/styled-components-react-native": "^5.1.0",
+    "enzyme": "^3.11.0",
     "graphql": "^15.5.0",
     "i18n-js": "^3.8.0",
+    "jest-react-hooks-shallow": "^1.5.1",
     "lodash": "^4.17.20",
     "react": "16.13.1",
     "react-native": "0.63.3",
     "react-native-bootsplash": "^3.1.2",
-    "react-native-dotenv": "^2.5.1",
+    "react-native-config": "^1.4.2",
     "react-native-event-listeners": "^1.0.7",
     "react-native-fast-image": "^8.3.4",
     "react-native-flash-message": "^0.1.22",
@@ -72,6 +75,7 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.1.3",
+    "redux-saga-test-plan": "^4.0.1",
     "reselect": "^4.0.0",
     "rn-dominant-color": "^1.7.0",
     "styled-components": "^5.2.1",
@@ -81,6 +85,8 @@
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
     "@react-native-community/eslint-config": "^1.1.0",
+    "@testing-library/jest-native": "^4.0.1",
+    "@testing-library/react-native": "^7.2.0",
     "@types/jest": "^25.2.3",
     "@types/react-native": "^0.63.2",
     "@types/react-redux": "7.1.11",
@@ -89,6 +95,7 @@
     "@typescript-eslint/eslint-plugin": "4.7.0",
     "@typescript-eslint/parser": "4.7.0",
     "babel-jest": "^25.1.0",
+    "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.13.0",
     "eslint-config-react-native": "4.1.0",
     "eslint-plugin-import": "2.22.1",
@@ -97,10 +104,13 @@
     "eslint-plugin-react-native": "3.10.0",
     "husky": "^4.3.7",
     "jest": "^25.1.0",
+    "jest-enzyme": "^7.1.2",
+    "jest-styled-components": "^7.0.3",
     "lint-staged": "10.5.1",
     "metro-react-native-babel-preset": "^0.59.0",
     "prettier": "2.1.2",
-    "react-test-renderer": "16.13.1",
+    "react-dom": "16",
+    "react-test-renderer": "^17.0.1",
     "typescript": "^3.8.3"
   },
   "husky": {
@@ -121,6 +131,23 @@
       "jsx",
       "json",
       "node"
+    ],
+    "modulePaths": [
+      "<rootDir>"
+    ],
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor",
+      "^.+\\.(js|jsx)?$": "<rootDir>/node_modules/babel-jest"
+    },
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect",
+      "<rootDir>/src/testSetup.ts"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|@?rn-dominant-color)"
+    ],
+    "setupFiles": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js"
     ]
   }
 }

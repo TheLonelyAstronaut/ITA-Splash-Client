@@ -30,11 +30,6 @@ export const musicStackStateReducer = createReducer<MusicStackState>(initialStat
         isFetching: state.isFetching.insert(action.payload.key, true).copy(),
         error: state.error.insert(action.payload.key, undefined).copy(),
     }))
-    .handleAction(LOAD_ALBUM.STARTED, (state, action) => ({
-        ...state,
-        isFetching: state.isFetching.insert(action.payload.key, true).copy(),
-        error: state.error.insert(action.payload.key, undefined).copy(),
-    }))
     .handleAction(
         LOAD_ARTIST.COMPLETED,
         (state, action) => ({

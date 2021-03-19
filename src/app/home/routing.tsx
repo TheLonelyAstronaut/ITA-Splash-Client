@@ -1,6 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
+import { PlaylistScreenComponent } from '../library/screens/playlist-screen.component';
 import { MusicStackComponent } from '../music-stack/routing';
 
 import { HomeParamList } from './routing.params';
@@ -19,6 +20,7 @@ export const HomeStackComponent: React.FC = () => {
             <Stack.Screen name={'SettingsScreen'} component={SettingsScreenComponent} />
             <Stack.Screen name={'ThemeChangeScreen'} component={ThemeChangeScreenComponent} />
             <Stack.Screen name={'PasswordChangeScreen'} component={PasswordChangeScreenComponent} />
+            <Stack.Screen name={'PlaylistScreen'} component={PlaylistScreenComponent} />
         </Stack.Navigator>
     );
 };

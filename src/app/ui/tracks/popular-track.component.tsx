@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
 import { Track } from '../../../types/music';
-import { ADD_TO_LIKED, LOAD_LIBRARY } from '../../library/actions';
 import { PlaylistToChooseItem } from '../../library/components/playlist-for-choose.component';
 import {
     AddPlaylistModal,
@@ -13,7 +12,7 @@ import {
     ModalText,
     ModalView,
 } from '../../library/components/styled/library-screen.styled';
-import { getLibrary } from '../../library/selectors';
+import { getLibrary, getLikedPlaylist } from '../../library/selectors';
 import { ADD_TO_PLAYLIST } from '../../music-stack/actions';
 import { getCurrentTrack } from '../../player/selectors';
 import I18n from '../../utils/i18n';
@@ -35,6 +34,11 @@ export const PopularTrackComponent: React.FC<TrackComponentProps> = (props: Trac
     const dispatch = useDispatch();
     const data = useSelector(getLibrary);
     const [visible, setVisible] = useState(false);
+    const likedPlaylist = useSelector(getLikedPlaylist);
+    const liked = useMemo(() => likedPlaylist.tracks.findIndex((value) => value.id === props.track.id) !== -1, [
+        likedPlaylist.tracks,
+        props.track.id,
+    ]);
 
     const handleLongPress = React.useCallback(() => {
         if (props.onLongPress) {
@@ -53,9 +57,8 @@ export const PopularTrackComponent: React.FC<TrackComponentProps> = (props: Trac
     };
 
     const handleLike = useCallback(() => {
-        dispatch(ADD_TO_LIKED.TRIGGER({ id: parseInt(props.track.id) }));
-        dispatch(LOAD_LIBRARY.TRIGGER());
-    }, [dispatch, props.track.id]);
+        dispatch(ADD_TO_PLAYLIST.TRIGGER({ trackId: props.track.id, playlistId: likedPlaylist.id }));
+    }, [dispatch, props.track.id, likedPlaylist]);
 
     const handleChangeModalVisibility = useCallback(() => setVisible(!visible), [visible]);
 
@@ -69,7 +72,7 @@ export const PopularTrackComponent: React.FC<TrackComponentProps> = (props: Trac
                 <TrackName isPlaying={isPlaying}>{props.track.title}</TrackName>
             </TrackInfoWrapper>
             <Icons>
-                {props.track.liked ? (
+                {liked ? (
                     <LikeWrapper onPress={handleLike}>
                         <Liked source={require('../../../assets/like-button-color.png')} />
                     </LikeWrapper>
@@ -97,12 +100,12 @@ export const PopularTrackComponent: React.FC<TrackComponentProps> = (props: Trac
                         data={data}
                         renderItem={(item) => (
                             <PlaylistToChooseItem
-                                name={item.item.data.name}
+                                name={item.item.name}
                                 data={item.item}
-                                onPress={() => handleAddToPlaylist(item.item.data.id)}
+                                onPress={() => handleAddToPlaylist(item.item.id)}
                             />
                         )}
-                        keyExtractor={(item) => item.data.toString()}
+                        keyExtractor={(item) => item.toString()}
                         directionalLockEnabled={true}
                     />
                 </ModalView>

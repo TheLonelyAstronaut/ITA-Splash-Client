@@ -7,6 +7,12 @@ import TrackPlayer from 'react-native-track-player';
 
 import { name as appName } from './app.json';
 import App from './src/app.component';
+import { Logger } from './src/app/utils/logger';
+import { notifications } from './src/app/utils/notification-service';
+
+notifications.addBackgroundMessageHandler(async (message) => {
+    Logger.log(message);
+});
 
 AppRegistry.registerComponent(appName, () => App);
 // eslint-disable-next-line no-undef

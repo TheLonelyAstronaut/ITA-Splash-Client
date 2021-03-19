@@ -24,8 +24,9 @@ export const TrackInfoWrapper = styled.View`
 export const TrackName = styled(RegularText)<Props>`
     color: ${(props) => (props.isPlaying ? props.theme.colors.additivePink : props.theme.colors.secondary)};
     font-size: ${(props) => props.theme.fontSize.medium}px;
-    margin-top: ${(props) => props.theme.spacer * 2 - 5}px;
     margin-left: ${(props) => props.theme.spacer * 2}px;
+    width: 55%;
+    align-self: center;
 `;
 
 export const Icons = styled.View`

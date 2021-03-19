@@ -5,11 +5,11 @@ import Icon from 'react-native-vector-icons/Fontisto';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components/native';
 
-import { Album, Track } from '../../../../types/music';
+import { Album, Playlist, Track } from '../../../../types/music';
 import { AnimatedHeaderWrapper } from '../../../music-stack/components/styled/artist.styled';
 import { MUSIC_ACTIONS, PlayActionTriggerPayload } from '../../../player/actions';
 import { getCurrentQueue } from '../../../player/selectors';
-import AnimatedGradientTransition from '../../animated-gradient-transition.component';
+import I18n from '../../../utils/i18n';
 import { BackButton } from '../../back-button.component';
 import { Container } from '../../styled/container.styled';
 import { CombinedPlaylistImage } from '../combined-image.component';
@@ -26,11 +26,14 @@ import {
     InfoWrapper,
     PlayButtonWrapper,
     BackButtonWrapper,
+    HeaderWrapper,
 } from '../styled/music-list-header.styled';
 import { AnimatedFlatList, EmptyPlaylistComponent } from '../styled/music-list-temlate-screen.styled';
 import { TrackComponent } from '../track.component';
 
-import { MusicListTemplateScreenProps } from './music-list-template-screen.component.ios';
+export type MusicListTemplateScreenProps = {
+    data: Album | Playlist;
+};
 
 export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
     props: MusicListTemplateScreenProps
@@ -56,14 +59,14 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
     );
 
     const headerOpacity = scrollValue.interpolate({
-        inputRange: [0, theme.coverHeight - theme.statusBar],
+        inputRange: [0, 225 - theme.statusBar],
         outputRange: [0, 1],
         extrapolate: Extrapolate.CLAMP,
     });
 
     const imageHeight = scrollValue.interpolate({
-        inputRange: [0, theme.coverHeight / 2],
-        outputRange: [1, 0.5],
+        inputRange: [-500, 0, theme.coverHeight / 2],
+        outputRange: [1.5, 1, 0.5],
         extrapolateRight: Extrapolate.CLAMP,
     });
 
@@ -99,10 +102,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
         );
     }, [currentQueue, dispatch, props.data.tracks]);
 
-    const handleBackPress = useCallback(
-        () => (isAlbum ? navigation.goBack() : navigation.navigate('PlaylistsScreen')),
-        [isAlbum, navigation]
-    );
+    const handleBackPress = useCallback(() => navigation.goBack(), [navigation]);
 
     const HeaderComponent = useCallback(
         () => (
@@ -128,16 +128,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                 keyExtractor={(item) => item.id + ''}
                 onScroll={Animated.event([{ nativeEvent: { contentOffset: { y: scrollValue } } }])}
                 ListHeaderComponent={() => (
-                    <AnimatedGradientTransition
-                        colors={[
-                            theme.colors.additiveBlue,
-                            theme.colors.screenBackground,
-                            theme.colors.screenBackground,
-                            theme.colors.screenBackground,
-                            theme.colors.screenBackground,
-                        ]}
-                        style={{ paddingTop: 320 }}
-                    >
+                    <HeaderWrapper>
                         <AnimatedImage
                             style={{
                                 width: 225,
@@ -148,7 +139,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                             }}
                         >
                             {isAlbum ? (
-                                <AlbumImage source={{ uri: props.data.image }} />
+                                <AlbumImage source={{ uri: (props.data as Album).image }} />
                             ) : props.data.tracks.length > 0 ? (
                                 <CombinedPlaylistImage data={props.data} />
                             ) : (
@@ -166,7 +157,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                                     <ArtistWrapper onPress={handlePress}>
                                         <AlbumArtist>{(props.data as Album).artistName}</AlbumArtist>
                                     </ArtistWrapper>
-                                    <AlbumYear>{'Album ' + (props.data as Album).year}</AlbumYear>
+                                    <AlbumYear>{I18n.t('additional.album') + (props.data as Album).year}</AlbumYear>
                                 </>
                             ) : (
                                 <AnimatedPlaylistName style={{ paddingBottom: 20, paddingTop: 10 }}>
@@ -174,7 +165,7 @@ export const MusicListTemplateScreen: React.FC<MusicListTemplateScreenProps> = (
                                 </AnimatedPlaylistName>
                             )}
                         </InfoWrapper>
-                    </AnimatedGradientTransition>
+                    </HeaderWrapper>
                 )}
                 renderItem={(item) => <TrackComponent track={item.item} onPress={handleTrackPlay} />}
                 contentContainerStyle={{

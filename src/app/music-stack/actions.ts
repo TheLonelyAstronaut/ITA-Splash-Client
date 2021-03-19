@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-redux-helpers';
 
-import { Artist, Album } from '../../types/music';
+import { Artist, Album, Playlist } from '../../types/music';
 
 export type LoadDataStartedType = {
     key: string;
@@ -16,6 +16,10 @@ export type LoadArtistCompletedType = LoadDataStartedType & {
 
 export type LoadAlbumCompletedType = LoadDataStartedType & {
     album: Album;
+};
+
+export type LoadPlaylistCompleted = LoadDataStartedType & {
+    playlist: Playlist;
 };
 
 export type AddToPlaylistType = {
@@ -39,4 +43,7 @@ export const ADD_TO_PLAYLIST = {
     TRIGGER: createAction('[Add to playlist Trigger]', (payload: AddToPlaylistType) => payload),
 };
 
-export const FOLLOW_OR_UNFOLLOW = createAction('[Follow or Unfollow]', (payload: number) => payload);
+export const FOLLOW_OR_UNFOLLOW = {
+    TRIGGER: createAction('[Follow or Unfollow trigger]', (payload: number) => payload),
+    COMPLETED: createAction('[Follow or unfollow completed]', (payload: number[]) => payload),
+};

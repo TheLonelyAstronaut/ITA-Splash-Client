@@ -66,6 +66,14 @@ export type Props = {
 
 export const CombinedPlaylistImage: React.FC<Props> = (data: Props) => {
     const CombinedImageFunc = () => {
+        if (
+            data.data.tracks[0].artwork === data.data.tracks[1].artwork ||
+            data.data.tracks[0].artwork === data.data.tracks[2].artwork ||
+            data.data.tracks[0].artwork === data.data.tracks[3].artwork ||
+            data.data.tracks[0].artwork === data.data.tracks[4].artwork
+        ) {
+            return <PlaylistImage source={{ uri: data.data.tracks[0].artwork }} />;
+        }
         if (data.data.tracks === undefined) return null;
         return (
             <CombinedImageContainer>

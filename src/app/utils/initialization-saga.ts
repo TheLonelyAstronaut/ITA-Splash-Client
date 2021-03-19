@@ -1,19 +1,28 @@
 import RNTrackPlayer, { Capability, Event } from 'react-native-track-player';
 import { Dispatch } from 'redux';
 import { SagaIterator } from 'redux-saga';
-import { call } from 'redux-saga/effects';
+import { call, put, select, takeLatest } from 'redux-saga/effects';
+import { createAction } from 'typesafe-redux-helpers';
 
+import { client } from '../../graphql/api';
 import { Track } from '../../types/music';
+import { LOGIN, LOGOUT } from '../authentication/actions';
+import { getAccessToken } from '../authentication/selectors';
 import { MUSIC_ACTIONS } from '../player/actions';
+import { closeSplashScreen } from '../ui/splash-screen.ref';
 
-const CAPABILITIES_ARRAY: Capability[] = [
+import { Logger } from './logger';
+
+export const INITIALIZATION = createAction('[Initialization]', (payload: Dispatch) => payload);
+
+export const CAPABILITIES_ARRAY: Capability[] = [
     Capability.Play,
     Capability.Pause,
     Capability.SkipToNext,
     Capability.SkipToPrevious,
 ];
 
-export function* initializationSaga(dispatch: Dispatch): SagaIterator {
+export function* initializationSaga(action: ReturnType<typeof INITIALIZATION>): SagaIterator {
     yield call(RNTrackPlayer.setupPlayer);
     yield call(RNTrackPlayer.updateOptions, {
         stopWithApp: true,
@@ -26,8 +35,21 @@ export function* initializationSaga(dispatch: Dispatch): SagaIterator {
         const currentTrackID = await RNTrackPlayer.getCurrentTrack();
         const currentTrack = (await RNTrackPlayer.getTrack(currentTrackID)) as Track;
 
-        dispatch(MUSIC_ACTIONS.SET_CURRENT_TRACK(currentTrack));
+        action.payload(MUSIC_ACTIONS.SET_CURRENT_TRACK(currentTrack));
     });
+    const token = yield select(getAccessToken);
+    if (token) {
+        try {
+            yield call(client.setAuthToken, token);
+            const user = yield call(client.getCurrentUser, token);
+            console.log(user);
+            yield put(LOGIN.COMPLETED({ data: user, token: token }));
+        } catch (err) {
+            Logger.error(err);
+            yield put(LOGOUT.COMPLETED());
+        }
+    }
+    yield call(closeSplashScreen);
 
     // Restoring queue and current song, not working now cause redux-persist cant save require() correctly,
     // it will work when we move songs and images to Amazon
@@ -39,4 +61,8 @@ export function* initializationSaga(dispatch: Dispatch): SagaIterator {
         yield call(RNTrackPlayer.add, [...persistedQueue]);
         yield call(RNTrackPlayer.skip, {...persistedCurrentTrack});
     }*/
+}
+
+export function* listenForInitializationSaga(): SagaIterator {
+    yield takeLatest(INITIALIZATION, initializationSaga);
 }

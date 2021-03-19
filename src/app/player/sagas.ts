@@ -3,8 +3,6 @@ import RNTrackPlayer, { State, Track as RNTrack } from 'react-native-track-playe
 import { SagaIterator } from 'redux-saga';
 import { call, put, takeLeading, takeLatest } from 'redux-saga/effects';
 
-import { artists } from '../../mocks/artists';
-import { tracks } from '../../mocks/tracks';
 import { Track } from '../../types/music';
 import { PLAYER_SKIP_TO_TRIGGERED_BY_USER } from '../utils/events';
 import { firebase } from '../utils/firebase';
@@ -17,19 +15,33 @@ export function* addToQueueSaga(action: ReturnType<typeof MUSIC_ACTIONS.ADD_TO_T
     const currentQueue = (yield call(RNTrackPlayer.getQueue)) as RNTrack[];
     const currentTrack = yield call(RNTrackPlayer.getCurrentTrack);
 
-    const nextTrackIndex = currentQueue.findIndex((track) => track.id === currentTrack) + 1;
+    let nextTrackIndex: number = currentQueue.findIndex((track) => track.id === currentTrack) + 1;
+    if (nextTrackIndex === 0) {
+        nextTrackIndex += 1;
+    }
     const nextTrackID: string | undefined = currentQueue[nextTrackIndex]?.id;
     const subIndex: number = currentQueue.filter((track) => track.id.split('_')[0] === action.payload.id).length;
 
     const modifiedTrack: Track = { ...action.payload, id: `${action.payload.id}_${subIndex}` };
+    if (subIndex === 0) {
+        yield call(RNTrackPlayer.add, action.payload, nextTrackID);
 
-    yield call(RNTrackPlayer.add, modifiedTrack, nextTrackID);
-    yield put(
-        MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED({
-            track: modifiedTrack,
-            insertBeforeTrack: nextTrackID,
-        })
-    );
+        yield put(
+            MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED({
+                track: action.payload,
+                insertBeforeTrack: nextTrackID,
+            })
+        );
+    } else {
+        yield call(RNTrackPlayer.add, modifiedTrack, nextTrackID);
+
+        yield put(
+            MUSIC_ACTIONS.ADD_TO_THE_QUEUE.COMPLETED({
+                track: modifiedTrack,
+                insertBeforeTrack: nextTrackID,
+            })
+        );
+    }
 }
 
 export function* seekTo(action: ReturnType<typeof MUSIC_ACTIONS.SEEK_TO_POSITION>): SagaIterator {
@@ -38,7 +50,7 @@ export function* seekTo(action: ReturnType<typeof MUSIC_ACTIONS.SEEK_TO_POSITION
 
 export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>): SagaIterator {
     let isQueuesEqual = true;
-
+    console.log(action.payload);
     if (action.payload.queue.length === action.payload.currentQueue?.length) {
         action.payload.queue.forEach((track, index) => {
             if (track.id !== action.payload.currentQueue?.[index].id) {
@@ -50,6 +62,7 @@ export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>)
     }
 
     if (!isQueuesEqual) {
+        console.log('here');
         yield put(MUSIC_ACTIONS.PLAY.COMPLETED({ track: action.payload.track, queue: [] }));
 
         const trackQueueIndex = action.payload.queue.findIndex((track) => track.id === action.payload.track.id);
@@ -74,11 +87,7 @@ export function* playSaga(action: ReturnType<typeof MUSIC_ACTIONS.PLAY.TRIGGER>)
     yield call(RNTrackPlayer.play);
     yield call(firebase.trackStarted, action.payload.track);
 
-    const artistId = artists.find((artist) => artist.name === action.payload.track.artist);
-
-    yield put(
-        MUSIC_ACTIONS.PLAY.COMPLETED({ track: action.payload.track, queue: action.payload.queue, artist: artistId })
-    );
+    yield put(MUSIC_ACTIONS.PLAY.COMPLETED({ track: action.payload.track, queue: action.payload.queue }));
 }
 
 export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRIGGER>): SagaIterator {
@@ -105,7 +114,7 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
             if (currentTrack !== queue[queue.length - 1].id) {
                 yield call(RNTrackPlayer.skipToNext);
                 try {
-                    yield call(firebase.trackStarted, tracks[currentTrack]);
+                    //yield call(firebase.trackStarted, tracks[currentTrack]);
                 } catch (err) {
                     const error = new Error(err);
 
@@ -122,7 +131,7 @@ export function* controlSaga(action: ReturnType<typeof MUSIC_ACTIONS.CONTROL.TRI
                 yield call(RNTrackPlayer.skipToPrevious);
             }
             try {
-                yield call(firebase.trackStarted, tracks[currentTrack - 1]);
+                //yield call(firebase.trackStarted, tracks[currentTrack - 1]);
             } catch (err) {
                 const error = new Error(err);
 

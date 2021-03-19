@@ -1,6 +1,24 @@
-import { RenderDataProp } from '../../mocks/home-mock';
+export type ArtistPreview = {
+    id: number;
+    name: string;
+    image: string;
+};
 
-export interface HomepageData {
+export type AlbumPreview = {
+    id: number;
+    name: string;
+    artwork: string;
+};
+
+export type PlaylistPreview = {
+    id: number;
+    name: string;
+    liked: boolean;
+};
+
+export type RenderDataProp = (ArtistPreview | AlbumPreview | PlaylistPreview | null)[];
+
+export type HomepageData = {
     title: string;
     data: RenderDataProp[];
-}
+};

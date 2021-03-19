@@ -3,7 +3,6 @@ import { FlatList, ListRenderItemInfo, SectionList, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { RenderDataProp } from '../../../mocks/home-mock';
 import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 import { Container } from '../../ui/styled/container.styled';
 import I18n from '../../utils/i18n';
@@ -18,6 +17,7 @@ import {
     TryAgainButton,
     TryAgainText,
 } from '../components/styled/home-screen.styled';
+import { RenderDataProp } from '../home.types';
 import { HomeScreenProps } from '../routing.params';
 import { getError, getHomepageData, getIsFetching } from '../selectors';
 
@@ -42,8 +42,8 @@ export const HomeScreenComponent: React.FC<HomeScreenProps> = (props: HomeScreen
                 <FlatList
                     horizontal={true}
                     data={item}
-                    renderItem={(item) => <HomeItemComponent data={item.item} navigation={props.navigation} />}
-                    keyExtractor={(item) => item.name + Math.random().toString()}
+                    renderItem={(item) => <HomeItemComponent data={item?.item} navigation={props.navigation} />}
+                    keyExtractor={(item) => item?.name + Math.random().toString()}
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{ paddingRight: theme.spacer * 3 }}
                 />

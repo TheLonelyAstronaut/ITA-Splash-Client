@@ -6,6 +6,7 @@ import { client } from '../../graphql/api';
 import { firebase } from '../utils/firebase';
 import { SHOW_FLASHBAR } from '../utils/flashbar/actions';
 import { FlashbarEnum } from '../utils/flashbar/flashbar.types';
+import I18n from '../utils/i18n';
 import { Logger } from '../utils/logger';
 
 import { LOGIN, LOGOUT, REGISTER } from './actions';
@@ -23,11 +24,16 @@ export function* registerSaga(action: ReturnType<typeof REGISTER.TRIGGER>): Saga
         const result = yield call(client.register, action.payload);
         yield put(REGISTER.COMPLETED(result));
         yield call(firebase.register, result);
-    } catch (err) {
-        const error = new Error(err);
-
+    } catch (error) {
         yield call(Logger.error, error);
         yield put(REGISTER.COMPLETED.failed(error));
+        yield put(
+            SHOW_FLASHBAR({
+                type: FlashbarEnum.Danger,
+                message: I18n.t('flashbar.userExist'),
+                description: I18n.t('flashbar.tryLogin'),
+            })
+        );
     }
 }
 
@@ -38,12 +44,15 @@ export function* loginSaga(action: ReturnType<typeof LOGIN.TRIGGER>): SagaIterat
         const result = yield call(client.login, action.payload);
         yield put(LOGIN.COMPLETED(result));
         yield call(firebase.login, result);
-    } catch (err) {
-        const error = new Error(err);
+    } catch (error) {
         yield call(Logger.error, error);
         yield put(LOGIN.COMPLETED.failed(error));
         yield put(
-            SHOW_FLASHBAR({ type: FlashbarEnum.Danger, message: 'Incorrect user data', description: 'Try again' })
+            SHOW_FLASHBAR({
+                type: FlashbarEnum.Danger,
+                message: I18n.t('flashbar.incorrectData'),
+                description: I18n.t('flashbar.tryAgain'),
+            })
         );
     }
 }

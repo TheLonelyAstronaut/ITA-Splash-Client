@@ -11,6 +11,10 @@ export const Wrapper = styled.View`
     background-color: ${(props) => props.theme.colors.screenBackground};
 `;
 
+export const HeaderWrapper = styled.View`
+    padding-top: 320px;
+`;
+
 export const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 export const EmptyPlaylistComponent: React.FC = () => {

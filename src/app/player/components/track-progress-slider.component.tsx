@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { View } from 'react-native';
 import { EventRegister } from 'react-native-event-listeners';
-import { State, usePlaybackState, useProgress } from 'react-native-track-player';
+import { Event, State, usePlaybackState, useProgress, useTrackPlayerEvents } from 'react-native-track-player';
 import { useDispatch } from 'react-redux';
 
 import { SizeProp, TrackSlider } from '../../ui/animated-slider.component';
@@ -21,6 +21,10 @@ export const TrackProgressSlider: React.FC<TrackProgressSliderProps> = (props: T
     const slider = useRef<TrackSlider | null>(null);
     const state = usePlaybackState();
     const dispatch = useDispatch();
+
+    useTrackPlayerEvents([Event.PlaybackTrackChanged], () => {
+        slider.current?.animateToValue(duration, true);
+    });
 
     const handleDragEnd = useCallback(
         (time: number) => {

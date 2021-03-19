@@ -4,8 +4,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from 'styled-components';
 
-import { Track } from '../../../types/music';
-import { ADD_TO_LIKED, LOAD_LIBRARY } from '../../library/actions';
+import { Playlist, Track } from '../../../types/music';
 import { PlaylistToChooseItem } from '../../library/components/playlist-for-choose.component';
 import {
     AddPlaylistModal,
@@ -13,7 +12,7 @@ import {
     ModalText,
     ModalView,
 } from '../../library/components/styled/library-screen.styled';
-import { getLibrary } from '../../library/selectors';
+import { getLibrary, getLikedPlaylist } from '../../library/selectors';
 import { ADD_TO_PLAYLIST } from '../../music-stack/actions';
 import { getCurrentTrack } from '../../player/selectors';
 import I18n from '../../utils/i18n';
@@ -42,6 +41,11 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
     const data = useSelector(getLibrary);
     const [visible, setVisible] = useState(false);
     const isPlaying = useMemo(() => props.track.id === currentTrack.id, [props, currentTrack]);
+    const likedPlaylist = useSelector(getLikedPlaylist);
+    const liked = useMemo(() => likedPlaylist.tracks.findIndex((value) => value.id === props.track.id) !== -1, [
+        likedPlaylist.tracks,
+        props.track.id,
+    ]);
 
     const handleLongPress = React.useCallback(() => {
         if (props.onLongPress) {
@@ -65,11 +69,30 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
     const handleTrackPress = useCallback(() => props.onPress(props.track), [props]);
 
     const handleLike = useCallback(() => {
-        dispatch(ADD_TO_LIKED.TRIGGER({ id: parseInt(props.track.id) }));
-        dispatch(LOAD_LIBRARY.TRIGGER());
-    }, [dispatch, props.track.id]);
+        dispatch(ADD_TO_PLAYLIST.TRIGGER({ trackId: props.track.id, playlistId: likedPlaylist.id }));
+    }, [dispatch, props.track.id, likedPlaylist]);
 
     const handleChangeModalVisibility = useCallback(() => setVisible(!visible), [visible]);
+
+    type RenderType = {
+        item: Playlist;
+    };
+
+    const renderItem = (item: RenderType) => {
+        const exist = item.item.tracks.find((value) => {
+            return value.id === props.track.id;
+        });
+        console.log(exist);
+        if (!exist) {
+            return (
+                <PlaylistToChooseItem
+                    name={item.item.name}
+                    data={item.item}
+                    onPress={() => handleAddToPlaylist(item.item.id)}
+                />
+            );
+        } else return null;
+    };
 
     return (
         <View>
@@ -79,7 +102,7 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
                     <TrackArtist>{props.track.artist}</TrackArtist>
                 </TrackInfoWrapper>
                 <Icons>
-                    {props.track.liked ? (
+                    {liked ? (
                         <LikeWrapper onPress={handleLike}>
                             <Liked source={require('../../../assets/like-button-color.png')} />
                         </LikeWrapper>
@@ -108,14 +131,8 @@ export const TrackComponent: React.FC<TrackComponentProps> = (props: TrackCompon
                     <ModalText>{I18n.t('additional.choosePlaylist')}</ModalText>
                     <FlatList
                         data={data}
-                        renderItem={(item) => (
-                            <PlaylistToChooseItem
-                                name={item.item.data.name}
-                                data={item.item}
-                                onPress={() => handleAddToPlaylist(item.item.data.id)}
-                            />
-                        )}
-                        keyExtractor={(item) => item.data.toString()}
+                        renderItem={(item) => renderItem(item)}
+                        keyExtractor={(item) => item.id.toString()}
                     />
                 </ModalView>
             </AddPlaylistModal>

@@ -7,6 +7,9 @@ export type HomeParamList = {
     SettingsScreen: undefined;
     ThemeChangeScreen: undefined;
     PasswordChangeScreen: undefined;
+    PlaylistScreen: {
+        id: number;
+    };
 };
 
 export type HomeNavigationProps<T extends keyof HomeParamList> = {
@@ -18,3 +21,4 @@ export type HomeScreenProps = HomeNavigationProps<'HomeScreen'>;
 export type PasswordChangeProps = HomeNavigationProps<'PasswordChangeScreen'>;
 export type SettingsScreenProps = HomeNavigationProps<'SettingsScreen'>;
 export type ThemeChangeScreenProps = HomeNavigationProps<'ThemeChangeScreen'>;
+export type HomePlaylistScreenParams = HomeNavigationProps<'PlaylistScreen'>;

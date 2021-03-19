@@ -1,10 +1,9 @@
-import { Dispatch } from 'redux';
 import { SagaIterator } from 'redux-saga';
-import { spawn, call } from 'redux-saga/effects';
+import { spawn } from 'redux-saga/effects';
 
 import { listenForLoginSaga, listenForLogoutSaga, listenForRegisterSaga } from '../authentication/sagas';
 import { listenForChangePasswordSaga, listenForLoadHomepage } from '../home/sagas';
-import { listenForAddPlaylistSaga, listenForAddToLikedSaga, listenForLoadLibrarySaga } from '../library/sagas';
+import { listenForAddPlaylistSaga } from '../library/sagas';
 import {
     listenForAddToPlaylist,
     listenForFollowOrUnfollow,
@@ -14,9 +13,9 @@ import {
 import { listenPlaySaga, listenControlSaga, listenAddToQueueSaga, listenSeekTo } from '../player/sagas';
 import { listenForSearchSaga } from '../search/sagas';
 import { listenFlashbarSaga } from '../utils/flashbar/sagas';
-import { initializationSaga } from '../utils/initialization-saga';
+import { listenForInitializationSaga } from '../utils/initialization-saga';
 
-export function* rootSaga(dispatch: Dispatch): SagaIterator {
+export function* rootSaga(): SagaIterator {
     yield spawn(listenForLoginSaga);
     yield spawn(listenPlaySaga);
     yield spawn(listenControlSaga);
@@ -26,15 +25,12 @@ export function* rootSaga(dispatch: Dispatch): SagaIterator {
     yield spawn(listenForRegisterSaga);
     yield spawn(listenForSearchSaga);
     yield spawn(listenForLogoutSaga);
-    yield spawn(listenForLoadLibrarySaga);
     yield spawn(listenForAddPlaylistSaga);
     yield spawn(listenForChangePasswordSaga);
     yield spawn(listenForLoadHomepage);
     yield spawn(listenForLoadArtistSaga);
     yield spawn(listenForLoadAlbumSaga);
     yield spawn(listenForAddToPlaylist);
-    yield spawn(listenForAddToLikedSaga);
     yield spawn(listenForFollowOrUnfollow);
-
-    yield call(initializationSaga, dispatch);
+    yield spawn(listenForInitializationSaga);
 }

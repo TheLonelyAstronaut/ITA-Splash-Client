@@ -1,22 +1,25 @@
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback } from 'react';
 
-import { Album, Artist, Playlist } from '../../../types/music';
+import { Playlist } from '../../../types/music';
 import { PlaylistImageRender } from '../../library/components/playlist-item.component';
-import { LibraryElementType } from '../../library/library.types';
+import { AlbumPreview, ArtistPreview, PlaylistPreview } from '../home.types';
 import { HomeParamList } from '../routing.params';
 
 import { ArtistImage, PlaylistImage, PlaylistName, Wrapper } from './styled/home-item.styled';
 
 export type PlaylistProps = {
-    data: Playlist | Artist | Album;
+    data: PlaylistPreview | ArtistPreview | AlbumPreview | null;
     navigation: StackNavigationProp<HomeParamList, 'HomeScreen'>;
 };
 
 export const HomeItemComponent: React.FC<PlaylistProps> = ({ data, navigation }: PlaylistProps) => {
-    const isArtist = (data as Artist).popularTracks;
-    const isAlbum = (data as Album).year;
-    const isPlaylist = !(data as Album).artistName;
+    // eslint-disable-next-line no-prototype-builtins
+    const isArtist = data?.hasOwnProperty('image');
+    // eslint-disable-next-line no-prototype-builtins
+    const isAlbum = data?.hasOwnProperty('artwork');
+    // eslint-disable-next-line no-prototype-builtins
+    const isPlaylist = data?.hasOwnProperty('liked');
 
     const handlePress = useCallback(() => {
         const transfer = (stack: string, screen: string, params: unknown) => {
@@ -31,15 +34,15 @@ export const HomeItemComponent: React.FC<PlaylistProps> = ({ data, navigation }:
 
         if (isArtist) {
             transfer('HomeMusicStack', 'ArtistScreen', {
-                id: (data as Artist).id,
+                id: (data as ArtistPreview).id,
             });
         } else if (isAlbum) {
             transfer('HomeMusicStack', 'AlbumScreen', {
-                id: (data as Album).id,
+                id: (data as AlbumPreview).id,
             });
         } else {
-            transfer('Library', 'PlaylistScreen', {
-                id: (data as Playlist).id,
+            transfer('Home', 'PlaylistScreen', {
+                id: (data as PlaylistPreview).id,
             });
         }
     }, [data, isAlbum, isArtist, navigation]);
@@ -47,13 +50,13 @@ export const HomeItemComponent: React.FC<PlaylistProps> = ({ data, navigation }:
     return (
         <Wrapper onPress={handlePress}>
             {isArtist ? (
-                <ArtistImage source={{ uri: data.image }} />
+                <ArtistImage source={{ uri: (data as ArtistPreview).image }} />
             ) : !isPlaylist ? (
-                <PlaylistImage source={{ uri: data.image }} />
+                <PlaylistImage source={{ uri: (data as AlbumPreview).artwork }} />
             ) : (
-                <PlaylistImageRender type={LibraryElementType.PLAYLIST} data={data as Playlist} />
+                <PlaylistImageRender data={data as Playlist} />
             )}
-            <PlaylistName>{data.name}</PlaylistName>
+            <PlaylistName>{data?.name}</PlaylistName>
         </Wrapper>
     );
 };

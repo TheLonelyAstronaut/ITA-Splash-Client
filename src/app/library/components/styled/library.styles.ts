@@ -24,6 +24,8 @@ export const PlaylistIconWrapper = styled.View`
     height: 100px;
     background-color: #1e1e1e;
     padding: 18px;
+    border-width: 1px;
+    border-color: ${(props) => props.theme.colors.screenBackground};
 `;
 
 export const PlaylistIcon = styled.View`

@@ -6,6 +6,7 @@
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "types"],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "src/mocks/*"
   ]
 }

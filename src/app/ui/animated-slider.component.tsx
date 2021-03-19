@@ -60,11 +60,15 @@ export class TrackSlider extends React.Component<TrackSliderProps, TrackSliderSt
         }
     }
 
-    public animateToValue = (duration: number): void => {
+    public animateToValue = (duration: number, toStart?: boolean): void => {
         this.state.progressPointer?.stop();
 
-        if (duration === this.props.duration) {
+        if (duration === this.props.duration || toStart) {
             this.panValue.setValue(0);
+
+            if (toStart) {
+                return;
+            }
         }
 
         const progress: Animated.CompositeAnimation = Animated.timing(this.panValue, {

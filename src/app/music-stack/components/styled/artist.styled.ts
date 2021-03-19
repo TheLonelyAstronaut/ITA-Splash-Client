@@ -12,7 +12,7 @@ export const Header = styled.SafeAreaView`
     align-items: center;
     justify-content: center;
     width: 100%;
-    background-color: ${(props) => props.theme.colors.main}
+    background-color: ${(props) => props.theme.colors.main};
     height: ${(props) => props.theme.statusBar}px;
 `;
 
@@ -115,7 +115,7 @@ export const FollowButton = styled.TouchableOpacity<FollowButtonProp>`
 `;
 
 export const FollowText = styled(BoldText)`
-    color: white;
+    color: ${(props) => props.theme.colors.secondary};
     align-self: center;
     margin-top: ${(props) => props.theme.spacer}px;
 `;

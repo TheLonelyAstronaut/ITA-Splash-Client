@@ -1,7 +1,5 @@
 import { createReducer } from 'typesafe-redux-helpers';
 
-import { library } from '../../mocks/library';
-
 import { LOAD_LIBRARY } from './actions';
 import { LibraryData } from './library.types';
 
@@ -14,14 +12,13 @@ export type LibraryParams = {
 export const initialState: LibraryParams = {
     isFetching: false,
     error: undefined,
-    data: library,
+    data: [],
 };
 
 export const libraryReducer = createReducer<LibraryParams>(initialState)
-    .handleAction(LOAD_LIBRARY.STARTED, () => ({
+    .handleAction(LOAD_LIBRARY.STARTED, (state) => ({
+        ...state,
         isFetching: true,
-        error: undefined,
-        data: [],
     }))
     .handleAction(
         LOAD_LIBRARY.COMPLETED,
@@ -30,9 +27,9 @@ export const libraryReducer = createReducer<LibraryParams>(initialState)
             error: undefined,
             data: action.payload,
         }),
-        () => ({
+        (state) => ({
             isFetching: false,
             error: new Error('error'),
-            data: [],
+            data: state.data,
         })
     );

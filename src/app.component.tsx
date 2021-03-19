@@ -1,4 +1,3 @@
-import analytics from '@react-native-firebase/analytics';
 import React, { useEffect } from 'react';
 import { LogBox } from 'react-native';
 import FlashMessage from 'react-native-flash-message';
@@ -9,6 +8,8 @@ import { RootRouterComponent } from './app/routing/components/root-router.compon
 import { useStore } from './app/store/use-store';
 import { SplashScreen } from './app/ui/splash-screen.component';
 import { ConnectedThemeProvider } from './app/ui/themes/components/connected-theme-provider.component';
+import { INITIALIZATION } from './app/utils/initialization-saga';
+import { notifications, RemoteMessage } from './app/utils/notification-service';
 
 LogBox.ignoreAllLogs(true);
 
@@ -16,8 +17,16 @@ export const App: React.FC = () => {
     const store = useStore();
 
     useEffect(() => {
-        analytics().logEvent('app_started');
+        //iOS only, not working without dev account
+        //notifications.requestPermissions();
+        return notifications.addForegroundMessageHandler((message: RemoteMessage) => console.log(message));
     }, []);
+
+    useEffect(() => {
+        if (store) {
+            store.store.dispatch(INITIALIZATION(store.store.dispatch));
+        }
+    }, [store]);
 
     if (!store) {
         return null;

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from 'styled-components';
+import { useTheme } from 'styled-components/native';
 
 import AnimatedGradientTransition from '../../ui/animated-gradient-transition.component';
 import { Container } from '../../ui/styled/container.styled';
@@ -22,7 +22,7 @@ export const SearchScreenComponent: React.FC<SearchScreenProps> = (props: Search
 
     const renderItem: ListRenderItem<SearchResult> = useCallback(
         ({ item }) => {
-            return <SearchResultComponent {...item} navigation={props.navigation} />;
+            return <SearchResultComponent data={item.data} type={item.type} navigation={props.navigation} />;
         },
         [props.navigation]
     );
@@ -55,13 +55,13 @@ export const SearchScreenComponent: React.FC<SearchScreenProps> = (props: Search
                 />
                 {search ? (
                     !isFetching ? (
-                        <FlatList<SearchResult>
+                        <FlatList
                             data={results}
                             renderItem={renderItem}
                             ListEmptyComponent={
                                 !results.length ? <EmptyText>{I18n.t('search.nothingFounded')}</EmptyText> : null
                             }
-                            keyExtractor={(item, index) => index + Math.random().toString()}
+                            keyExtractor={(item, index) => index + item.data.id.toString()}
                             ItemSeparatorComponent={Separator}
                         />
                     ) : (

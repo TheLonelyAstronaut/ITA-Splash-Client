@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef } from 'react';
-import { ListRenderItemInfo, TouchableOpacity } from 'react-native';
+import { ListRenderItemInfo, Platform, TouchableOpacity } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import RNTrackPlayer, { State, usePlaybackState } from 'react-native-track-player';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -57,7 +57,10 @@ export const Player: React.FC = () => {
                     getColorFromURL(item.artwork).then((colors) => {
                         dispatch(
                             ADD_TRACK_GRADIENT({
-                                gradient: [colors.primary, theme.colors.main],
+                                gradient:
+                                    Platform.OS === 'ios'
+                                        ? [colors.secondary, colors.background]
+                                        : [colors.primary, theme.colors.main],
                                 track: item.id,
                             })
                         );
@@ -104,11 +107,11 @@ export const Player: React.FC = () => {
 
     const handlePress = useCallback(() => {
         transfer('HomeMusicStack', 'ArtistScreen', {
-            id: currentTrack.artistId,
-            key: 'ArtistScreen_' + currentTrack.artistId + '_' + Math.random().toString(),
+            id: currentTrack.artistID,
+            key: 'ArtistScreen_' + currentTrack.artistID + '_' + Math.random().toString(),
         });
         closePlayer();
-    }, [currentTrack.artistId, transfer]);
+    }, [currentTrack.artistID, transfer]);
 
     return (
         <AvoidingBackground>

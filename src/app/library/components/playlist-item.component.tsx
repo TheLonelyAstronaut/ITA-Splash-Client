@@ -3,7 +3,7 @@ import React, { useCallback } from 'react';
 import Icon from 'react-native-vector-icons/Fontisto';
 
 import I18n from '../../utils/i18n';
-import { LibraryData, LibraryElementType } from '../library.types';
+import { LibraryData } from '../library.types';
 
 import {
     PlaylistContainer,
@@ -23,7 +23,21 @@ export interface Props {
     data: LibraryData;
 }
 
-export const CombinedPlaylistImage: React.FC<LibraryData> = (data: LibraryData) => {
+export type CombinedImageProps = {
+    data: LibraryData;
+};
+
+export type PlaylistImageProps = CombinedImageProps;
+
+export const CombinedPlaylistImage = (data: CombinedImageProps) => {
+    if (
+        data.data.tracks[0].artwork === data.data.tracks[1].artwork ||
+        data.data.tracks[0].artwork === data.data.tracks[2].artwork ||
+        data.data.tracks[0].artwork === data.data.tracks[3].artwork ||
+        data.data.tracks[0].artwork === data.data.tracks[4].artwork
+    ) {
+        return <PlaylistImage source={{ uri: data.data.tracks[0].artwork }} />;
+    }
     if (data.data.tracks !== undefined) {
         return (
             <CombinedImageContainer>
@@ -40,8 +54,8 @@ export const CombinedPlaylistImage: React.FC<LibraryData> = (data: LibraryData) 
     } else return null;
 };
 
-export const PlaylistImageRender: React.FC<LibraryData> = (data: LibraryData) => {
-    if (data.type === LibraryElementType.LIKED) {
+export const PlaylistImageRender = (data: PlaylistImageProps) => {
+    if (data.data.liked) {
         return <PlaylistImage source={require('../../../assets/fav-icon.png')} />;
     }
     if (data.data.tracks === undefined) {
@@ -53,7 +67,7 @@ export const PlaylistImageRender: React.FC<LibraryData> = (data: LibraryData) =>
             </PlaylistIconWrapper>
         );
     }
-    if (data.data.tracks.length <= 4) {
+    if (data.data.tracks.length < 4) {
         switch (data.data.tracks.length) {
             case 0:
                 return (
@@ -67,10 +81,8 @@ export const PlaylistImageRender: React.FC<LibraryData> = (data: LibraryData) =>
             case 2:
             case 3:
                 return <PlaylistImage source={{ uri: data.data.tracks[0].artwork }} />;
-            case 4:
-                return <CombinedPlaylistImage data={data.data} type={data.type} />;
         }
-    } else return <CombinedPlaylistImage data={data.data} type={data.type} />;
+    } else return <CombinedPlaylistImage data={data.data} />;
 
     return null;
 };
@@ -80,22 +92,19 @@ export const PlaylistItem: React.FC<Props> = (props: Props) => {
 
     const handlePress = useCallback(() => {
         navigation.navigate('PlaylistScreen', {
-            id: props.data.data.id,
-            type: props.data.type,
+            id: props.data.id,
         });
-    }, [navigation, props.data.data.id, props.data.type]);
+    }, [navigation, props.data.id]);
 
     return (
         <PlaylistContainer width={true} onPress={handlePress}>
-            <PlaylistImageRender type={props.data.type} data={props.data.data} />
+            <PlaylistImageRender data={props.data} />
             <InfoWrapper>
-                <PlaylistName>
-                    {props.data.type === LibraryElementType.LIKED ? I18n.t('library.favoriteTracks') : props.name}
-                </PlaylistName>
+                <PlaylistName>{props.data.liked ? I18n.t('library.favoriteTracks') : props.name}</PlaylistName>
                 <TracksAmount>
-                    {props.data.data.tracks === undefined
+                    {props.data.tracks === undefined
                         ? '0 ' + I18n.t('library.tracks')
-                        : props.data.data.tracks.length.toString() + ' ' + I18n.t('library.tracks')}
+                        : props.data.tracks.length.toString() + ' ' + I18n.t('library.tracks')}
                 </TracksAmount>
             </InfoWrapper>
         </PlaylistContainer>
